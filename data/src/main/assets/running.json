@@ -1,0 +1,27 @@
+[
+  {
+    "index": "1",
+    "status": "매우 좋음",
+    "assets": "R.drawable.emoji_very_smile"
+  },
+  {
+    "index": "2",
+    "status": "좋음",
+    "assets": "R.drawable.emoji_smile"
+  },
+  {
+    "index": "3",
+    "status": "보통",
+    "assets": "R.drawable.emoji_normal"
+  },
+  {
+    "index": "4",
+    "status": "힘듦",
+    "assets": "R.drawable.emoji_bad"
+  },
+  {
+    "index": "5",
+    "status": "매우 힘듦",
+    "assets": "R.drawable.emoji_very_bad"
+  }
+]
