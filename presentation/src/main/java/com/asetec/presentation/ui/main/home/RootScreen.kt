@@ -46,7 +46,7 @@ fun RootScreen() {
         SmoothAnimationBottomBarScreens(
             Screens.AnalyzeScreen.route,
             stringResource(id = R.string.nav_analyze),
-            R.drawable.baseline_bar_chart_24
+            R.drawable.baseline_calendar_24
         ),
         SmoothAnimationBottomBarScreens(
             Screens.ProfileScreen.route,
@@ -78,10 +78,7 @@ fun RootScreen() {
         ) {
             ScreenNavigationConfiguration(
                 navController = navController,
-                context = context,
-                onScreenChange = { route ->
-                    isClickable.value = route != Screens.ProfileScreen.route
-                }
+                context = context
             )
         }
     }

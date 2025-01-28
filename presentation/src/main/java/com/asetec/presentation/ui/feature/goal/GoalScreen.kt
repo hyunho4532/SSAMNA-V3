@@ -19,7 +19,7 @@ fun GoalScreen() {
     ) {
         Text(
             text = "원하시는 목표를 선택해주세요!",
-            fontSize = 20.sp,
+            fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
     }

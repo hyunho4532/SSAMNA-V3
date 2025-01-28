@@ -19,11 +19,11 @@ import com.asetec.presentation.animation.Screens
 import com.asetec.presentation.ui.feature.login.LoginScreen
 import com.asetec.presentation.ui.feature.login.ReportScreen
 import com.asetec.presentation.ui.feature.login.UserInfoScreen
-import com.asetec.presentation.ui.main.home.screen.AnalyzeScreen
 import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.splash.OnBoardingScreen
 import com.asetec.presentation.ui.feature.splash.SplashScreen
+import com.asetec.presentation.ui.main.home.screen.CalendarScreen
 import com.asetec.presentation.viewmodel.UserViewModel
 import com.google.android.gms.location.LocationServices
 import kotlinx.serialization.json.Json
@@ -81,7 +81,6 @@ fun AppNavHost() {
 fun ScreenNavigationConfiguration(
     navController: NavHostController,
     context: Context,
-    onScreenChange: (String) -> Unit,
     userViewModel: UserViewModel = hiltViewModel()
 ) {
 
@@ -100,7 +99,6 @@ fun ScreenNavigationConfiguration(
     NavHost(navController = navController, startDestination = Screens.HomeScreen.route) {
 
         composable(Screens.HomeScreen.route) {
-            onScreenChange(Screens.HomeScreen.route)
             HomeScreen(
                 fusedLocationClient = fusedLocationClient,
                 context = context,
@@ -109,14 +107,12 @@ fun ScreenNavigationConfiguration(
         }
 
         if (isClickable.value) {
-            composable(Screens.AnalyzeScreen.route) {onScreenChange(Screens.HomeScreen.route)
-                onScreenChange(Screens.AnalyzeScreen.route)
-                AnalyzeScreen()
+            composable(Screens.AnalyzeScreen.route) {
+                CalendarScreen()
             }
         }
 
         composable(Screens.ProfileScreen.route) {
-            onScreenChange(Screens.ProfileScreen.route)
             ProfileScreen(
                 context = context,
                 userList = userList
