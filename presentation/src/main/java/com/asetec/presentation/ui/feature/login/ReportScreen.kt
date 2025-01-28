@@ -1,4 +1,4 @@
-package com.asetec.presentation.ui.login
+package com.asetec.presentation.ui.feature.login
 
 import android.annotation.SuppressLint
 import android.content.Intent

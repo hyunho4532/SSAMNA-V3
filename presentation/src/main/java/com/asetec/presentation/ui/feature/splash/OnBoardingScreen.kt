@@ -1,4 +1,4 @@
-package com.asetec.presentation.ui.splash
+package com.asetec.presentation.ui.feature.splash
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement

@@ -1,4 +1,4 @@
-package com.asetec.presentation.ui.login
+package com.asetec.presentation.ui.feature.login
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
