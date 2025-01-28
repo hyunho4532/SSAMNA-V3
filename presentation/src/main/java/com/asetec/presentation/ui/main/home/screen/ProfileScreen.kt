@@ -1,6 +1,7 @@
 package com.asetec.presentation.ui.main.home.screen
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -43,6 +44,7 @@ import com.asetec.presentation.component.tool.activateCard
 import com.asetec.presentation.component.tool.challengeRegistrationCard
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.enum.ProfileStatusType
+import com.asetec.presentation.ui.feature.goal.GoalActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
 
@@ -166,7 +168,19 @@ fun ProfileScreen(
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 18.dp),
+                .padding(end = 18.dp)
+                .clickable(
+                    interactionSource = remember {
+                        MutableInteractionSource()
+                    },
+                    indication = rememberRipple(
+                        color = Color.Gray,
+                        bounded = true
+                    )
+                ) {
+                   val intent = Intent(context, GoalActivity::class.java)
+                    context.startActivity(intent)
+                },
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
