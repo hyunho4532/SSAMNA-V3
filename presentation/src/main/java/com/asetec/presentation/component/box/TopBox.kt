@@ -79,8 +79,7 @@ fun TopBox(
             .padding(start = 12.dp)
     ) {
         Column (
-            modifier = Modifier
-                .width(100.dp),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.Start
         ) {
@@ -90,13 +89,13 @@ fun TopBox(
             ) {
                 Row (
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(70.dp)
                         .height(24.dp)
                         .padding(top = 4.dp),
                     horizontalArrangement = Arrangement.Start
                 ) {
                     Text(
-                        text = "만보기 걸음",
+                        text = "걸음 수",
                         fontWeight = FontWeight.Bold
                     )
 
@@ -108,21 +107,26 @@ fun TopBox(
                     ) {
                         Icon(
                             imageVector = Footprint,
-                            contentDescription = "만보기 아이콘"
+                            contentDescription = "걸음 아이콘"
                         )
                     }
                 }
 
-                Text(
-                    text = "${activates.value.pedometerCount} 걸음",
+                Box(
                     modifier = Modifier
-                        .padding(top = 4.dp)
                         .align(Alignment.BottomCenter)
-                )
+                ) {
+                    Text(
+                        text = "${activates.value.pedometerCount}",
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                    )
+                }
             }
         }
 
         Column (
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -132,7 +136,7 @@ fun TopBox(
             ) {
                 Row (
                     modifier = Modifier
-                        .fillMaxWidth()
+                        .width(70.dp)
                         .height(24.dp)
                         .padding(top = 4.dp),
                     horizontalArrangement = Arrangement.Center
