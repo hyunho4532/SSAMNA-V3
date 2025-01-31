@@ -155,7 +155,7 @@ fun TopBox(
                 }
 
                 Text(
-                    text = FormatImpl.getFormatTime(activates.value.time),
+                    text = FormatImpl("YY:MM:DD:H").getFormatTime(activates.value.time),
                     modifier = Modifier
                         .padding(top = 4.dp)
                         .align(Alignment.BottomCenter)

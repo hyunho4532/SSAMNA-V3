@@ -77,7 +77,7 @@ fun ProfileScreen(
     )
 
     LaunchedEffect(key1 = Unit) {
-        activityLocationViewModel.selectActivityFindById()
+        activityLocationViewModel.selectActivityFindById(userList.value.id)
         challengeViewModel.selectChallengeById()
     }
 

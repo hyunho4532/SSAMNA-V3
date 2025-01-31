@@ -1,18 +1,28 @@
 package com.asetec.presentation.component.util
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
+import java.time.LocalDate
 import java.time.YearMonth
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 import kotlin.math.roundToInt
 
-data object FormatImpl : Format() {
+data class FormatImpl(
+    val type: String? = "year"
+) : Format() {
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    private val formatter =
+        if (type == "YY:MM:DD:H") DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h:mm")
+        else DateTimeFormatter.ofPattern("yyyy년 M월 d일")
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getTodayFormatDate(): String {
         val currentDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
-        val formatter = DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h:mm")
+
 
         return currentDateTime.format(formatter)
     }
@@ -34,6 +44,16 @@ data object FormatImpl : Format() {
         }
         return currentYearMonth.lengthOfMonth()
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun parseMonthDays(dateStr: String): LocalDate? {
+        return try {
+            LocalDate.parse(dateStr, formatter)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
 
     override fun getFormatTime(time: Long): String {
         val minutes = time / 60

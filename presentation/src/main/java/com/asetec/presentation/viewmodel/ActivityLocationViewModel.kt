@@ -100,11 +100,11 @@ class ActivityLocationViewModel @Inject constructor(
             title = _activates.value.runningTitle,
             statusIcon = _activates.value.statusIcon,
             statusTitle = _activates.value.statusName,
-            time = FormatImpl.getFormatTime(time),
+            time = FormatImpl("YY:MM:DD:H").getFormatTime(time),
             goalCount = pedometerCount,
             kcal_cul = pedometerCount * 0.05,
-            km_cul = FormatImpl.calculateDistanceToKm(pedometerCount),
-            todayFormat = FormatImpl.getTodayFormatDate()
+            km_cul = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
+            todayFormat = FormatImpl("YY:MM:DD:H").getTodayFormatDate()
         )
 
         viewModelScope.launch {
@@ -115,10 +115,11 @@ class ActivityLocationViewModel @Inject constructor(
         }
     }
 
-    suspend fun selectActivityFindById() {
-        val googleId = sharedPreferences2.getString("id", "")
+    suspend fun selectActivityFindById(googleId: String) {
         val activateDTO = activateCase.selectActivityFindById(googleId!!)
 
         _activateData.value = activateDTO
+
+        Log.d("ActivityLocationViewModel", _activateData.value.toString())
     }
 }

@@ -24,6 +24,7 @@ import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.splash.OnBoardingScreen
 import com.asetec.presentation.ui.feature.splash.SplashScreen
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
+import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
 import com.google.android.gms.location.LocationServices
 import kotlinx.serialization.json.Json
@@ -81,7 +82,8 @@ fun AppNavHost() {
 fun ScreenNavigationConfiguration(
     navController: NavHostController,
     context: Context,
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel = hiltViewModel(),
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
 ) {
 
     val isClickable = remember {
@@ -89,11 +91,13 @@ fun ScreenNavigationConfiguration(
     }
 
     val userList = userViewModel.user.collectAsState()
+    val activateList = activityLocationViewModel.activateData.collectAsState()
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     LaunchedEffect(key1 = Unit) {
         val googleId = userViewModel.getSavedLoginState()
         userViewModel.selectUserFindById(googleId)
+        activityLocationViewModel.selectActivityFindById(googleId)
     }
 
     NavHost(navController = navController, startDestination = Screens.HomeScreen.route) {
@@ -108,7 +112,9 @@ fun ScreenNavigationConfiguration(
 
         if (isClickable.value) {
             composable(Screens.AnalyzeScreen.route) {
-                CalendarScreen()
+                CalendarScreen(
+                    activateList = activateList
+                )
             }
         }
 
