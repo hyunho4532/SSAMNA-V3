@@ -15,6 +15,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,7 +36,6 @@ import java.time.LocalDate
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarScreen(activateList: State<List<ActivateDTO>>) {
-
     var currentMonth by remember {
         mutableStateOf(LocalDate.of(2025, 3, 1))
     }
@@ -75,7 +75,9 @@ fun CalendarScreen(activateList: State<List<ActivateDTO>>) {
             }
 
             Text(
-                text = "${currentMonth.year}년 ${currentMonth.monthValue.toString().padStart(2, '0')}일",
+                text = "${currentMonth.year}년 ${
+                    currentMonth.monthValue.toString().padStart(2, '0')
+                }일",
                 fontSize = 16.sp
             )
 
@@ -101,5 +103,5 @@ fun CalendarScreen(activateList: State<List<ActivateDTO>>) {
                 todayList = todayList
             )
         }
-    }
+   }
 }
