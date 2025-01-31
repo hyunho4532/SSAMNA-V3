@@ -18,13 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,11 +29,9 @@ import com.asetec.presentation.component.icon.Footprint
 import com.asetec.presentation.component.icon.TimePrint
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
+import com.asetec.presentation.component.util.FormatImpl
 import com.asetec.presentation.enum.ButtonType
-import com.asetec.presentation.ui.util.formatTime
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.isActive
 
 /**
  * 구글 지도에서 맨 위에 측정 중인 상태에서 걸음 수를 보여준다.
@@ -163,7 +155,7 @@ fun TopBox(
                 }
 
                 Text(
-                    text = formatTime(activates.value.time),
+                    text = FormatImpl.getFormatTime(activates.value.time),
                     modifier = Modifier
                         .padding(top = 4.dp)
                         .align(Alignment.BottomCenter)

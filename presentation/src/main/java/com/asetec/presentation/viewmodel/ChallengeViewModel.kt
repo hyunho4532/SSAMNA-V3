@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.state.ChallengeDTO
 import com.asetec.domain.usecase.challenge.ChallengeCase
-import com.asetec.presentation.ui.util.FormatChildren
+import com.asetec.presentation.component.util.FormatImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,7 +41,7 @@ class ChallengeViewModel @Inject constructor(
                 it.copy(
                     googleId = googleId!!,
                     title = data.name,
-                    todayDate = FormatChildren.todayFormatDate()
+                    todayDate = FormatImpl.getTodayFormatDate()
                 )
             }
 

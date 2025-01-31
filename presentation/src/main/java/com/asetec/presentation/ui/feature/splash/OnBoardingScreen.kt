@@ -25,9 +25,9 @@ import com.asetec.presentation.animation.SplashLoader
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.enum.ButtonType
-import com.asetec.presentation.ui.util.responsive.setSubTitleFontSize
-import com.asetec.presentation.ui.util.responsive.setTitleFontSize
-import com.asetec.presentation.ui.util.responsive.setContentPadding
+import com.asetec.presentation.component.util.responsive.setSubTitleFontSize
+import com.asetec.presentation.component.util.responsive.setTitleFontSize
+import com.asetec.presentation.component.util.responsive.setContentPadding
 
 @Composable
 fun OnBoardingScreen(

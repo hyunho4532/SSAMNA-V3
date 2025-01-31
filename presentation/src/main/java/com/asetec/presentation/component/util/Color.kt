@@ -1,4 +1,4 @@
-package com.asetec.presentation.ui.util
+package com.asetec.presentation.component.util
 
 import androidx.compose.ui.graphics.Color
 

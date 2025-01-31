@@ -23,11 +23,6 @@ import com.asetec.presentation.route.ScreenNavigationConfiguration
 
 @Composable
 fun RootScreen() {
-
-    val isClickable = remember {
-        mutableStateOf(true)
-    }
-
     val isTabClickable: (String) -> Boolean = { route ->
         when (route) {
             Screens.AnalyzeScreen.route -> false
