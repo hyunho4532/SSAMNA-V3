@@ -15,8 +15,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,16 +28,30 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.domain.model.state.ActivateDTO
+import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.grid.ActivateGrid
+import com.asetec.presentation.component.tool.historyActivateCard
+import com.asetec.presentation.component.util.responsive.setUpWidth
+import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import java.time.LocalDate
 
-@RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun CalendarScreen(activateList: State<List<ActivateDTO>>) {
+fun CalendarScreen(
+    activateList: State<List<ActivateDTO>>,
+    userList: State<User>,
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
+) {
+    val activateData = activityLocationViewModel.activateData.collectAsState()
+
     var currentMonth by remember {
-        mutableStateOf(LocalDate.of(2025, 3, 1))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            mutableStateOf(LocalDate.now())
+        } else {
+            TODO("VERSION.SDK_INT < O")
+        }
     }
 
     val todayList = activateList.value.map {
@@ -51,7 +65,7 @@ fun CalendarScreen(activateList: State<List<ActivateDTO>>) {
             .padding(top = 12.dp, start = 12.dp)
     ) {
         Text(
-            text = "회원님의 활동 내역",
+            text = "${userList.value.name}님의 활동 내역",
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold
         )
@@ -95,12 +109,19 @@ fun CalendarScreen(activateList: State<List<ActivateDTO>>) {
 
         Box(
             modifier = Modifier
-                .width(360.dp)
+                .width(setUpWidth())
                 .padding(top = 12.dp)
         ) {
             ActivateGrid(
                 yearMonth = currentMonth,
                 todayList = todayList
+            )
+        }
+
+        activateData.value.forEach {
+            historyActivateCard(
+                activateDTO = it,
+                height = 80.dp
             )
         }
    }

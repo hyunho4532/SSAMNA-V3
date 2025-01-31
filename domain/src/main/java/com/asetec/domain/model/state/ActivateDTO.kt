@@ -30,5 +30,8 @@ data class ActivateDTO(
     val km_cul: Double = 0.0,
 
     @SerialName("today_format")
-    val todayFormat: String = ""
+    val todayFormat: String = "",
+
+    @SerialName("eq_date")
+    val eqDate: String = ""
 )

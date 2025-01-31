@@ -475,3 +475,60 @@ fun challengeRegistrationCard(
         }
     }
 }
+
+/**
+ * 사용자의 날자에 따른 운동 내역을 보여준다.
+ */
+@Composable
+fun historyActivateCard(
+    activateDTO: ActivateDTO,
+    height: Dp
+) {
+    Card (
+        modifier = Modifier
+            .width(setUpWidth())
+            .height(height)
+            .padding(top = 24.dp, start = 8.dp)
+            .shadow(
+                elevation = 6.dp
+            )
+            .clickable(
+                interactionSource = remember {
+                    MutableInteractionSource()
+                },
+                indication = rememberRipple(
+                    color = Color.Gray,
+                    bounded = true
+                )
+            ) {
+            },
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(top = 8.dp, start = 4.dp)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+                    Text(
+                        text = activateDTO.title,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Text(
+                        text = activateDTO.todayFormat,
+                        fontSize = 14.sp
+                    )
+                }
+            }
+        }
+    }
+}

@@ -56,7 +56,7 @@ fun CustomButton(
             } else {
                 when (type) {
                     ButtonType.RunningStatus.FINISH -> {
-                        if (sensorManagerViewModel.getSavedSensorState() < 100) {
+                        if (sensorManagerViewModel.getSavedSensorState() >   100) {
                             sensorManagerViewModel.stopService(
                                 context = context!!,
                                 runningStatus = true,

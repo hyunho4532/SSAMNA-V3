@@ -43,6 +43,7 @@ import com.asetec.presentation.component.dialog.ChallengeBottomSheet
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateCard
 import com.asetec.presentation.component.tool.challengeRegistrationCard
+import com.asetec.presentation.component.util.calculatorActivateCardWeight
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.enum.ProfileStatusType
@@ -151,11 +152,11 @@ fun ProfileScreen(
         }
         Column (
             modifier = Modifier
-                .height(320.dp)
+                .height(calculatorActivateCardWeight(activateData))
                 .verticalScroll(rememberScrollState())
         ) {
             activateData.value.forEach { activateDTO ->
-                activateCard(
+                activateCard(   
                     height = 160.dp,
                     borderStroke = 1,
                     activateDTO = activateDTO,

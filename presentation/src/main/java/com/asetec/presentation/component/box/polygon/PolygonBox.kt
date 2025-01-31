@@ -32,7 +32,6 @@ fun PolygonBox(
     sumKcal: Double = 0.0,
     profileStatusType: ProfileStatusType
 ) {
-
     val hexagon = remember {
         RoundedPolygon(
             6,

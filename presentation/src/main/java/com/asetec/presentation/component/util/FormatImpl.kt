@@ -17,7 +17,7 @@ data class FormatImpl(
 ) : Format() {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    val formatter =
+    val formatter: DateTimeFormatter =
         if (type == "YY:MM:DD:H") DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h:mm")
         else DateTimeFormatter.ofPattern("yyyy년 M월 d일")
 
