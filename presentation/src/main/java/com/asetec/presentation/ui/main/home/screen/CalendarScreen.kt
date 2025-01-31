@@ -1,7 +1,6 @@
 package com.asetec.presentation.ui.main.home.screen
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,16 +10,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -71,7 +65,7 @@ fun CalendarScreen(activateList: State<List<ActivateDTO>>) {
         ) {
             IconButton(
                 onClick = {
-                    currentMonth = currentMonth.plusMonths(1)
+                    currentMonth = currentMonth.minusMonths(1)
                 }
             ) {
                 Icon(
@@ -103,6 +97,7 @@ fun CalendarScreen(activateList: State<List<ActivateDTO>>) {
                 .padding(top = 12.dp)
         ) {
             ActivateGrid(
+                yearMonth = currentMonth,
                 todayList = todayList
             )
         }

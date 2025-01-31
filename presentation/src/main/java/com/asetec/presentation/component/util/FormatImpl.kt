@@ -8,6 +8,8 @@ import java.time.YearMonth
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAdjuster
+import java.time.temporal.TemporalAdjusters
 import kotlin.math.roundToInt
 
 data class FormatImpl(
@@ -15,7 +17,7 @@ data class FormatImpl(
 ) : Format() {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    private val formatter =
+    val formatter =
         if (type == "YY:MM:DD:H") DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h:mm")
         else DateTimeFormatter.ofPattern("yyyy년 M월 d일")
 
@@ -36,22 +38,22 @@ data class FormatImpl(
         return ((stepLengthInKm * steps) * 100.0).roundToInt() / 100.0
     }
 
-    override fun getMonthDays(): Int {
-        val currentYearMonth = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            YearMonth.now()
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun getMonthDays(yearMonth: LocalDate): Int {
+        return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            yearMonth.withDayOfMonth(yearMonth.lengthOfMonth()).dayOfMonth
         } else {
             TODO("VERSION.SDK_INT < O")
         }
-        return currentYearMonth.lengthOfMonth()
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun parseMonthDays(dateStr: String): LocalDate? {
+    override fun parseMonthDays(dateStr: String): String {
         return try {
             LocalDate.parse(dateStr, formatter)
         } catch (e: Exception) {
             null
-        }
+        }!!.format(formatter)
     }
 
 
