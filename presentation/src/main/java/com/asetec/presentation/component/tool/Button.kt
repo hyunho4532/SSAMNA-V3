@@ -2,6 +2,7 @@ package com.asetec.presentation.component.tool
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -55,7 +56,7 @@ fun CustomButton(
             } else {
                 when (type) {
                     ButtonType.RunningStatus.FINISH -> {
-                        if (sensorManagerViewModel.getSavedSensorState() > 100) {
+                        if (sensorManagerViewModel.getSavedSensorState() < 100) {
                             sensorManagerViewModel.stopService(
                                 context = context!!,
                                 runningStatus = true,

@@ -41,7 +41,6 @@ import com.asetec.presentation.viewmodel.SensorManagerViewModel
 fun BoxRow(
     context: Context,
     data: List<Any>,
-    sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     userLocationViewModel: ActivityLocationViewModel = hiltViewModel()
 ) {
 

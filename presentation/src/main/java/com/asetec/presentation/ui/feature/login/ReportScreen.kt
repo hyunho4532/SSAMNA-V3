@@ -30,7 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.component.tool.ReportCard
 import com.asetec.presentation.ui.main.home.HomeActivity
-import com.asetec.presentation.ui.util.responsive.setUpButtonWidth
+import com.asetec.presentation.component.util.responsive.setUpButtonWidth
 import com.asetec.presentation.component.util.getDPI
 import com.asetec.presentation.viewmodel.UserViewModel
 
