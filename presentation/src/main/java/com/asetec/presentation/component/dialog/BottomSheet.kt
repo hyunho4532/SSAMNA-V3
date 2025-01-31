@@ -205,7 +205,7 @@ fun ChallengeBottomSheet(
                     if (!challengeDataTitle.contains(challenge.name)) {
                         challengeCard(
                             challenge = challenge,
-                            height = 80.dp,
+                            height = 80.dp
                         ) { index, isPopup ->
                             challengeIndex.intValue = index
                             isChallengeIsPopup.value = isPopup

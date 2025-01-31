@@ -71,6 +71,8 @@ class SensorManagerViewModel @Inject constructor(
                     pedometerCount = stepCount
                 )
             }
+
+            sharedPreferences.edit().putInt("pedometerCount", _activates.value.pedometerCount).apply()
         }
     }
 
@@ -115,10 +117,5 @@ class SensorManagerViewModel @Inject constructor(
     fun stopWatch() {
         stopwatchJob?.cancel()
         stopwatchJob = null
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        setSavedSensorState()
     }
 }

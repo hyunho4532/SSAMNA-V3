@@ -11,8 +11,7 @@ import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.ActivateDTO
 import com.asetec.domain.usecase.activate.ActivateCase
-import com.asetec.presentation.ui.util.FormatChildren
-import com.asetec.presentation.ui.util.formatTime
+import com.asetec.presentation.component.util.FormatImpl
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -101,11 +100,11 @@ class ActivityLocationViewModel @Inject constructor(
             title = _activates.value.runningTitle,
             statusIcon = _activates.value.statusIcon,
             statusTitle = _activates.value.statusName,
-            time = formatTime(time),
+            time = FormatImpl("YY:MM:DD:H").getFormatTime(time),
             goalCount = pedometerCount,
             kcal_cul = pedometerCount * 0.05,
-            km_cul = FormatChildren.calculateDistanceToKm(pedometerCount),
-            todayFormat = FormatChildren.todayFormatDate()
+            km_cul = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
+            todayFormat = FormatImpl("YY:MM:DD:H").getTodayFormatDate()
         )
 
         viewModelScope.launch {
@@ -116,10 +115,11 @@ class ActivityLocationViewModel @Inject constructor(
         }
     }
 
-    suspend fun selectActivityFindById() {
-        val googleId = sharedPreferences2.getString("id", "")
+    suspend fun selectActivityFindById(googleId: String) {
         val activateDTO = activateCase.selectActivityFindById(googleId!!)
 
         _activateData.value = activateDTO
+
+        Log.d("ActivityLocationViewModel", _activateData.value.toString())
     }
 }

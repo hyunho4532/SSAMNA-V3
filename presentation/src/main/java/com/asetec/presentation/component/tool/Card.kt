@@ -57,6 +57,7 @@ import com.asetec.domain.model.state.ChallengeDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.dialog.ShowChallengeDialog
+import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 
@@ -114,12 +115,9 @@ fun ReportCard(userState: User) {
         }
     )
 
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val cardWidth = screenWidth * 0.9f
-
     Card (
         modifier = Modifier
-            .width(cardWidth)
+            .width(setUpWidth())
             .aspectRatio(3f / 4f)
             .shadow(
                 elevation = 3.dp
@@ -235,12 +233,9 @@ fun activateCard(
     val imageName = activate?.assets?.replace("R.drawable.", "")
     val imageResId = context?.resources?.getIdentifier(imageName, "drawable", context.packageName)
 
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val cardWidth = screenWidth * 0.9f
-
     Card (
         modifier = Modifier
-            .width(cardWidth)
+            .width(setUpWidth())
             .height(height)
             .padding(top = 8.dp, start = 8.dp)
             .clickable(
@@ -380,13 +375,9 @@ fun challengeCard(
     height: Dp,
     onChallengeIsPopup: (Int, Boolean) -> Unit
 ) {
-
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val cardWidth = screenWidth * 0.9f
-
     Card (
         modifier = Modifier
-            .width(cardWidth)
+            .width(setUpWidth())
             .height(height)
             .padding(top = 8.dp)
             .clickable(
@@ -398,7 +389,7 @@ fun challengeCard(
                     bounded = true
                 )
             ) {
-              onChallengeIsPopup(challenge.index, true)
+                onChallengeIsPopup(challenge.index, true)
             },
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -443,12 +434,9 @@ fun challengeRegistrationCard(
     challengeDTO: ChallengeDTO,
     height: Dp
 ) {
-    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
-    val cardWidth = screenWidth * 0.9f
-
     Card (
         modifier = Modifier
-            .width(cardWidth)
+            .width(setUpWidth())
             .height(height)
             .padding(top = 8.dp, start = 8.dp)
             .clickable(
@@ -464,7 +452,7 @@ fun challengeRegistrationCard(
         colors = CardDefaults.cardColors(
             containerColor = Color.White
         ),
-        border = BorderStroke(2.dp, Color.Gray)
+        border = BorderStroke(1.dp, Color.Gray)
     ) {
         Box(
             modifier = Modifier

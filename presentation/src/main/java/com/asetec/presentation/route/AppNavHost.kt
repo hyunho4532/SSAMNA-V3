@@ -19,11 +19,12 @@ import com.asetec.presentation.animation.Screens
 import com.asetec.presentation.ui.feature.login.LoginScreen
 import com.asetec.presentation.ui.feature.login.ReportScreen
 import com.asetec.presentation.ui.feature.login.UserInfoScreen
-import com.asetec.presentation.ui.main.home.screen.AnalyzeScreen
 import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.splash.OnBoardingScreen
 import com.asetec.presentation.ui.feature.splash.SplashScreen
+import com.asetec.presentation.ui.main.home.screen.CalendarScreen
+import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
 import com.google.android.gms.location.LocationServices
 import kotlinx.serialization.json.Json
@@ -81,8 +82,8 @@ fun AppNavHost() {
 fun ScreenNavigationConfiguration(
     navController: NavHostController,
     context: Context,
-    onScreenChange: (String) -> Unit,
-    userViewModel: UserViewModel = hiltViewModel()
+    userViewModel: UserViewModel = hiltViewModel(),
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
 ) {
 
     val isClickable = remember {
@@ -90,17 +91,18 @@ fun ScreenNavigationConfiguration(
     }
 
     val userList = userViewModel.user.collectAsState()
+    val activateList = activityLocationViewModel.activateData.collectAsState()
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
     LaunchedEffect(key1 = Unit) {
         val googleId = userViewModel.getSavedLoginState()
         userViewModel.selectUserFindById(googleId)
+        activityLocationViewModel.selectActivityFindById(googleId)
     }
 
     NavHost(navController = navController, startDestination = Screens.HomeScreen.route) {
 
         composable(Screens.HomeScreen.route) {
-            onScreenChange(Screens.HomeScreen.route)
             HomeScreen(
                 fusedLocationClient = fusedLocationClient,
                 context = context,
@@ -109,14 +111,14 @@ fun ScreenNavigationConfiguration(
         }
 
         if (isClickable.value) {
-            composable(Screens.AnalyzeScreen.route) {onScreenChange(Screens.HomeScreen.route)
-                onScreenChange(Screens.AnalyzeScreen.route)
-                AnalyzeScreen()
+            composable(Screens.AnalyzeScreen.route) {
+                CalendarScreen(
+                    activateList = activateList
+                )
             }
         }
 
         composable(Screens.ProfileScreen.route) {
-            onScreenChange(Screens.ProfileScreen.route)
             ProfileScreen(
                 context = context,
                 userList = userList

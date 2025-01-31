@@ -43,9 +43,9 @@ import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.row.RadioRow
 import com.asetec.presentation.component.tool.Spacer
-import com.asetec.presentation.ui.util.responsive.setFontSize
-import com.asetec.presentation.ui.util.responsive.setUpButtonWidth
-import com.asetec.presentation.ui.util.responsive.setUpSliderWidth
+import com.asetec.presentation.component.util.responsive.setFontSize
+import com.asetec.presentation.component.util.responsive.setUpButtonWidth
+import com.asetec.presentation.component.util.responsive.setUpSliderWidth
 import com.asetec.presentation.component.util.getDPI
 import com.asetec.presentation.viewmodel.UserViewModel
 import kotlinx.serialization.encodeToString

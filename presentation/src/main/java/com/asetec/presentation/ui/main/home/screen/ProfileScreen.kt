@@ -1,6 +1,7 @@
 package com.asetec.presentation.ui.main.home.screen
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -29,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,8 +43,10 @@ import com.asetec.presentation.component.dialog.ChallengeBottomSheet
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateCard
 import com.asetec.presentation.component.tool.challengeRegistrationCard
+import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.enum.ProfileStatusType
+import com.asetec.presentation.ui.feature.goal.GoalActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
 
@@ -54,7 +58,6 @@ fun ProfileScreen(
     userList: State<User>,
     context: Context
 ) {
-
     val activateData  = activityLocationViewModel.activateData.collectAsState()
     val challengeData = challengeViewModel.challengeData.collectAsState()
 
@@ -75,7 +78,7 @@ fun ProfileScreen(
     )
 
     LaunchedEffect(key1 = Unit) {
-        activityLocationViewModel.selectActivityFindById()
+        activityLocationViewModel.selectActivityFindById(userList.value.id)
         challengeViewModel.selectChallengeById()
     }
 
@@ -108,7 +111,7 @@ fun ProfileScreen(
 
         Row (
             modifier = Modifier
-                .width(350.dp)
+                .width(setUpWidth())
                 .padding(top = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
@@ -154,7 +157,7 @@ fun ProfileScreen(
             activateData.value.forEach { activateDTO ->
                 activateCard(
                     height = 160.dp,
-                    borderStroke = 2,
+                    borderStroke = 1,
                     activateDTO = activateDTO,
                     cardType = CardType.ActivateStatus.Activity
                 )
@@ -166,7 +169,19 @@ fun ProfileScreen(
         Row (
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(end = 18.dp),
+                .padding(end = 18.dp)
+                .clickable(
+                    interactionSource = remember {
+                        MutableInteractionSource()
+                    },
+                    indication = rememberRipple(
+                        color = Color.Gray,
+                        bounded = true
+                    )
+                ) {
+                    val intent = Intent(context, GoalActivity::class.java)
+                    context.startActivity(intent)
+                },
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(

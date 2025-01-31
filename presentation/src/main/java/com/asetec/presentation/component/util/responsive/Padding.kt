@@ -1,4 +1,4 @@
-package com.asetec.presentation.ui.util.responsive
+package com.asetec.presentation.component.util.responsive
 
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
