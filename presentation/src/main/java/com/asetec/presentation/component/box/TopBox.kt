@@ -60,6 +60,7 @@ fun TopBox(
 
         stepDetector?.let {
             sensorManager.unregisterListener(listener)
+            sensorManagerViewModel.setSavedSensorState()
             sensorManager.registerListener(listener, it, SensorManager.SENSOR_DELAY_UI)
             sensorManagerViewModel.startWatch()
         }
