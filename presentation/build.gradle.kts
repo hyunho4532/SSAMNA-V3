@@ -1,11 +1,10 @@
 import java.util.Properties
-
 plugins {
-    id("com.google.dagger.hilt.android")
-    id("kotlin-kapt")
-    kotlin("plugin.serialization")
+    alias(libs.plugins.hilt)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    kotlin("kapt")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -52,35 +51,44 @@ android {
 }
 
 dependencies {
-    implementation("androidx.graphics:graphics-shapes:1.0.1")
-    implementation("com.exyte:animated-navigation-bar:1.0.0")
-    implementation("androidx.work:work-runtime-ktx:2.7.0")
-    implementation ("com.github.PratikFagadiya:AnimatedSmoothBottomNavigation-JetpackCompose:1.1.2")
-    implementation("com.google.maps.android:maps-compose:2.11.1")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
-    implementation("com.google.android.gms:play-services-location:21.0.1")
-    implementation("com.google.accompanist:accompanist-permissions:0.37.0")
+    /**
+     * gitHub Open Source
+     */
+    implementation(libs.animated.nav.bar)
+    implementation(libs.dotenv.kotlin)
+    implementation(libs.identity.googleid)
+    implementation(libs.lottie)
+    implementation(libs.fagadiya.smooth.bottom.navigation)
 
-    implementation("io.coil-kt:coil-compose:2.4.0")
-    implementation("io.github.jan-tennert.supabase:compose-auth:2.4.2")
-    implementation("io.github.jan-tennert.supabase:gotrue-kt:2.4.2")
-    implementation("androidx.credentials:credentials:1.2.2")
-    implementation("com.google.android.libraries.identity.googleid:googleid:1.1.1")
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
-    implementation("io.ktor:ktor-client-android:2.3.1")
-    implementation("io.ktor:ktor-client-core:2.3.1")
-    implementation("io.ktor:ktor-utils:2.3.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("com.google.dagger:hilt-android:2.51.1")
-    kapt("com.google.dagger:hilt-android-compiler:2.51.1")
-    implementation("io.github.cdimascio:dotenv-kotlin:6.4.1")
-    implementation(platform("io.github.jan-tennert.supabase:bom:2.4.2"))
-    implementation("io.github.jan-tennert.supabase:postgrest-kt")
-    implementation("androidx.browser:browser:1.5.0")
-    implementation("com.airbnb.android:lottie-compose:6.6.2")
-    implementation("androidx.navigation:navigation-compose:2.8.5")
-    implementation("androidx.navigation:navigation-ui:2.8.5")
+    /**
+     * KMP
+     */
+    implementation(libs.google.maps.compose)
+    implementation(libs.play.services.maps)
+    implementation(libs.play.services.location)
+    implementation(libs.play.services.auth)
+    implementation(libs.google.accompanist.permissions)
+    implementation(libs.coil.compose)
+    implementation(platform(libs.supabase.tennert))
+    implementation(libs.supabase.postgrest.kt)
+    implementation(libs.supabase.compose.auth)
+    implementation(libs.supabase.gotrue.kt)
+    implementation(libs.hilt.navigation.compose)
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.android.compiler)
+    implementation(libs.ktor.core)
+    implementation(libs.ktor.android)
+    implementation(libs.ktor.utils)
 
+    /**
+     * androidx
+     */
+    implementation(libs.androidx.browser)
+    implementation(libs.androidx.credentials)
+    implementation(libs.androidx.graphics.shapes)
+    implementation(libs.androidx.work.runtime)
+    implementation(libs.androidx.navigation.compose)
+    implementation(libs.androidx.navigation.ui)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
