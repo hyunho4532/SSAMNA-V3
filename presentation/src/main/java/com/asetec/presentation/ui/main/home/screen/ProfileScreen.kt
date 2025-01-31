@@ -156,7 +156,7 @@ fun ProfileScreen(
                 .verticalScroll(rememberScrollState())
         ) {
             activateData.value.forEach { activateDTO ->
-                activateCard(   
+                activateCard(
                     height = 160.dp,
                     borderStroke = 1,
                     activateDTO = activateDTO,
