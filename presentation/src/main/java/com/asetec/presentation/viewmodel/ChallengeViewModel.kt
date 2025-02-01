@@ -41,6 +41,8 @@ class ChallengeViewModel @Inject constructor(
                 it.copy(
                     googleId = googleId!!,
                     title = data.name,
+                    goal = data.goal,
+                    type = data.type,
                     todayDate = FormatImpl("YY:MM:DD:H").getTodayFormatDate()
                 )
             }

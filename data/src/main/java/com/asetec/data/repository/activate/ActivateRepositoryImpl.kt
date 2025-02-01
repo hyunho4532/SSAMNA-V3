@@ -16,16 +16,18 @@ class ActivateRepositoryImpl @Inject constructor(
             title = activateDTO.title,
             statusIcon = activateDTO.statusIcon,
             statusTitle = activateDTO.statusTitle,
+            runningIcon = activateDTO.runningIcon,
+            runningTitle = activateDTO.runningTitle,
             time = activateDTO.time,
             goalCount = activateDTO.goalCount,
             kcal_cul = activateDTO.kcal_cul,
             km_cul = activateDTO.km_cul,
-            todayFormat = activateDTO.todayFormat
+            todayFormat = activateDTO.todayFormat,
+            eqDate = activateDTO.eqDate
         )
+        onTime(0L)
 
         postgrest.from("Activity").insert(mappedActivateDTO)
-
-        onTime(0L)
     }
 
     override suspend fun selectActivateById(googleId: String): List<ActivateDTO> {
@@ -33,6 +35,17 @@ class ActivateRepositoryImpl @Inject constructor(
             postgrest.from("Activity").select {
                 filter {
                     eq("google_id", googleId)
+                }
+            }.decodeList<ActivateDTO>()
+        }
+    }
+
+    override suspend fun selectActivateByDate(googleId: String, dayLocalDate: String): List<ActivateDTO> {
+        return withContext(Dispatchers.IO) {
+            postgrest.from("Activity").select {
+                filter {
+                    eq("google_id", googleId)
+                    eq("eq_date", dayLocalDate)
                 }
             }.decodeList<ActivateDTO>()
         }

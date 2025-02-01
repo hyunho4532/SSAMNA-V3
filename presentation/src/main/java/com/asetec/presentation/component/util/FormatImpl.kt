@@ -17,7 +17,7 @@ data class FormatImpl(
 ) : Format() {
 
     @RequiresApi(Build.VERSION_CODES.O)
-    val formatter =
+    val formatter: DateTimeFormatter =
         if (type == "YY:MM:DD:H") DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h:mm")
         else DateTimeFormatter.ofPattern("yyyy년 M월 d일")
 
@@ -49,13 +49,8 @@ data class FormatImpl(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun parseMonthDays(dateStr: String): String {
-        return try {
-            LocalDate.parse(dateStr, formatter)
-        } catch (e: Exception) {
-            null
-        }!!.format(formatter)
+        return LocalDate.parse(dateStr, formatter)!!.format(formatter)
     }
-
 
     override fun getFormatTime(time: Long): String {
         val minutes = time / 60

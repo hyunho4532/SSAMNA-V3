@@ -10,5 +10,5 @@ sealed class CardType {
 sealed class ProfileStatusType  {
     data object Activate: ProfileStatusType()
     data object Kcal: ProfileStatusType()
-    data object Goal: ProfileStatusType()
+    data object Km: ProfileStatusType()
 }

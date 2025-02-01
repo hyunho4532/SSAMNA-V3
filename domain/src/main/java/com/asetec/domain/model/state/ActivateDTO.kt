@@ -17,6 +17,12 @@ data class ActivateDTO(
     @SerialName("status_title")
     val statusTitle: String = "",
 
+    @SerialName("running_icon")
+    val runningIcon: Int = 0,
+
+    @SerialName("running_title")
+    val runningTitle: String = "",
+
     @SerialName("goal_count")
     val goalCount: Int = 0,
 
@@ -30,5 +36,8 @@ data class ActivateDTO(
     val km_cul: Double = 0.0,
 
     @SerialName("today_format")
-    val todayFormat: String = ""
+    val todayFormat: String = "",
+
+    @SerialName("eq_date")
+    val eqDate: String = ""
 )

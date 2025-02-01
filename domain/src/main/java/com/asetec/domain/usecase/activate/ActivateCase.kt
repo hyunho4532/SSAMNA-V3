@@ -16,4 +16,8 @@ class ActivateCase @Inject constructor(
     suspend fun selectActivityFindById(googleId: String) : List<ActivateDTO> {
         return activateRepository.selectActivateById(googleId)
     }
+
+    suspend fun selectActivityFindByDate(googleId: String, dayLocalDate: String) : List<ActivateDTO> {
+        return activateRepository.selectActivateByDate(googleId, dayLocalDate)
+    }
 }
