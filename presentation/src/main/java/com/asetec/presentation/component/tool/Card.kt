@@ -2,6 +2,7 @@ package com.asetec.presentation.component.tool
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -247,14 +248,12 @@ fun activateCard(
                     bounded = true
                 )
             ) {
-                if (cardType == CardType.ActivateStatus.Activity) {
+                if (cardType == CardType.ActivateStatus.Running) {
                     showBottomSheet?.value = false
-                    activityLocationViewModel.getActivateName(
+                    activityLocationViewModel.setActivateName(
                         activateResId = imageResId!!,
                         activateName = activate!!.name
                     )
-                } else {
-
                 }
             },
         colors = CardDefaults.cardColors(
@@ -285,17 +284,6 @@ fun activateCard(
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Light
             )
-
-            Box(
-                modifier = Modifier.padding(top = 4.dp)
-            ) {
-                Divider(
-                    color = Color.Gray,
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                )
-            }
         } else {
             Row(
                 modifier = Modifier
@@ -322,6 +310,28 @@ fun activateCard(
 
                     Text(
                         text = "${activateDTO.statusTitle} : ${activateDTO.goalCount}걸음!",
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 8.dp),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Image(
+                        modifier = Modifier
+                            .size(22.dp),
+                        painter = painterResource(id = activateDTO.runningIcon),
+                        contentDescription = "러닝 상태 아이콘"
+                    )
+
+                    Text(
+                        text = activateDTO.runningTitle,
+                        fontSize = 11.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -358,13 +368,6 @@ fun activateCard(
                     )
                 }
             }
-
-            Text(
-                modifier = Modifier
-                    .padding(top = 18.dp, end = 8.dp)
-                    .align(Alignment.End),
-                text = activateDTO!!.title,
-            )
         }
     }
 }

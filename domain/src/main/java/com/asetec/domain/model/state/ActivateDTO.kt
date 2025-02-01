@@ -17,6 +17,12 @@ data class ActivateDTO(
     @SerialName("status_title")
     val statusTitle: String = "",
 
+    @SerialName("running_icon")
+    val runningIcon: Int = 0,
+
+    @SerialName("running_title")
+    val runningTitle: String = "",
+
     @SerialName("goal_count")
     val goalCount: Int = 0,
 

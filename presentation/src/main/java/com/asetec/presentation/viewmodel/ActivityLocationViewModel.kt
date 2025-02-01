@@ -65,7 +65,7 @@ class ActivityLocationViewModel @Inject constructor(
         }
     }
 
-    fun getActivateName(activateResId: Int, activateName: String) {
+    fun setActivateName(activateResId: Int, activateName: String) {
         _activates.update {
             it.copy(
                 activateResId = activateResId,
@@ -92,7 +92,7 @@ class ActivityLocationViewModel @Inject constructor(
      * 활동 저장 버튼 클릭 시 활동 테이블에 데이터 저장
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun saveActivity() {
+    fun saveActivity(runningIcon: Int, runningTitle: String) {
         val pedometerCount = sharedPreferences?.getInt("pedometerCount", _activates.value.pedometerCount)
         val googleId = sharedPreferences2?.getString("id", "")
         val time = sharedPreferences?.getLong("time", _activates.value.time)
@@ -102,6 +102,8 @@ class ActivityLocationViewModel @Inject constructor(
             title = _activates.value.runningTitle,
             statusIcon = _activates.value.statusIcon,
             statusTitle = _activates.value.statusName,
+            runningIcon = runningIcon,
+            runningTitle = runningTitle,
             time = FormatImpl("YY:MM:DD:H").getFormatTime(time!!),
             goalCount = pedometerCount!!,
             kcal_cul = pedometerCount * 0.05,

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -22,9 +23,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.presentation.R
 import com.asetec.presentation.component.icon.Footprint
 import com.asetec.presentation.component.icon.TimePrint
 import com.asetec.presentation.component.tool.CustomButton
@@ -71,6 +74,7 @@ fun TopBox(
         }
     }
 
+
     Box(
         modifier = Modifier
             .background(Color.White)
@@ -78,112 +82,138 @@ fun TopBox(
             .height(50.dp)
             .padding(start = 12.dp)
     ) {
-        Column (
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.Start
+        Row(
+            modifier = Modifier.fillMaxSize(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Box(
+            Column(
                 modifier = Modifier
-                    .height(46.dp)
+                    .weight(1f),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start
             ) {
-                Row (
-                    modifier = Modifier
-                        .width(70.dp)
-                        .height(24.dp)
-                        .padding(top = 4.dp),
-                    horizontalArrangement = Arrangement.Start
-                ) {
-                    Text(
-                        text = "걸음 수",
-                        fontWeight = FontWeight.Bold
-                    )
-
-                    Spacer(width = 4.dp, height = 0.dp)
-
-                    Box(
-                        modifier = Modifier
-                            .align(Alignment.CenterVertically)
-                    ) {
-                        Icon(
-                            imageVector = Footprint,
-                            contentDescription = "걸음 아이콘"
-                        )
-                    }
-                }
-
                 Box(
                     modifier = Modifier
-                        .align(Alignment.BottomCenter)
+                        .height(46.dp)
                 ) {
+                    Row(
+                        modifier = Modifier
+                            .height(24.dp)
+                            .padding(top = 4.dp),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(text = "걸음", fontWeight = FontWeight.Bold)
+
+                        Spacer(width = 2.dp, height = 0.dp)
+
+                        Icon(
+                            imageVector = Footprint,
+                            contentDescription = "걸음 아이콘",
+                            modifier = Modifier.align(Alignment.CenterVertically)
+                        )
+                    }
                     Text(
                         text = "${activates.value.pedometerCount}",
                         modifier = Modifier
                             .padding(top = 4.dp)
+                            .align(Alignment.BottomCenter)
                     )
                 }
             }
-        }
 
-        Column (
-            modifier = Modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            Box(
+            Column(
                 modifier = Modifier
-                    .height(46.dp)
+                    .weight(1f),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start
             ) {
-                Row (
+                Box(
                     modifier = Modifier
-                        .width(70.dp)
-                        .height(24.dp)
-                        .padding(top = 4.dp),
-                    horizontalArrangement = Arrangement.Center
+                        .height(46.dp)
                 ) {
-                    Text(
-                        text = "시간",
-                        fontWeight = FontWeight.Bold
-                    )
+                    Row(
+                        modifier = Modifier
+                            .height(24.dp)
+                            .padding(top = 4.dp),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(text = "음악", fontWeight = FontWeight.Bold)
 
-                    Spacer(width = 4.dp, height = 0.dp)
+                        Spacer(width = 2.dp, height = 0.dp)
+
+                        Icon(
+                            painter = painterResource(id = R.drawable.baseline_music_24),
+                            contentDescription = "음악 아이콘",
+                            modifier = Modifier.align(Alignment.CenterVertically)
+                        )
+                    }
 
                     Box(
                         modifier = Modifier
-                            .align(Alignment.CenterVertically)
+                            .align(Alignment.BottomCenter)
                     ) {
-                        Icon(
-                            imageVector = TimePrint,
-                            contentDescription = "만보기 아이콘"
+                        Text(
+                            text = "0",
+                            modifier = Modifier
+                                .padding(top = 4.dp)
+                                .align(Alignment.BottomCenter)
                         )
                     }
-                }
 
-                Text(
-                    text = FormatImpl("YY:MM:DD:H").getFormatTime(activates.value.time),
+                }
+            }
+
+            Column(
+                modifier = Modifier
+                    .weight(1f),
+                verticalArrangement = Arrangement.Top,
+                horizontalAlignment = Alignment.Start
+            ) {
+                Box(
                     modifier = Modifier
-                        .padding(top = 4.dp)
-                        .align(Alignment.BottomCenter)
+                        .height(46.dp)
+                ) {
+                    Row(
+                        modifier = Modifier
+                            .height(24.dp)
+                            .padding(top = 4.dp),
+                        horizontalArrangement = Arrangement.Start
+                    ) {
+                        Text(text = "시간", fontWeight = FontWeight.Bold)
+
+                        Spacer(width = 2.dp, height = 0.dp)
+
+                        Icon(
+                            imageVector = Footprint,
+                            contentDescription = "시간 아이콘",
+                            modifier = Modifier.align(Alignment.CenterVertically)
+                        )
+                    }
+                    Text(
+                        text = FormatImpl("YY:MM:DD:H").getFormatTime(activates.value.time),
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                            .align(Alignment.BottomCenter)
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .padding(end = 4.dp),
+                contentAlignment = Alignment.Center
+            ) {
+                CustomButton(
+                    type = ButtonType.RunningStatus.FINISH,
+                    width = 110.dp,
+                    height = 32.dp,
+                    text = "측정 완료!",
+                    backgroundColor = Color(0xFF5c9afa),
+                    context = context,
+                    shape = "Circle"
                 )
             }
-        }
-
-        Box(
-            modifier = Modifier
-                .align(Alignment.TopEnd)
-                .padding(top = 8.dp, end = 4.dp)
-        ) {
-            CustomButton(
-                type = ButtonType.RunningStatus.FINISH,
-                width = 110.dp,
-                height = 32.dp,
-                text = "측정 완료!",
-                showIcon = false,
-                backgroundColor = Color(0xFF5c9afa),
-                navController = null,
-                context = context,
-                shape = "Circle"
-            )
         }
     }
 }

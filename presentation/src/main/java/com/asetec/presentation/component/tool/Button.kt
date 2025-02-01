@@ -13,6 +13,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -35,7 +36,7 @@ fun CustomButton(
     width: Dp,
     height: Dp,
     text: String,
-    showIcon: Boolean,
+    showIcon: Boolean = false,
     backgroundColor: Color,
     navController: NavController? = rememberNavController(),
     context: Context?,
@@ -45,6 +46,9 @@ fun CustomButton(
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel()
 ) {
+
+    val activates = activityLocationViewModel.activates.collectAsState()
+
     Button(
         onClick = {
             if (type == ButtonType.ROUTER) {
@@ -69,7 +73,10 @@ fun CustomButton(
                     }
                     ButtonType.RunningStatus.InsertStatus.RUNNING -> {
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            activityLocationViewModel.saveActivity()
+                            activityLocationViewModel.saveActivity(
+                                runningIcon = activates.value.activateResId,
+                                runningTitle = activates.value.activateName
+                            )
                         }
                     }
                     ButtonType.RunningStatus.InsertStatus.CHALLENGE -> {

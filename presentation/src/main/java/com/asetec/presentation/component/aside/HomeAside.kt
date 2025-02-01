@@ -2,6 +2,7 @@ package com.asetec.presentation.component.aside
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -39,6 +41,7 @@ import com.asetec.presentation.component.dialog.TimeBottomSheet
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.enum.ButtonType
+import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
 
@@ -47,12 +50,12 @@ import com.asetec.presentation.viewmodel.UserViewModel
 @Composable
 fun HomeAside(
     context: Context,
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
-    userViewModel: UserViewModel = hiltViewModel(),
     userList: State<User>
 ) {
 
-    val activates by sensorManagerViewModel.activates.collectAsState()
+    val activates by activityLocationViewModel.activates.collectAsState()
 
     val showActivateBottomSheet = remember {
         mutableStateOf(false)
@@ -100,7 +103,7 @@ fun HomeAside(
 
                 Image(
                     modifier = Modifier.size(20.dp),
-                    painter = painterResource(id = activates.activateResId),
+                    painter = painterResource(id = if (activates.activateResId != null) activates.activateResId else R.drawable.baseline_persons_run_24),
                     contentDescription = "달리는 사람 아이콘"
                 )
 

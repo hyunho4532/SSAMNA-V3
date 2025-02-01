@@ -16,6 +16,8 @@ class ActivateRepositoryImpl @Inject constructor(
             title = activateDTO.title,
             statusIcon = activateDTO.statusIcon,
             statusTitle = activateDTO.statusTitle,
+            runningIcon = activateDTO.runningIcon,
+            runningTitle = activateDTO.runningTitle,
             time = activateDTO.time,
             goalCount = activateDTO.goalCount,
             kcal_cul = activateDTO.kcal_cul,

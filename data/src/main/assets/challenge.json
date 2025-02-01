@@ -3,25 +3,29 @@
     "index": 0,
     "name": "50km 달리기",
     "description": "50km 달린 후, 챌린지를 달성해보세요!",
-    "assets": "R.drawable.emoji_very_smile"
+    "assets": "R.drawable.emoji_very_smile",
+    "goal": 50
   },
   {
     "index": 1,
     "name": "100km 달리기",
     "description": "100km 달린 후, 챌린지를 달성해보세요!",
-    "assets": "R.drawable.emoji_very_smile"
+    "assets": "R.drawable.emoji_very_smile",
+    "goal": 100
   },
   {
     "index": 2,
     "name": "10000보!!",
     "description": "10000보 달성 후, 챌린지를 달성해보세요!",
-    "assets": "R.drawable.emoji_very_smile"
+    "assets": "R.drawable.emoji_very_smile",
+    "goal": 10000
   },
   {
     "index": 3,
     "name": "20000보!!",
     "description": "20000보 달성 후, 챌린지를 달성해보세요!",
-    "assets": "R.drawable.emoji_very_smile"
+    "assets": "R.drawable.emoji_very_smile",
+    "goal": 20000
   },
   {
     "index": 4,
