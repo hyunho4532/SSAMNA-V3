@@ -1,9 +1,12 @@
 package com.asetec.presentation.component.box
 
 import android.content.Context
+import android.content.Intent
 import android.hardware.Sensor
 import android.hardware.SensorManager
+import android.net.Uri
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -136,7 +139,7 @@ fun TopBox(
                         modifier = Modifier
                             .height(24.dp)
                             .padding(top = 4.dp),
-                        horizontalArrangement = Arrangement.Start
+                        horizontalArrangement = Arrangement.Center
                     ) {
                         Text(text = "음악", fontWeight = FontWeight.Bold)
 
@@ -149,18 +152,19 @@ fun TopBox(
                         )
                     }
 
-                    Box(
+                    Text(
+                        text = "선택!",
                         modifier = Modifier
+                            .padding(top = 4.dp)
                             .align(Alignment.BottomCenter)
-                    ) {
-                        Text(
-                            text = "0",
-                            modifier = Modifier
-                                .padding(top = 4.dp)
-                                .align(Alignment.BottomCenter)
-                        )
-                    }
+                            .clickable {
+                                val intent = Intent(Intent.ACTION_MAIN)
+                                intent.setPackage("com.google.android.apps.youtube.music")
+                                intent.addCategory(Intent.CATEGORY_LAUNCHER)
 
+                                context.startActivity(intent)
+                            }
+                    )
                 }
             }
 
@@ -178,7 +182,7 @@ fun TopBox(
                         modifier = Modifier
                             .height(24.dp)
                             .padding(top = 4.dp),
-                        horizontalArrangement = Arrangement.Start
+                        horizontalArrangement = Arrangement.End
                     ) {
                         Text(text = "시간", fontWeight = FontWeight.Bold)
 

@@ -43,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -444,7 +445,7 @@ fun challengeRegistrationCard(
         mutableStateOf(0f)
     }
 
-    LaunchedEffect(key1 = Unit) {
+    LaunchedEffect(key1 = sumKm, key2 = sumCount) {
         currentProcess = if (challengeDTO.type == "running") {
             sumKm.coerceIn(0f, challengeDTO.goal.toFloat())
         } else {
@@ -496,7 +497,10 @@ fun challengeRegistrationCard(
                             .padding(top = 12.dp),
                         progress = {
                             currentProcess / challengeDTO.goal
-                        }
+                        },
+                        trackColor = Color.LightGray,
+                        color = Color(0xFF5c9afa),
+                        strokeCap = StrokeCap.Round
                     )
                 }
             }
