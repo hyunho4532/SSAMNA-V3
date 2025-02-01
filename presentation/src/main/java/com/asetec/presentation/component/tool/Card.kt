@@ -8,6 +8,7 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -27,10 +28,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,7 +44,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -57,7 +58,6 @@ import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.state.ChallengeDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
-import com.asetec.presentation.component.dialog.ShowChallengeDialog
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
@@ -435,8 +435,18 @@ fun challengeCard(
 @Composable
 fun challengeRegistrationCard(
     challengeDTO: ChallengeDTO,
-    height: Dp
+    height: Dp,
+    sumKm: Float
 ) {
+
+    var currentProcess by remember {
+        mutableStateOf(0f)
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        currentProcess = sumKm.coerceIn(0f, challengeDTO.goal.toFloat())
+    }
+
     Card (
         modifier = Modifier
             .width(setUpWidth())
@@ -459,7 +469,7 @@ fun challengeRegistrationCard(
     ) {
         Box(
             modifier = Modifier
-                .padding(top = 8.dp, start = 4.dp)
+                .padding(top = 8.dp, start = 8.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
@@ -472,7 +482,15 @@ fun challengeRegistrationCard(
 
                 Text(
                     text = challengeDTO.todayDate,
-                    fontSize = 14.sp
+                    fontSize = 12.sp
+                )
+
+                LinearProgressIndicator(
+                    modifier = Modifier
+                        .padding(top = 12.dp),
+                    progress = {
+                        currentProcess / challengeDTO.goal
+                    }
                 )
             }
         }

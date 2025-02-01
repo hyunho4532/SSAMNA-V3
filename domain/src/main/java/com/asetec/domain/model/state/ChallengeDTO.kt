@@ -12,6 +12,9 @@ data class ChallengeDTO(
     @SerialName("title")
     val title: String = "",
 
+    @SerialName("goal")
+    val goal: Int = 0,
+
     @SerialName("today_date")
     val todayDate: String = ""
 )

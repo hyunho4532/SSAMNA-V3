@@ -30,7 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -70,6 +69,10 @@ fun ProfileScreen(
         mutableDoubleStateOf(0.0)
     }
 
+    var sumKm by remember {
+        mutableDoubleStateOf(0.0)
+    }
+
     val showChallengeBottomSheet = remember {
         mutableStateOf(false)
     }
@@ -87,6 +90,9 @@ fun ProfileScreen(
         if (activateData.value.isNotEmpty()) {
             sumKcal = activateData.value.sumOf {
                 it.kcal_cul
+            }
+            sumKm = activateData.value.sumOf {
+                it.km_cul
             }
         }
     }
@@ -127,8 +133,9 @@ fun ProfileScreen(
                 profileStatusType = ProfileStatusType.Kcal
             )
             PolygonBox(
-                title = "업적",
-                profileStatusType = ProfileStatusType.Goal
+                title = "km",
+                sumKm = sumKm,
+                profileStatusType = ProfileStatusType.Km
             )
         }
 
@@ -237,6 +244,7 @@ fun ProfileScreen(
         ) {
             challengeData.value.forEach { challengeDTO ->
                 challengeRegistrationCard(
+                    sumKm = sumKm.toFloat(),
                     challengeDTO = challengeDTO,
                     height = 80.dp
                 )
