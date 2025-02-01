@@ -28,7 +28,7 @@ import com.asetec.presentation.enum.ProfileStatusType
 @Composable
 fun PolygonBox(
     title: String,
-    activateCount: Int = 0,
+    sumCount: Int = 0,
     sumKcal: Double = 0.0,
     sumKm: Double = 0.0,
     profileStatusType: ProfileStatusType
@@ -62,7 +62,7 @@ fun PolygonBox(
 
             Text(
                 text = when (profileStatusType) {
-                    ProfileStatusType.Activate -> activateCount.toString()
+                    ProfileStatusType.Activate -> sumCount.toString()
                     ProfileStatusType.Kcal -> sumKcal.toString()
                     ProfileStatusType.Km -> sumKm.toString()
                 },

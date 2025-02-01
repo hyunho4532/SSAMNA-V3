@@ -436,7 +436,8 @@ fun challengeCard(
 fun challengeRegistrationCard(
     challengeDTO: ChallengeDTO,
     height: Dp,
-    sumKm: Float
+    sumKm: Float,
+    sumCount: Int
 ) {
 
     var currentProcess by remember {
@@ -444,7 +445,11 @@ fun challengeRegistrationCard(
     }
 
     LaunchedEffect(key1 = Unit) {
-        currentProcess = sumKm.coerceIn(0f, challengeDTO.goal.toFloat())
+        currentProcess = if (challengeDTO.type == "running") {
+            sumKm.coerceIn(0f, challengeDTO.goal.toFloat())
+        } else {
+            sumCount.coerceIn(0, challengeDTO.goal.toFloat().toInt()).toFloat()
+        }
     }
 
     Card (
@@ -485,13 +490,15 @@ fun challengeRegistrationCard(
                     fontSize = 12.sp
                 )
 
-                LinearProgressIndicator(
-                    modifier = Modifier
-                        .padding(top = 12.dp),
-                    progress = {
-                        currentProcess / challengeDTO.goal
-                    }
-                )
+                if (challengeDTO.type != "비어있음") {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .padding(top = 12.dp),
+                        progress = {
+                            currentProcess / challengeDTO.goal
+                        }
+                    )
+                }
             }
         }
     }
