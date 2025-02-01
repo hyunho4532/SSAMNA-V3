@@ -113,7 +113,8 @@ fun ScreenNavigationConfiguration(
         if (isClickable.value) {
             composable(Screens.AnalyzeScreen.route) {
                 CalendarScreen(
-                    activateList = activateList
+                    activateList = activateList,
+                    userList = userList
                 )
             }
         }

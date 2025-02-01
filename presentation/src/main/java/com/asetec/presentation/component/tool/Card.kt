@@ -2,11 +2,13 @@ package com.asetec.presentation.component.tool
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -26,10 +28,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -40,8 +43,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -56,7 +59,6 @@ import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.state.ChallengeDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
-import com.asetec.presentation.component.dialog.ShowChallengeDialog
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
@@ -247,14 +249,12 @@ fun activateCard(
                     bounded = true
                 )
             ) {
-                if (cardType == CardType.ActivateStatus.Activity) {
+                if (cardType == CardType.ActivateStatus.Running) {
                     showBottomSheet?.value = false
-                    activityLocationViewModel.getActivateName(
+                    activityLocationViewModel.setActivateName(
                         activateResId = imageResId!!,
                         activateName = activate!!.name
                     )
-                } else {
-
                 }
             },
         colors = CardDefaults.cardColors(
@@ -285,17 +285,6 @@ fun activateCard(
                 fontSize = 12.sp,
                 fontWeight = FontWeight.Light
             )
-
-            Box(
-                modifier = Modifier.padding(top = 4.dp)
-            ) {
-                Divider(
-                    color = Color.Gray,
-                    modifier = Modifier
-                        .height(1.dp)
-                        .fillMaxWidth()
-                )
-            }
         } else {
             Row(
                 modifier = Modifier
@@ -322,6 +311,28 @@ fun activateCard(
 
                     Text(
                         text = "${activateDTO.statusTitle} : ${activateDTO.goalCount}걸음!",
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(end = 8.dp),
+                    horizontalArrangement = Arrangement.End,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+
+                    Image(
+                        modifier = Modifier
+                            .size(22.dp),
+                        painter = painterResource(id = activateDTO.runningIcon),
+                        contentDescription = "러닝 상태 아이콘"
+                    )
+
+                    Text(
+                        text = activateDTO.runningTitle,
+                        fontSize = 11.sp,
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -358,13 +369,6 @@ fun activateCard(
                     )
                 }
             }
-
-            Text(
-                modifier = Modifier
-                    .padding(top = 18.dp, end = 8.dp)
-                    .align(Alignment.End),
-                text = activateDTO!!.title,
-            )
         }
     }
 }
@@ -432,8 +436,23 @@ fun challengeCard(
 @Composable
 fun challengeRegistrationCard(
     challengeDTO: ChallengeDTO,
-    height: Dp
+    height: Dp,
+    sumKm: Float,
+    sumCount: Int
 ) {
+
+    var currentProcess by remember {
+        mutableStateOf(0f)
+    }
+
+    LaunchedEffect(key1 = sumKm, key2 = sumCount) {
+        currentProcess = if (challengeDTO.type == "running") {
+            sumKm.coerceIn(0f, challengeDTO.goal.toFloat())
+        } else {
+            sumCount.coerceIn(0, challengeDTO.goal.toFloat().toInt()).toFloat()
+        }
+    }
+
     Card (
         modifier = Modifier
             .width(setUpWidth())
@@ -456,7 +475,7 @@ fun challengeRegistrationCard(
     ) {
         Box(
             modifier = Modifier
-                .padding(top = 8.dp, start = 4.dp)
+                .padding(top = 8.dp, start = 8.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxSize()
@@ -469,8 +488,78 @@ fun challengeRegistrationCard(
 
                 Text(
                     text = challengeDTO.todayDate,
-                    fontSize = 14.sp
+                    fontSize = 12.sp
                 )
+
+                if (challengeDTO.type != "비어있음") {
+                    LinearProgressIndicator(
+                        modifier = Modifier
+                            .padding(top = 12.dp),
+                        progress = {
+                            currentProcess / challengeDTO.goal
+                        },
+                        trackColor = Color.LightGray,
+                        color = Color(0xFF5c9afa),
+                        strokeCap = StrokeCap.Round
+                    )
+                }
+            }
+        }
+    }
+}
+
+/**
+ * 사용자의 날자에 따른 운동 내역을 보여준다.
+ */
+@Composable
+fun historyActivateCard(
+    activateDTO: ActivateDTO,
+    height: Dp
+) {
+    Card (
+        modifier = Modifier
+            .width(setUpWidth())
+            .height(height)
+            .padding(top = 24.dp, start = 8.dp)
+            .shadow(
+                elevation = 6.dp
+            )
+            .clickable(
+                interactionSource = remember {
+                    MutableInteractionSource()
+                },
+                indication = rememberRipple(
+                    color = Color.Gray,
+                    bounded = true
+                )
+            ) {
+            },
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White
+        )
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(top = 8.dp, start = 4.dp)
+        ) {
+            Column(
+                modifier = Modifier.fillMaxSize()
+            ) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+                    Text(
+                        text = activateDTO.title,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Text(
+                        text = activateDTO.todayFormat,
+                        fontSize = 14.sp
+                    )
+                }
             }
         }
     }

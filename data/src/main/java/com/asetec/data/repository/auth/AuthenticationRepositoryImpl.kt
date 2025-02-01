@@ -15,7 +15,6 @@ import javax.inject.Inject
 class AuthenticationRepositoryImpl @Inject constructor(
     private val postgrest: Postgrest
 ) : AuthenticationRepository {
-
     override fun signInWithGoogle(
         task: Task<GoogleSignInAccount>?,
         onSuccess: (id: String, email: String, name: String) -> Unit

@@ -25,12 +25,12 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -43,6 +43,7 @@ import com.asetec.presentation.component.dialog.ChallengeBottomSheet
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateCard
 import com.asetec.presentation.component.tool.challengeRegistrationCard
+import com.asetec.presentation.component.util.calculatorActivateCardWeight
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.enum.ProfileStatusType
@@ -65,7 +66,15 @@ fun ProfileScreen(
         it.title
     }
 
+    var sumCount by remember {
+        mutableIntStateOf(0)
+    }
+
     var sumKcal by remember {
+        mutableDoubleStateOf(0.0)
+    }
+
+    var sumKm by remember {
         mutableDoubleStateOf(0.0)
     }
 
@@ -84,8 +93,14 @@ fun ProfileScreen(
 
     LaunchedEffect(key1 = activateData.value) {
         if (activateData.value.isNotEmpty()) {
+            sumCount = activateData.value.sumOf {
+                it.goalCount
+            }
             sumKcal = activateData.value.sumOf {
                 it.kcal_cul
+            }
+            sumKm = activateData.value.sumOf {
+                it.km_cul
             }
         }
     }
@@ -99,7 +114,7 @@ fun ProfileScreen(
         Image(
             modifier = Modifier
                 .size(46.dp),
-            painter =  painterResource(id = R.drawable.baseline_person_24),
+            painter = painterResource(id = R.drawable.baseline_person_24),
             contentDescription = "프로필 아이콘"
         )
 
@@ -116,8 +131,8 @@ fun ProfileScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             PolygonBox(
-                title = "활동",
-                activateCount = activateData.value.size,
+                title = "걸음 수",
+                sumCount = sumCount,
                 profileStatusType = ProfileStatusType.Activate
             )
             PolygonBox(
@@ -126,8 +141,9 @@ fun ProfileScreen(
                 profileStatusType = ProfileStatusType.Kcal
             )
             PolygonBox(
-                title = "업적",
-                profileStatusType = ProfileStatusType.Goal
+                title = "km",
+                sumKm = sumKm,
+                profileStatusType = ProfileStatusType.Km
             )
         }
 
@@ -151,7 +167,7 @@ fun ProfileScreen(
         }
         Column (
             modifier = Modifier
-                .height(320.dp)
+                .height(calculatorActivateCardWeight(activateData))
                 .verticalScroll(rememberScrollState())
         ) {
             activateData.value.forEach { activateDTO ->
@@ -237,7 +253,9 @@ fun ProfileScreen(
             challengeData.value.forEach { challengeDTO ->
                 challengeRegistrationCard(
                     challengeDTO = challengeDTO,
-                    height = 80.dp
+                    height = 80.dp,
+                    sumKm = sumKm.toFloat(),
+                    sumCount = sumCount
                 )
             }
         }

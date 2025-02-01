@@ -215,7 +215,7 @@ fun ShowChallengeDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Text(
-                    text = "챌린저 등록!",
+                    text = "챌린지 등록!",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -249,7 +249,7 @@ fun ShowChallengeDialog(
                     type = ButtonType.RunningStatus.InsertStatus.CHALLENGE,
                     width = 240.dp,
                     height = 40.dp,
-                    text = "챌린저 등록!",
+                    text = "챌린지 등록!",
                     showIcon = false,
                     backgroundColor = Color(0xFF5c9afa),
                     context = null,

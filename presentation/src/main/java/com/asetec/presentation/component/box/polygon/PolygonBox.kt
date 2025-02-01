@@ -28,11 +28,11 @@ import com.asetec.presentation.enum.ProfileStatusType
 @Composable
 fun PolygonBox(
     title: String,
-    activateCount: Int = 0,
+    sumCount: Int = 0,
     sumKcal: Double = 0.0,
+    sumKm: Double = 0.0,
     profileStatusType: ProfileStatusType
 ) {
-
     val hexagon = remember {
         RoundedPolygon(
             6,
@@ -62,9 +62,9 @@ fun PolygonBox(
 
             Text(
                 text = when (profileStatusType) {
-                    ProfileStatusType.Activate -> activateCount.toString()
+                    ProfileStatusType.Activate -> sumCount.toString()
                     ProfileStatusType.Kcal -> sumKcal.toString()
-                    else -> "0"
+                    ProfileStatusType.Km -> sumKm.toString()
                 },
                 color = MaterialTheme.colorScheme.onSecondary,
                 fontWeight = FontWeight.Bold,
