@@ -48,9 +48,17 @@ data class FormatImpl(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-    override fun parseMonthDays(dateStr: String): String {
+    override fun parseMonthDaysStr(dateStr: String): String {
         return LocalDate.parse(dateStr, formatter)!!.format(formatter)
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    override fun parseMonthDaysDate(dateStr: String): LocalDate {
+        return LocalDate.parse(dateStr, formatter)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+
 
     override fun getFormatTime(time: Long): String {
         val minutes = time / 60

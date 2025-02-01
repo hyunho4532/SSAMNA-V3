@@ -41,7 +41,7 @@ fun ActivateGrid(
     val list = (1..FormatImpl("YY:MM:DD").getMonthDays(yearMonth)).map { it }
 
     val activityDays = todayList.map {
-        FormatImpl("YY:MM:DD").parseMonthDays(it)
+        FormatImpl("YY:MM:DD").parseMonthDaysStr(it)
     }
 
     LazyVerticalGrid(
