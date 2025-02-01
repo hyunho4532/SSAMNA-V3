@@ -125,7 +125,6 @@ fun ScreenNavigationConfiguration(
                 userList = userList
             )
         }
-
     }
 
 }

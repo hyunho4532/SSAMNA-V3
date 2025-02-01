@@ -159,7 +159,7 @@ fun UserInfoScreen(
 
                     Slider(
                         modifier = Modifier
-                            .width(sliderWidth)
+                            .width(setUpWidth())
                             .padding(top = 52.dp, start = 16.dp),
                         value = userState.value.age,
                         onValueChange = {

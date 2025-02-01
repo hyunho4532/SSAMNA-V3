@@ -103,7 +103,7 @@ fun HomeAside(
 
                 Image(
                     modifier = Modifier.size(20.dp),
-                    painter = painterResource(id = if (activates.activateResId != null) activates.activateResId else R.drawable.baseline_persons_run_24),
+                    painter = painterResource(id = activates.activateResId),
                     contentDescription = "달리는 사람 아이콘"
                 )
 

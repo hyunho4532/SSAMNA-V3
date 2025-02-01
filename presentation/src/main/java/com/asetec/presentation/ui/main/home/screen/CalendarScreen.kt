@@ -36,7 +36,6 @@ import com.asetec.presentation.component.row.CustomTabRow
 import com.asetec.presentation.component.tool.historyActivateCard
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
-import com.google.accompanist.pager.ExperimentalPagerApi
 import java.time.LocalDate
 
 @Composable
@@ -133,7 +132,8 @@ fun CalendarScreen(
                 .padding(top = 24.dp)
         ) {
             CustomTabRow(
-                pages = pages
+                pages = pages,
+                todayList = todayList
             )
         }
    }

@@ -37,15 +37,11 @@
         <activity
             android:name=".ui.main.home.HomeActivity"
             android:exported="false"
-            android:label="@string/app_icon"
-            android:theme="@style/Theme.SSAMNA"
-            />
+            android:theme="@style/Theme.SSAMNA" />
         <activity
             android:name=".ui.main.SSAMNA"
             android:exported="false"
-            android:label="@string/app_icon"
-            android:theme="@style/Theme.SSAMNA"
-            />
+            android:theme="@style/Theme.SSAMNA" />
     </application>
 
 </manifest>

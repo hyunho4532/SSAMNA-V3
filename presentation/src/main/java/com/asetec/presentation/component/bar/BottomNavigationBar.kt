@@ -16,8 +16,7 @@ import com.PratikFagadiya.smoothanimationbottombar.ui.SmoothAnimationBottomBar
 fun BottomNavigationBar(
     items: List<SmoothAnimationBottomBarScreens>,
     currentIndex: MutableIntState,
-    navController: NavHostController,
-    isTabClickable: (String) -> Boolean
+    navController: NavHostController
 ) {
     SmoothAnimationBottomBar (
         navController = navController,

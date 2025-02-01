@@ -19,10 +19,12 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun CustomTabRow(pages: List<String>) {
+fun CustomTabRow(pages: List<String>, todayList: List<String>) {
 
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
+
+    val a
 
     TabRow(
         backgroundColor = Color.White,
@@ -50,11 +52,15 @@ fun CustomTabRow(pages: List<String>) {
         count = pages.size,
         state = pagerState
     ) { page ->
-        Text(
-            modifier = Modifier.wrapContentSize(),
-            text = page.toString(),
-            textAlign = TextAlign.Center,
-            fontSize = 30.sp
-        )
+        when (page) {
+            1 -> {
+                Text(
+                    modifier = Modifier.wrapContentSize(),
+                    text = page.toString(),
+                    textAlign = TextAlign.Center,
+                    fontSize = 30.sp
+                )
+            }
+        }
     }
 }
