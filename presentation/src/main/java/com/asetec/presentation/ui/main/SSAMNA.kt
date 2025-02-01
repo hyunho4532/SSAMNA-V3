@@ -12,7 +12,7 @@ import com.asetec.presentation.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class SSAMNA : ComponentActivity() {
 
     private val userViewModel: UserViewModel by viewModels()
 

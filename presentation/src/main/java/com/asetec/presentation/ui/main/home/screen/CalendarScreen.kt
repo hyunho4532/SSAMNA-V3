@@ -1,8 +1,6 @@
 package com.asetec.presentation.ui.main.home.screen
 
 import android.os.Build
-import android.util.Log
-import androidx.annotation.RequiresApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -34,9 +32,11 @@ import com.asetec.domain.model.state.ActivateDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.grid.ActivateGrid
+import com.asetec.presentation.component.row.CustomTabRow
 import com.asetec.presentation.component.tool.historyActivateCard
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import com.google.accompanist.pager.ExperimentalPagerApi
 import java.time.LocalDate
 
 @Composable
@@ -46,6 +46,7 @@ fun CalendarScreen(
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
 ) {
     val activateData = activityLocationViewModel.activateData.collectAsState()
+    val pages = listOf("매주", "매달", "연간")
 
     var currentMonth by remember {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -123,6 +124,16 @@ fun CalendarScreen(
             historyActivateCard(
                 activateDTO = it,
                 height = 80.dp
+            )
+        }
+
+        Box(
+            modifier = Modifier
+                .width(setUpWidth())
+                .padding(top = 24.dp)
+        ) {
+            CustomTabRow(
+                pages = pages
             )
         }
    }

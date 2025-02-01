@@ -47,6 +47,7 @@ import com.asetec.presentation.component.util.responsive.setFontSize
 import com.asetec.presentation.component.util.responsive.setUpButtonWidth
 import com.asetec.presentation.component.util.responsive.setUpSliderWidth
 import com.asetec.presentation.component.util.getDPI
+import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.viewmodel.UserViewModel
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -358,7 +359,7 @@ fun UserInfoScreen(
                             navController.navigate("report?userState=${userStateJson}")
                         },
                         modifier = Modifier
-                            .width(buttonWidth),
+                            .width(setUpWidth()),
                         shape = RectangleShape,
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color(0xFF5c9afa)
