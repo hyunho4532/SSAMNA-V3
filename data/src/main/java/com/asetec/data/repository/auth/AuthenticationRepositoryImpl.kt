@@ -10,16 +10,36 @@ import com.google.android.gms.tasks.Task
 import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
     private val postgrest: Postgrest
 ) : AuthenticationRepository {
+    override suspend fun validateIsUser(
+        task: Task<GoogleSignInAccount>?,
+        onSuccess: (isNotUser: Boolean) -> Unit
+    ) {
+        val id = task?.result?.id.toString()
+
+        val isValidateUser = postgrest.from("User")
+            .select {
+                filter {
+                    eq("google_id", id)
+                }
+            }.decodeSingleOrNull<UserDTO>()
+
+        val isNotUser: Boolean = isValidateUser?.email?.isEmpty() ?: true
+
+        Log.d("AuthenticationRepository", isNotUser.toString())
+
+        onSuccess(isNotUser)
+    }
+
     override fun signInWithGoogle(
         task: Task<GoogleSignInAccount>?,
         onSuccess: (id: String, email: String, name: String) -> Unit
-    ): Boolean {
-
+    ) {
         val account = task?.getResult(ApiException::class.java)
 
         try {
@@ -31,8 +51,6 @@ class AuthenticationRepositoryImpl @Inject constructor(
         } catch (e: ApiException) {
             onSuccess("", "", "")
         }
-
-        return true
     }
 
     override suspend fun saveUser(user: User) {
