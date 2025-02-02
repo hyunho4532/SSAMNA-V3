@@ -1,18 +1,13 @@
 package com.asetec.presentation.ui.main.home.screen
 
 import android.os.Build
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
@@ -36,8 +31,9 @@ import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.grid.ActivateGrid
 import com.asetec.presentation.component.row.CustomTabRow
-import com.asetec.presentation.component.tool.historyActivateCard
+import com.asetec.presentation.component.tool.customButton
 import com.asetec.presentation.component.util.responsive.setUpWidth
+import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import java.time.LocalDate
 
@@ -120,17 +116,49 @@ fun CalendarScreen(
             )
         }
 
-        activateData.value.forEach {
-            historyActivateCard(
-                activateDTO = it,
-                height = 80.dp
-            )
+        Box(
+            modifier = Modifier
+                .width(setUpWidth())
+        ) {
+            if (activateData.value.isNotEmpty()) {
+                Row (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp),
+                    horizontalArrangement = Arrangement.SpaceAround,
+                ) {
+                    Text(
+                        text = "활동 내역 중 ${activateData.value.size}개의 내역이 있습니다!",
+                        modifier = Modifier
+                            .padding(top = 8.dp),
+                        fontSize = 14.sp
+                    )
+
+                    customButton(
+                        type = ButtonType.HistoryStatus.OPEN,
+                        width = 82.dp,
+                        height = 32.dp,
+                        text = "조회",
+                        backgroundColor = Color(0xFF5c9afa),
+                        context = null
+                    )
+                }
+
+            } else {
+                Text(
+                    text = "이런, 활동 내역이 없습니다. ㅠㅠ",
+                    modifier = Modifier
+                        .padding(top = 24.dp)
+                        .align(Alignment.Center),
+                    fontSize = 14.sp
+                )
+            }
         }
 
         Box(
             modifier = Modifier
                 .width(setUpWidth())
-                .padding(top = 24.dp)
+                .padding(top = 32.dp)
         ) {
             CustomTabRow(
                 pages = pages,

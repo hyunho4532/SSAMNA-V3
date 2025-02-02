@@ -15,26 +15,27 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.asetec.domain.model.state.KcalEntry
 import com.asetec.domain.model.state.KmEntry
-import com.asetec.presentation.component.util.getLastWeek
-import com.asetec.presentation.component.util.getThisWeek
+import com.asetec.presentation.component.util.getLastYear
+import com.asetec.presentation.component.util.getThisYear
 
 @Composable
-fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
+fun Year(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
 
-    val kcalOfThisWeek = getThisWeek(
+    val kcalOfThisYear = getThisYear(
+        type = "kcal",
+        kcalList = kcalList
+    )
+
+    val kcalOfLastYear = getLastYear(
         type = "kcal",
         kcalList = kcalList)
 
-    val kcalOfLastWeek = getLastWeek(
-        type = "kcal",
-        kcalList = kcalList)
-
-    val kmOfThisWeek = getThisWeek(
+    val kmOfThisYear = getThisYear(
         type = "km",
         kmList = kmList
     )
 
-    val kmOfLastWeek = getLastWeek(
+    val kmOfLastYear = getLastYear(
         type = "km",
         kmList = kmList)
 
@@ -65,7 +66,7 @@ fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "이번 주",
+                    text = "올해",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -78,7 +79,7 @@ fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "지난 주",
+                    text = "작년",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -106,7 +107,7 @@ fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kcalOfThisWeek",
+                    text = "$kcalOfThisYear",
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -117,7 +118,7 @@ fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kcalOfLastWeek",
+                    text = "$kcalOfLastYear",
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -144,7 +145,7 @@ fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kmOfThisWeek",
+                    text = "$kmOfThisYear",
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -156,7 +157,7 @@ fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kmOfLastWeek",
+                    text = "$kmOfLastYear",
                     modifier = Modifier.align(Alignment.Center)
                 )
             }

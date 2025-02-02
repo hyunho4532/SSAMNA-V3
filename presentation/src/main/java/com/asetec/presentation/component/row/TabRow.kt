@@ -27,12 +27,12 @@ import com.asetec.domain.model.state.KcalEntry
 import com.asetec.domain.model.state.KmEntry
 import com.asetec.presentation.component.row.tab.Month
 import com.asetec.presentation.component.row.tab.Week
+import com.asetec.presentation.component.row.tab.Year
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
-import kotlinx.datetime.Month
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -75,6 +75,8 @@ fun CustomTabRow(
     }
 
     HorizontalPager(
+        modifier = Modifier
+            .padding(top = 80.dp),
         count = pages.size,
         state = pagerState
     ) { page ->
@@ -84,6 +86,10 @@ fun CustomTabRow(
                 kmList = kmList
             )
             1 -> Month(
+                kcalList = kcalList,
+                kmList = kmList
+            )
+            2 -> Year(
                 kcalList = kcalList,
                 kmList = kmList
             )
@@ -98,7 +104,6 @@ fun SumKcalList() {
         modifier = Modifier
             .fillMaxSize()
             .background(Color.White)
-            .padding(top = 60.dp)
     ) {
         Row(
             modifier = Modifier

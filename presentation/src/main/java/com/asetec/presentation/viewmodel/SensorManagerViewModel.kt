@@ -28,7 +28,8 @@ class SensorManagerViewModel @Inject constructor(
     // StateFlow로 상태 관리
     private val _activates = MutableStateFlow(Activate(
         time = getSavedTimeState(),
-        isRunning = getSavedIsRunningState()
+        isRunning = getSavedIsRunningState(),
+        pedometerCount = getSavedSensorState()
     ))
 
     val activates: StateFlow<Activate> = _activates
@@ -61,13 +62,16 @@ class SensorManagerViewModel @Inject constructor(
             it.copy(
                 showRunningStatus = runningStatus,
                 isRunning = isRunning,
-                activateButtonName = "측정하기!"
+                activateButtonName = "측정하기!",
+                time = 0L
             )
         }
 
         // 상태를 SharedPreferences에 저장
         sharedPreferences.edit().putBoolean("showRunning", isRunning).apply()
+        sharedPreferences.edit().putBoolean("isShowRunningBottomNavi", isRunning).apply()
         sharedPreferences.edit().putString("activateButtonName", _activates.value.activateButtonName).apply()
+        sharedPreferences.edit().putLong("time", 0L).apply()
     }
 
     // 센서 이벤트 리스너
@@ -86,7 +90,7 @@ class SensorManagerViewModel @Inject constructor(
 
     // SharedPreferences에서 저장된 값 가져오기
     fun getSavedSensorState(): Int {
-        return sharedPreferences.getInt("pedometerCount", _activates.value.pedometerCount)
+        return sharedPreferences.getInt("pedometerCount", 0)
     }
 
     fun getSavedButtonNameState(): String? {

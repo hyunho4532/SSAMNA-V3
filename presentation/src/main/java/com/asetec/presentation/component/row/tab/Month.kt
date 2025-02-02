@@ -43,7 +43,6 @@ fun Month(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
         modifier = Modifier
             .fillMaxWidth()
             .height(260.dp)
-            .padding(top = 24.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth()

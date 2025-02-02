@@ -7,21 +7,19 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.PratikFagadiya.smoothanimationbottombar.model.SmoothAnimationBottomBarScreens
 import com.asetec.presentation.R
@@ -31,16 +29,7 @@ import com.asetec.presentation.route.ScreenNavigationConfiguration
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 
 @Composable
-fun RootScreen(
-    sensorManagerViewModel: SensorManagerViewModel = hiltViewModel()
-) {
-    val activates by sensorManagerViewModel.activates.collectAsState()
-
-    val currentActivates = rememberUpdatedState(newValue = activates)
-
-    LaunchedEffect(activates) {
-        Log.d("RootScreen", "Activates updated: ${activates.isRunning}")
-    }
+fun RootScreen() {
 
     val context = LocalContext.current
 
@@ -69,13 +58,11 @@ fun RootScreen(
 
     Scaffold(
         bottomBar = {
-            if (!currentActivates.value.isRunning) {
-                BottomNavigationBar(
-                    items = bottomNavigationItems,
-                    currentIndex = currentIndex,
-                    navController = navController
-                )
-            }
+            BottomNavigationBar(
+                items = bottomNavigationItems,
+                currentIndex = currentIndex,
+                navController = navController
+            )
         }
     ) { innerPadding ->
         Box(

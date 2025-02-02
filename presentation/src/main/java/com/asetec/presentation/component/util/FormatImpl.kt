@@ -58,8 +58,6 @@ data class FormatImpl(
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
-
-
     override fun getFormatTime(time: Long): String {
         val minutes = time / 60
         val seconds = time % 60

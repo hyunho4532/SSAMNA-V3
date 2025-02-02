@@ -173,3 +173,67 @@ fun getLastMonth(
 
     return sumList
 }
+
+/**
+ * 올해 km, kcal 계산 함수
+ * type 파라미터에 따라서 계산함
+ */
+@SuppressLint("NewApi")
+fun getThisYear(
+    type: String,
+    kcalList: List<KcalEntry> = emptyList(),
+    kmList: List<KmEntry> = emptyList()
+): Double {
+    var sumList = 0.0
+
+    val todayYear = LocalDate.now().year
+
+    when (type) {
+        "kcal" -> {
+            sumList = kcalList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate.year == todayYear
+            }.sumOf { it.kcal }
+        }
+        "km" -> {
+            sumList = kmList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate.year == todayYear
+            }.sumOf { it.km }
+        }
+    }
+
+    return sumList
+}
+
+/**
+ * 작년 km, kcal 계산 함수
+ * type 파라미터에 따라서 계산함
+ */
+@SuppressLint("NewApi")
+fun getLastYear(
+    type: String,
+    kcalList: List<KcalEntry> = emptyList(),
+    kmList: List<KmEntry> = emptyList()
+): Double {
+    var sumList = 0.0
+
+    val lastYear = LocalDate.now().year - 1
+
+    when (type) {
+        "kcal" -> {
+            sumList = kcalList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate.year == lastYear
+            }.sumOf { it.kcal }
+        }
+        "km" -> {
+            sumList = kmList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate.year == lastYear
+            }.sumOf { it.km }
+        }
+    }
+
+    return sumList
+}
