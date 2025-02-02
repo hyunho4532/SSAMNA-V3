@@ -106,7 +106,7 @@ fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kcalOfThisWeek",
+                    text = String.format("%.2f", kcalOfThisWeek),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -117,7 +117,7 @@ fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kcalOfLastWeek",
+                    text = String.format("%.2f", kcalOfLastWeek),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -144,7 +144,7 @@ fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kmOfThisWeek",
+                    text = String.format("%.2f", kmOfThisWeek),
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -156,7 +156,7 @@ fun Week(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kmOfLastWeek",
+                    text = String.format("%.2f", kmOfLastWeek),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }

@@ -12,9 +12,9 @@ class LoginCase @Inject constructor(
     private val authenticationRepository: AuthenticationRepository
 ) {
     suspend fun invoke(task: Task<GoogleSignInAccount>?, onSuccess: (id: String, email: String, name: String, isNotUser: Boolean) -> Unit) {
-       authenticationRepository.validateIsUser(task) { isNotUser ->
+       authenticationRepository.validateIsUser(task) { isUser ->
             authenticationRepository.signInWithGoogle(task) { id, email, name ->
-                onSuccess(id, email, name, isNotUser)
+                onSuccess(id, email, name, isUser)
             }
         }
     }

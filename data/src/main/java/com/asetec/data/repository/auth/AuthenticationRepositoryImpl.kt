@@ -18,22 +18,18 @@ class AuthenticationRepositoryImpl @Inject constructor(
 ) : AuthenticationRepository {
     override suspend fun validateIsUser(
         task: Task<GoogleSignInAccount>?,
-        onSuccess: (isNotUser: Boolean) -> Unit
+        onSuccess: (isUser: Boolean) -> Unit
     ) {
-        val id = task?.result?.id.toString()
-
         val isValidateUser = postgrest.from("User")
             .select {
                 filter {
-                    eq("google_id", id)
+                    eq("google_id", task?.result?.id.toString())
                 }
             }.decodeSingleOrNull<UserDTO>()
 
-        val isNotUser: Boolean = isValidateUser?.email?.isEmpty() ?: true
-
-        Log.d("AuthenticationRepository", isNotUser.toString())
-
-        onSuccess(isNotUser)
+        onSuccess(
+            isValidateUser?.email?.isEmpty() ?: true
+        )
     }
 
     override fun signInWithGoogle(

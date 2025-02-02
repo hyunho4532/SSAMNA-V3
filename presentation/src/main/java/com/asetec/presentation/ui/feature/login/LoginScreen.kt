@@ -60,9 +60,6 @@ fun LoginScreen(
     }
 
     LaunchedEffect(key1 = authState.email) {
-
-        Log.d("LoginScreen", isNotUser.toString())
-
         if (authState.email.isNotEmpty() && isNotUser) {
             val authStateJson = Uri.encode(Json.encodeToString(authState))
             navController.navigate("userInfo?authState=${authStateJson}")

@@ -107,7 +107,7 @@ fun Year(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kcalOfThisYear",
+                    text = String.format("%.2f", kcalOfThisYear),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -118,7 +118,7 @@ fun Year(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kcalOfLastYear",
+                    text = String.format("%.2f", kcalOfLastYear),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -145,7 +145,7 @@ fun Year(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kmOfThisYear",
+                    text = String.format("%.2f", kmOfThisYear),
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -157,7 +157,7 @@ fun Year(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kmOfLastYear",
+                    text = String.format("%.2f", kmOfLastYear),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }

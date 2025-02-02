@@ -2,7 +2,6 @@ package com.asetec.presentation.viewmodel
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.user.User
@@ -63,23 +62,17 @@ class UserViewModel @Inject constructor(
         viewModelScope.launch {
             /**
              * 먼저, 로그인 한 계정이 이미 존재한 계정인 지 확인해야 한다.
-             * isNotUser: true  -> 이미 계정이 존재하므로 HomeActivity로 Intent
-             * isNotUser: false -> 계정이 존재하지 않는다.
+             * isUser: true  -> 이미 계정이 존재하므로 HomeActivity로 Intent
+             * isUser: false -> 계정이 존재하지 않는다.
              */
-            loginCase.invoke(task) { id, email, name, isNotUser ->
+            loginCase.invoke(task) { id, email, name, isUser ->
+                saveLoginState(id)
 
-                Log.d("UserViewModel", isNotUser.toString())
-
-                if (!isNotUser) {
-                    saveLoginState(id)
-
+                if (!isUser) {
                     val intent = Intent(appContext, HomeActivity::class.java)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
                     appContext.startActivity(intent)
-
                 } else {
-                    saveLoginState(id)
-
                     _user.update {
                         it.copy(
                             id = id,
@@ -89,7 +82,7 @@ class UserViewModel @Inject constructor(
                     }
                 }
 
-                onSuccess(isNotUser)
+                onSuccess(isUser)
             }
         }
     }

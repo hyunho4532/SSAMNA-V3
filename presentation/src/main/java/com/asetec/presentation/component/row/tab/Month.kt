@@ -107,7 +107,7 @@ fun Month(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kcalOfThisMonth",
+                    text = String.format("%.2f", kcalOfThisMonth),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -118,7 +118,7 @@ fun Month(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kcalOfLastMonth",
+                    text = String.format("%.2f", kcalOfLastMonth),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -145,7 +145,7 @@ fun Month(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kmOfThisMonth",
+                    text = String.format("%.2f", kmOfThisMonth),
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -157,7 +157,7 @@ fun Month(kcalList: List<KcalEntry>, kmList: List<KmEntry>) {
                     .weight(1f)
             ) {
                 Text(
-                    text = "$kmOfLastMonth",
+                    text = String.format("%.2f", kmOfLastMonth),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }

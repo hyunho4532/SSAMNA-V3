@@ -49,20 +49,12 @@ import com.asetec.presentation.viewmodel.SensorManagerViewModel
 fun TopBox(
     context: Context,
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel()
-): Boolean {
+) {
 
     val activates = sensorManagerViewModel.activates.collectAsState()
 
     val sensorManager = remember {
         context.getSystemService(Context.SENSOR_SERVICE) as SensorManager
-    }
-
-    var isSensorListenerRegistered by remember {
-        mutableStateOf(false)
-    }
-
-    var isShowRunning by remember {
-        mutableStateOf(false)
     }
 
     val listener = remember {
@@ -75,13 +67,11 @@ fun TopBox(
         stepDetector?.let {
             sensorManager.registerListener(listener, it, SensorManager.SENSOR_DELAY_UI)
             sensorManagerViewModel.startWatch()
-            isSensorListenerRegistered = true
         }
 
         onDispose {
             sensorManager.unregisterListener(listener)
             sensorManagerViewModel.setSavedSensorState()
-            isSensorListenerRegistered = false
         }
     }
 
@@ -228,6 +218,4 @@ fun TopBox(
             }
         }
     }
-
-    return isShowRunning
 }
