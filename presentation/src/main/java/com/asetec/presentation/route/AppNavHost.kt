@@ -4,10 +4,8 @@ import android.content.Context
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
@@ -24,7 +22,6 @@ import com.asetec.presentation.ui.feature.login.UserInfoScreen
 import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.splash.OnBoardingScreen
-import com.asetec.presentation.ui.feature.splash.SplashScreen
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
@@ -37,10 +34,7 @@ fun AppNavHost() {
     val navController = rememberNavController()
     val context = LocalContext.current
 
-    NavHost(navController = navController, startDestination = "splash") {
-        composable("splash") {
-            SplashScreen(navController = navController)
-        }
+    NavHost(navController = navController, startDestination = "home") {
         composable("home") {
             OnBoardingScreen(navController = navController)
         }

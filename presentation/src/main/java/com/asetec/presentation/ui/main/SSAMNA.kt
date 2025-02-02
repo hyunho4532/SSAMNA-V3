@@ -18,15 +18,14 @@ class SSAMNA : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val id = userViewModel.user.value.id
+
         setContent {
-            AppNavHost()
-
-            LaunchedEffect(key1 = Unit) {
-                val id = userViewModel.user.value.id
-
-                if (id != "") {
-                    navigateToHome()
-                }
+            if (id != "") {
+                navigateToHome()
+            } else {
+                AppNavHost()
             }
         }
     }
