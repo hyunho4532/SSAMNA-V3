@@ -216,7 +216,7 @@ fun TopBox(
                     .padding(end = 4.dp),
                 contentAlignment = Alignment.Center
             ) {
-                isShowRunning = customButton(
+                customButton(
                     type = ButtonType.RunningStatus.FINISH,
                     width = 110.dp,
                     height = 32.dp,
