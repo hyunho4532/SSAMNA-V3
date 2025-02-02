@@ -30,7 +30,8 @@ fun calculatorActivateCardWeight(activateData: State<List<ActivateDTO>>): Dp {
 }
 
 /**
- * 이번 주 kcal 계산 함수
+ * 이번 주 km, kcal 계산 함수
+ * type 파라미터에 따라서 계산함
  */
 @SuppressLint("NewApi")
 fun getThisWeek(
@@ -53,7 +54,6 @@ fun getThisWeek(
                 entryDate in startOfWeek..endOfWeek
             }.sumOf { it.kcal }
         }
-
         "km" -> {
             sumList = kmList.filter { entry ->
                 val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
@@ -66,7 +66,8 @@ fun getThisWeek(
 }
 
 /**
- * 저번 주 kcal 계산 함수
+ * 저번 주 km, kcal 계산 함수
+ * type 파라미터에 따라서 계산함
  */
 fun getLastWeek(
     type: String,
@@ -91,11 +92,81 @@ fun getLastWeek(
                 entryDate in startOfLastWeek..endOfLastWeek
             }.sumOf { it.kcal }
         }
-
         "km" -> {
             sumList = kmList.filter { entry ->
                 val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
                 entryDate in startOfLastWeek..endOfLastWeek
+            }.sumOf { it.km }
+        }
+    }
+
+    return sumList
+}
+
+/**
+ * 이번 달 km, kcal 계산 함수
+ * type 파라미터에 따라서 계산함
+ */
+@SuppressLint("NewApi")
+fun getThisMonth(
+    type: String,
+    kcalList: List<KcalEntry> = emptyList(),
+    kmList: List<KmEntry> = emptyList()
+): Double {
+    var sumList = 0.0
+
+    val today = LocalDate.now()
+
+    val startOfMonth = today.withDayOfMonth(1)
+    val endOfMonth = today.withDayOfMonth(today.lengthOfMonth())
+
+    when (type) {
+        "kcal" -> {
+            sumList = kcalList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate in startOfMonth..endOfMonth
+            }.sumOf { it.kcal }
+        }
+        "km" -> {
+            sumList = kmList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate in startOfMonth..endOfMonth
+            }.sumOf { it.km }
+        }
+    }
+
+    return sumList
+}
+
+/**
+ * 저번 달 km, kcal 계산 함수
+ * type 파라미터에 따라서 계산함
+ */
+@SuppressLint("NewApi")
+fun getLastMonth(
+    type: String,
+    kcalList: List<KcalEntry> = emptyList(),
+    kmList: List<KmEntry> = emptyList()
+): Double {
+    var sumList = 0.0
+
+    val today = LocalDate.now()
+    val lastMonth = today.minusMonths(-1)
+
+    val startOfLastMonth = lastMonth.withDayOfMonth(1)
+    val endOfLastMonth = lastMonth.withDayOfMonth(today.lengthOfMonth())
+
+    when (type) {
+        "kcal" -> {
+            sumList = kcalList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate in startOfLastMonth..endOfLastMonth
+            }.sumOf { it.kcal }
+        }
+        "km" -> {
+            sumList = kmList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate in startOfLastMonth..endOfLastMonth
             }.sumOf { it.km }
         }
     }
