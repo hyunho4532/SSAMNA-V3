@@ -62,6 +62,8 @@ dependencies {
     /**
      * KMP
      */
+    implementation(libs.google.accompanist.pager)
+    implementation(libs.google.accompanist.pager.indicator )
     implementation(libs.google.maps.compose)
     implementation(libs.play.services.maps)
     implementation(libs.play.services.location)

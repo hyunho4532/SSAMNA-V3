@@ -1,11 +1,12 @@
 package com.asetec.presentation.viewmodel
 
 import android.content.Context
-import android.util.Log
+import android.content.Intent
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.user.User
 import com.asetec.domain.usecase.user.LoginCase
+import com.asetec.presentation.ui.main.home.HomeActivity
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -57,18 +58,31 @@ class UserViewModel @Inject constructor(
         return true
     }
 
-    fun onGoogleSignIn(task: Task<GoogleSignInAccount>?) {
+    fun onGoogleSignIn(task: Task<GoogleSignInAccount>?, onSuccess: (Boolean) -> Unit) {
         viewModelScope.launch {
-            loginCase.invoke(task) { id, email, name ->
+            /**
+             * 먼저, 로그인 한 계정이 이미 존재한 계정인 지 확인해야 한다.
+             * isUser: true  -> 이미 계정이 존재하므로 HomeActivity로 Intent
+             * isUser: false -> 계정이 존재하지 않는다.
+             */
+            loginCase.invoke(task) { id, email, name, isUser ->
                 saveLoginState(id)
 
-                _user.update {
-                    it.copy(
-                        id = id,
-                        email = email,
-                        name = name
-                    )
+                if (!isUser) {
+                    val intent = Intent(appContext, HomeActivity::class.java)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    appContext.startActivity(intent)
+                } else {
+                    _user.update {
+                        it.copy(
+                            id = id,
+                            email = email,
+                            name = name
+                        )
+                    }
                 }
+
+                onSuccess(isUser)
             }
         }
     }
