@@ -36,7 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.dialog.ActivateBottomSheet
-import com.asetec.presentation.component.dialog.TimeBottomSheet
+import com.asetec.presentation.component.dialog.ActivateFormBottomSheet
 import com.asetec.presentation.component.tool.customButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.enum.ButtonType
@@ -59,7 +59,7 @@ fun HomeAside(
         mutableStateOf(false)
     }
 
-    val showTimeBottomSheet = remember {
+    val showActivateFormBottomSheet = remember {
         mutableStateOf(false)
     }
 
@@ -126,11 +126,11 @@ fun HomeAside(
                         bounded = true
                     )
                 ) {
-                    showTimeBottomSheet.value = true
+                    showActivateFormBottomSheet.value = true
                 }
         ) {
             Text(
-                text = "운동 시간",
+                text = "활동 형태",
                 modifier = Modifier.padding(top = 8.dp, start = 14.dp)
             )
 
@@ -212,15 +212,15 @@ fun HomeAside(
         )
     }
 
+    ActivateFormBottomSheet(
+        context = context,
+        sheetState = sheetState,
+        showBottomSheet = showActivateFormBottomSheet
+    )
+
     ActivateBottomSheet(
         context = context,
         sheetState = sheetState,
         showBottomSheet = showActivateBottomSheet
-    )
-
-    TimeBottomSheet(
-        context = context,
-        sheetState = sheetState,
-        showBottomSheet = showTimeBottomSheet
     )
 }

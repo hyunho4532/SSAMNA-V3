@@ -1,12 +1,5 @@
 package com.asetec.presentation.component.row
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Tab
 import androidx.compose.material.TabRow
@@ -15,16 +8,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.asetec.domain.model.state.ActivateDTO
-import com.asetec.domain.model.state.KcalEntry
-import com.asetec.domain.model.state.KmEntry
+import com.asetec.domain.model.entry.StepEntry
+import com.asetec.domain.model.entry.KcalEntry
+import com.asetec.domain.model.entry.KmEntry
 import com.asetec.presentation.component.row.tab.Month
 import com.asetec.presentation.component.row.tab.Week
 import com.asetec.presentation.component.row.tab.Year
@@ -52,6 +42,10 @@ fun CustomTabRow(
         KmEntry(it.todayFormat.substring(0, 11), it.km_cul)
     }
 
+    val stepList = activateList.value.map {
+        StepEntry(it.todayFormat.substring(0, 11), it.goalCount)
+    }
+
     TabRow(
         backgroundColor = Color.White,
         selectedTabIndex = pagerState.currentPage,
@@ -76,151 +70,26 @@ fun CustomTabRow(
 
     HorizontalPager(
         modifier = Modifier
-            .padding(top = 80.dp),
+            .padding(top = 50.dp),
         count = pages.size,
         state = pagerState
     ) { page ->
         when (page) {
             0 -> Week(
                 kcalList = kcalList,
-                kmList = kmList
+                kmList = kmList,
+                stepList = stepList
             )
             1 -> Month(
                 kcalList = kcalList,
-                kmList = kmList
+                kmList = kmList,
+                stepList = stepList
             )
             2 -> Year(
                 kcalList = kcalList,
-                kmList = kmList
+                kmList = kmList,
+                stepList = stepList
             )
-        }
-    }
-}
-
-@Composable
-@Preview
-fun SumKcalList() {
-    Column (
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Color.White)
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-        ) {
-            Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .weight(1f)
-            ) {
-                Text(
-                    text = "활동",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .weight(1f)
-            ) {
-                Text(
-                    text = "이번 주",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .weight(1f)
-            ) {
-                Text(
-                    text = "지난 주",
-                    fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }
-
-        Row(modifier = Modifier.weight(1f)) {
-            Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .weight(1f)
-            ) {
-                Text(
-                    text = "칼로리",
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .weight(1f)
-            ) {
-                Text(
-                    text = "0",
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .weight(1f)
-            ) {
-                Text(
-                    text = "0",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
-        }
-
-        Row(modifier = Modifier.weight(1f)) {
-            Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .weight(1f)
-            ) {
-                Text(
-                    text = "칼로리",
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .weight(1f)
-            ) {
-                Text(
-                    text = "0",
-                    modifier = Modifier
-                        .align(Alignment.Center)
-                )
-            }
-
-            Box(
-                modifier = Modifier
-                    .height(40.dp)
-                    .weight(1f)
-            ) {
-                Text(
-                    text = "0",
-                    modifier = Modifier.align(Alignment.Center)
-                )
-            }
         }
     }
 }

@@ -1,14 +1,13 @@
 package com.asetec.presentation.component.util
 
 import android.annotation.SuppressLint
-import android.os.Build
-import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.asetec.domain.model.state.ActivateDTO
-import com.asetec.domain.model.state.KcalEntry
-import com.asetec.domain.model.state.KmEntry
+import com.asetec.domain.model.entry.KcalEntry
+import com.asetec.domain.model.entry.KmEntry
+import com.asetec.domain.model.entry.StepEntry
 import java.time.DayOfWeek
 import java.time.LocalDate
 
@@ -37,7 +36,8 @@ fun calculatorActivateCardWeight(activateData: State<List<ActivateDTO>>): Dp {
 fun getThisWeek(
     type: String,
     kcalList: List<KcalEntry> = emptyList(),
-    kmList: List<KmEntry> = emptyList()
+    kmList: List<KmEntry> = emptyList(),
+    stepList: List<StepEntry> = emptyList()
 ): Double {
 
     var sumList = 0.0
@@ -60,6 +60,12 @@ fun getThisWeek(
                 entryDate in startOfWeek..endOfWeek
             }.sumOf { it.km }
         }
+        "step" -> {
+            sumList = stepList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate in startOfWeek..endOfWeek
+            }.sumOf { it.step }.toDouble()
+        }
     }
 
     return sumList
@@ -69,19 +75,17 @@ fun getThisWeek(
  * 저번 주 km, kcal 계산 함수
  * type 파라미터에 따라서 계산함
  */
+@SuppressLint("NewApi")
 fun getLastWeek(
     type: String,
     kcalList: List<KcalEntry> = emptyList(),
-    kmList: List<KmEntry> = emptyList()
+    kmList: List<KmEntry> = emptyList(),
+    stepList: List<StepEntry> = emptyList()
 ): Double {
 
     var sumList = 0.0
 
-    val today = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-        LocalDate.now()
-    } else {
-        TODO("VERSION.SDK_INT < O")
-    }
+    val today = LocalDate.now()
     val startOfLastWeek = today.with(DayOfWeek.MONDAY).minusDays(7)
     val endOfLastWeek = today.with(DayOfWeek.SUNDAY).minusDays(7)
 
@@ -98,6 +102,12 @@ fun getLastWeek(
                 entryDate in startOfLastWeek..endOfLastWeek
             }.sumOf { it.km }
         }
+        "step" -> {
+            sumList = stepList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate in startOfLastWeek..endOfLastWeek
+            }.sumOf { it.step }.toDouble()
+        }
     }
 
     return sumList
@@ -111,7 +121,8 @@ fun getLastWeek(
 fun getThisMonth(
     type: String,
     kcalList: List<KcalEntry> = emptyList(),
-    kmList: List<KmEntry> = emptyList()
+    kmList: List<KmEntry> = emptyList(),
+    stepList: List<StepEntry> = emptyList()
 ): Double {
     var sumList = 0.0
 
@@ -133,6 +144,12 @@ fun getThisMonth(
                 entryDate in startOfMonth..endOfMonth
             }.sumOf { it.km }
         }
+        "step" -> {
+            sumList = stepList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate in startOfMonth..endOfMonth
+            }.sumOf { it.step }.toDouble()
+        }
     }
 
     return sumList
@@ -146,7 +163,8 @@ fun getThisMonth(
 fun getLastMonth(
     type: String,
     kcalList: List<KcalEntry> = emptyList(),
-    kmList: List<KmEntry> = emptyList()
+    kmList: List<KmEntry> = emptyList(),
+    stepList: List<StepEntry> = emptyList()
 ): Double {
     var sumList = 0.0
 
@@ -169,6 +187,12 @@ fun getLastMonth(
                 entryDate in startOfLastMonth..endOfLastMonth
             }.sumOf { it.km }
         }
+        "step" -> {
+            sumList = stepList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate in startOfLastMonth..endOfLastMonth
+            }.sumOf { it.step }.toDouble()
+        }
     }
 
     return sumList
@@ -182,7 +206,8 @@ fun getLastMonth(
 fun getThisYear(
     type: String,
     kcalList: List<KcalEntry> = emptyList(),
-    kmList: List<KmEntry> = emptyList()
+    kmList: List<KmEntry> = emptyList(),
+    stepList: List<StepEntry> = emptyList()
 ): Double {
     var sumList = 0.0
 
@@ -201,6 +226,12 @@ fun getThisYear(
                 entryDate.year == todayYear
             }.sumOf { it.km }
         }
+        "step" -> {
+            sumList = stepList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate.year == todayYear
+            }.sumOf { it.step }.toDouble()
+        }
     }
 
     return sumList
@@ -214,7 +245,8 @@ fun getThisYear(
 fun getLastYear(
     type: String,
     kcalList: List<KcalEntry> = emptyList(),
-    kmList: List<KmEntry> = emptyList()
+    kmList: List<KmEntry> = emptyList(),
+    stepList: List<StepEntry> = emptyList()
 ): Double {
     var sumList = 0.0
 
@@ -232,6 +264,12 @@ fun getLastYear(
                 val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
                 entryDate.year == lastYear
             }.sumOf { it.km }
+        }
+        "step" -> {
+            sumList = stepList.filter { entry ->
+                val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
+                entryDate.year == lastYear
+            }.sumOf { it.step }.toDouble()
         }
     }
 

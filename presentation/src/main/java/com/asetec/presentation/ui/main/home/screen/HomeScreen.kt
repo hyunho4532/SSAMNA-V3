@@ -183,9 +183,8 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgress(text = "현재 위치를 불러오고 있습니다!")
+                CircularProgress(text = "현재 위치를 조회하고 있습니다!")
             }
-            
         }
     }
 }

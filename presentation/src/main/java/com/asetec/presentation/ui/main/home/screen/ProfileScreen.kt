@@ -263,7 +263,6 @@ fun ProfileScreen(
 
     if (showChallengeBottomSheet.value) {
         ChallengeBottomSheet(
-            context = context,
             showBottomSheet = showChallengeBottomSheet,
             sheetState = sheetState,
             challengeDataTitle = challengeDataTitle
