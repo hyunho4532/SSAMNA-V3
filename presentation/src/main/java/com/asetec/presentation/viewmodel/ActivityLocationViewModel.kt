@@ -3,6 +3,7 @@ package com.asetec.presentation.viewmodel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
