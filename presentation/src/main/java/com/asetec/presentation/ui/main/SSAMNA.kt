@@ -12,21 +12,20 @@ import com.asetec.presentation.viewmodel.UserViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : ComponentActivity() {
+class SSAMNA : ComponentActivity() {
 
     private val userViewModel: UserViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val id = userViewModel.user.value.id
+
         setContent {
-            AppNavHost()
-
-            LaunchedEffect(key1 = Unit) {
-                val id = userViewModel.user.value.id
-
-                if (id != "") {
-                    navigateToHome()
-                }
+            if (id != "") {
+                navigateToHome()
+            } else {
+                AppNavHost()
             }
         }
     }

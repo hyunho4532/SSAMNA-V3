@@ -22,7 +22,6 @@ import com.asetec.presentation.ui.feature.login.UserInfoScreen
 import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.splash.OnBoardingScreen
-import com.asetec.presentation.ui.feature.splash.SplashScreen
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
@@ -35,10 +34,7 @@ fun AppNavHost() {
     val navController = rememberNavController()
     val context = LocalContext.current
 
-    NavHost(navController = navController, startDestination = "splash") {
-        composable("splash") {
-            SplashScreen(navController = navController)
-        }
+    NavHost(navController = navController, startDestination = "home") {
         composable("home") {
             OnBoardingScreen(navController = navController)
         }
@@ -125,7 +121,5 @@ fun ScreenNavigationConfiguration(
                 userList = userList
             )
         }
-
     }
-
 }

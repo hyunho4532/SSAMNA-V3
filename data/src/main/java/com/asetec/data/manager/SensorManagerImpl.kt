@@ -19,10 +19,6 @@ import javax.inject.Inject
 class SensorManagerImpl @Inject constructor(
     @ApplicationContext private val context: Context
 ) : SensorServiceManager {
-
-    private var initialStepCount: Int? = null
-    private var currentStepCount: Int = 0
-
     override fun startSensorService(context: Context) {
         val intent = Intent(context, SensorService::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -38,23 +34,16 @@ class SensorManagerImpl @Inject constructor(
     }
 
     override fun sensorListener(stepCount: Int, setStepCount: (Int) -> Unit): SensorEventListener {
+        var newStepCount = stepCount
+
         val listener = object : SensorEventListener {
             override fun onSensorChanged(event: SensorEvent?) {
                 event?.let {
-                    if (initialStepCount == null) {
-                        initialStepCount = it.values[0].toInt()
-                    }
-                    val sensorStepCount = it.values[0].toInt() - (initialStepCount ?: 0)
+                    newStepCount++
 
-                    currentStepCount = if (stepCount == 0) {
-                        sensorStepCount
-                    } else {
-                        stepCount + sensorStepCount
-                    }
+                    updateNotification(newStepCount)
 
-                    updateNotification(currentStepCount)
-
-                    setStepCount(currentStepCount)
+                    setStepCount(newStepCount)
                 }
             }
 

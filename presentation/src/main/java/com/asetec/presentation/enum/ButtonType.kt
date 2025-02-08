@@ -10,4 +10,7 @@ sealed class ButtonType {
             data object CHALLENGE: InsertStatus()
         }
     }
+    sealed class HistoryStatus: ButtonType() {
+        data object OPEN: RunningStatus()
+    }
 }

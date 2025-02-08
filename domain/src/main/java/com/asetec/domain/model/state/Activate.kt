@@ -32,6 +32,11 @@ data class Activate(
     var isRunning: Boolean = false,
 
     /**
+     * 화면 상태
+     */
+    var screenType: String = "",
+
+    /**
      * 이모티콘
      */
     var statusIcon: Int = 0,

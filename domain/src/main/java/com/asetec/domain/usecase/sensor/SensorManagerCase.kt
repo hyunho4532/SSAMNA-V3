@@ -21,8 +21,4 @@ class SensorManagerCase @Inject constructor(
             setStepCount(it)
         }
     }
-
-    fun activitySave() {
-
-    }
 }

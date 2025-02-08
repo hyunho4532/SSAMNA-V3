@@ -63,8 +63,8 @@ fun PolygonBox(
             Text(
                 text = when (profileStatusType) {
                     ProfileStatusType.Activate -> sumCount.toString()
-                    ProfileStatusType.Kcal -> sumKcal.toString()
-                    ProfileStatusType.Km -> sumKm.toString()
+                    ProfileStatusType.Kcal -> String.format("%.2f", sumKcal)
+                    ProfileStatusType.Km -> String.format("%.2f", sumKm)
                 },
                 color = MaterialTheme.colorScheme.onSecondary,
                 fontWeight = FontWeight.Bold,

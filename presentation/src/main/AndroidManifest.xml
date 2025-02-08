@@ -15,9 +15,14 @@
 
     <application>
         <activity
+            android:name=".ui.feature.splash.SplashActivity"
+            android:exported="false"
+            android:label="@string/title_activity_splash"
+            android:theme="@style/Theme.SSAMNA"
+            />
+        <activity
             android:name=".ui.feature.goal.GoalActivity"
             android:exported="false"
-            android:label="@string/title_activity_goal"
             android:theme="@style/Theme.SSAMNA"
             />
 
@@ -39,13 +44,11 @@
         <activity
             android:name=".ui.main.home.HomeActivity"
             android:exported="false"
-            android:label="@string/title_activity_home"
             android:theme="@style/Theme.SSAMNA"
             />
         <activity
-            android:name=".ui.main.MainActivity"
+            android:name=".ui.main.SSAMNA"
             android:exported="false"
-            android:label="@string/title_activity_main"
             android:theme="@style/Theme.SSAMNA"
             />
     </application>

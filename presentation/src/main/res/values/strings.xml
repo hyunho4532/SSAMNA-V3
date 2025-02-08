@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_icon">땀나!</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_on_boarding">OnBoardingActivity</string>
