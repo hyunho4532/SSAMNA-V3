@@ -1,4 +1,4 @@
-package com.asetec.domain.model.state
+package com.asetec.domain.model.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

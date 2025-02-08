@@ -8,7 +8,6 @@ import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -54,9 +53,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.asetec.domain.model.state.Activate
-import com.asetec.domain.model.state.ActivateDTO
+import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.state.Challenge
-import com.asetec.domain.model.state.ChallengeDTO
+import com.asetec.domain.model.dto.ChallengeDTO
+import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpWidth
@@ -273,6 +273,9 @@ fun activateCard(
                 Spacer(width = 4.dp, height = 0.dp)
 
                 Image(
+                    modifier = Modifier
+                        .size(22.dp)
+                        .padding(top = 4.dp),
                     painter = painterResource(id = imageResId!!),
                     contentDescription = "활동 종류 아이콘"
                 )
@@ -369,6 +372,78 @@ fun activateCard(
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun activateFormCard(
+    context: Context? = LocalContext.current,
+    height: Dp,
+    backgroundColor: Color = Color.White,
+    borderStroke: Int? = 0,
+    activateForm: ActivateForm? = ActivateForm(),
+    activateDTO: ActivateDTO? = ActivateDTO(),
+    showBottomSheet: MutableState<Boolean>? = mutableStateOf(false),
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
+    cardType: CardType
+) {
+    val imageName = activateForm?.assets?.replace("R.drawable.", "")
+    val imageResId = context?.resources?.getIdentifier(imageName, "drawable", context.packageName)
+
+    Card (
+        modifier = Modifier
+            .width(setUpWidth())
+            .height(height)
+            .padding(top = 8.dp, start = 8.dp)
+            .clickable(
+                interactionSource = remember {
+                    MutableInteractionSource()
+                },
+                indication = rememberRipple(
+                    color = Color.Gray,
+                    bounded = true
+                )
+            ) {
+                if (cardType == CardType.ActivateStatus.Form) {
+                    showBottomSheet?.value = false
+                    activityLocationViewModel.setActivateFormName(
+                        activateFormResId = imageResId!!,
+                        activateFormName = activateForm!!.name
+                    )
+                }
+            },
+        colors = CardDefaults.cardColors(
+            containerColor = backgroundColor
+        ),
+        border = BorderStroke(borderStroke!!.dp, Color.Gray)
+    ) {
+        if (cardType == CardType.ActivateStatus.Form) {
+            Row {
+                Text(
+                    text = activateForm!!.name,
+                    modifier = Modifier
+                        .padding(top = 4.dp, start = 4.dp)
+                )
+
+                Spacer(width = 4.dp, height = 0.dp)
+
+                Image(
+                    modifier = Modifier
+                        .size(22.dp)
+                        .padding(top = 4.dp),
+                    painter = painterResource(id = imageResId!!),
+                    contentDescription = "활동 형태 아이콘"
+                )
+            }
+
+            Text(
+                text = activateForm!!.description,
+                modifier = Modifier
+                    .padding(top = 4.dp, start = 4.dp),
+                fontSize = 12.sp,
+                fontWeight = FontWeight.Light
+            )
         }
     }
 }

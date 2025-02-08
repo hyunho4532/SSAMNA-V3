@@ -51,6 +51,7 @@ fun customButton(
 ) {
 
     val activates = activityLocationViewModel.activates.collectAsState()
+    val activatesForm = activityLocationViewModel.activatesForm.collectAsState()
 
     Button(
         onClick = {

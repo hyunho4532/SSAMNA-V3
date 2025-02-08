@@ -1,38 +1,26 @@
 [
   {
     "index": "1",
-    "name": "출근",
-    "description": "출근할 때 러닝!",
-    "assets": "R.drawable.baseline_persons_run_24"
+    "name": "오늘은! 출근",
+    "description": "출근하면서 러닝을 진행합니다.",
+    "assets": "R.drawable.baseline_go_work_24"
   },
   {
     "index": "2",
-    "name": "퇴근",
-    "description": "퇴근할 때 러닝!",
-    "assets": "R.drawable.baseline_persons_walk_24"
+    "name": "오늘은! 퇴근",
+    "description": "퇴근하면서 러닝을 진행합니다",
+    "assets": "R.drawable.baseline_out_work_24"
   },
   {
     "index": "3",
-    "name": "가족과 함께 달리기",
-    "description": "가족들과 함께 달리면서 좋은 여정을 쌓으세요!",
-    "assets": "R.drawable.baseline_persons_run_24"
+    "name": "밥 먹고! 러닝",
+    "description": "밥 먹고 30분 후에 러닝을 진행합니다.",
+    "assets": "R.drawable.baseline_food_24"
   },
   {
     "index": "4",
-    "name": "가족과 함께 걷기",
-    "description": "가족들과 함께 걸으면서 대화를 즐겨보세요!",
-    "assets": "R.drawable.baseline_diversity_3_24"
-  },
-  {
-    "index": "5",
-    "name": "자전거",
-    "description": "자전거를 타면서 심폐 지구력을 향상시키세요!",
-    "assets": "R.drawable.baseline_cycle_24"
-  },
-  {
-    "index": "6",
-    "name": "러킹",
-    "description": "걷기 운동보다 더 높은 운동 효과를 보여줍니다!",
-    "assets": "R.drawable.baseline_persons_run_24"
+    "name": "밥 먹기 전! 러닝",
+    "description": "밥 먹기 전에 30분 러닝을 진행합니다.",
+    "assets": "R.drawable.baseline_food_24"
   }
 ]

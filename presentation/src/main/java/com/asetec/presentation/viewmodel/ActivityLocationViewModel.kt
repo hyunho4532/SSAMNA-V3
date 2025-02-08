@@ -3,15 +3,13 @@ package com.asetec.presentation.viewmodel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
-import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Activate
-import com.asetec.domain.model.state.ActivateDTO
-import com.asetec.domain.repository.activate.ActivateRepository
+import com.asetec.domain.model.dto.ActivateDTO
+import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.usecase.activate.ActivateCase
 import com.asetec.presentation.component.util.FormatImpl
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -39,12 +37,15 @@ class ActivityLocationViewModel @Inject constructor(
 
     private val _activates = MutableStateFlow(Activate())
 
+    private val _activatesForm = MutableStateFlow(ActivateForm())
+
     private val _activateData = MutableStateFlow<List<ActivateDTO>>(emptyList())
 
     val activateData: StateFlow<List<ActivateDTO>> = _activateData
 
     val locations: StateFlow<Location> = _locations
     val activates: StateFlow<Activate> = _activates
+    val activatesForm: StateFlow<ActivateForm> = _activatesForm
 
     @SuppressLint("MissingPermission")
     fun getCurrentLocation(
@@ -74,6 +75,15 @@ class ActivityLocationViewModel @Inject constructor(
         }
     }
 
+    fun setActivateFormName(activateFormResId: Int, activateFormName: String) {
+        _activatesForm.update {
+            it.copy(
+                activateFormResId = activateFormResId,
+                name = activateFormName
+            )
+        }
+    }
+
     fun statusClick(name: String, resId: Int) {
         _activates.update {
             it.copy(
@@ -92,7 +102,10 @@ class ActivityLocationViewModel @Inject constructor(
      * 활동 저장 버튼 클릭 시 활동 테이블에 데이터 저장
      */
     @RequiresApi(Build.VERSION_CODES.O)
-    fun saveActivity(runningIcon: Int, runningTitle: String) {
+    fun saveActivity(
+        runningIcon: Int,
+        runningTitle: String
+    ) {
         val pedometerCount = sharedPreferences?.getInt("pedometerCount", _activates.value.pedometerCount)
         val googleId = sharedPreferences2?.getString("id", "")
         val time = sharedPreferences?.getLong("time", _activates.value.time)
@@ -104,6 +117,8 @@ class ActivityLocationViewModel @Inject constructor(
             statusTitle = _activates.value.statusName,
             runningIcon = runningIcon,
             runningTitle = runningTitle,
+            runningFormIcon = _activatesForm.value.activateFormResId,
+            runningFormTitle = _activatesForm.value.name,
             time = FormatImpl("YY:MM:DD:H").getFormatTime(time!!),
             goalCount = pedometerCount!!,
             kcal_cul = pedometerCount * 0.05,

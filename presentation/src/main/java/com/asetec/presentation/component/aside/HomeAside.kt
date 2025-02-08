@@ -2,6 +2,7 @@ package com.asetec.presentation.component.aside
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,6 +20,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -49,11 +51,11 @@ import com.asetec.presentation.viewmodel.SensorManagerViewModel
 fun HomeAside(
     context: Context,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
-    sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
-    userList: State<User>
+    sensorManagerViewModel: SensorManagerViewModel = hiltViewModel()
 ) {
 
     val activates by activityLocationViewModel.activates.collectAsState()
+    val activatesForm by activityLocationViewModel.activatesForm.collectAsState()
 
     val showActivateBottomSheet = remember {
         mutableStateOf(false)
@@ -141,15 +143,16 @@ fun HomeAside(
             ) {
 
                 Image(
-                    modifier = Modifier.size(20.dp),
-                    painter = painterResource(id = R.drawable.baseline_access_time_24),
+                    modifier = Modifier
+                        .size(20.dp),
+                    painter = painterResource(id = activatesForm.activateFormResId),
                     contentDescription = "운동 시간 아이콘"
                 )
 
                 Spacer(width = 2.dp, height = 0.dp)
 
                 Text(
-                    text = "${userList.value.recentWalkingOfTime}분",
+                    text = activatesForm.name,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
                 )

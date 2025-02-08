@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.presentation.component.tool.activateCard
+import com.asetec.presentation.component.tool.activateFormCard
 import com.asetec.presentation.component.tool.challengeCard
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.viewmodel.JsonParseViewModel
@@ -112,8 +113,8 @@ fun ActivateFormBottomSheet(
     }
 
     LaunchedEffect(key1 = Unit) {
-        if (jsonParseViewModel.activateJsonData.isEmpty()) {
-            jsonParseViewModel.activateJsonParse("activate.json", "activate")
+        if (jsonParseViewModel.activateFormJsonData.isEmpty()) {
+            jsonParseViewModel.activateJsonParse("activate_form.json", "activate_form")
         }
         dataIsLoading = true
     }
@@ -132,7 +133,7 @@ fun ActivateFormBottomSheet(
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text(
-                        "활동 종류를 선택해주세요!",
+                        "활동 형태를 선택해주세요!",
                         fontSize = 20.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -145,13 +146,13 @@ fun ActivateFormBottomSheet(
                     verticalArrangement = Arrangement.Top,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    jsonParseViewModel.activateJsonData.forEach { activate ->
-                        activateCard(
+                    jsonParseViewModel.activateFormJsonData.forEach { activateForm ->
+                        activateFormCard(
                             context = context,
                             height = 60.dp,
-                            activate = activate,
+                            activateForm = activateForm,
                             showBottomSheet = showBottomSheet,
-                            cardType = CardType.ActivateStatus.Running
+                            cardType = CardType.ActivateStatus.Form
                         )
                     }
                 }

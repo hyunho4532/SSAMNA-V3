@@ -3,6 +3,7 @@ package com.asetec.data.repository.json
 import android.content.Context
 import android.content.res.AssetManager
 import com.asetec.domain.model.state.Activate
+import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.state.ActivityType
 import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.state.Running
@@ -24,6 +25,9 @@ class JsonParsingRepositoryImpl @Inject constructor(
         val listType = when (type) {
             "activate" -> {
                 object : TypeToken<List<Activate>>() {}.type
+            }
+            "activate_form" -> {
+                object : TypeToken<List<ActivateForm>>() {}.type
             }
             "running" -> {
                 object : TypeToken<List<Running>>() {}.type

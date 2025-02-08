@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.asetec.domain.model.state.Activate
+import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.state.ActivityType
 import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.state.Running
@@ -18,6 +19,9 @@ class JsonParseViewModel @Inject constructor(
 
     private val _activateJsonData = mutableListOf<Activate>()
     val activateJsonData: List<Activate> = _activateJsonData
+
+    private val _activateFormJsonData = mutableListOf<ActivateForm>()
+    val activateFormJsonData: List<ActivateForm> = _activateFormJsonData
 
     private val _runningJsonData = mutableStateListOf<Running>()
     val runningJsonData: List<Running> = _runningJsonData
@@ -36,6 +40,11 @@ class JsonParseViewModel @Inject constructor(
                 "activate" -> {
                     for (activate in activityData) {
                         _activateJsonData.add(activate as Activate)
+                    }
+                }
+                "activate_form" -> {
+                    for (activateForm in activityData) {
+                        _activateFormJsonData.add(activateForm as ActivateForm)
                     }
                 }
                 "running" -> {

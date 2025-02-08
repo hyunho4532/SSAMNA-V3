@@ -1,4 +1,4 @@
-package com.asetec.domain.model.state
+package com.asetec.domain.model.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -22,6 +22,12 @@ data class ActivateDTO(
 
     @SerialName("running_title")
     val runningTitle: String = "",
+
+    @SerialName("running_form_icon")
+    val runningFormIcon: Int = 0,
+
+    @SerialName("running_form_title")
+    val runningFormTitle: String = "",
 
     @SerialName("goal_count")
     val goalCount: Int = 0,

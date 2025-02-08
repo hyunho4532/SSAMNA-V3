@@ -24,13 +24,19 @@
     "assets": "R.drawable.baseline_diversity_3_24"
   },
   {
-    "index": "5",
+  "index": "5",
+  "name": "애완견과 산책",
+  "description": "애완견과 즐거운 산책을 하면서 걸어보세요!",
+  "assets": "R.drawable.baseline_dog_24"
+  },
+  {
+    "index": "6",
     "name": "자전거",
     "description": "자전거를 타면서 심폐 지구력을 향상시키세요!",
     "assets": "R.drawable.baseline_cycle_24"
   },
   {
-    "index": "6",
+    "index": "7",
     "name": "러킹",
     "description": "걷기 운동보다 더 높은 운동 효과를 보여줍니다!",
     "assets": "R.drawable.baseline_persons_run_24"

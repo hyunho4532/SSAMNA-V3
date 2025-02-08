@@ -171,8 +171,7 @@ fun HomeScreen(
                             .animateContentSize()
                     ) {
                         HomeAside(
-                            context = context,
-                            userList = userList
+                            context = context
                         )
                     }
                 }

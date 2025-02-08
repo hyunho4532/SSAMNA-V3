@@ -4,6 +4,7 @@ sealed class CardType {
     sealed class ActivateStatus: CardType() {
         data object Running: ActivateStatus()
         data object Activity: ActivateStatus()
+        data object Form: ActivateStatus()
     }
 }
 
