@@ -101,8 +101,7 @@ fun ScreenNavigationConfiguration(
         composable(Screens.HomeScreen.route) {
             HomeScreen(
                 fusedLocationClient = fusedLocationClient,
-                context = context,
-                userList = userList
+                context = context
             )
         }
 

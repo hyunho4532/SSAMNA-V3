@@ -85,6 +85,26 @@ class ActivityLocationViewModel @Inject constructor(
         }
     }
 
+    fun closeMarkerPopup() {
+        _activatesForm.update {
+            it.copy(
+                showMarkerPopup = false
+            )
+        }
+    }
+
+    fun setLatLng(
+        latitude: Double,
+        longitude: Double
+    ) {
+        _activates.update {
+            it.copy(
+                latitude = latitude,
+                longitude = longitude
+            )
+        }
+    }
+
     fun statusClick(name: String, resId: Int) {
         _activates.update {
             it.copy(

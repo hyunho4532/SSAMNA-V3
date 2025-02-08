@@ -22,7 +22,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.asetec.presentation.R
 import com.asetec.presentation.animation.SplashLoader
-import com.asetec.presentation.component.tool.customButton
+import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.component.util.responsive.setSubTitleFontSize
@@ -90,7 +90,7 @@ fun OnBoardingScreen(
 
                 Spacer(width = 0.dp, height = screenHeight * 0.2f)
 
-                customButton(
+                CustomButton(
                     type = ButtonType.ROUTER,
                     width = screenWidth * 0.8f,
                     height = 46.dp,

@@ -12,5 +12,7 @@ data class  ActivateForm(
     /** 활동 종류 **/
     var activateFormResId: Int = 2131165316,
 
+    /** 마커 표시 팝업 **/
+    var showMarkerPopup: Boolean = false
 
 ): ActivityType

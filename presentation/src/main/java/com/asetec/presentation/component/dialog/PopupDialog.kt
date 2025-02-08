@@ -34,7 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
 import com.asetec.presentation.component.row.BoxRow
-import com.asetec.presentation.component.tool.customButton
+import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
@@ -164,7 +164,7 @@ fun ShowCompleteDialog(
                     modifier = Modifier
                         .padding(top = 8.dp, end = 4.dp)
                 ) {
-                    customButton(
+                    CustomButton(
                         type = ButtonType.RunningStatus.InsertStatus.RUNNING,
                         width = 300.dp,
                         height = 32.dp,
@@ -244,7 +244,7 @@ fun ShowChallengeDialog(
 
                 Spacer(width = 0.dp, height = 24.dp)
 
-                customButton(
+                CustomButton(
                     type = ButtonType.RunningStatus.InsertStatus.CHALLENGE,
                     width = 240.dp,
                     height = 40.dp,

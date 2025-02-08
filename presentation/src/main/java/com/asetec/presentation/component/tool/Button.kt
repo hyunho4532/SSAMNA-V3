@@ -2,6 +2,7 @@ package com.asetec.presentation.component.tool
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -13,10 +14,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -32,9 +29,11 @@ import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
+import com.google.maps.android.compose.CameraPositionState
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
-fun customButton(
+fun CustomButton(
     type: ButtonType,
     width: Dp,
     height: Dp,
@@ -45,52 +44,65 @@ fun customButton(
     context: Context?,
     shape: String = "Circle",
     data: Challenge = Challenge(),
+    cameraPositionState: CameraPositionState = rememberCameraPositionState(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel()
 ) {
 
     val activates = activityLocationViewModel.activates.collectAsState()
-    val activatesForm = activityLocationViewModel.activatesForm.collectAsState()
 
     Button(
         onClick = {
-            if (type == ButtonType.ROUTER) {
-                navController?.navigate("login") {
-                    popUpTo("splash") {
-                        inclusive = true
+            when (type) {
+                ButtonType.ROUTER -> {
+                    navController?.navigate("login") {
+                        popUpTo("splash") {
+                            inclusive = true
+                        }
                     }
                 }
-            } else {
-                when (type) {
-                    ButtonType.RunningStatus.FINISH -> {
-                        if (sensorManagerViewModel.getSavedSensorState() < 100) {
-                            sensorManagerViewModel.stopService(
-                                context = context!!,
-                                runningStatus = true,
-                                isRunning = false
-                            )
-                            sensorManagerViewModel.stopWatch()
-                        } else {
-                            Toast.makeText(context, "최소 100보 이상은 걸어야 합니다!", Toast.LENGTH_SHORT).show()
+                ButtonType.MarkerStatus.FINISH -> {
+                    Log.d("Button", "위도: ${cameraPositionState.position.target.latitude}, 경도: ${cameraPositionState.position.target.longitude}")
+                    activityLocationViewModel.setLatLng(
+                        latitude = cameraPositionState.position.target.latitude,
+                        longitude = cameraPositionState.position.target.longitude
+                    )
+                }
+                else -> {
+                    when (type) {
+                        ButtonType.RunningStatus.FINISH -> {
+                            if (sensorManagerViewModel.getSavedSensorState() < 100) {
+                                sensorManagerViewModel.stopService(
+                                    context = context!!,
+                                    runningStatus = true,
+                                    isRunning = false
+                                )
+                                sensorManagerViewModel.stopWatch()
+                            } else {
+                                Toast.makeText(context, "최소 100보 이상은 걸어야 합니다!", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                    }
-                    ButtonType.RunningStatus.InsertStatus.RUNNING -> {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            activityLocationViewModel.saveActivity(
-                                runningIcon = activates.value.activateResId,
-                                runningTitle = activates.value.activateName
-                            )
+
+                        ButtonType.RunningStatus.InsertStatus.RUNNING -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                activityLocationViewModel.saveActivity(
+                                    runningIcon = activates.value.activateResId,
+                                    runningTitle = activates.value.activateName
+                                )
+                            }
                         }
-                    }
-                    ButtonType.RunningStatus.InsertStatus.CHALLENGE -> {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            challengeViewModel.saveChallenge(data)
+
+                        ButtonType.RunningStatus.InsertStatus.CHALLENGE -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                challengeViewModel.saveChallenge(data)
+                            }
                         }
-                    }
-                    else -> {
-                        sensorManagerViewModel.startService(context!!, true)
-                        sensorManagerViewModel.startWatch()
+
+                        else -> {
+                            sensorManagerViewModel.startService(context!!, true)
+                            sensorManagerViewModel.startWatch()
+                        }
                     }
                 }
             }

@@ -48,6 +48,12 @@ data class Activate(
     var runningTitle: String = "",
 
     /**
+     * 목표 위치 선택 후, 위도 경도 저장
+     */
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0,
+
+    /**
      * 시간
      */
     var time: Long = 0L

@@ -31,7 +31,7 @@ import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.grid.ActivateGrid
 import com.asetec.presentation.component.row.CustomTabRow
-import com.asetec.presentation.component.tool.customButton
+import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
@@ -134,7 +134,7 @@ fun CalendarScreen(
                         fontSize = 14.sp
                     )
 
-                    customButton(
+                    CustomButton(
                         type = ButtonType.HistoryStatus.OPEN,
                         width = 82.dp,
                         height = 32.dp,

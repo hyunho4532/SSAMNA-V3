@@ -13,4 +13,8 @@ sealed class ButtonType {
     sealed class HistoryStatus: ButtonType() {
         data object OPEN: RunningStatus()
     }
+
+    sealed class MarkerStatus: ButtonType() {
+        data object FINISH: MarkerStatus()
+    }
 }
