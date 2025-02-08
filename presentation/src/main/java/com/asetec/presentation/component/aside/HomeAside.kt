@@ -65,6 +65,10 @@ fun HomeAside(
         mutableStateOf(false)
     }
 
+    val showLocationMarkerSheet = remember {
+        mutableStateOf(false)
+    }
+
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = false
     )
@@ -172,11 +176,11 @@ fun HomeAside(
                         bounded = true
                     )
                 ) {
-                    showActivateBottomSheet.value = true
+                    showLocationMarkerSheet.value = true
                 }
         ) {
             Text(
-                text = "목표 거리",
+                text = "목표 위치",
                 modifier = Modifier.padding(top = 8.dp, start = 14.dp)
             )
 
@@ -195,7 +199,7 @@ fun HomeAside(
                 Spacer(width = 2.dp, height = 0.dp)
 
                 Text(
-                    text = "거리",
+                    text = "장소 선택",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
                 )
