@@ -50,6 +50,8 @@ import com.asetec.presentation.enum.ProfileStatusType
 import com.asetec.presentation.ui.feature.goal.GoalActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
+import kotlinx.serialization.json.double
+import kotlinx.serialization.json.jsonPrimitive
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -97,10 +99,10 @@ fun ProfileScreen(
                 it.goalCount
             }
             sumKcal = activateData.value.sumOf {
-                it.kcal_cul
+                it.cul["kcal_cul"]?.jsonPrimitive?.double ?: 0.0
             }
             sumKm = activateData.value.sumOf {
-                it.km_cul
+                it.cul["km_cul"]?.jsonPrimitive?.double ?: 0.0
             }
         }
     }

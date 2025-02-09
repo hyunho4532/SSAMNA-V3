@@ -13,6 +13,12 @@ data class  ActivateForm(
     var activateFormResId: Int = 2131165316,
 
     /** 마커 표시 팝업 **/
-    var showMarkerPopup: Boolean = false
+    var showMarkerPopup: Boolean = false,
+
+    /**
+     * 목표 위치 선택 후, 위도 경도 저장
+     */
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0,
 
 ): ActivityType

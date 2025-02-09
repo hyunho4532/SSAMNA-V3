@@ -63,11 +63,11 @@ fun CustomButton(
                     }
                 }
                 ButtonType.MarkerStatus.FINISH -> {
-                    Log.d("Button", "위도: ${cameraPositionState.position.target.latitude}, 경도: ${cameraPositionState.position.target.longitude}")
                     activityLocationViewModel.setLatLng(
                         latitude = cameraPositionState.position.target.latitude,
                         longitude = cameraPositionState.position.target.longitude
                     )
+
                 }
                 else -> {
                     when (type) {

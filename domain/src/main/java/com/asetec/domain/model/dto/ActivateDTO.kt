@@ -1,7 +1,10 @@
 package com.asetec.domain.model.dto
 
+import com.asetec.domain.model.state.Sum
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
 
 @Serializable
 data class ActivateDTO(
@@ -34,6 +37,9 @@ data class ActivateDTO(
 
     @SerialName("time")
     val time: String = "",
+
+    @SerialName("cul")
+    val cul: JsonObject = buildJsonObject {  },
 
     @SerialName("kcal_cul")
     val kcal_cul: Double = 0.0,

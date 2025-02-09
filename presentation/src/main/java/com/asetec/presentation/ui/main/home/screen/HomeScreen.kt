@@ -127,8 +127,14 @@ fun HomeScreen(
             ) {
                 Marker(
                     state = MarkerState(position = LatLng(locationState.value.latitude, locationState.value.longitude)),
-                    title = "서울",
-                    snippet = "한국의 수도"
+                    title = "현재 위치",
+                    snippet = "여기가 현재 위치에요!"
+                )
+
+                Marker(
+                    state = MarkerState(position = LatLng(activatesForm.latitude, activatesForm.longitude)),
+                    title = "목표 지점",
+                    snippet = "여기가 목표지점이에요!"
                 )
             }
 

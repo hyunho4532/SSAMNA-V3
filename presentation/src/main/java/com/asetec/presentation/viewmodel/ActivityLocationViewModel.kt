@@ -3,7 +3,6 @@ package com.asetec.presentation.viewmodel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -11,6 +10,7 @@ import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.state.ActivateForm
+import com.asetec.domain.model.state.Sum
 import com.asetec.domain.usecase.activate.ActivateCase
 import com.asetec.presentation.component.util.FormatImpl
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -20,6 +20,10 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import java.math.BigDecimal
 import javax.inject.Inject
 
 @HiltViewModel
@@ -97,10 +101,11 @@ class ActivityLocationViewModel @Inject constructor(
         latitude: Double,
         longitude: Double
     ) {
-        _activates.update {
+        _activatesForm.update {
             it.copy(
                 latitude = latitude,
-                longitude = longitude
+                longitude = longitude,
+                showMarkerPopup = false
             )
         }
     }
@@ -131,6 +136,14 @@ class ActivityLocationViewModel @Inject constructor(
         val googleId = sharedPreferences2?.getString("id", "")
         val time = sharedPreferences?.getLong("time", _activates.value.time)
 
+        /**
+         * kcal_cul, km_cul를 JSON 형태로 만든다.
+         */
+        val culData = buildJsonObject {
+            put("kcal_cul", pedometerCount!! * 0.05)
+            put("km_cul", BigDecimal(FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount)))
+        }
+
         val activateDTO = ActivateDTO (
             googleId = googleId!!,
             title = _activates.value.runningTitle,
@@ -141,6 +154,7 @@ class ActivityLocationViewModel @Inject constructor(
             runningFormIcon = _activatesForm.value.activateFormResId,
             runningFormTitle = _activatesForm.value.name,
             time = FormatImpl("YY:MM:DD:H").getFormatTime(time!!),
+            cul = culData,
             goalCount = pedometerCount!!,
             kcal_cul = pedometerCount * 0.05,
             km_cul = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),

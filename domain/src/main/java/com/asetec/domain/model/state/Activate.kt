@@ -15,7 +15,7 @@ data class Activate(
     val googleId: String = "",
 
     /** 활동 종류 **/
-    var activateResId: Int = 2131165323,
+    var activateResId: Int = 2131165324,
     var activateName: String = "달리기",
 
     /** 측정 상태 **/
@@ -46,12 +46,6 @@ data class Activate(
      *
      */
     var runningTitle: String = "",
-
-    /**
-     * 목표 위치 선택 후, 위도 경도 저장
-     */
-    var latitude: Double = 0.0,
-    var longitude: Double = 0.0,
 
     /**
      * 시간
