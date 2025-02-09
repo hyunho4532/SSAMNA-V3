@@ -2,6 +2,7 @@ package com.asetec.presentation.viewmodel
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.user.User
@@ -59,6 +60,8 @@ class UserViewModel @Inject constructor(
     }
 
     fun onGoogleSignIn(task: Task<GoogleSignInAccount>?, onSuccess: (Boolean) -> Unit) {
+        Log.d("UserViewModel", "ddd")
+
         viewModelScope.launch {
             /**
              * 먼저, 로그인 한 계정이 이미 존재한 계정인 지 확인해야 한다.
@@ -66,6 +69,7 @@ class UserViewModel @Inject constructor(
              * isUser: false -> 계정이 존재하지 않는다.
              */
             loginCase.invoke(task) { id, email, name, isUser ->
+
                 saveLoginState(id)
 
                 if (!isUser) {

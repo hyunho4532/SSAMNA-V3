@@ -10,9 +10,9 @@ import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.state.ActivateForm
-import com.asetec.domain.model.state.Sum
 import com.asetec.domain.usecase.activate.ActivateCase
 import com.asetec.presentation.component.util.FormatImpl
+import com.asetec.presentation.component.util.JsonObjImpl
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -20,10 +20,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
-import java.math.BigDecimal
 import javax.inject.Inject
 
 @HiltViewModel
@@ -139,25 +137,34 @@ class ActivityLocationViewModel @Inject constructor(
         /**
          * kcal_cul, km_cul를 JSON 형태로 만든다.
          */
-        val culData = buildJsonObject {
-            put("kcal_cul", pedometerCount!! * 0.05)
-            put("km_cul", BigDecimal(FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount)))
-        }
+        val culData = JsonObjImpl(
+            type = "cul",
+            pedometerCount = pedometerCount!!
+        ).build()
+
+        val statusData = JsonObjImpl(
+            type = "status",
+            activate = _activates
+        ).build()
+
+        val runningData = JsonObjImpl(
+            type = "running",
+            runningList = arrayOf(runningIcon, runningTitle)
+        ).build()
+
+        val runningFormData = JsonObjImpl(
+            type = "runningForm",
+            activateForm = _activatesForm
+        ).build()
 
         val activateDTO = ActivateDTO (
             googleId = googleId!!,
             title = _activates.value.runningTitle,
-            statusIcon = _activates.value.statusIcon,
-            statusTitle = _activates.value.statusName,
-            runningIcon = runningIcon,
-            runningTitle = runningTitle,
-            runningFormIcon = _activatesForm.value.activateFormResId,
-            runningFormTitle = _activatesForm.value.name,
+            status = statusData,
+            running = runningData,
+            runningForm = runningFormData,
             time = FormatImpl("YY:MM:DD:H").getFormatTime(time!!),
             cul = culData,
-            goalCount = pedometerCount!!,
-            kcal_cul = pedometerCount * 0.05,
-            km_cul = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
             todayFormat = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             eqDate = FormatImpl("YY:MM:DD").getTodayFormatDate()
         )

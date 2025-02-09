@@ -23,6 +23,9 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.double
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonPrimitive
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
@@ -35,15 +38,15 @@ fun CustomTabRow(
     val coroutineScope = rememberCoroutineScope()
 
     val kcalList = activateList.value.map {
-        KcalEntry(it.todayFormat.substring(0, 11), it.kcal_cul)
+        KcalEntry(it.todayFormat.substring(0, 11), it.cul["kcal_cul"]?.jsonPrimitive!!.double)
     }
 
     val kmList = activateList.value.map {
-        KmEntry(it.todayFormat.substring(0, 11), it.km_cul)
+        KmEntry(it.todayFormat.substring(0, 11), it.cul["km_cul"]?.jsonPrimitive!!.double)
     }
 
     val stepList = activateList.value.map {
-        StepEntry(it.todayFormat.substring(0, 11), it.goalCount)
+        StepEntry(it.todayFormat.substring(0, 11), it.cul["goal_count"]?.jsonPrimitive!!.int)
     }
 
     TabRow(

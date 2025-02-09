@@ -54,6 +54,7 @@ fun LoginScreen(
     val authResultLauncher = rememberLauncherForActivityResult (
         contract = GoogleApiContract()
     ) { task ->
+        Log.d("LoginScreen", "dd")
        viewModel.onGoogleSignIn(task) {
            isNotUser = it
        }

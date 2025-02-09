@@ -61,6 +61,8 @@ import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonPrimitive
 
 @Composable
 fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
@@ -298,7 +300,7 @@ fun activateCard(
                 Image(
                     modifier = Modifier
                         .size(42.dp),
-                    painter = painterResource(id = activateDTO!!.statusIcon),
+                    painter = painterResource(id = activateDTO!!.status["status_icon"]?.jsonPrimitive!!.int),
                     contentDescription = "운동 했던 날 상태 아이콘"
                 )
 
@@ -312,7 +314,7 @@ fun activateCard(
                     Spacer(width = 0.dp, height = 4.dp)
 
                     Text(
-                        text = "${activateDTO.statusTitle} : ${activateDTO.goalCount}걸음!",
+                        text = "${activateDTO.status["status_title"]} : ${activateDTO.cul["goal_count"]}걸음!",
                         fontWeight = FontWeight.Bold
                     )
                 }
@@ -328,12 +330,12 @@ fun activateCard(
                     Image(
                         modifier = Modifier
                             .size(22.dp),
-                        painter = painterResource(id = activateDTO.runningIcon),
+                        painter = painterResource(id = activateDTO.running["running_icon"]?.jsonPrimitive!!.int),
                         contentDescription = "러닝 상태 아이콘"
                     )
 
                     Text(
-                        text = activateDTO.runningTitle,
+                        text = "${activateDTO.running["running_title"]}",
                         fontSize = 11.sp,
                         fontWeight = FontWeight.Bold
                     )
@@ -359,7 +361,7 @@ fun activateCard(
                 ) {
                     Text(text = "칼로리")
                     Text(
-                        text = "${activateDTO!!.kcal_cul}"
+                        text = "${activateDTO!!.cul["kcal_cul"]}"
                     )
                 }
                 Column (
@@ -367,7 +369,7 @@ fun activateCard(
                 ) {
                     Text(text = "km")
                     Text(
-                        text = "${activateDTO!!.km_cul}"
+                        text = "${activateDTO!!.cul["km_cul"]}"
                     )
                 }
             }

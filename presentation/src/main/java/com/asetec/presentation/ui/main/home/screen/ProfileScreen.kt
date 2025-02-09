@@ -51,6 +51,7 @@ import com.asetec.presentation.ui.feature.goal.GoalActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
 import kotlinx.serialization.json.double
+import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonPrimitive
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -96,7 +97,7 @@ fun ProfileScreen(
     LaunchedEffect(key1 = activateData.value) {
         if (activateData.value.isNotEmpty()) {
             sumCount = activateData.value.sumOf {
-                it.goalCount
+                it.cul["goal_count"]?.jsonPrimitive?.int ?: 0
             }
             sumKcal = activateData.value.sumOf {
                 it.cul["kcal_cul"]?.jsonPrimitive?.double ?: 0.0

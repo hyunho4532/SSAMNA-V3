@@ -23,3 +23,8 @@
 -keep class androidx.credentials.playservices.** {
   *;
 }
+
+# Google Sign_In 관련 클래스 예외 처리
+-keep class com.google.android.gms.auth.api.signin.** { *; }
+-keep class com.google.android.gms.common.api.** { *; }
+-keep class com.google.android.gms.tasks.** { *; }
