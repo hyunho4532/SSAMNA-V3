@@ -1,6 +1,7 @@
 package com.asetec.presentation.component.util
 
 import android.annotation.SuppressLint
+import android.util.Log
 import androidx.compose.runtime.State
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -255,6 +256,7 @@ fun getLastYear(
     when (type) {
         "kcal" -> {
             sumList = kcalList.filter { entry ->
+                Log.d("Calcul", entry.date)
                 val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
                 entryDate.year == lastYear
             }.sumOf { it.kcal }

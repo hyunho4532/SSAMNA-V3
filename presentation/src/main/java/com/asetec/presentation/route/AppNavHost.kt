@@ -21,7 +21,7 @@ import com.asetec.presentation.ui.feature.login.ReportScreen
 import com.asetec.presentation.ui.feature.login.UserInfoScreen
 import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
-import com.asetec.presentation.ui.feature.splash.OnBoardingScreen
+import com.asetec.presentation.ui.feature.OnBoardingScreen
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.UserViewModel

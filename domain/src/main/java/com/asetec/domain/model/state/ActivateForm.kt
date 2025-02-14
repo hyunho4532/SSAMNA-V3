@@ -1,8 +1,10 @@
 package com.asetec.domain.model.state
 
+import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
 
 @Serializable
+@Keep
 data class  ActivateForm(
     val index: String = "",
     val name: String = "오늘은 출근!",

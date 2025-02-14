@@ -187,14 +187,14 @@ fun ShowCompleteDialog(
 fun ShowChallengeDialog(
     index: MutableState<Int>,
     challenge: List<Challenge>,
-    isChallengeIsPopup: MutableState<Boolean>
+    isChallengePopup: MutableState<Boolean>
 ) {
 
     val challengeData = challenge[index.value]
 
     Dialog(
         onDismissRequest = {
-            isChallengeIsPopup.value = false
+            isChallengePopup.value = false
         }
     ) {
         Card(
@@ -258,4 +258,11 @@ fun ShowChallengeDialog(
             }
         }
     }
+}
+
+@Composable
+fun PermissionDialog(
+    isPermissionPopup: MutableState<Boolean>
+) {
+
 }

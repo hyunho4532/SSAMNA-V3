@@ -222,7 +222,7 @@ fun ChallengeBottomSheet(
     if (isChallengeIsPopup.value) {
         ShowChallengeDialog(
             index = challengeIndex,
-            isChallengeIsPopup = isChallengeIsPopup,
+            isChallengePopup = isChallengeIsPopup,
             challenge = jsonParseViewModel.challengeJsonData
         )
     }

@@ -110,8 +110,6 @@ fun UserInfoScreen(
                 .background(Color.White)
                 .verticalScroll(rememberScrollState())
         ) {
-            val sliderWidth = setUpSliderWidth(densityDpi)
-            val buttonWidth = setUpButtonWidth(densityDpi)
             val fontSize = setFontSize(densityDpi)
 
             Column(

@@ -1,6 +1,7 @@
 package com.asetec.presentation.ui.main.home.screen
 
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -55,7 +56,7 @@ fun CalendarScreen(
     }
 
     val todayList = activateList.value.map {
-        it.todayFormat.substring(0, 11)
+        it.todayFormat.substring(0, 12)
     }
 
     Column(

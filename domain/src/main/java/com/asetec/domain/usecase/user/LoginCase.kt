@@ -16,7 +16,7 @@ class LoginCase @Inject constructor(
             authenticationRepository.signInWithGoogle(task) { id, email, name ->
                 onSuccess(id, email, name, isUser)
             }
-        }
+       }
     }
 
     suspend fun saveUser(user: User) {

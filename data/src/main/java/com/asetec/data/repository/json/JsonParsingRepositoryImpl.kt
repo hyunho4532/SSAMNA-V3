@@ -22,19 +22,11 @@ class JsonParsingRepositoryImpl @Inject constructor(
 
     override fun jsonParse(jsonFile: String, type: String, onType: (String) -> Unit): List<ActivityType> {
 
-        val listType = when (type) {
-            "activate" -> {
-                object : TypeToken<List<Activate>>() {}.type
-            }
-            "activate_form" -> {
-                object : TypeToken<List<ActivateForm>>() {}.type
-            }
-            "running" -> {
-                object : TypeToken<List<Running>>() {}.type
-            }
-            else -> {
-                object : TypeToken<List<Challenge>>() {}.type
-            }
+        val listType: TypeToken<*> = when (type) {
+            "activate" -> object : TypeToken<List<Activate>>() {}
+            "activate_form" -> object : TypeToken<List<ActivateForm>>() {}
+            "running" -> object : TypeToken<List<Running>>() {}
+            else -> object : TypeToken<List<Challenge>>() {}
         }
 
         val assetManager: AssetManager = context.assets
@@ -45,6 +37,6 @@ class JsonParsingRepositoryImpl @Inject constructor(
 
         onType(type)
 
-        return gson.fromJson(json, listType)
+        return gson.fromJson(json, listType.type)
     }
 }

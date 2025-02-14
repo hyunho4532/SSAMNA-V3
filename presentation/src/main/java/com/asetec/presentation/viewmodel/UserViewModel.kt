@@ -60,8 +60,6 @@ class UserViewModel @Inject constructor(
     }
 
     fun onGoogleSignIn(task: Task<GoogleSignInAccount>?, onSuccess: (Boolean) -> Unit) {
-        Log.d("UserViewModel", "ddd")
-
         viewModelScope.launch {
             /**
              * 먼저, 로그인 한 계정이 이미 존재한 계정인 지 확인해야 한다.
@@ -69,6 +67,8 @@ class UserViewModel @Inject constructor(
              * isUser: false -> 계정이 존재하지 않는다.
              */
             loginCase.invoke(task) { id, email, name, isUser ->
+
+                Log.d("loginCase success", isUser.toString())
 
                 saveLoginState(id)
 
