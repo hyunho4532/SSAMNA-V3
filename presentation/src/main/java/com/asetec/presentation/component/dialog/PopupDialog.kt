@@ -36,6 +36,8 @@ import com.asetec.presentation.R
 import com.asetec.presentation.component.row.BoxRow
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
+import com.asetec.presentation.component.util.responsive.setUpDialogWidth
+import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.JsonParseViewModel
@@ -272,7 +274,7 @@ fun PermissionDialog(
         Card(
             modifier = Modifier
                 .width(420.dp)
-                .height(200.dp),
+                .height(280.dp),
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.White
@@ -285,21 +287,39 @@ fun PermissionDialog(
                         start = 8.dp
                     )
             ) {
-                Text(
-                    text = "사용자 권한 확인 안내",
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
-
-                Text(
+                Box(
                     modifier = Modifier
-                        .padding(top = 4.dp),
-                    text = "땀나!에서는 다양한 권한을 사용하고 있습니다",
-                    fontSize = 14.sp,
-                    color = Color.Gray
-                )
+                        .fillMaxWidth()
+                        .height(42.dp)
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(
+                            text = "사용자 권한 확인 안내",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            modifier = Modifier
+                                .padding(top = 4.dp),
+                            text = "현재 아래 권한을 사용하고 있습니다!",
+                            fontSize = 14.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
                 
-                Spacer(width = , height = )
+                Spacer(
+                    width = setUpDialogWidth(420.dp),
+                    height = 10.dp,
+                    isBottomBorder = true
+                )
             }
         }
     }

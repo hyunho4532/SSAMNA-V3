@@ -1,5 +1,6 @@
 package com.asetec.presentation.component.tool
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -20,6 +21,9 @@ fun Spacer(
     height: Dp?,
     isBottomBorder: Boolean = false
 ) {
+
+    Log.d("Spacer", isBottomBorder.toString())
+
     Box(
         modifier = Modifier
             .width(width)
