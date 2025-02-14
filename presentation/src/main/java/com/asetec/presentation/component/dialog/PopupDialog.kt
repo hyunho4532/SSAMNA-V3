@@ -264,5 +264,43 @@ fun ShowChallengeDialog(
 fun PermissionDialog(
     isPermissionPopup: MutableState<Boolean>
 ) {
+    Dialog(
+        onDismissRequest = {
+            isPermissionPopup.value = false
+        }
+    ) {
+        Card(
+            modifier = Modifier
+                .width(420.dp)
+                .height(200.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            )
+        ) {
+            Column (
+                modifier = Modifier
+                    .padding(
+                        top = 14.dp,
+                        start = 8.dp
+                    )
+            ) {
+                Text(
+                    text = "사용자 권한 확인 안내",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
 
+                Text(
+                    modifier = Modifier
+                        .padding(top = 4.dp),
+                    text = "땀나!에서는 다양한 권한을 사용하고 있습니다",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+                
+                Spacer(width = , height = )
+            }
+        }
+    }
 }

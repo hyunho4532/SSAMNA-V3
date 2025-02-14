@@ -1,5 +1,6 @@
 package com.asetec.presentation.ui.feature
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -12,6 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,6 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.asetec.presentation.R
 import com.asetec.presentation.animation.SplashLoader
+import com.asetec.presentation.component.dialog.PermissionDialog
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.enum.ButtonType
@@ -33,6 +38,15 @@ import com.asetec.presentation.component.util.responsive.setContentPadding
 fun OnBoardingScreen(
     navController: NavController
 ) {
+
+    var isPermissionPopup = remember {
+        mutableStateOf(false)
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        Log.d("OnBoardScreen", isPermissionPopup.toString())
+    }
+
     CompositionLocalProvider(
         LocalDensity provides Density(
             density = LocalDensity.current.density,
@@ -91,7 +105,7 @@ fun OnBoardingScreen(
                 Spacer(width = 0.dp, height = screenHeight * 0.2f)
 
                 CustomButton(
-                    type = ButtonType.ROUTER,
+                    type = ButtonType.PERMISSION,
                     width = screenWidth * 0.8f,
                     height = 46.dp,
                     text = "운동 여정하기!",
@@ -99,9 +113,18 @@ fun OnBoardingScreen(
                     backgroundColor = Color(0xFF5c9afa),
                     navController = navController,
                     context = null,
-                    shape = "Rectangle"
+                    shape = "Rectangle",
+                    onClick = {
+                        isPermissionPopup.value = it
+                    }
                 )
             }
+        }
+
+        if (isPermissionPopup.value) {
+            PermissionDialog(
+                isPermissionPopup = isPermissionPopup
+            )
         }
     }
 }

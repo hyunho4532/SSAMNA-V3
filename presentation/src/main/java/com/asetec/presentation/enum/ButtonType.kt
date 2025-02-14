@@ -2,6 +2,8 @@ package com.asetec.presentation.enum
 
 sealed class ButtonType {
     data object ROUTER: ButtonType()
+    data object PERMISSION: ButtonType()
+
     sealed class RunningStatus: ButtonType() {
         data object FINISH : RunningStatus()
         data object OPEN: RunningStatus()
@@ -10,6 +12,7 @@ sealed class ButtonType {
             data object CHALLENGE: InsertStatus()
         }
     }
+
     sealed class HistoryStatus: ButtonType() {
         data object OPEN: RunningStatus()
     }

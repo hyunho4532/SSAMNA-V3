@@ -2,7 +2,6 @@ package com.asetec.presentation.component.tool
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -44,6 +43,7 @@ fun CustomButton(
     context: Context?,
     shape: String = "Circle",
     data: Challenge = Challenge(),
+    onClick: (permissionPopup: Boolean) -> Unit = { },
     cameraPositionState: CameraPositionState = rememberCameraPositionState(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
@@ -61,6 +61,9 @@ fun CustomButton(
                             inclusive = true
                         }
                     }
+                }
+                ButtonType.PERMISSION -> {
+                    onClick(true)
                 }
                 ButtonType.MarkerStatus.FINISH -> {
                     activityLocationViewModel.setLatLng(
