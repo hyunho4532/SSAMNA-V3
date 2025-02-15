@@ -206,7 +206,6 @@ fun HomeAside(
             text = sensorManagerViewModel.getSavedButtonNameState()!!,
             showIcon = false,
             backgroundColor = Color(0xFF5c9afa),
-            navController = null,
             context = context,
             shape = "Circle"
         )

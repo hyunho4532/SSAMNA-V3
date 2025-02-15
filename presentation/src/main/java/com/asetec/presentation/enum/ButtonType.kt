@@ -1,7 +1,6 @@
 package com.asetec.presentation.enum
 
 sealed class ButtonType {
-    data object ROUTER: ButtonType()
 
     sealed class PermissionStatus: ButtonType() {
         data object POPUP: PermissionStatus()

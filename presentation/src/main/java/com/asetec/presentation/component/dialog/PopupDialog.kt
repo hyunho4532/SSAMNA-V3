@@ -186,7 +186,6 @@ fun ShowCompleteDialog(
                         text = "활동 저장!",
                         showIcon = false,
                         backgroundColor = Color(0xFF5c9afa),
-                        navController = null,
                         context = context,
                         shape = "Rectangle"
                     )
@@ -276,7 +275,8 @@ fun ShowChallengeDialog(
 
 @Composable
 fun PermissionDialog(
-    isPermissionPopup: MutableState<Boolean>
+    isPermissionPopup: MutableState<Boolean>,
+    onNavigateToLogin: () -> Unit
 ) {
     Dialog(
         onDismissRequest = {
@@ -446,13 +446,32 @@ fun PermissionDialog(
                     }
                 }
 
-                CustomButton(
-                    type = ButtonType.PermissionStatus.CLICK,
-                    width = 360.dp,
-                    height = 40.dp,
-                    text = "확인",
-                    backgroundColor = Color(0xFF5c9afa)
-                )
+                Spacer(width = 0.dp, height = 26.dp)
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    CustomButton(
+                        type = ButtonType.PermissionStatus.CANCEL,
+                        width = 100.dp,
+                        height = 40.dp,
+                        text = "취소",
+                        backgroundColor = Color(0xFFE91E63)
+                    )
+
+                    CustomButton(
+                        type = ButtonType.PermissionStatus.CLICK,
+                        width = 100.dp,
+                        height = 40.dp,
+                        text = "확인",
+                        backgroundColor = Color(0xFF5c9afa),
+                        onNavigateToLogin = {
+                            isPermissionPopup.value = false
+                            onNavigateToLogin()
+                        }
+                    )
+                }
             }
         }
     }

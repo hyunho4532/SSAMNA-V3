@@ -2,6 +2,7 @@ package com.asetec.presentation.component.tool
 
 import android.content.Context
 import android.os.Build
+import android.os.Process
 import android.widget.Toast
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -21,10 +22,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
+import com.asetec.presentation.component.util.responsive.setUpButtonWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
@@ -41,7 +41,7 @@ fun CustomButton(
     text: String,
     showIcon: Boolean = false,
     backgroundColor: Color,
-    navController: NavController? = rememberNavController(),
+    onNavigateToLogin: () -> Unit = {},
     shape: String = "Circle",
     data: Challenge = Challenge(),
     onClick: (permissionPopup: Boolean) -> Unit = { },
@@ -57,15 +57,14 @@ fun CustomButton(
     Button(
         onClick = {
             when (type) {
-                ButtonType.ROUTER -> {
-                    navController?.navigate("login") {
-                        popUpTo("splash") {
-                            inclusive = true
-                        }
-                    }
-                }
                 ButtonType.PermissionStatus.POPUP -> {
                     onClick(true)
+                }
+                ButtonType.PermissionStatus.CANCEL -> {
+                    Process.killProcess(Process.myPid())
+                }
+                ButtonType.PermissionStatus.CLICK -> {
+                    onNavigateToLogin()
                 }
                 ButtonType.MarkerStatus.FINISH -> {
                     activityLocationViewModel.setLatLng(
@@ -79,7 +78,7 @@ fun CustomButton(
                         ButtonType.RunningStatus.FINISH -> {
                             if (sensorManagerViewModel.getSavedSensorState() < 100) {
                                 sensorManagerViewModel.stopService(
-                                    context = context!!,
+                                    context = context,
                                     runningStatus = true,
                                     isRunning = false
                                 )
@@ -105,7 +104,7 @@ fun CustomButton(
                         }
 
                         else -> {
-                            sensorManagerViewModel.startService(context!!, true)
+                            sensorManagerViewModel.startService(context, true)
                             sensorManagerViewModel.startWatch()
                         }
                     }
@@ -114,7 +113,7 @@ fun CustomButton(
         },
         modifier = Modifier
             .wrapContentSize()
-            .width(width)
+            .width(setUpButtonWidth(cardWidth = width))
             .height(height),
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor

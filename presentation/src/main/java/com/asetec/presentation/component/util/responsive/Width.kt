@@ -29,6 +29,17 @@ fun setUpDialogWidth(
     return min(screenWidth * 0.8f, cardWidth)
 }
 
+/**
+ * 다이얼로그의 너비 만큼 버튼 width를 맞춘다.
+ */
+@Composable
+fun setUpButtonWidth(
+    cardWidth: Dp
+): Dp {
+    val screenWidth = LocalConfiguration.current.screenWidthDp.dp
+    return min(screenWidth * 0.8f, cardWidth)
+}
+
 fun setUpButtonWidth(densityDpi: Int): Dp = when {
     densityDpi <= 160 -> 220.dp
     densityDpi <= 240 -> 240.dp
