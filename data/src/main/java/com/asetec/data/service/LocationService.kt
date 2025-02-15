@@ -11,6 +11,7 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Build
 import android.os.IBinder
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -78,6 +79,7 @@ class LocationService : Service() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.let { result ->
                     for (location in result.locations) {
+                        Log.d("LocationService", "위도: ${location.latitude}, 경도: ${location.longitude}")
                         sendLocationToReceiver(location)
                     }
                 }
