@@ -18,8 +18,8 @@ public val PermiActivate: ImageVector
 		}
 		_PermiActivate = ImageVector.Builder(
             name = "PermiActivate",
-            defaultWidth = 38.dp,
-            defaultHeight = 42.dp,
+            defaultWidth = 100.dp,
+            defaultHeight = 100.dp,
             viewportWidth = 38f,
             viewportHeight = 42f
         ).apply {

@@ -1,20 +1,27 @@
 package com.asetec.presentation.component.dialog
 
+import PermiActivate
+import PermiLocation
+import PermiNotification
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,13 +31,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
 import com.asetec.presentation.component.row.BoxRow
@@ -253,7 +266,6 @@ fun ShowChallengeDialog(
                     text = "챌린지 등록!",
                     showIcon = false,
                     backgroundColor = Color(0xFF5c9afa),
-                    context = null,
                     shape = "Rectangle",
                     data = challengeData
                 )
@@ -274,7 +286,7 @@ fun PermissionDialog(
         Card(
             modifier = Modifier
                 .width(420.dp)
-                .height(280.dp),
+                .height(420.dp),
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.White
@@ -319,6 +331,127 @@ fun PermissionDialog(
                     width = setUpDialogWidth(420.dp),
                     height = 10.dp,
                     isBottomBorder = true
+                )
+
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(260.dp),
+                        verticalArrangement = Arrangement.SpaceAround,
+                        horizontalAlignment = Alignment.Start,
+                    ) {
+                        Box {
+                            Row {
+                                AsyncImage(
+                                    modifier = Modifier.size(36.dp),
+                                    model = R.drawable.person_permi,
+                                    contentDescription = "권한 확인용 신체 활동"
+                                )
+
+                                Column(
+                                    modifier = Modifier.padding(start = 12.dp)
+                                ) {
+                                    Text(
+                                        text = "신체 활동 권한 (필수)",
+                                        fontWeight = FontWeight.Bold
+                                    )
+
+                                    Text(
+                                        text = "걷기, 달리기 등의 활동을 추적합니다!",
+                                        fontSize = 12.sp,
+                                        color = Color.Gray
+                                    )
+                                }
+                            }
+                        }
+
+                        Box {
+                            Row {
+                                AsyncImage(
+                                    modifier = Modifier.size(36.dp),
+                                    model = R.drawable.heart_permi,
+                                    contentDescription = "권한 확인용 활동 센서"
+                                )
+
+                                Column(
+                                    modifier = Modifier.padding(start = 12.dp)
+                                ) {
+                                    Text(
+                                        text = "생체 신호 센서 권한 (필수)",
+                                        fontWeight = FontWeight.Bold
+                                    )
+
+                                    Text(
+                                        text = "백그라운드에서 실행되는 동안 정보를 액세스합니다.",
+                                        fontSize = 12.sp,
+                                        color = Color.Gray
+                                    )
+                                }
+                            }
+                        }
+
+                        Box {
+                            Row {
+                                AsyncImage(
+                                    modifier = Modifier.size(36.dp),
+                                    model = R.drawable.noticiation_permi,
+                                    contentDescription = "권한 확인용 알림"
+                                )
+
+                                Column(
+                                    modifier = Modifier.padding(start = 12.dp)
+                                ) {
+                                    Text(
+                                        text = "알림 권한 (선택)",
+                                        fontWeight = FontWeight.Bold
+                                    )
+
+                                    Text(
+                                        text = "앱에서 걸음 수 정보를 알림을 제공 받습니다!",
+                                        fontSize = 12.sp,
+                                        color = Color.Gray
+                                    )
+                                }
+                            }
+                        }
+
+                        Box {
+                            Row {
+                                AsyncImage(
+                                    modifier = Modifier.size(36.dp),
+                                    model = R.drawable.location_permi,
+                                    contentDescription = "권한 확인용 위치"
+                                )
+
+                                Column(
+                                    modifier = Modifier.padding(start = 12.dp)
+                                ) {
+                                    Text(
+                                        text = "위치 권한 (선택)",
+                                        fontWeight = FontWeight.Bold
+                                    )
+
+                                    Text(
+                                        text = "현재 위치와 실시간 위치를 추적합니다!",
+                                        fontSize = 12.sp,
+                                        color = Color.Gray
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                CustomButton(
+                    type = ButtonType.PermissionStatus.CLICK,
+                    width = 360.dp,
+                    height = 40.dp,
+                    text = "확인",
+                    backgroundColor = Color(0xFF5c9afa)
                 )
             }
         }

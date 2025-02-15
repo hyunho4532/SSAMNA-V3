@@ -139,8 +139,7 @@ fun CalendarScreen(
                         width = 82.dp,
                         height = 32.dp,
                         text = "조회",
-                        backgroundColor = Color(0xFF5c9afa),
-                        context = null
+                        backgroundColor = Color(0xFF5c9afa)
                     )
                 }
 

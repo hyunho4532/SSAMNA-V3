@@ -1,7 +1,3 @@
-/*
-* Converted using https://composables.com/svgtocompose
-*/
-
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathFillType
 import androidx.compose.ui.graphics.SolidColor
@@ -17,90 +13,32 @@ public val PermiLocation: ImageVector
 			return _PermiLocation!!
 		}
 		_PermiLocation = ImageVector.Builder(
-            name = "PermiLocation",
-            defaultWidth = 38.dp,
-            defaultHeight = 42.dp,
-            viewportWidth = 38f,
-            viewportHeight = 42f
-        ).apply {
+			name = "PermiLocation",
+			defaultWidth = 32.dp,
+			defaultHeight = 32.dp,
+			viewportWidth = 32f,
+			viewportHeight = 32f
+		).apply {
 			path(
-    			fill = SolidColor(Color(0xFF284EE9)),
-    			fillAlpha = 1.0f,
-    			stroke = null,
-    			strokeAlpha = 1.0f,
-    			strokeLineWidth = 1.0f,
-    			strokeLineCap = StrokeCap.Butt,
-    			strokeLineJoin = StrokeJoin.Miter,
-    			strokeLineMiter = 1.0f,
-    			pathFillType = PathFillType.NonZero
+				fill = SolidColor(Color(0xFF284EE9)),
+				pathFillType = PathFillType.NonZero
 			) {
-				moveTo(19f, 0f)
-				horizontalLineTo(19f)
-				arcTo(19f, 19f, 0f, isMoreThanHalf = false, isPositiveArc = true, 38f, 19f)
-				verticalLineTo(23f)
-				arcTo(19f, 19f, 0f, isMoreThanHalf = false, isPositiveArc = true, 19f, 42f)
-				horizontalLineTo(19f)
-				arcTo(19f, 19f, 0f, isMoreThanHalf = false, isPositiveArc = true, 0f, 23f)
-				verticalLineTo(19f)
-				arcTo(19f, 19f, 0f, isMoreThanHalf = false, isPositiveArc = true, 19f, 0f)
+				moveTo(16f, 19.2f)
+				curveTo(16f, 19.2f, 21.6348f, 14.1914f, 21.6348f, 10.4348f)
+				curveTo(21.6348f, 7.32283f, 19.112f, 4.80005f, 16f, 4.80005f)
+				curveTo(12.888f, 4.80005f, 10.3652f, 7.32283f, 10.3652f, 10.4348f)
+				curveTo(10.3652f, 14.1914f, 16f, 19.2f, 16f, 19.2f)
 				close()
 			}
 			path(
-    			fill = SolidColor(Color(0xFF2067C2)),
-    			fillAlpha = 1.0f,
-    			stroke = null,
-    			strokeAlpha = 1.0f,
-    			strokeLineWidth = 1.0f,
-    			strokeLineCap = StrokeCap.Butt,
-    			strokeLineJoin = StrokeJoin.Miter,
-    			strokeLineMiter = 1.0f,
-    			pathFillType = PathFillType.NonZero
+				fill = SolidColor(Color(0xFF2067C2)),
+				pathFillType = PathFillType.NonZero
 			) {
-				moveTo(19f, 0f)
-				horizontalLineTo(19f)
-				arcTo(19f, 19f, 0f, isMoreThanHalf = false, isPositiveArc = true, 38f, 19f)
-				verticalLineTo(23f)
-				arcTo(19f, 19f, 0f, isMoreThanHalf = false, isPositiveArc = true, 19f, 42f)
-				horizontalLineTo(19f)
-				arcTo(19f, 19f, 0f, isMoreThanHalf = false, isPositiveArc = true, 0f, 23f)
-				verticalLineTo(19f)
-				arcTo(19f, 19f, 0f, isMoreThanHalf = false, isPositiveArc = true, 19f, 0f)
-				close()
-			}
-			path(
-    			fill = null,
-    			fillAlpha = 1.0f,
-    			stroke = SolidColor(Color(0xFF000000)),
-    			strokeAlpha = 1.0f,
-    			strokeLineWidth = 2f,
-    			strokeLineCap = StrokeCap.Butt,
-    			strokeLineJoin = StrokeJoin.Miter,
-    			strokeLineMiter = 1.0f,
-    			pathFillType = PathFillType.NonZero
-			) {
-				moveTo(19f, 30.5999f)
-				curveTo(190f, 30.59990f, 26.5130f, 23.92160f, 26.5130f, 18.91290f)
-				curveTo(26.5130f, 14.76360f, 23.14930f, 11.39990f, 190f, 11.39990f)
-				curveTo(14.85060f, 11.39990f, 11.48690f, 14.76360f, 11.48690f, 18.91290f)
-				curveTo(11.48690f, 23.92160f, 190f, 30.59990f, 190f, 30.59990f)
-				close()
-			}
-			path(
-    			fill = null,
-    			fillAlpha = 1.0f,
-    			stroke = SolidColor(Color(0xFF000000)),
-    			strokeAlpha = 1.0f,
-    			strokeLineWidth = 2f,
-    			strokeLineCap = StrokeCap.Butt,
-    			strokeLineJoin = StrokeJoin.Miter,
-    			strokeLineMiter = 1.0f,
-    			pathFillType = PathFillType.NonZero
-			) {
-				moveTo(21.4003f, 18.6001f)
-				curveTo(21.40030f, 19.92550f, 20.32580f, 21.00010f, 19.00030f, 21.00010f)
-				curveTo(17.67480f, 21.00010f, 16.60030f, 19.92550f, 16.60030f, 18.60010f)
-				curveTo(16.60030f, 17.27460f, 17.67480f, 16.20010f, 19.00030f, 16.20010f)
-				curveTo(20.32580f, 16.20010f, 21.40030f, 17.27460f, 21.40030f, 18.60010f)
+				moveTo(17.8002f, 10.2002f)
+				curveTo(17.8002f, 11.1943f, 16.9944f, 12.0002f, 16.0002f, 12.0002f)
+				curveTo(15.0061f, 12.0002f, 14.2002f, 11.1943f, 14.2002f, 10.2002f)
+				curveTo(14.2002f, 9.20605f, 15.0061f, 8.40016f, 16.0002f, 8.40016f)
+				curveTo(16.9944f, 8.40016f, 17.8002f, 9.20605f, 17.8002f, 10.2002f)
 				close()
 			}
 		}.build()

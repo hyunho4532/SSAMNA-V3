@@ -105,14 +105,13 @@ fun OnBoardingScreen(
                 Spacer(width = 0.dp, height = screenHeight * 0.2f)
 
                 CustomButton(
-                    type = ButtonType.PERMISSION,
+                    type = ButtonType.PermissionStatus.POPUP,
                     width = screenWidth * 0.8f,
                     height = 46.dp,
                     text = "운동 여정하기!",
                     showIcon = true,
                     backgroundColor = Color(0xFF5c9afa),
                     navController = navController,
-                    context = null,
                     shape = "Rectangle",
                     onClick = {
                         isPermissionPopup.value = it

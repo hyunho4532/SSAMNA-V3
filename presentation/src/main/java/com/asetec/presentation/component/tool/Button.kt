@@ -16,6 +16,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -30,6 +31,7 @@ import com.asetec.presentation.viewmodel.ChallengeViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Composable
 fun CustomButton(
@@ -40,10 +42,10 @@ fun CustomButton(
     showIcon: Boolean = false,
     backgroundColor: Color,
     navController: NavController? = rememberNavController(),
-    context: Context?,
     shape: String = "Circle",
     data: Challenge = Challenge(),
     onClick: (permissionPopup: Boolean) -> Unit = { },
+    @ApplicationContext context: Context = LocalContext.current,
     cameraPositionState: CameraPositionState = rememberCameraPositionState(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
@@ -62,7 +64,7 @@ fun CustomButton(
                         }
                     }
                 }
-                ButtonType.PERMISSION -> {
+                ButtonType.PermissionStatus.POPUP -> {
                     onClick(true)
                 }
                 ButtonType.MarkerStatus.FINISH -> {
