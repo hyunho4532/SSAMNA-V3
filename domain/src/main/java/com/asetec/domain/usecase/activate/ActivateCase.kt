@@ -1,6 +1,6 @@
 package com.asetec.domain.usecase.activate
 
-import com.asetec.domain.model.state.ActivateDTO
+import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.repository.activate.ActivateRepository
 import javax.inject.Inject
 

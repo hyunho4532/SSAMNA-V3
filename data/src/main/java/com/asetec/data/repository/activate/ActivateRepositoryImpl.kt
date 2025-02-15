@@ -1,6 +1,6 @@
 package com.asetec.data.repository.activate
 
-import com.asetec.domain.model.state.ActivateDTO
+import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.repository.activate.ActivateRepository
 import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.coroutines.Dispatchers
@@ -11,23 +11,9 @@ class ActivateRepositoryImpl @Inject constructor(
     private val postgrest: Postgrest
 ) : ActivateRepository {
     override suspend fun insert(activateDTO: ActivateDTO, onTime: (Long) -> Unit) {
-        val mappedActivateDTO = ActivateDTO(
-            googleId = activateDTO.googleId,
-            title = activateDTO.title,
-            statusIcon = activateDTO.statusIcon,
-            statusTitle = activateDTO.statusTitle,
-            runningIcon = activateDTO.runningIcon,
-            runningTitle = activateDTO.runningTitle,
-            time = activateDTO.time,
-            goalCount = activateDTO.goalCount,
-            kcal_cul = activateDTO.kcal_cul,
-            km_cul = activateDTO.km_cul,
-            todayFormat = activateDTO.todayFormat,
-            eqDate = activateDTO.eqDate
-        )
         onTime(0L)
 
-        postgrest.from("Activity").insert(mappedActivateDTO)
+        postgrest.from("Activity").insert(activateDTO)
     }
 
     override suspend fun selectActivateById(googleId: String): List<ActivateDTO> {

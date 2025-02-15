@@ -1,15 +1,11 @@
 package com.asetec.presentation.component.dialog
 
 import android.content.Context
-import android.util.Log
-import android.widget.Toast
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
@@ -30,10 +26,14 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.presentation.component.tool.activateCard
+import com.asetec.presentation.component.tool.activateFormCard
 import com.asetec.presentation.component.tool.challengeCard
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.viewmodel.JsonParseViewModel
 
+/**
+ * 활동 종류 Bottom Sheet
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ActivateBottomSheet(
@@ -96,61 +96,65 @@ fun ActivateBottomSheet(
     }
 }
 
+/**
+ * 활동 형태 Bottom Sheet
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun TimeBottomSheet(
+fun ActivateFormBottomSheet(
     context: Context,
     showBottomSheet: MutableState<Boolean>,
-    sheetState: SheetState
+    sheetState: SheetState,
+    jsonParseViewModel: JsonParseViewModel = hiltViewModel()
 ) {
 
-    var checked by remember {
+    var dataIsLoading by remember {
         mutableStateOf(false)
     }
 
+    LaunchedEffect(key1 = Unit) {
+        if (jsonParseViewModel.activateFormJsonData.isEmpty()) {
+            jsonParseViewModel.activateJsonParse("activate_form.json", "activate_form")
+        }
+        dataIsLoading = true
+    }
+
     if (showBottomSheet.value) {
-        ModalBottomSheet(
-            modifier = Modifier
-                .fillMaxSize(),
-            sheetState = sheetState,
-            onDismissRequest = { showBottomSheet.value = false },
-            containerColor = Color.White
-        ) {
-
-            Box(
-                modifier = Modifier.align(Alignment.CenterHorizontally)
-            ) {
-                Text(
-                    "시간을 입력해주세요!",
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            Column (
+        if (dataIsLoading) {
+            ModalBottomSheet(
                 modifier = Modifier
-                    .fillMaxSize()
-                    .padding(top = 16.dp),
-                verticalArrangement = Arrangement.Top,
-                horizontalAlignment = Alignment.CenterHorizontally
+                    .fillMaxSize(),
+                sheetState = sheetState,
+                onDismissRequest = { showBottomSheet.value = false },
+                containerColor = Color.White
             ) {
-                Row (
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
+
+                Box(
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
                 ) {
                     Text(
-                        text = "내가 입력한 시간 불러오기",
-                        fontSize = 16.sp
+                        "활동 형태를 선택해주세요!",
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold
                     )
-                    Checkbox(
-                        checked = checked,
-                        onCheckedChange = {
-                            if (it) {
-                                Toast.makeText(context, "입력한 시간으로 불러왔습니다!", Toast.LENGTH_SHORT).show()
-                            }
-                            checked = it
-                        }
-                    )
+                }
+
+                Column (
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(top = 16.dp),
+                    verticalArrangement = Arrangement.Top,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    jsonParseViewModel.activateFormJsonData.forEach { activateForm ->
+                        activateFormCard(
+                            context = context,
+                            height = 60.dp,
+                            activateForm = activateForm,
+                            showBottomSheet = showBottomSheet,
+                            cardType = CardType.ActivateStatus.Form
+                        )
+                    }
                 }
             }
         }
@@ -160,7 +164,6 @@ fun TimeBottomSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChallengeBottomSheet(
-    context: Context,
     showBottomSheet: MutableState<Boolean>,
     sheetState: SheetState,
     jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
@@ -219,7 +222,7 @@ fun ChallengeBottomSheet(
     if (isChallengeIsPopup.value) {
         ShowChallengeDialog(
             index = challengeIndex,
-            isChallengeIsPopup = isChallengeIsPopup,
+            isChallengePopup = isChallengeIsPopup,
             challenge = jsonParseViewModel.challengeJsonData
         )
     }

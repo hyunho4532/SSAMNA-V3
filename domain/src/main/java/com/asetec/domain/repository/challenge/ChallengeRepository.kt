@@ -1,6 +1,6 @@
 package com.asetec.domain.repository.challenge
 
-import com.asetec.domain.model.state.ChallengeDTO
+import com.asetec.domain.model.dto.ChallengeDTO
 
 
 interface ChallengeRepository {
