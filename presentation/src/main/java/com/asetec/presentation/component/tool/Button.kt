@@ -2,6 +2,7 @@ package com.asetec.presentation.component.tool
 
 import android.content.Context
 import android.os.Build
+import android.os.Process
 import android.widget.Toast
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -13,38 +14,39 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
+import com.asetec.presentation.component.util.responsive.setUpButtonWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
+import com.google.maps.android.compose.CameraPositionState
+import com.google.maps.android.compose.rememberCameraPositionState
+import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Composable
-fun customButton(
+fun CustomButton(
     type: ButtonType,
     width: Dp,
     height: Dp,
     text: String,
     showIcon: Boolean = false,
     backgroundColor: Color,
-    navController: NavController? = rememberNavController(),
-    context: Context?,
+    onNavigateToLogin: () -> Unit = {},
     shape: String = "Circle",
     data: Challenge = Challenge(),
+    onClick: (permissionPopup: Boolean) -> Unit = { },
+    @ApplicationContext context: Context = LocalContext.current,
+    cameraPositionState: CameraPositionState = rememberCameraPositionState(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel()
@@ -54,49 +56,64 @@ fun customButton(
 
     Button(
         onClick = {
-            if (type == ButtonType.ROUTER) {
-                navController?.navigate("login") {
-                    popUpTo("splash") {
-                        inclusive = true
-                    }
+            when (type) {
+                ButtonType.PermissionStatus.POPUP -> {
+                    onClick(true)
                 }
-            } else {
-                when (type) {
-                    ButtonType.RunningStatus.FINISH -> {
-                        if (sensorManagerViewModel.getSavedSensorState() < 100) {
-                            sensorManagerViewModel.stopService(
-                                context = context!!,
-                                runningStatus = true,
-                                isRunning = false
-                            )
-                            sensorManagerViewModel.stopWatch()
-                        } else {
-                            Toast.makeText(context, "최소 100보 이상은 걸어야 합니다!", Toast.LENGTH_SHORT).show()
+                ButtonType.PermissionStatus.CANCEL -> {
+                    Process.killProcess(Process.myPid())
+                }
+                ButtonType.PermissionStatus.CLICK -> {
+                    onNavigateToLogin()
+                }
+                ButtonType.MarkerStatus.FINISH -> {
+                    activityLocationViewModel.setLatLng(
+                        latitude = cameraPositionState.position.target.latitude,
+                        longitude = cameraPositionState.position.target.longitude
+                    )
+
+                }
+                else -> {
+                    when (type) {
+                        ButtonType.RunningStatus.FINISH -> {
+                            if (sensorManagerViewModel.getSavedSensorState() < 100) {
+                                sensorManagerViewModel.stopService(
+                                    context = context,
+                                    runningStatus = true,
+                                    isRunning = false
+                                )
+                                sensorManagerViewModel.stopWatch()
+                            } else {
+                                Toast.makeText(context, "최소 100보 이상은 걸어야 합니다!", Toast.LENGTH_SHORT).show()
+                            }
                         }
-                    }
-                    ButtonType.RunningStatus.InsertStatus.RUNNING -> {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            activityLocationViewModel.saveActivity(
-                                runningIcon = activates.value.activateResId,
-                                runningTitle = activates.value.activateName
-                            )
+
+                        ButtonType.RunningStatus.InsertStatus.RUNNING -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                activityLocationViewModel.saveActivity(
+                                    runningIcon = activates.value.activateResId,
+                                    runningTitle = activates.value.activateName
+                                )
+                            }
                         }
-                    }
-                    ButtonType.RunningStatus.InsertStatus.CHALLENGE -> {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                            challengeViewModel.saveChallenge(data)
+
+                        ButtonType.RunningStatus.InsertStatus.CHALLENGE -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                challengeViewModel.saveChallenge(data)
+                            }
                         }
-                    }
-                    else -> {
-                        sensorManagerViewModel.startService(context!!, true)
-                        sensorManagerViewModel.startWatch()
+
+                        else -> {
+                            sensorManagerViewModel.startService(context, true)
+                            sensorManagerViewModel.startWatch()
+                        }
                     }
                 }
             }
         },
         modifier = Modifier
             .wrapContentSize()
-            .width(width)
+            .width(setUpButtonWidth(cardWidth = width))
             .height(height),
         colors = ButtonDefaults.buttonColors(
             containerColor = backgroundColor

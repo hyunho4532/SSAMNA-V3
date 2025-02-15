@@ -5,22 +5,25 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,15 +33,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.asetec.domain.model.user.User
+import com.asetec.presentation.R
 import com.asetec.presentation.component.aside.HomeAside
 import com.asetec.presentation.component.box.TopBox
 import com.asetec.presentation.component.dialog.ShowCompleteDialog
 import com.asetec.presentation.component.tool.CircularProgress
+import com.asetec.presentation.component.tool.CustomButton
+import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
@@ -58,11 +64,11 @@ fun HomeScreen(
     fusedLocationClient: FusedLocationProviderClient,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
-    context: Context,
-    userList: State<User>
+    context: Context
 ) {
     val locationState = activityLocationViewModel.locations.collectAsState()
     val activates by sensorManagerViewModel.activates.collectAsState()
+    val activatesForm by activityLocationViewModel.activatesForm.collectAsState()
 
     var isLocationLoaded by remember {
         mutableStateOf(false)
@@ -121,9 +127,49 @@ fun HomeScreen(
             ) {
                 Marker(
                     state = MarkerState(position = LatLng(locationState.value.latitude, locationState.value.longitude)),
-                    title = "서울",
-                    snippet = "한국의 수도"
+                    title = "현재 위치",
+                    snippet = "여기가 현재 위치에요!"
                 )
+
+                Marker(
+                    state = MarkerState(position = LatLng(activatesForm.latitude, activatesForm.longitude)),
+                    title = "목표 지점",
+                    snippet = "여기가 목표지점이에요!"
+                )
+            }
+
+            if (activatesForm.showMarkerPopup) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.Center
+                ) {
+                    Image(
+                        modifier = Modifier
+                            .size(40.dp)
+                            .clickable {
+                                activityLocationViewModel.closeMarkerPopup()
+                            },
+                        painter = painterResource(id = R.drawable.marker),
+                        contentDescription = "마커 아이콘"
+                    )
+
+                    Box(
+                        modifier = Modifier.padding(top = 16.dp)
+                    ) {
+                        CustomButton(
+                            type = ButtonType.MarkerStatus.FINISH,
+                            width = 120.dp,
+                            height = 40.dp,
+                            text = "선택 완료!",
+                            backgroundColor = Color(0xFF5c9afa),
+                            context = context,
+                            cameraPositionState = cameraPositionState
+                        )
+                    }
+
+                }
             }
 
             if (activates.activateButtonName == "측정 중!" || sensorManagerViewModel.getSavedIsRunningState()) {
@@ -171,8 +217,7 @@ fun HomeScreen(
                             .animateContentSize()
                     ) {
                         HomeAside(
-                            context = context,
-                            userList = userList
+                            context = context
                         )
                     }
                 }
@@ -183,9 +228,8 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.Center
             ) {
-                CircularProgress(text = "현재 위치를 불러오고 있습니다!")
+                CircularProgress(text = "현재 위치를 조회하고 있습니다!")
             }
-            
         }
     }
 }

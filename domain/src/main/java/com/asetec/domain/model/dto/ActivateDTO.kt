@@ -1,0 +1,37 @@
+package com.asetec.domain.model.dto
+
+import com.asetec.domain.model.state.Sum
+import kotlinx.serialization.SerialName
+import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
+
+@Serializable
+data class ActivateDTO(
+    @SerialName("google_id")
+    val googleId: String = "",
+
+    @SerialName("title")
+    val title: String = "",
+
+    @SerialName("status")
+    val status: JsonObject = buildJsonObject {  },
+
+    @SerialName("running")
+    val running: JsonObject = buildJsonObject {  },
+
+    @SerialName("runningForm")
+    val runningForm: JsonObject = buildJsonObject {  },
+
+    @SerialName("time")
+    val time: String = "",
+
+    @SerialName("cul")
+    val cul: JsonObject = buildJsonObject {  },
+
+    @SerialName("today_format")
+    val todayFormat: String = "",
+
+    @SerialName("eq_date")
+    val eqDate: String = ""
+)

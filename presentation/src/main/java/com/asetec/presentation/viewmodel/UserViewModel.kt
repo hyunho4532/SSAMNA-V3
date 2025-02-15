@@ -2,6 +2,7 @@ package com.asetec.presentation.viewmodel
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.user.User
@@ -66,6 +67,9 @@ class UserViewModel @Inject constructor(
              * isUser: false -> 계정이 존재하지 않는다.
              */
             loginCase.invoke(task) { id, email, name, isUser ->
+
+                Log.d("loginCase success", isUser.toString())
+
                 saveLoginState(id)
 
                 if (!isUser) {

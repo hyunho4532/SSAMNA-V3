@@ -54,6 +54,7 @@ data class FormatImpl(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun parseMonthDaysDate(dateStr: String): LocalDate {
+        Log.d("FormatImpl", dateStr)
         return LocalDate.parse(dateStr, formatter)
     }
 

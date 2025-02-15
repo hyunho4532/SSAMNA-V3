@@ -6,7 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.state.Challenge
-import com.asetec.domain.model.state.ChallengeDTO
+import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.usecase.challenge.ChallengeCase
 import com.asetec.presentation.component.util.FormatImpl
 import dagger.hilt.android.lifecycle.HiltViewModel

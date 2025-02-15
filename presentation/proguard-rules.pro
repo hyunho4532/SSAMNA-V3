@@ -19,7 +19,36 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
--if class androidx.credentials.CredentialManager
--keep class androidx.credentials.playservices.** {
-  *;
+-keep class com.google.android.gms.auth.api.signin.** { *; }
+-keep class com.google.android.gms.common.api.** { *; }
+-keep class com.google.android.gms.tasks.** { *; }
+-keep class com.google.android.gms.base.** { *; }
+-keep class com.google.android.gms.auth.api.Auth { *; }
+
+# Supabase SDK 보호
+-keep class io.supabase.** { *; }
+-keep class io.postgrest.** { *; }
+-keep class io.ktor.** { *; }
+
+# JSON 직렬화 관련 클래스 보호 (Gson & Kotlinx.serialization)
+-keep class kotlinx.serialization.** { *; }
+-keep class com.google.gson.** { *; }
+
+# Data Class 직렬화 유지
+-keepclassmembers class * {
+    @kotlinx.serialization.Serializable <fields>;
 }
+
+# UserDTO 유지 (패키지명이 맞는지 확인 필요)
+-keep class com.asetec.domain.model.user.UserDTO { *; }
+
+# 리플렉션 사용 보호
+-keepattributes Signature
+-keepattributes *Annotation*
+
+# JSON 직렬화에 사용될 데이터 모델 유지 (패키지명 확인 필요)
+-keep class com.asetec.domain.model.** { *; }
+
+# Supabase에서 사용하는 JSON 관련 클래스 보호
+-keep class org.json.** { *; }
+-keep class com.fasterxml.jackson.** { *; }

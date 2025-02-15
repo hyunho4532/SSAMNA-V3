@@ -1,8 +1,10 @@
 package com.asetec.domain.model.state
 
+import androidx.annotation.Keep
 import kotlinx.serialization.Serializable
 
 @Serializable
+@Keep
 data class Activate(
     val index: String = "",
     val name: String = "",
@@ -15,7 +17,7 @@ data class Activate(
     val googleId: String = "",
 
     /** 활동 종류 **/
-    var activateResId: Int = 2131165319,
+    var activateResId: Int = 2131165324,
     var activateName: String = "달리기",
 
     /** 측정 상태 **/

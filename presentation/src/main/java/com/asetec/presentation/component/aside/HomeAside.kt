@@ -2,6 +2,7 @@ package com.asetec.presentation.component.aside
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -19,12 +20,10 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,11 +32,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.dialog.ActivateBottomSheet
-import com.asetec.presentation.component.dialog.TimeBottomSheet
-import com.asetec.presentation.component.tool.customButton
+import com.asetec.presentation.component.dialog.ActivateFormBottomSheet
+import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
@@ -49,17 +47,17 @@ import com.asetec.presentation.viewmodel.SensorManagerViewModel
 fun HomeAside(
     context: Context,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
-    sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
-    userList: State<User>
+    sensorManagerViewModel: SensorManagerViewModel = hiltViewModel()
 ) {
 
     val activates by activityLocationViewModel.activates.collectAsState()
+    val activatesForm by activityLocationViewModel.activatesForm.collectAsState()
 
     val showActivateBottomSheet = remember {
         mutableStateOf(false)
     }
 
-    val showTimeBottomSheet = remember {
+    val showActivateFormBottomSheet = remember {
         mutableStateOf(false)
     }
 
@@ -126,11 +124,11 @@ fun HomeAside(
                         bounded = true
                     )
                 ) {
-                    showTimeBottomSheet.value = true
+                    showActivateFormBottomSheet.value = true
                 }
         ) {
             Text(
-                text = "운동 시간",
+                text = "활동 형태",
                 modifier = Modifier.padding(top = 8.dp, start = 14.dp)
             )
 
@@ -141,15 +139,16 @@ fun HomeAside(
             ) {
 
                 Image(
-                    modifier = Modifier.size(20.dp),
-                    painter = painterResource(id = R.drawable.baseline_access_time_24),
+                    modifier = Modifier
+                        .size(20.dp),
+                    painter = painterResource(id = activatesForm.activateFormResId),
                     contentDescription = "운동 시간 아이콘"
                 )
 
                 Spacer(width = 2.dp, height = 0.dp)
 
                 Text(
-                    text = "${userList.value.recentWalkingOfTime}분",
+                    text = activatesForm.name,
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -169,11 +168,12 @@ fun HomeAside(
                         bounded = true
                     )
                 ) {
-                    showActivateBottomSheet.value = true
+                    Toast.makeText(context, "목표 위치를 취소하고 싶을 땐, 마커를 클릭하세요!", Toast.LENGTH_SHORT).show()
+                    activatesForm.showMarkerPopup = true
                 }
         ) {
             Text(
-                text = "목표 거리",
+                text = "목표 위치",
                 modifier = Modifier.padding(top = 8.dp, start = 14.dp)
             )
 
@@ -192,35 +192,34 @@ fun HomeAside(
                 Spacer(width = 2.dp, height = 0.dp)
 
                 Text(
-                    text = "거리",
+                    text = "장소 선택",
                     fontSize = 12.sp,
                     fontWeight = FontWeight.Bold
                 )
             }
         }
 
-       customButton(
+       CustomButton(
             type = ButtonType.RunningStatus.OPEN,
             width = 110.dp,
             height = 36.dp,
             text = sensorManagerViewModel.getSavedButtonNameState()!!,
             showIcon = false,
             backgroundColor = Color(0xFF5c9afa),
-            navController = null,
             context = context,
             shape = "Circle"
         )
     }
 
+    ActivateFormBottomSheet(
+        context = context,
+        sheetState = sheetState,
+        showBottomSheet = showActivateFormBottomSheet
+    )
+
     ActivateBottomSheet(
         context = context,
         sheetState = sheetState,
         showBottomSheet = showActivateBottomSheet
-    )
-
-    TimeBottomSheet(
-        context = context,
-        sheetState = sheetState,
-        showBottomSheet = showTimeBottomSheet
     )
 }

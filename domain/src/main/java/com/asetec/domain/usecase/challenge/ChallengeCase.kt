@@ -1,6 +1,6 @@
 package com.asetec.domain.usecase.challenge
 
-import com.asetec.domain.model.state.ChallengeDTO
+import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.repository.challenge.ChallengeRepository
 import javax.inject.Inject
 

@@ -26,12 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.asetec.domain.model.state.ActivateDTO
+import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.grid.ActivateGrid
 import com.asetec.presentation.component.row.CustomTabRow
-import com.asetec.presentation.component.tool.customButton
+import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
@@ -55,7 +55,7 @@ fun CalendarScreen(
     }
 
     val todayList = activateList.value.map {
-        it.todayFormat.substring(0, 11)
+        it.todayFormat.substring(0, 12)
     }
 
     Column(
@@ -134,13 +134,12 @@ fun CalendarScreen(
                         fontSize = 14.sp
                     )
 
-                    customButton(
+                    CustomButton(
                         type = ButtonType.HistoryStatus.OPEN,
                         width = 82.dp,
                         height = 32.dp,
                         text = "조회",
-                        backgroundColor = Color(0xFF5c9afa),
-                        context = null
+                        backgroundColor = Color(0xFF5c9afa)
                     )
                 }
 
