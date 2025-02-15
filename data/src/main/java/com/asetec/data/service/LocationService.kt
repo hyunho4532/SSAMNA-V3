@@ -5,104 +5,90 @@ import android.annotation.SuppressLint
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.Service
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
 import android.os.Build
 import android.os.IBinder
+import android.os.Looper
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.app.NotificationCompat
+import com.asetec.data.R
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback
 import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.location.Priority
 
 
 @SuppressLint("SpecifyJobSchedulerIdRange")
 class LocationService : Service() {
 
     private lateinit var fusedLocationClient: FusedLocationProviderClient
-    private lateinit var locationRequest: LocationRequest
     private lateinit var locationCallback: LocationCallback
-
-    companion object {
-        const val CHANNEL_ID = "location_channel"
-    }
 
     override fun onCreate() {
         super.onCreate()
 
-        createNotificationChannel()
-
-        val notification = NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("위치 테스트")
-            .setContentText("내 위치 조정")
-            .build()
-
-        startForeground(1, notification)
-
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-        setupLocationRequest()
-        startLocationUpdates()
+        locationCallback = object: LocationCallback() {
+            override fun onLocationResult(locationResult: LocationResult) {
+                locationResult.lastLocation.let { location ->
+                    Log.d("LocationService", "좌표: ${location?.latitude}, ${location?.longitude}")
+                }
+            }
+        }
     }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
-    private fun createNotificationChannel() {
+    override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        startForegroundService()
+        requestLocationUpdates()
+        return START_STICKY
+    }
+
+    private fun startForegroundService() {
+        val channelId = "location_service_channel"
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val name = "Location Service"
-            val descriptionText = "Channel for location updates"
-            val importance = NotificationManager.IMPORTANCE_DEFAULT
-            val channel = NotificationChannel(CHANNEL_ID, name, importance).apply {
-                description = descriptionText
-            }
-            val notificationManager: NotificationManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-    private fun setupLocationRequest() {
-        locationRequest = LocationRequest.create().apply {
-            interval = 5000
-            fastestInterval = 2000
-            priority = LocationRequest.PRIORITY_HIGH_ACCURACY
+            val channel = NotificationChannel(
+                channelId,
+                "위치 서비스",
+                NotificationManager.IMPORTANCE_LOW
+            )
+            val manager = getSystemService(NotificationManager::class.java)
+            manager.createNotificationChannel(channel)
         }
 
-        locationCallback = object : LocationCallback() {
-            override fun onLocationResult(locationResult: LocationResult) {
-                locationResult.let { result ->
-                    for (location in result.locations) {
-                        Log.d("LocationService", "위도: ${location.latitude}, 경도: ${location.longitude}")
-                        sendLocationToReceiver(location)
-                    }
-                }
-            }
-        }
+        val notification = NotificationCompat.Builder(this, channelId)
+            .setContentTitle("위치 서비스 실행 중")
+            .setContentText("5초마다 위치를 추적합니다")
+            .setSmallIcon(R.drawable.baseline_persons_run_24)
+            .build()
+
+        startForeground(1, notification)
     }
 
-    private fun sendLocationToReceiver(location: Location) {
-        val intent = Intent("com.asetec.LOCATION_UPDATE")
-        intent.putExtra("location", location)
-        sendBroadcast(intent)
-    }
+    private fun requestLocationUpdates() {
+        val locationRequest = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 5000)
+            .build()
 
-    private fun startLocationUpdates() {
         if (ActivityCompat.checkSelfPermission(
                 this,
                 Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
+            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
         ) {
             return
         }
-        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, null)
+
+        fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper())
     }
 
     override fun onDestroy() {
