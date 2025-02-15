@@ -28,6 +28,7 @@ import com.asetec.presentation.component.util.responsive.setUpButtonWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
+import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
@@ -47,6 +48,7 @@ fun CustomButton(
     onClick: (permissionPopup: Boolean) -> Unit = { },
     @ApplicationContext context: Context = LocalContext.current,
     cameraPositionState: CameraPositionState = rememberCameraPositionState(),
+    locationManagerViewModel: LocationManagerViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel()
@@ -78,10 +80,10 @@ fun CustomButton(
                         ButtonType.RunningStatus.FINISH -> {
                             if (sensorManagerViewModel.getSavedSensorState() < 100) {
                                 sensorManagerViewModel.stopService(
-                                    context = context,
                                     runningStatus = true,
                                     isRunning = false
                                 )
+                                locationManagerViewModel.stopService()
                                 sensorManagerViewModel.stopWatch()
                             } else {
                                 Toast.makeText(context, "최소 100보 이상은 걸어야 합니다!", Toast.LENGTH_SHORT).show()
@@ -104,7 +106,8 @@ fun CustomButton(
                         }
 
                         else -> {
-                            sensorManagerViewModel.startService(context, true)
+                            locationManagerViewModel.startService()
+                            sensorManagerViewModel.startService(true)
                             sensorManagerViewModel.startWatch()
                         }
                     }

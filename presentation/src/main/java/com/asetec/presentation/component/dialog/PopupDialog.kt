@@ -79,7 +79,6 @@ fun ShowCompleteDialog(
     Dialog(
         onDismissRequest = {
             sensorManagerViewModel.stopService(
-                context = context,
                 runningStatus = false,
                 isRunning = false
             )
