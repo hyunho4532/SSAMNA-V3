@@ -211,8 +211,7 @@ fun TopBox(
                     text = "측정 완료!",
                     backgroundColor = Color(0xFF5c9afa),
                     context = context,
-                    shape = "Circle",
-                    coordinate = coordinate
+                    shape = "Circle"
                 )
             }
         }

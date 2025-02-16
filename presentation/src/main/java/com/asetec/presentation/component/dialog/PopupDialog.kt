@@ -199,7 +199,8 @@ fun ShowCompleteDialog(
                         showIcon = false,
                         backgroundColor = Color(0xFF5c9afa),
                         context = context,
-                        shape = "Rectangle"
+                        shape = "Rectangle",
+                        coordinate = coordinate
                     )
                 }
 
