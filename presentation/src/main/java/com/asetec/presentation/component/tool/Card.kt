@@ -61,6 +61,8 @@ import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonPrimitive
 
@@ -361,7 +363,7 @@ fun activateCard(
                 ) {
                     Text(text = "칼로리")
                     Text(
-                        text = String.format("%.2f", activateDTO!!.cul["kcal_cul"])
+                        text = String.format("%.2f", (activateDTO!!.cul["kcal_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0)
                     )
                 }
                 Column (
@@ -369,7 +371,7 @@ fun activateCard(
                 ) {
                     Text(text = "km")
                     Text(
-                        text = "${activateDTO!!.cul["km_cul"]}"
+                        text = String.format("%.2f", (activateDTO!!.cul["km_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0)
                     )
                 }
             }
