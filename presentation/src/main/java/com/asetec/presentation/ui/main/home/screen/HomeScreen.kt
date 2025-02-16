@@ -5,6 +5,7 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
@@ -46,6 +47,7 @@ import com.asetec.presentation.component.tool.CircularProgress
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -62,10 +64,12 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun HomeScreen(
     fusedLocationClient: FusedLocationProviderClient,
+    locationManagerViewModel: LocationManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     context: Context
 ) {
+    val coordinateState = locationManagerViewModel.coordinate.collectAsState()
     val locationState = activityLocationViewModel.locations.collectAsState()
     val activates by sensorManagerViewModel.activates.collectAsState()
     val activatesForm by activityLocationViewModel.activatesForm.collectAsState()
@@ -120,6 +124,10 @@ fun HomeScreen(
         }
     }
 
+    LaunchedEffect(key1 = coordinateState.value.coordz.size) {
+        Log.d("HomeScreen", "호출 호출 호출")
+    }
+
     if (locationPermissionState.allPermissionsGranted) {
         if (isLocationLoaded) {
             GoogleMap(
@@ -136,6 +144,13 @@ fun HomeScreen(
                     title = "목표 지점",
                     snippet = "여기가 목표지점이에요!"
                 )
+
+                coordinateState.value.coordz.forEach {
+                    Marker(
+                        state = MarkerState(position = LatLng(it.latitude, it.longitude)),
+                        title = "달리세요!"
+                    )
+                }
             }
 
             if (activatesForm.showMarkerPopup) {

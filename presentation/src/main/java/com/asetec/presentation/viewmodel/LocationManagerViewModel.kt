@@ -29,8 +29,13 @@ class LocationManagerViewModel @Inject constructor(
         viewModelScope.launch {
             _coordinate.collectLatest { coord ->
                 if (coord.coordzState) {
+                    /**
+                     * 기존 값이 남아 있을 수 있으므로 클리어한다.
+                     */
+                    _coordinate.value.coordz.subList(0, _coordinate.value.coordz.size)
+
                     locationManagerCase.getCurrentLocation().collectLatest { (lat, lng) ->
-                        Log.d("LocationManagerViewModel", "위도: $lat, 경도: $lng")
+                        _coordinate.value.coordz.add(Location(lat, lng))
                     }
                 }
             }

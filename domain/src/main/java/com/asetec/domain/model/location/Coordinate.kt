@@ -6,5 +6,5 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Coordinate(
     val coordzState: Boolean = false,
-    val coordz: List<Location> = emptyList()
+    val coordz: MutableList<Location> = ArrayList()
 )
