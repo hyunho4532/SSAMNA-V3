@@ -42,10 +42,12 @@ import com.asetec.presentation.R
 import com.asetec.presentation.component.aside.HomeAside
 import com.asetec.presentation.component.box.TopBox
 import com.asetec.presentation.component.dialog.ShowCompleteDialog
+import com.asetec.presentation.component.marker.MapMarker
 import com.asetec.presentation.component.tool.CircularProgress
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
@@ -55,6 +57,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @SuppressLint("UseOfNonLambdaOffsetOverload")
@@ -62,10 +65,12 @@ import com.google.maps.android.compose.rememberCameraPositionState
 @Composable
 fun HomeScreen(
     fusedLocationClient: FusedLocationProviderClient,
+    locationManagerViewModel: LocationManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     context: Context
 ) {
+    val coordinateState = locationManagerViewModel.coordinate.collectAsState()
     val locationState = activityLocationViewModel.locations.collectAsState()
     val activates by sensorManagerViewModel.activates.collectAsState()
     val activatesForm by activityLocationViewModel.activatesForm.collectAsState()
@@ -120,21 +125,46 @@ fun HomeScreen(
         }
     }
 
+    val coordinatesFiltering = coordinateState.value.coordz.filter {
+        it.latitude != 0.0
+    }
+
+    val coordinates = coordinatesFiltering.map {
+        LatLng(it.latitude, it.longitude)
+    }
+
     if (locationPermissionState.allPermissionsGranted) {
         if (isLocationLoaded) {
+
             GoogleMap(
                 cameraPositionState = cameraPositionState
             ) {
-                Marker(
-                    state = MarkerState(position = LatLng(locationState.value.latitude, locationState.value.longitude)),
-                    title = "현재 위치",
-                    snippet = "여기가 현재 위치에요!"
+                MapMarker(
+                    context = context,
+                    position = LatLng(locationState.value.latitude, locationState.value.longitude),
+                    title = "현재 위치!",
+                    iconResourceId = R.drawable.running_marker
                 )
 
                 Marker(
                     state = MarkerState(position = LatLng(activatesForm.latitude, activatesForm.longitude)),
                     title = "목표 지점",
                     snippet = "여기가 목표지점이에요!"
+                )
+
+                coordinates.forEach {
+                    MapMarker(
+                        context = context,
+                        position = LatLng(it.latitude, it.longitude),
+                        title = "달리세요!",
+                        iconResourceId = R.drawable.location_marker
+                    )
+                }
+
+                Polyline(
+                    points = coordinates,
+                    color = Color.Gray,
+                    width = 3f
                 )
             }
 
@@ -179,7 +209,9 @@ fun HomeScreen(
             if (activates.showRunningStatus) {
                 ShowCompleteDialog(
                     context = context,
-                    sensorManagerViewModel
+                    locationState = locationState,
+                    coordinate = coordinates,
+                    sensorManagerViewModel = sensorManagerViewModel,
                 )
             }
 

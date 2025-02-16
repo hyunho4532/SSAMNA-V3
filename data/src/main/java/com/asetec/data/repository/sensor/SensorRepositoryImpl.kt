@@ -6,7 +6,6 @@ import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
-import android.hardware.SensorManager
 import androidx.core.app.NotificationCompat
 import com.asetec.data.R
 import com.asetec.domain.repository.sensor.SensorRepository

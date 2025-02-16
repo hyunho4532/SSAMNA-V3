@@ -361,7 +361,7 @@ fun activateCard(
                 ) {
                     Text(text = "칼로리")
                     Text(
-                        text = "${activateDTO!!.cul["kcal_cul"]}"
+                        text = String.format("%.2f", activateDTO!!.cul["kcal_cul"])
                     )
                 }
                 Column (

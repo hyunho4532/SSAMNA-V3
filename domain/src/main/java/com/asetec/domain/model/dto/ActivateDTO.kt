@@ -14,6 +14,9 @@ data class ActivateDTO(
     @SerialName("title")
     val title: String = "",
 
+    @SerialName("coord")
+    val coord: JsonObject = buildJsonObject {  },
+
     @SerialName("status")
     val status: JsonObject = buildJsonObject {  },
 

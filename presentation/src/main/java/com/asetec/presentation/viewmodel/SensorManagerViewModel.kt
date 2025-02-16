@@ -37,8 +37,8 @@ class SensorManagerViewModel @Inject constructor(
     private var stopwatchJob: Job? = null
 
     // 서비스 시작 시 상태 업데이트
-    fun startService(context: Context, isRunning: Boolean) {
-        sensorManagerCase.startService(context)
+    fun startService(isRunning: Boolean) {
+        sensorManagerCase.startService(appContext)
 
         _activates.update {
             it.copy(
@@ -53,10 +53,10 @@ class SensorManagerViewModel @Inject constructor(
     }
 
     // 서비스 중지 시 상태 업데이트
-    fun stopService(context: Context, runningStatus: Boolean, isRunning: Boolean) {
+    fun stopService(runningStatus: Boolean, isRunning: Boolean) {
         sharedPreferences.edit().putInt("pedometerCount", 0).apply()
 
-        sensorManagerCase.stopService(context = context)
+        sensorManagerCase.stopService(context = appContext)
 
         _activates.update {
             it.copy(

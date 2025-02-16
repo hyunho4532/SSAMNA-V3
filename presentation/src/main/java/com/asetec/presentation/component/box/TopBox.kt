@@ -34,6 +34,7 @@ import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.util.FormatImpl
 import com.asetec.presentation.enum.ButtonType
+import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 
 /**
@@ -43,9 +44,11 @@ import com.asetec.presentation.viewmodel.SensorManagerViewModel
 @Composable
 fun TopBox(
     context: Context,
-    sensorManagerViewModel: SensorManagerViewModel = hiltViewModel()
+    sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
+    locationManagerViewModel: LocationManagerViewModel = hiltViewModel()
 ) {
 
+    val coordinate = locationManagerViewModel.coordinate.collectAsState()
     val activates = sensorManagerViewModel.activates.collectAsState()
 
     val sensorManager = remember {
