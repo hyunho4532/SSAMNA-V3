@@ -8,7 +8,6 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import com.asetec.data.R
 import com.asetec.data.service.SensorService

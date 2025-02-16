@@ -13,6 +13,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,13 +23,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpButtonWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
+import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -47,6 +51,8 @@ fun CustomButton(
     onClick: (permissionPopup: Boolean) -> Unit = { },
     @ApplicationContext context: Context = LocalContext.current,
     cameraPositionState: CameraPositionState = rememberCameraPositionState(),
+    coordinate: List<LatLng> = emptyList(),
+    locationManagerViewModel: LocationManagerViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel()
@@ -78,10 +84,10 @@ fun CustomButton(
                         ButtonType.RunningStatus.FINISH -> {
                             if (sensorManagerViewModel.getSavedSensorState() < 100) {
                                 sensorManagerViewModel.stopService(
-                                    context = context,
                                     runningStatus = true,
                                     isRunning = false
                                 )
+                                locationManagerViewModel.stopService()
                                 sensorManagerViewModel.stopWatch()
                             } else {
                                 Toast.makeText(context, "최소 100보 이상은 걸어야 합니다!", Toast.LENGTH_SHORT).show()
@@ -92,7 +98,8 @@ fun CustomButton(
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 activityLocationViewModel.saveActivity(
                                     runningIcon = activates.value.activateResId,
-                                    runningTitle = activates.value.activateName
+                                    runningTitle = activates.value.activateName,
+                                    coordinate = coordinate
                                 )
                             }
                         }
@@ -104,7 +111,8 @@ fun CustomButton(
                         }
 
                         else -> {
-                            sensorManagerViewModel.startService(context, true)
+                            locationManagerViewModel.startService()
+                            sensorManagerViewModel.startService(true)
                             sensorManagerViewModel.startWatch()
                         }
                     }

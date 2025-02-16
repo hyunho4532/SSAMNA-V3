@@ -17,7 +17,7 @@ data class Activate(
     val googleId: String = "",
 
     /** 활동 종류 **/
-    var activateResId: Int = 2131165324,
+    var activateResId: Int = 2131165326,
     var activateName: String = "달리기",
 
     /** 측정 상태 **/

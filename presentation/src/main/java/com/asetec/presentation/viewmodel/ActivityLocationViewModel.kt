@@ -3,6 +3,7 @@ package com.asetec.presentation.viewmodel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -14,14 +15,13 @@ import com.asetec.domain.usecase.activate.ActivateCase
 import com.asetec.presentation.component.util.FormatImpl
 import com.asetec.presentation.component.util.JsonObjImpl
 import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
 import javax.inject.Inject
 
 @HiltViewModel
@@ -128,7 +128,8 @@ class ActivityLocationViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun saveActivity(
         runningIcon: Int,
-        runningTitle: String
+        runningTitle: String,
+        coordinate: List<LatLng>
     ) {
         val pedometerCount = sharedPreferences?.getInt("pedometerCount", _activates.value.pedometerCount)
         val googleId = sharedPreferences2?.getString("id", "")
@@ -157,9 +158,15 @@ class ActivityLocationViewModel @Inject constructor(
             activateForm = _activatesForm
         ).build()
 
+        val coordinateData = JsonObjImpl(
+            type = "coordinate",
+            coordinateList = coordinate
+        ).build()
+
         val activateDTO = ActivateDTO (
             googleId = googleId!!,
             title = _activates.value.runningTitle,
+            coord = coordinateData,
             status = statusData,
             running = runningData,
             runningForm = runningFormData,
