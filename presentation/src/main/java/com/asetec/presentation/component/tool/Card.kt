@@ -2,6 +2,7 @@ package com.asetec.presentation.component.tool
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -258,6 +259,8 @@ fun activateCard(
                         activateResId = imageResId!!,
                         activateName = activate!!.name
                     )
+                } else {
+                    Log.d("Card", "클릭")
                 }
             },
         colors = CardDefaults.cardColors(
