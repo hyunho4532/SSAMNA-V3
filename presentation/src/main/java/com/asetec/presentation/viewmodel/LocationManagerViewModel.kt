@@ -1,7 +1,6 @@
 package com.asetec.presentation.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.location.Coordinate

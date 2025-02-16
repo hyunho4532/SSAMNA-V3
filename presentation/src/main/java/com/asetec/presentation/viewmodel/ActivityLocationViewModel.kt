@@ -4,11 +4,13 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.dto.ActivateDTO
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.usecase.activate.ActivateCase
 import com.asetec.presentation.component.util.FormatImpl
@@ -20,8 +22,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
 import javax.inject.Inject
 
 @HiltViewModel
@@ -128,7 +128,8 @@ class ActivityLocationViewModel @Inject constructor(
     @RequiresApi(Build.VERSION_CODES.O)
     fun saveActivity(
         runningIcon: Int,
-        runningTitle: String
+        runningTitle: String,
+        coordinate: State<Coordinate>?
     ) {
         val pedometerCount = sharedPreferences?.getInt("pedometerCount", _activates.value.pedometerCount)
         val googleId = sharedPreferences2?.getString("id", "")

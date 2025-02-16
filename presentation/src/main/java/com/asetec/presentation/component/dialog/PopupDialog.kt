@@ -1,16 +1,11 @@
 package com.asetec.presentation.component.dialog
 
-import PermiActivate
-import PermiLocation
-import PermiNotification
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -21,21 +16,17 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -43,18 +34,20 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import coil.request.ImageRequest
+import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
+import com.asetec.presentation.component.marker.MapMarker
 import com.asetec.presentation.component.row.BoxRow
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.util.responsive.setUpDialogWidth
-import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.JsonParseViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.rememberCameraPositionState
 
@@ -63,6 +56,8 @@ import com.google.maps.android.compose.rememberCameraPositionState
 fun ShowCompleteDialog(
     context: Context,
     sensorManagerViewModel: SensorManagerViewModel,
+    locationState: State<Location>,
+    coordinate: List<LatLng>,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     jsonParseViewModel: JsonParseViewModel = hiltViewModel()
 ) {
@@ -74,6 +69,10 @@ fun ShowCompleteDialog(
         if (jsonParseViewModel.runningJsonData.isEmpty()) {
             jsonParseViewModel.activateJsonParse("running.json", "running")
         }
+
+        cameraPositionState.move(
+            CameraUpdateFactory.newLatLngZoom(LatLng(locationState.value.latitude, locationState.value.longitude), 16f)
+        )
     }
 
     Dialog(
@@ -171,7 +170,21 @@ fun ShowCompleteDialog(
                         .padding(top = 12.dp),
                     cameraPositionState = cameraPositionState
                 ) {
+                    MapMarker(
+                        context = context,
+                        position = LatLng(locationState.value.latitude, locationState.value.longitude),
+                        title = "러닝 시작점",
+                        iconResourceId = R.drawable.running_marker
+                    )
 
+                    coordinate.forEach {
+                        MapMarker(
+                            context = context,
+                            position = LatLng(it.latitude, it.longitude),
+                            title = "위치",
+                            iconResourceId = R.drawable.location_marker
+                        )
+                    }
                 }
 
                 Box(

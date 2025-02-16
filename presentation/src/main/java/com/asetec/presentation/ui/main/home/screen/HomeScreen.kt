@@ -5,7 +5,6 @@ import android.Manifest
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.Image
@@ -43,6 +42,7 @@ import com.asetec.presentation.R
 import com.asetec.presentation.component.aside.HomeAside
 import com.asetec.presentation.component.box.TopBox
 import com.asetec.presentation.component.dialog.ShowCompleteDialog
+import com.asetec.presentation.component.marker.MapMarker
 import com.asetec.presentation.component.tool.CircularProgress
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.enum.ButtonType
@@ -57,6 +57,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
+import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 
 @SuppressLint("UseOfNonLambdaOffsetOverload")
@@ -124,19 +125,25 @@ fun HomeScreen(
         }
     }
 
-    LaunchedEffect(key1 = coordinateState.value.coordz.size) {
-        Log.d("HomeScreen", "호출 호출 호출")
+    val coordinatesFiltering = coordinateState.value.coordz.filter {
+        it.latitude != 0.0
+    }
+
+    val coordinates = coordinatesFiltering.map {
+        LatLng(it.latitude, it.longitude)
     }
 
     if (locationPermissionState.allPermissionsGranted) {
         if (isLocationLoaded) {
+
             GoogleMap(
                 cameraPositionState = cameraPositionState
             ) {
-                Marker(
-                    state = MarkerState(position = LatLng(locationState.value.latitude, locationState.value.longitude)),
-                    title = "현재 위치",
-                    snippet = "여기가 현재 위치에요!"
+                MapMarker(
+                    context = context,
+                    position = LatLng(locationState.value.latitude, locationState.value.longitude),
+                    title = "현재 위치!",
+                    iconResourceId = R.drawable.running_marker
                 )
 
                 Marker(
@@ -145,12 +152,20 @@ fun HomeScreen(
                     snippet = "여기가 목표지점이에요!"
                 )
 
-                coordinateState.value.coordz.forEach {
-                    Marker(
-                        state = MarkerState(position = LatLng(it.latitude, it.longitude)),
-                        title = "달리세요!"
+                coordinates.forEach {
+                    MapMarker(
+                        context = context,
+                        position = LatLng(it.latitude, it.longitude),
+                        title = "달리세요!",
+                        iconResourceId = R.drawable.location_marker
                     )
                 }
+
+                Polyline(
+                    points = coordinates,
+                    color = Color.Gray,
+                    width = 3f
+                )
             }
 
             if (activatesForm.showMarkerPopup) {
@@ -194,7 +209,9 @@ fun HomeScreen(
             if (activates.showRunningStatus) {
                 ShowCompleteDialog(
                     context = context,
-                    sensorManagerViewModel
+                    locationState = locationState,
+                    coordinate = coordinates,
+                    sensorManagerViewModel = sensorManagerViewModel,
                 )
             }
 
