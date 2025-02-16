@@ -2,6 +2,7 @@ package com.asetec.presentation.component.tool
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -61,6 +62,8 @@ import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonPrimitive
 
@@ -256,6 +259,8 @@ fun activateCard(
                         activateResId = imageResId!!,
                         activateName = activate!!.name
                     )
+                } else {
+                    Log.d("Card", "클릭")
                 }
             },
         colors = CardDefaults.cardColors(
@@ -361,7 +366,7 @@ fun activateCard(
                 ) {
                     Text(text = "칼로리")
                     Text(
-                        text = String.format("%.2f", activateDTO!!.cul["kcal_cul"])
+                        text = String.format("%.2f", (activateDTO!!.cul["kcal_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0)
                     )
                 }
                 Column (
@@ -369,7 +374,7 @@ fun activateCard(
                 ) {
                     Text(text = "km")
                     Text(
-                        text = "${activateDTO!!.cul["km_cul"]}"
+                        text = String.format("%.2f", (activateDTO!!.cul["km_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0)
                     )
                 }
             }
