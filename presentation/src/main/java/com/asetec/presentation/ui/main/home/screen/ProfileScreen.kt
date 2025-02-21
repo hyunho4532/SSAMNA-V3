@@ -36,6 +36,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.box.polygon.PolygonBox
@@ -57,6 +59,7 @@ import kotlinx.serialization.json.jsonPrimitive
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
+    navController: NavController = rememberNavController(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel(),
     userList: State<User>,
@@ -175,10 +178,11 @@ fun ProfileScreen(
         ) {
             activateData.value.forEach { activateDTO ->
                 activateCard(
+                    navController = navController,
                     height = 160.dp,
                     borderStroke = 1,
                     activateDTO = activateDTO,
-                    cardType = CardType.ActivateStatus.Activity
+                    cardType = CardType.ActivateStatus.Activity,
                 )
             }
         }

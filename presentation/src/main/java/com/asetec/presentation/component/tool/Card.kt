@@ -1,6 +1,7 @@
 package com.asetec.presentation.component.tool
 
 import android.content.Context
+import android.content.Intent
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
@@ -51,6 +52,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.dto.ActivateDTO
@@ -61,6 +64,7 @@ import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
+import com.asetec.presentation.ui.feature.detail.ActivateDetailActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.doubleOrNull
@@ -226,6 +230,7 @@ fun ReportCard(userState: User) {
 
 @Composable
 fun activateCard(
+    navController: NavController = rememberNavController(),
     context: Context? = LocalContext.current,
     height: Dp,
     backgroundColor: Color = Color.White,
@@ -260,7 +265,10 @@ fun activateCard(
                         activateName = activate!!.name
                     )
                 } else {
-                    Log.d("Card", "클릭")
+                    val intent = Intent(context, ActivateDetailActivity::class.java)
+                    intent.putExtra("googleId", activateDTO!!.googleId)
+                    intent.putExtra("date", activateDTO.todayFormat)
+                    context?.startActivity(intent)
                 }
             },
         colors = CardDefaults.cardColors(

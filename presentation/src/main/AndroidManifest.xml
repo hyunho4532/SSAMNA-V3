@@ -15,6 +15,12 @@
 
     <application>
         <activity
+            android:name=".ui.feature.detail.ActivateDetailActivity"
+            android:exported="false"
+            android:label="@string/title_activity_activate_detail"
+            android:theme="@style/Theme.SSAMNA"
+            />
+        <activity
             android:name=".ui.feature.goal.GoalActivity"
             android:exported="false"
             android:theme="@style/Theme.SSAMNA"

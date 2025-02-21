@@ -188,10 +188,15 @@ class ActivityLocationViewModel @Inject constructor(
         _activateData.value = activateDTO!!
     }
 
-    suspend fun selectActivityFindByDate(dayLocalDate: String) {
+    suspend fun selectActivityFindByIdDate(googleId: String, date: String) {
+        val activateDTO = activateCase?.selectActivityFindByIdDate(googleId, date)
+        _activateData.value = activateDTO!!
+    }
+
+    suspend fun selectActivityFindByDate(date: String) {
         val googleId = sharedPreferences2?.getString("id", "")
 
-        val activateDTO = activateCase?.selectActivityFindByDate(googleId!!, dayLocalDate)
+        val activateDTO = activateCase?.selectActivityFindByDate(googleId!!, date)
         _activateData.value = activateDTO!!
     }
 }

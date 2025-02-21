@@ -26,12 +26,26 @@ class ActivateRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun selectActivateByDate(googleId: String, dayLocalDate: String): List<ActivateDTO> {
+    override suspend fun selectActivateByDate(googleId: String, date: String): List<ActivateDTO> {
         return withContext(Dispatchers.IO) {
             postgrest.from("Activity").select {
                 filter {
                     eq("google_id", googleId)
-                    eq("eq_date", dayLocalDate)
+                    eq("eq_date", date)
+                }
+            }.decodeList<ActivateDTO>()
+        }
+    }
+
+    override suspend fun selectActivityFindByIdDate(
+        googleId: String,
+        date: String
+    ): List<ActivateDTO> {
+        return withContext(Dispatchers.IO) {
+            postgrest.from("Activity").select {
+                filter {
+                    eq("google_id", googleId)
+                    eq("today_format", date)
                 }
             }.decodeList<ActivateDTO>()
         }
