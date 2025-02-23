@@ -3,13 +3,14 @@ package com.asetec.presentation.viewmodel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.dto.ActivateDTO
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.usecase.activate.ActivateCase
 import com.asetec.presentation.component.util.FormatImpl
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 @HiltViewModel
@@ -198,5 +200,18 @@ class ActivityLocationViewModel @Inject constructor(
 
         val activateDTO = activateCase?.selectActivityFindByDate(googleId!!, date)
         _activateData.value = activateDTO!!
+    }
+
+    fun setCoordList(activateData: State<List<ActivateDTO>>): List<Coordinate> {
+        var coordList: List<Coordinate> = listOf()
+
+        activateData.value.forEach { data ->
+            val jsonElement = data.coord["coords"]
+            val jsonString = jsonElement.toString()
+
+            coordList = Json.decodeFromString<List<Coordinate>>(jsonString)
+        }
+
+        return coordList
     }
 }

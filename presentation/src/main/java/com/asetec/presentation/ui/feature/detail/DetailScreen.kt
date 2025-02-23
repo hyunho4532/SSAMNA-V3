@@ -12,13 +12,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.asetec.domain.model.location.CoordinateWrapper
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.presentation.R
 import com.asetec.presentation.component.marker.MapMarker
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
-import kotlinx.serialization.json.Json
+import com.google.maps.android.compose.rememberCameraPositionState
 
 @Composable
 fun DetailScreen(
@@ -28,10 +29,13 @@ fun DetailScreen(
     context: Context,
 ) {
     val activateData = activityLocationViewModel.activateData.collectAsState()
+    val cameraPositionState = rememberCameraPositionState()
 
     LaunchedEffect(key1 = Unit) {
         activityLocationViewModel.selectActivityFindByIdDate(googleId, date)
     }
+
+    val coordsList: List<Coordinate> = activityLocationViewModel.setCoordList(activateData)
 
     Column {
         Box(
@@ -39,22 +43,26 @@ fun DetailScreen(
                 .fillMaxWidth()
                 .align(Alignment.CenterHorizontally)
         ) {
-            GoogleMap(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(300.dp)
-                    .padding(24.dp),
-            )
+            if (coordsList.isNotEmpty()) {
+                cameraPositionState.move(
+                    CameraUpdateFactory.newLatLngZoom(LatLng(coordsList.get(0).latitude, coordsList.get(0).longitude), 18f)
+                )
 
-            activateData.value.forEach {
-                val coordinates = Json.decodeFromString<CoordinateWrapper>(it.coord.toString())
-                coordinates.coords.forEach { data ->
-                    MapMarker(
-                        context = context,
-                        position = LatLng(data.latitude, data.longitude),
-                        title = "달리세요!",
-                        iconResourceId = R.drawable.location_marker
-                    )
+                GoogleMap(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(300.dp)
+                        .padding(24.dp),
+                    cameraPositionState = cameraPositionState
+                ) {
+                    coordsList.forEach { data ->
+                        MapMarker(
+                            context = context,
+                            position = LatLng(data.latitude, data.longitude),
+                            title = "활동 내역",
+                            iconResourceId = R.drawable.location_marker
+                        )
+                    }
                 }
             }
         }
