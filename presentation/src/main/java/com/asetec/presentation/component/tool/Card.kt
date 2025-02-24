@@ -3,7 +3,6 @@ package com.asetec.presentation.component.tool
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -25,6 +24,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -34,6 +34,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -48,6 +49,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -67,6 +69,7 @@ import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.ui.feature.detail.ActivateDetailActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.double
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonPrimitive
@@ -598,18 +601,17 @@ fun challengeRegistrationCard(
 }
 
 /**
- * 사용자의 날자에 따른 운동 내역을 보여준다.
+ * 활동 상세 내역
  */
 @Composable
-fun historyActivateCard(
-    activateDTO: ActivateDTO,
-    height: Dp
+fun activateHistoryCard(
+    activate: State<List<ActivateDTO>>,
+    height: Dp,
 ) {
     Card (
         modifier = Modifier
             .width(setUpWidth())
             .height(height)
-            .padding(top = 24.dp, start = 8.dp)
             .shadow(
                 elevation = 6.dp
             )
@@ -632,21 +634,62 @@ fun historyActivateCard(
                 .padding(top = 8.dp, start = 4.dp)
         ) {
             Column(
-                modifier = Modifier.fillMaxSize()
+                modifier = Modifier.fillMaxSize(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceAround
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = activateDTO.title,
+                        text = "시간",
                         fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f), // 동일한 가중치 적용
+                        textAlign = TextAlign.Center
                     )
 
                     Text(
-                        text = activateDTO.todayFormat,
-                        fontSize = 14.sp
+                        text = "칼로리",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+
+                    Text(
+                        text = "km",
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+                }
+
+                Row(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = activate.value[0].time,
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+
+                    Text(
+                        text = String.format("%.2f", (activate.value[0].cul["kcal_cul"] as? JsonPrimitive)?.double),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
+                    )
+
+                    Text(
+                        text = String.format("%.2f", (activate.value[0].cul["km_cul"] as? JsonPrimitive)?.double),
+                        fontSize = 14.sp,
+                        fontWeight = FontWeight.Bold,
+                        modifier = Modifier.weight(1f),
+                        textAlign = TextAlign.Center
                     )
                 }
             }

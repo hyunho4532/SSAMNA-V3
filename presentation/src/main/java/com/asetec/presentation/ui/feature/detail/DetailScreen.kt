@@ -1,8 +1,11 @@
 package com.asetec.presentation.ui.feature.detail
 
 import android.content.Context
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -11,10 +14,12 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.presentation.R
 import com.asetec.presentation.component.marker.MapMarker
+import com.asetec.presentation.component.tool.activateHistoryCard
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
@@ -37,13 +42,18 @@ fun DetailScreen(
 
     val coordsList: List<Coordinate> = activityLocationViewModel.setCoordList(activateData)
 
-    Column {
-        Box(
+    if (coordsList.isNotEmpty()) {
+        Column(
             modifier = Modifier
-                .fillMaxWidth()
-                .align(Alignment.CenterHorizontally)
+                .fillMaxSize()
+                .background(Color.White),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            if (coordsList.isNotEmpty()) {
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.CenterHorizontally)
+            ) {
                 cameraPositionState.move(
                     CameraUpdateFactory.newLatLngZoom(LatLng(coordsList.get(0).latitude, coordsList.get(0).longitude), 18f)
                 )
@@ -52,7 +62,11 @@ fun DetailScreen(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(300.dp)
-                        .padding(24.dp),
+                        .padding(
+                            top = 24.dp,
+                            start = 24.dp,
+                            end = 24.dp
+                        ),
                     cameraPositionState = cameraPositionState
                 ) {
                     coordsList.forEach { data ->
@@ -64,6 +78,15 @@ fun DetailScreen(
                         )
                     }
                 }
+            }
+
+            activateHistoryCard(
+                activate = activateData,
+                height = 50.dp
+            )
+
+            Box() {
+                
             }
         }
     }
