@@ -9,22 +9,32 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.presentation.R
 import com.asetec.presentation.component.marker.MapMarker
+import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateHistoryCard
+import com.asetec.presentation.component.util.analyzeRunningFeedback
+import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.double
 
 @Composable
 fun DetailScreen(
@@ -46,7 +56,8 @@ fun DetailScreen(
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White),
+                .background(Color.White)
+                .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Box(
@@ -85,8 +96,44 @@ fun DetailScreen(
                 height = 50.dp
             )
 
-            Box() {
-                
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp)
+                    .align(Alignment.Start)
+                    .padding(
+                        top = 40.dp,
+                        start = 24.dp
+                    )
+            ) {
+                Column {
+                    Text(
+                        text = "이번 활동의 페이스 분석",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+
+                    Spacer(
+                        width = setUpWidth(),
+                        height = 10.dp,
+                        isBottomBorder = true
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .padding(top = 12.dp)
+                    ) {
+                        Column {
+                            Text(
+                                text = analyzeRunningFeedback(
+                                    activateData.value[0].time,
+                                    (activateData.value[0].cul["km_cul"] as? JsonPrimitive)!!.double,
+                                    (activateData.value[0].cul["kcal_cul"] as? JsonPrimitive)!!.double
+                                ),
+                            )
+                        }
+                    }
+                }
             }
         }
     }

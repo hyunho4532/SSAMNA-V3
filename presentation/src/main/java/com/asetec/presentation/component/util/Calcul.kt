@@ -277,3 +277,28 @@ fun getLastYear(
 
     return sumList
 }
+
+/**
+ * 시간 변환 함수
+ * 00:00 형식의 시간을 분 단위 또는 초 단위로 변환하는 함수
+ */
+fun convertTimeToSeconds(time: String): Int {
+    val parts = time.split(":").map { it.toInt() }
+    return parts[0] * 60 + parts[1]
+}
+
+/**
+ * 페이즈 및 칼로리 계산
+ */
+fun analyzeRunningFeedback(time: String, distance: Double, calories: Double, onPaceReceive: (Double) -> Unit): String {
+    val timeInMinutes = convertTimeToSeconds(time) / 60.0
+    val pace = if (distance > 0) timeInMinutes / distance else 0.0
+    val caloriePerKm = if (distance > 0) calories / distance else 0.0
+
+    return when {
+        pace < 5.0 -> "속도가 빠릅니다! 페이스 조절이 필요할 수 있어요."
+        pace in 5.0..7.0 -> "적절한 페이스로 달리고 있습니다!"
+        pace in 7.0 .. 10.0 -> "현재 페이스도 괜찮지만, 조금 더 달려주세요!"
+        else -> "현재 페이스로는 부족합니다!\n계속 러닝을 하다보면 페이스가 높아질거에요!"
+    } + "\n칼로리 소모량: ${"%.2f".format(caloriePerKm)} kcal/km"
+}

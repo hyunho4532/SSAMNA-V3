@@ -3,6 +3,7 @@ package com.asetec.presentation.viewmodel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
@@ -40,7 +41,9 @@ class ActivityLocationViewModel @Inject constructor(
         longitude = 0.0
     ))
 
-    private val _activates = MutableStateFlow(Activate())
+    private val _activates = MutableStateFlow(Activate(
+        time = sharedPreferences!!.getLong("time", 0L)
+    ))
 
     private val _activatesForm = MutableStateFlow(ActivateForm())
 
@@ -135,7 +138,7 @@ class ActivityLocationViewModel @Inject constructor(
     ) {
         val pedometerCount = sharedPreferences?.getInt("pedometerCount", _activates.value.pedometerCount)
         val googleId = sharedPreferences2?.getString("id", "")
-        val time = sharedPreferences?.getLong("time", _activates.value.time)
+        val time = sharedPreferences?.getLong("time", 0L)
 
         /**
          * kcal_cul, km_cul를 JSON 형태로 만든다.
@@ -164,6 +167,8 @@ class ActivityLocationViewModel @Inject constructor(
             type = "coordinate",
             coordinateList = coordinate
         ).build()
+
+        Log.d("ActivityLocationViewModel", time.toString())
 
         val activateDTO = ActivateDTO (
             googleId = googleId!!,
