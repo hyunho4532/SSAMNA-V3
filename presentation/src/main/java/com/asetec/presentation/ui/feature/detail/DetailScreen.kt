@@ -15,6 +15,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableDoubleStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -28,6 +31,7 @@ import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateHistoryCard
 import com.asetec.presentation.component.util.analyzeRunningFeedback
 import com.asetec.presentation.component.util.responsive.setUpWidth
+import com.asetec.presentation.ui.feature.analyze.UnknownPaceScreen
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
@@ -45,6 +49,10 @@ fun DetailScreen(
 ) {
     val activateData = activityLocationViewModel.activateData.collectAsState()
     val cameraPositionState = rememberCameraPositionState()
+
+    val pace = remember {
+        mutableDoubleStateOf(0.0)
+    }
 
     LaunchedEffect(key1 = Unit) {
         activityLocationViewModel.selectActivityFindByIdDate(googleId, date)
@@ -99,7 +107,7 @@ fun DetailScreen(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(120.dp)
+                    .height(140.dp)
                     .align(Alignment.Start)
                     .padding(
                         top = 40.dp,
@@ -129,10 +137,35 @@ fun DetailScreen(
                                     activateData.value[0].time,
                                     (activateData.value[0].cul["km_cul"] as? JsonPrimitive)!!.double,
                                     (activateData.value[0].cul["kcal_cul"] as? JsonPrimitive)!!.double
-                                ),
+                                ) {
+                                  pace.doubleValue = it
+                                },
                             )
                         }
                     }
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .align(Alignment.Start)
+                    .padding(
+                        top = 40.dp,
+                        start = 24.dp
+                    )
+            ) {
+                when {
+                    pace.doubleValue < 5.0 -> {
+
+                    }
+                    pace.doubleValue in 5.0..7.0 -> {
+
+                    }
+                    pace.doubleValue in 7.0 .. 10.0 -> {
+
+                    }
+                    else -> UnknownPaceScreen()
                 }
             }
         }

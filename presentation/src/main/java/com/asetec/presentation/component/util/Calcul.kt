@@ -293,12 +293,13 @@ fun convertTimeToSeconds(time: String): Int {
 fun analyzeRunningFeedback(time: String, distance: Double, calories: Double, onPaceReceive: (Double) -> Unit): String {
     val timeInMinutes = convertTimeToSeconds(time) / 60.0
     val pace = if (distance > 0) timeInMinutes / distance else 0.0
-    val caloriePerKm = if (distance > 0) calories / distance else 0.0
+
+    onPaceReceive(pace)
 
     return when {
         pace < 5.0 -> "속도가 빠릅니다! 페이스 조절이 필요할 수 있어요."
         pace in 5.0..7.0 -> "적절한 페이스로 달리고 있습니다!"
         pace in 7.0 .. 10.0 -> "현재 페이스도 괜찮지만, 조금 더 달려주세요!"
         else -> "현재 페이스로는 부족합니다!\n계속 러닝을 하다보면 페이스가 높아질거에요!"
-    } + "\n칼로리 소모량: ${"%.2f".format(caloriePerKm)} kcal/km"
+    }
 }
