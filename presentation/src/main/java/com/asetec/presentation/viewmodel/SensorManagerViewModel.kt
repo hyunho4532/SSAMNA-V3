@@ -63,7 +63,6 @@ class SensorManagerViewModel @Inject constructor(
                 showRunningStatus = runningStatus,
                 isRunning = isRunning,
                 activateButtonName = "측정하기!",
-                time = 0L
             )
         }
 
@@ -71,7 +70,6 @@ class SensorManagerViewModel @Inject constructor(
         sharedPreferences.edit().putBoolean("showRunning", isRunning).apply()
         sharedPreferences.edit().putBoolean("isShowRunningBottomNavi", isRunning).apply()
         sharedPreferences.edit().putString("activateButtonName", _activates.value.activateButtonName).apply()
-        sharedPreferences.edit().putLong("time", 0L).apply()
     }
 
     // 센서 이벤트 리스너
@@ -118,15 +116,12 @@ class SensorManagerViewModel @Inject constructor(
                 while (true) {
                     delay(1000L)
                     _activates.update {
-                        it.copy(
-                            time = it.time + 1
-                        )
+                        val newTime = it.time + 1
+                        sharedPreferences.edit().putLong("time", newTime).apply()
+                        it.copy(time = newTime)
                     }
                 }
             }
-
-            // SharedPreferences에 시간 저장
-            sharedPreferences.edit().putLong("time", _activates.value.time).apply()
         }
     }
 

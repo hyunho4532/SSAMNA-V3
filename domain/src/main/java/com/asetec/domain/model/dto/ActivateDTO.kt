@@ -1,6 +1,5 @@
 package com.asetec.domain.model.dto
 
-import com.asetec.domain.model.state.Sum
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject
@@ -8,6 +7,7 @@ import kotlinx.serialization.json.buildJsonObject
 
 @Serializable
 data class ActivateDTO(
+
     @SerialName("google_id")
     val googleId: String = "",
 
