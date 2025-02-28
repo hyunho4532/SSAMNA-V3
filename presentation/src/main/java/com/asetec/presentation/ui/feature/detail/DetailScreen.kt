@@ -1,6 +1,7 @@
 package com.asetec.presentation.ui.feature.detail
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,7 +32,10 @@ import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateHistoryCard
 import com.asetec.presentation.component.util.analyzeRunningFeedback
 import com.asetec.presentation.component.util.responsive.setUpWidth
-import com.asetec.presentation.ui.feature.analyze.UnknownPaceScreen
+import com.asetec.presentation.ui.feature.analyze.FastRunning
+import com.asetec.presentation.ui.feature.analyze.ModerateRunning
+import com.asetec.presentation.ui.feature.analyze.OptimalRunning
+import com.asetec.presentation.ui.feature.analyze.SlowRunning
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
@@ -156,16 +160,19 @@ fun DetailScreen(
                     )
             ) {
                 when {
-                    pace.doubleValue < 5.0 -> {
-
-                    }
+                    pace.doubleValue < 5.0 -> { FastRunning() }
                     pace.doubleValue in 5.0..7.0 -> {
-
+                        ModerateRunning()
                     }
-                    pace.doubleValue in 7.0 .. 10.0 -> {
-                        
+                    pace.doubleValue in 7.0..10.0 -> {
+                        ModerateRunning()
                     }
-                    else -> UnknownPaceScreen()
+                    pace.doubleValue in 10.0..12.0 -> {
+                        OptimalRunning()
+                    }
+                    else -> {
+                        SlowRunning()
+                    }
                 }
             }
         }

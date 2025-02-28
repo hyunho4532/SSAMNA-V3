@@ -13,13 +13,10 @@ import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.asetec.presentation.component.tool.Spacer
-import com.asetec.presentation.component.util.analyzeRunningFeedback
 import com.asetec.presentation.component.util.responsive.setUpWidth
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.double
 
 @Composable
-fun UnknownPaceScreen() {
+fun ModerateRunning() {
     Column {
         Text(
             text = "이번 활동의 페이스 분석 - 꿀팁",
@@ -33,32 +30,28 @@ fun UnknownPaceScreen() {
             isBottomBorder = true
         )
 
-        Box(
-            modifier = Modifier
-                .padding(top = 12.dp)
-        ) {
+        Box(modifier = Modifier.padding(top = 12.dp)) {
             Column {
                 Text(
                     text = "💡 Tip:",
                     fontSize = 16.sp
                 )
-
                 Text(
-                    modifier = Modifier
-                        .padding(top = 12.dp),
+                    modifier = Modifier.padding(top = 12.dp),
                     text = buildAnnotatedString {
-                        append("천천히라도 계속 움직이는 것이 핵심이에요\n")
+                        append("적당한 속도로 달리고 있어요! 🎯\n")
                         withStyle(SpanStyle(fontSize = 8.sp)) {
                             append("\n")
                         }
-                        append("몸이 익숙해질 수 있도록 편한 속도로 유지해보세요.\n")
+                        append("체력이 부담스럽지 않다면, 이 속도를 유지해주세요.\n")
                         withStyle(SpanStyle(fontSize = 8.sp)) {
                             append("\n")
                         }
-                        append("페이스를 올리고 싶다면, 30초만 가볍게 속도를 올려보는 것도 좋아요!\n")
+                        append("조금 더 강도를 높이고 싶다면, 속도를 살짝 올려보세요!\n")
                         withStyle(SpanStyle(fontSize = 8.sp)) {
                             append("\n")
                         }
+                        append("계속 좋은 페이스로 달리세요! 🏃‍♂️")
                     },
                     fontSize = 12.sp
                 )
