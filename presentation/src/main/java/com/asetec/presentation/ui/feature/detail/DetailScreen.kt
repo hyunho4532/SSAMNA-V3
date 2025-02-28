@@ -163,7 +163,7 @@ fun DetailScreen(
 
                     }
                     pace.doubleValue in 7.0 .. 10.0 -> {
-
+                        
                     }
                     else -> UnknownPaceScreen()
                 }

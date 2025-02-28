@@ -39,7 +39,7 @@ fun UnknownPaceScreen() {
         ) {
             Column {
                 Text(
-                    text = "1. 러닝 페이스 높이는 방법",
+                    text = "💡 Tip:",
                     fontSize = 16.sp
                 )
 
@@ -47,32 +47,20 @@ fun UnknownPaceScreen() {
                     modifier = Modifier
                         .padding(top = 12.dp),
                     text = buildAnnotatedString {
-                        append("평소에 운동을 안하시면 무리하게 하지 마세요!\n")
+                        append("천천히라도 계속 움직이는 것이 핵심이에요\n")
                         withStyle(SpanStyle(fontSize = 8.sp)) {
                             append("\n")
                         }
-                        append("꾸준한 훈련과 운동을 진행해주세요!\n")
+                        append("몸이 익숙해질 수 있도록 편한 속도로 유지해보세요.\n")
                         withStyle(SpanStyle(fontSize = 8.sp)) {
                             append("\n")
                         }
-                        append("걷기와 달리기를 번갈아 하는 인터벌 러닝을 하면 심폐 기능이 향상됩니다!\n")
+                        append("페이스를 올리고 싶다면, 30초만 가볍게 속도를 올려보는 것도 좋아요!\n")
                         withStyle(SpanStyle(fontSize = 8.sp)) {
                             append("\n")
                         }
-                        append("항상 같은 페이스로 움직이면 활동이 급격히 정체되고 그만두게 됩니다\n")
-                        withStyle(SpanStyle(fontSize = 8.sp)) {
-                            append("\n")
-                        }
-                        append("달리기나 운동 시작하기 전 1시간 이내에 완숙 달걀과 과일 등 단백질과 탄수화물을 조합하여 섭취해보세요!")
                     },
                     fontSize = 12.sp
-                )
-
-                Text(
-                    modifier = Modifier
-                        .padding(top = 24.dp),
-                    text = "2. 호흡 방법",
-                    fontSize = 16.sp
                 )
             }
         }
