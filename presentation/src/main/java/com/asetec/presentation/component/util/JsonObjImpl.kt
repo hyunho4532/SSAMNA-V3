@@ -18,7 +18,7 @@ data class JsonObjImpl(
     val activate: StateFlow<Activate>? = null,
     val activateForm: StateFlow<ActivateForm>? = null,
     val runningList: Array<Any>? = null,
-    val coordinateList: List<Coordinate>? = null
+    val coordinateList: List<Location> = emptyList()
 ) : JsonObj() {
     override fun build(): JsonObject {
 
@@ -60,7 +60,7 @@ data class JsonObjImpl(
             "coordinate" -> {
                 data = buildJsonObject {
                     put("coords", buildJsonArray {
-                        coordinateList?.forEach { latLng ->
+                        coordinateList.forEach { latLng ->
                             add(buildJsonObject {
                                 put("latitude", latLng.latitude)
                                 put("longitude", latLng.longitude)

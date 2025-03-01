@@ -13,7 +13,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -23,7 +22,6 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
@@ -33,7 +31,6 @@ import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
 import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
-import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -52,7 +49,7 @@ fun CustomButton(
     onClick: (permissionPopup: Boolean) -> Unit = { },
     @ApplicationContext context: Context = LocalContext.current,
     cameraPositionState: CameraPositionState = rememberCameraPositionState(),
-    coordinate: List<Coordinate> = emptyList(),
+    coordinate: List<Location> = emptyList(),
     locationManagerViewModel: LocationManagerViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),

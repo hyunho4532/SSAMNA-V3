@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.domain.model.location.Location
 import com.asetec.presentation.R
 import com.asetec.presentation.component.aside.HomeAside
 import com.asetec.presentation.component.box.TopBox
@@ -134,7 +135,7 @@ fun HomeScreen(
     }
 
     val coordinates = coordinatesFiltering.map {
-        listOf(it.latitude, it.longitude, it.altitude)
+        Location(it.latitude, it.longitude, it.altitude)
     }
 
     if (locationPermissionState.allPermissionsGranted) {
@@ -159,7 +160,7 @@ fun HomeScreen(
                 coordinates.forEach {
                     MapMarker(
                         context = context,
-                        position = LatLng(it[0], it[1]),
+                        position = LatLng(it.latitude, it.longitude),
                         title = "달리세요!",
                         iconResourceId = R.drawable.location_marker
                     )
