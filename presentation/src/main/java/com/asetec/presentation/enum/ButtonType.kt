@@ -15,6 +15,9 @@ sealed class ButtonType {
             data object RUNNING: InsertStatus()
             data object CHALLENGE: InsertStatus()
         }
+        sealed class DeleteStatus: ButtonType() {
+            data object RUNNING: InsertStatus()
+        }
     }
 
     sealed class HistoryStatus: ButtonType() {

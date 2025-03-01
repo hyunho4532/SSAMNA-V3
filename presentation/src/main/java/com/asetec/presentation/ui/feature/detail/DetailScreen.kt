@@ -1,9 +1,7 @@
 package com.asetec.presentation.ui.feature.detail
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,7 +14,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -28,14 +25,17 @@ import androidx.compose.ui.unit.sp
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.presentation.R
 import com.asetec.presentation.component.marker.MapMarker
+import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateHistoryCard
 import com.asetec.presentation.component.util.analyzeRunningFeedback
 import com.asetec.presentation.component.util.responsive.setUpWidth
+import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.ui.feature.analyze.FastRunning
 import com.asetec.presentation.ui.feature.analyze.ModerateRunning
 import com.asetec.presentation.ui.feature.analyze.OptimalRunning
 import com.asetec.presentation.ui.feature.analyze.SlowRunning
+import com.asetec.presentation.ui.feature.analyze.UnknownRunning
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
@@ -159,21 +159,40 @@ fun DetailScreen(
                         start = 24.dp
                     )
             ) {
-                when {
-                    pace.doubleValue < 5.0 -> { FastRunning() }
-                    pace.doubleValue in 5.0..7.0 -> {
+                when (pace.doubleValue) {
+                    in 0.1 .. 5.0 -> {
+                        FastRunning()
+                    }
+                    in 5.0..7.0 -> {
                         ModerateRunning()
                     }
-                    pace.doubleValue in 7.0..10.0 -> {
+                    in 7.0..10.0 -> {
                         ModerateRunning()
                     }
-                    pace.doubleValue in 10.0..12.0 -> {
+                    in 10.0..12.0 -> {
                         OptimalRunning()
+                    }
+                    0.0 -> {
+                        UnknownRunning()
                     }
                     else -> {
                         SlowRunning()
                     }
                 }
+            }
+
+            Box(
+                modifier = Modifier
+                    .padding(top = 24.dp, bottom = 12.dp)
+            ) {
+                CustomButton(
+                    type = ButtonType.RunningStatus.DeleteStatus.RUNNING,
+                    width = setUpWidth(),
+                    height = 40.dp,
+                    text = "활동 내역 삭제",
+                    backgroundColor = Color(0xFFEE3A3A),
+                    activateData = activateData
+                )
             }
         }
     }

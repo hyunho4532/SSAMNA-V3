@@ -18,7 +18,7 @@ data class JsonObjImpl(
     val activate: StateFlow<Activate>? = null,
     val activateForm: StateFlow<ActivateForm>? = null,
     val runningList: Array<Any>? = null,
-    val coordinateList: List<Location> = emptyList()
+    val coordinateList: List<Coordinate> = emptyList()
 ) : JsonObj() {
     override fun build(): JsonObject {
 

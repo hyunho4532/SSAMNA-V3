@@ -13,6 +13,12 @@ class ActivateCase @Inject constructor(
         }
     }
 
+    suspend fun deleteActivity(googleId: String, date: String, onSuccess: (Boolean) -> Unit) {
+        activateRepository.delete(googleId, date) {
+            onSuccess(it)
+        }
+    }
+
     suspend fun selectActivityFindById(googleId: String) : List<ActivateDTO> {
         return activateRepository.selectActivateById(googleId)
     }

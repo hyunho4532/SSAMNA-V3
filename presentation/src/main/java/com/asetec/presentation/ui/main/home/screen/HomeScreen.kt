@@ -38,7 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.asetec.domain.model.location.Location
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.presentation.R
 import com.asetec.presentation.component.aside.HomeAside
 import com.asetec.presentation.component.box.TopBox
@@ -135,7 +135,11 @@ fun HomeScreen(
     }
 
     val coordinates = coordinatesFiltering.map {
-        Location(it.latitude, it.longitude, it.altitude)
+        Coordinate(
+            latitude = it.latitude,
+            longitude = it.longitude,
+            altitude = it.altitude
+        )
     }
 
     if (locationPermissionState.allPermissionsGranted) {

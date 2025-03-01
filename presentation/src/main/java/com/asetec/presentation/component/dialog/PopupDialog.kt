@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
@@ -57,7 +58,7 @@ fun ShowCompleteDialog(
     context: Context,
     sensorManagerViewModel: SensorManagerViewModel,
     locationState: State<Location>,
-    coordinate: List<Location>,
+    coordinate: List<Coordinate>,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     jsonParseViewModel: JsonParseViewModel = hiltViewModel()
 ) {
