@@ -9,7 +9,6 @@ playServiceMap = "18.1.0"
 playServiceLoc = "21.0.1"
 playServiceAuth = "20.7.0"
 pager = "0.20.1"
-healthService = "1.1.0"
 composeMaps = "2.11.1"
 coil = "2.4.0"
 hilt = "2.51.1"
@@ -81,7 +80,6 @@ androidx-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-man
 androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
-androidx-health-service = { group = "androidx.health", name = "health-services-client", version.ref = "healthService" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 
 [plugins]

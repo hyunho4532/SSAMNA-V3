@@ -36,7 +36,8 @@ class LocationService : Service() {
         locationCallback = object: LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
-                    sendLocationBroadcast(location.latitude, location.longitude)
+                    Log.d("LocationService", location.altitude.toString())
+                    sendLocationBroadcast(location.latitude, location.longitude, location.altitude)
                 }
             }
         }
@@ -46,16 +47,16 @@ class LocationService : Service() {
         return null
     }
 
-    private fun sendLocationBroadcast(latitude: Double, longitude: Double) {
+    private fun sendLocationBroadcast(latitude: Double, longitude: Double, altitude: Double) {
         val intent = Intent("com.ssamna.LOCATION_UPDATE").apply {
             putExtra("latitude", latitude)
             putExtra("longitude", longitude)
+            putExtra("altitude", altitude)
         }
         sendBroadcast(intent)
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        Log.d("LocationService", "호출!")
         startForegroundService()
         requestLocationUpdates()
         return START_STICKY
@@ -72,7 +73,6 @@ class LocationService : Service() {
             val manager = getSystemService(NotificationManager::class.java)
             manager.createNotificationChannel(channel)
         }
-        Log.d("LocationService", "Foreground 서비스 시작")
 
         val notification = NotificationCompat.Builder(this, channelId)
             .setContentTitle("위치 서비스 실행 중")

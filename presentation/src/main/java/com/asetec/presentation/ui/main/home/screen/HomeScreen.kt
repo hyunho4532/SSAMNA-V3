@@ -129,8 +129,12 @@ fun HomeScreen(
         it.latitude != 0.0
     }
 
-    val coordinates = coordinatesFiltering.map {
+    val coordinatesPolyline = coordinatesFiltering.map {
         LatLng(it.latitude, it.longitude)
+    }
+
+    val coordinates = coordinatesFiltering.map {
+        listOf(it.latitude, it.longitude, it.altitude)
     }
 
     if (locationPermissionState.allPermissionsGranted) {
@@ -155,14 +159,14 @@ fun HomeScreen(
                 coordinates.forEach {
                     MapMarker(
                         context = context,
-                        position = LatLng(it.latitude, it.longitude),
+                        position = LatLng(it[0], it[1]),
                         title = "달리세요!",
                         iconResourceId = R.drawable.location_marker
                     )
                 }
 
                 Polyline(
-                    points = coordinates,
+                    points = coordinatesPolyline,
                     color = Color.Gray,
                     width = 3f
                 )

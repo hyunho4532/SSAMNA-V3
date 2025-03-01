@@ -16,7 +16,7 @@ class LocationManagerCase @Inject constructor(
         locationServiceManager.stopLocationService(context)
     }
 
-    suspend fun getCurrentLocation(): Flow<Pair<Double, Double>> {
+    suspend fun getCurrentLocation(): Flow<Pair<List<Double>, Double>> {
         return locationServiceManager.locationFlow()
     }
 }

@@ -1,6 +1,7 @@
 package com.asetec.presentation.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.location.Coordinate
@@ -33,9 +34,10 @@ class LocationManagerViewModel @Inject constructor(
                      */
                     _coordinate.value.coordz.subList(0, _coordinate.value.coordz.size)
 
-                    locationManagerCase.getCurrentLocation().collectLatest { (lat, lng) ->
-                        _coordinate.value.coordz.add(Location(lat, lng))
+                    locationManagerCase.getCurrentLocation().collectLatest { (locations: List<Double>, altitude) ->
+                        _coordinate.value.coordz.add(Location(locations[0], locations[1], altitude))
                     }
+
                 }
             }
         }

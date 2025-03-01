@@ -1,6 +1,7 @@
 package com.asetec.presentation.component.util
 
 import com.asetec.domain.model.location.Coordinate
+import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.ActivateForm
 import com.google.android.gms.maps.model.LatLng
@@ -17,7 +18,7 @@ data class JsonObjImpl(
     val activate: StateFlow<Activate>? = null,
     val activateForm: StateFlow<ActivateForm>? = null,
     val runningList: Array<Any>? = null,
-    val coordinateList: List<LatLng>? = null
+    val coordinateList: List<Coordinate>? = null
 ) : JsonObj() {
     override fun build(): JsonObject {
 
@@ -63,6 +64,7 @@ data class JsonObjImpl(
                             add(buildJsonObject {
                                 put("latitude", latLng.latitude)
                                 put("longitude", latLng.longitude)
+                                put("altitude", latLng.altitude)
                             })
                         }
                     })

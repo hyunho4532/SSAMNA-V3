@@ -134,7 +134,7 @@ class ActivityLocationViewModel @Inject constructor(
     fun saveActivity(
         runningIcon: Int,
         runningTitle: String,
-        coordinate: List<LatLng>
+        coordinate: List<Coordinate>
     ) {
         val pedometerCount = sharedPreferences?.getInt("pedometerCount", _activates.value.pedometerCount)
         val googleId = sharedPreferences2?.getString("id", "")
@@ -167,8 +167,6 @@ class ActivityLocationViewModel @Inject constructor(
             type = "coordinate",
             coordinateList = coordinate
         ).build()
-
-        Log.d("ActivityLocationViewModel", time.toString())
 
         val activateDTO = ActivateDTO (
             googleId = googleId!!,

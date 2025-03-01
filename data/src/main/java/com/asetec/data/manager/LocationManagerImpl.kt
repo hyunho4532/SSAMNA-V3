@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.os.Build
-import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.asetec.data.service.LocationService
 import com.asetec.domain.manager.LocationServiceManager
@@ -21,12 +20,14 @@ class LocationManagerImpl @Inject constructor(
 
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
+    private var altitude: Double = 0.0
 
     private val locationReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == "com.ssamna.LOCATION_UPDATE") {
                 latitude = intent.getDoubleExtra("latitude", 0.0)
                 longitude = intent.getDoubleExtra("longitude", 0.0)
+                altitude = intent.getDoubleExtra("altitude", 0.0)
             }
         }
     }
@@ -59,9 +60,11 @@ class LocationManagerImpl @Inject constructor(
 
     override fun getLongitude(): Double = longitude
 
-    override suspend fun locationFlow(): Flow<Pair<Double, Double>> = flow {
+    override fun getAltitude(): Double = altitude
+
+    override suspend fun locationFlow(): Flow<Pair<List<Double>, Double>> = flow {
         while (true) {
-            emit(Pair(getLatitude(), getLongitude()))
+            emit(Pair(listOf(getLatitude(), getLongitude()), getAltitude()))
             delay(5000)
         }
     }
