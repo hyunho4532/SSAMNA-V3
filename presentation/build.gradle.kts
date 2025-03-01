@@ -84,6 +84,7 @@ dependencies {
     /**
      * androidx
      */
+    implementation(libs.androidx.health.service)
     implementation(libs.androidx.browser)
     implementation(libs.androidx.credentials)
     implementation(libs.androidx.graphics.shapes)
