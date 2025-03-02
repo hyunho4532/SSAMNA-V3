@@ -85,6 +85,10 @@ fun UserInfoScreen(
         mutableStateOf(yesORNo[0])
     }
 
+    val (selectedOption3, setSelectedOption3) = remember {
+        mutableStateOf(yesORNo[0])
+    }
+
     LaunchedEffect(user) {
         if (user.email.isNotEmpty()) {
             userViewModel.mergeAuthStateIntoUserState(user = user)
@@ -342,6 +346,27 @@ fun UserInfoScreen(
                         id = 2,
                         selectedOption = selectedOption2,
                         onOptionSelected = setSelectedOption2
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                        .padding(top = 46.dp)
+                ) {
+                    Text(
+                        text = "5. 현재 가지고 계신 스마트 워치가 있으신가요?",
+                        modifier = Modifier.padding(start = 16.dp),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = fontSize
+                    )
+
+                    RadioRow(
+                        yesORNo = yesORNo,
+                        id = 3,
+                        selectedOption = selectedOption3,
+                        onOptionSelected = setSelectedOption3
                     )
                 }
 
