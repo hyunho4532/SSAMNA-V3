@@ -3,10 +3,9 @@ package com.asetec.presentation.ui.feature.login
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
-import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -34,12 +33,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.input.key.Key
-import androidx.compose.ui.input.key.key
-import androidx.compose.ui.input.key.onKeyEvent
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalFocusManager
@@ -214,7 +209,8 @@ fun UserInfoScreen(
                         yesORNo = yesORNo,
                         id = 0,
                         selectedOption = selectedOption,
-                        onOptionSelected = setSelectedOption
+                        onOptionSelected = setSelectedOption,
+                        userState = userState
                     )
                 }
 
@@ -277,7 +273,8 @@ fun UserInfoScreen(
                         yesORNo = yesORNo,
                         id = 1,
                         selectedOption = selectedOption1,
-                        onOptionSelected = setSelectedOption1
+                        onOptionSelected = setSelectedOption1,
+                        userState = userState
                     )
                 }
 
@@ -380,7 +377,8 @@ fun UserInfoScreen(
                         yesORNo = yesORNo,
                         id = 2,
                         selectedOption = selectedOption2,
-                        onOptionSelected = setSelectedOption2
+                        onOptionSelected = setSelectedOption2,
+                        userState = userState
                     )
                 }
 
@@ -401,7 +399,8 @@ fun UserInfoScreen(
                         yesORNo = yesORNo,
                         id = 3,
                         selectedOption = selectedOption3,
-                        onOptionSelected = setSelectedOption3
+                        onOptionSelected = setSelectedOption3,
+                        userState = userState
                     )
                 }
 
@@ -411,8 +410,14 @@ fun UserInfoScreen(
                 ) {
                     Button(
                         onClick = {
-                            val userStateJson = Uri.encode(Json.encodeToString(userState.value))
-                            navController.navigate("report?userState=${userStateJson}")
+                            val users = userState.value
+
+                            if(users.recentExerciseName.isNotEmpty() && users.recentWalkingOfWeek.isNotEmpty() && users.recentWalkingOfTime.isNotEmpty()) {
+                                val userStateJson = Uri.encode(Json.encodeToString(userState.value))
+                                navController.navigate("report?userState=${userStateJson}")
+                            } else {
+                                Toast.makeText(context, "입력하지 않은 정보가 있습니다.", Toast.LENGTH_SHORT).show()
+                            }
                         },
                         modifier = Modifier
                             .width(setUpWidth()),
