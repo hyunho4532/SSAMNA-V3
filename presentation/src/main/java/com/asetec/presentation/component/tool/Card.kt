@@ -3,11 +3,13 @@ package com.asetec.presentation.component.tool
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -25,6 +27,13 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.DismissDirection
+import androidx.compose.material.DismissValue
+import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.SwipeToDismiss
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.rememberDismissState
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -549,7 +558,7 @@ fun challengeRegistrationCard(
         modifier = Modifier
             .width(setUpWidth())
             .height(height)
-            .padding(top = 8.dp, start = 8.dp)
+            .padding(top = 8.dp)
             .clickable(
                 interactionSource = remember {
                     MutableInteractionSource()
@@ -572,11 +581,32 @@ fun challengeRegistrationCard(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                Text(
-                    text = challengeDTO.title,
-                    fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = challengeDTO.title,
+                        fontSize = 16.sp,
+                        fontWeight = FontWeight.Bold
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .clickable {
+                                
+                            }
+                    ) {
+                        Icon(
+                            modifier = Modifier
+                                .padding(end = 8.dp),
+                            imageVector = Icons.Default.Delete,
+                            contentDescription = "삭제",
+                            tint = Color.Gray
+                        )
+                    }
+                }
+
 
                 Text(
                     text = challengeDTO.todayDate,
