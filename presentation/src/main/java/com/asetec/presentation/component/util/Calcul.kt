@@ -69,6 +69,7 @@ fun getThisWeek(
         }
         "step" -> {
             sumList = stepList.filter { entry ->
+                Log.d("entry", entry.date)
                 val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
                 entryDate in startOfWeek..endOfWeek
             }.sumOf { it.step }.toDouble()
@@ -176,10 +177,10 @@ fun getLastMonth(
     var sumList = 0.0
 
     val today = LocalDate.now()
-    val lastMonth = today.minusMonths(-1)
+    val lastMonth = today.minusMonths(1)
 
     val startOfLastMonth = lastMonth.withDayOfMonth(1)
-    val endOfLastMonth = lastMonth.withDayOfMonth(today.lengthOfMonth())
+    val endOfLastMonth = lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())
 
     when (type) {
         "kcal" -> {

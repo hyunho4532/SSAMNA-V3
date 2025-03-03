@@ -506,7 +506,7 @@ fun ShowChallengeDetailDialog(
         Card(
             modifier = Modifier
                 .width(420.dp)
-                .height(420.dp),
+                .height(200.dp),
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(
                 containerColor = Color.White
@@ -544,14 +544,22 @@ fun ShowChallengeDetailDialog(
                     Text(
                         modifier = Modifier
                             .padding(top = 6.dp),
-                        text = "등록일: ${it.todayDate}",
+                        text = "챌린지 완료까지 53% 남았습니다!",
                         fontSize = 14.sp,
-                        color = Color.Black
+                        color = Color.Gray
+                    )
+
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 6.dp),
+                        text = "등록일: ${it.todayDate}",
+                        fontSize = 12.sp,
+                        color = Color.Gray
                     )
 
                     Box(
                         modifier = Modifier
-                            .padding(top = 16.dp)
+                            .padding(top = 32.dp)
                     ) {
                         CustomButton(
                             type = ButtonType.RunningStatus.DeleteStatus.CHALLENGE,
