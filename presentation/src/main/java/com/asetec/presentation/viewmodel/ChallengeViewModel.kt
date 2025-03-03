@@ -32,6 +32,9 @@ class ChallengeViewModel @Inject constructor(
     private val _challengeData = MutableStateFlow<List<ChallengeDTO>>(emptyList())
     val challengeData: StateFlow<List<ChallengeDTO>> = _challengeData
 
+    private val _challengeDetailData = MutableStateFlow<List<ChallengeDTO>>(emptyList())
+    val challengeDetailData: StateFlow<List<ChallengeDTO>> = _challengeDetailData
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun saveChallenge(data: Challenge) {
         val googleId = sharedPreferences.getString("id", "")
@@ -56,10 +59,11 @@ class ChallengeViewModel @Inject constructor(
         }
     }
 
-    fun selectChallengeById(id: Int, onSuccess: (List<ChallengeDTO>) -> Unit) {
+    fun selectChallengeById(id: Int, onSuccess: (Boolean) -> Unit) {
         viewModelScope.launch {
             val challengeDTO = challengeCase.selectChallengeFindById(id)
-            onSuccess(challengeDTO)
+            _challengeDetailData.value = challengeDTO
+            onSuccess(true)
         }
     }
 

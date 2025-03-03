@@ -2,6 +2,7 @@ package com.asetec.presentation.component.dialog
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Challenge
@@ -493,7 +495,8 @@ fun PermissionDialog(
 
 @Composable
 fun ShowChallengeDetailDialog(
-    isShowChallengePopup: MutableState<Boolean>
+    isShowChallengePopup: MutableState<Boolean>,
+    challengeDetailData: List<ChallengeDTO>
 ) {
     Dialog(
         onDismissRequest = {
@@ -516,26 +519,36 @@ fun ShowChallengeDetailDialog(
                         start = 8.dp
                     )
             ) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                ) {
+                challengeDetailData.forEach {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.Center),
+                            text = "챌린지 내역",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+
                     Text(
                         modifier = Modifier
-                            .align(Alignment.Center),
-                        text = "챌린지 내역",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.Bold,
+                            .padding(top = 12.dp),
+                        text = it.title,
+                        fontSize = 16.sp,
+                        color = Color.Black
+                    )
+
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 6.dp),
+                        text = "등록일: ${it.todayDate}",
+                        fontSize = 14.sp,
+                        color = Color.Black
                     )
                 }
-
-                Text(
-                    modifier = Modifier
-                        .padding(top = 12.dp),
-                    text = "현재 0명이 이 챌린지를 완료했어요!",
-                    fontSize = 14.sp,
-                    color = Color.Gray
-                )
             }
         }
     }

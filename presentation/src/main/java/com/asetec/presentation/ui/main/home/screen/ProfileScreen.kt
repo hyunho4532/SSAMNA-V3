@@ -2,7 +2,6 @@ package com.asetec.presentation.ui.main.home.screen
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -17,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -27,6 +27,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -39,12 +40,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.box.polygon.PolygonBox
 import com.asetec.presentation.component.dialog.ChallengeBottomSheet
 import com.asetec.presentation.component.dialog.ShowChallengeDetailDialog
-import com.asetec.presentation.component.dialog.ShowChallengeDialog
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateCard
 import com.asetec.presentation.component.tool.challengeRegistrationCard
@@ -70,6 +71,7 @@ fun ProfileScreen(
 ) {
     val activateData  = activityLocationViewModel.activateData.collectAsState()
     val challengeData = challengeViewModel.challengeData.collectAsState()
+    val challengeDetailData = challengeViewModel.challengeDetailData.collectAsState()
 
     val challengeDataTitle: List<String> = challengeData.value.map {
         it.title
@@ -272,7 +274,6 @@ fun ProfileScreen(
                     sumCount = sumCount
                 ) { isPopup ->
                     challengeViewModel.selectChallengeById(challengeDTO.id) {
-                        Log.d("ProfileScreen", it.toString())
                         showChallengeDialogPopup.value = isPopup
                     }
                 }
@@ -281,9 +282,12 @@ fun ProfileScreen(
     }
 
     if (showChallengeDialogPopup.value) {
-        ShowChallengeDetailDialog(
-            isShowChallengePopup = showChallengeDialogPopup,
-        )
+        if (challengeDetailData.value.isNotEmpty()) {
+            ShowChallengeDetailDialog(
+                isShowChallengePopup = showChallengeDialogPopup,
+                challengeDetailData = challengeDetailData.value
+            )
+        }
     }
 
     if (showChallengeBottomSheet.value) {
