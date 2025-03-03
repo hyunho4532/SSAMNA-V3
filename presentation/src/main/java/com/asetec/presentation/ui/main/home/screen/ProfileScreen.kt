@@ -182,12 +182,17 @@ fun ProfileScreen(
         }
         Column (
             modifier = Modifier
-                .height(calculatorActivateCardWeight(activateData))
+                .height(
+                    calculatorActivateCardWeight(
+                        data = activateData,
+                        minHeight = 160,
+                        maxHeight = 320
+                    )
+                )
                 .verticalScroll(rememberScrollState())
         ) {
             activateData.value.forEach { activateDTO ->
                 activateCard(
-                    navController = navController,
                     height = 160.dp,
                     borderStroke = 1,
                     activateDTO = activateDTO,
@@ -263,7 +268,13 @@ fun ProfileScreen(
 
         Column (
             modifier = Modifier
-                .height(320.dp)
+                .height(
+                    calculatorActivateCardWeight(
+                        data = challengeData,
+                        minHeight = 80,
+                        maxHeight = 160
+                    )
+                )
                 .verticalScroll(rememberScrollState())
         ) {
             challengeData.value.forEach { challengeDTO ->

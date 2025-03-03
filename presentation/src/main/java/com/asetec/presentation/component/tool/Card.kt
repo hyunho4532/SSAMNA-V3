@@ -242,7 +242,6 @@ fun ReportCard(userState: User) {
 
 @Composable
 fun activateCard(
-    navController: NavController = rememberNavController(),
     context: Context? = LocalContext.current,
     height: Dp,
     backgroundColor: Color = Color.White,
@@ -260,7 +259,7 @@ fun activateCard(
         modifier = Modifier
             .width(setUpWidth())
             .height(height)
-            .padding(top = 8.dp, start = 8.dp)
+            .padding(top = 8.dp)
             .clickable(
                 interactionSource = remember {
                     MutableInteractionSource()

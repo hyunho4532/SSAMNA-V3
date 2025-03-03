@@ -15,19 +15,25 @@ import java.time.LocalDate
 /**
  * 비례 관계를 이용하여 card의 width를 조정하는 함수
  */
-fun calculatorActivateCardWeight(activateData: State<List<ActivateDTO>>): Dp {
+fun calculatorActivateCardWeight(
+    minHeight: Int,
+    maxHeight: Int,
+    data: State<List<Any>>
+): Dp {
 
-    val size = activateData.value.size
+    val size = data.value.size
 
     return if (size > 0) {
         /**
          * 비례 관계
          */
-        (320 * (size / 2f)).coerceIn(160f, 320f).dp
+        (maxHeight * (size / 2f)).coerceIn(minHeight.toFloat(), maxHeight.toFloat()).dp
     } else {
         0.dp
     }
 }
+
+
 
 /**
  * 이번 주 km, kcal 계산 함수
