@@ -490,3 +490,53 @@ fun PermissionDialog(
         }
     }
 }
+
+@Composable
+fun ShowChallengeDetailDialog(
+    isShowChallengePopup: MutableState<Boolean>
+) {
+    Dialog(
+        onDismissRequest = {
+            isShowChallengePopup.value = false
+        }
+    ) {
+        Card(
+            modifier = Modifier
+                .width(420.dp)
+                .height(420.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            )
+        ) {
+            Column (
+                modifier = Modifier
+                    .padding(
+                        top = 14.dp,
+                        start = 8.dp
+                    )
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                ) {
+                    Text(
+                        modifier = Modifier
+                            .align(Alignment.Center),
+                        text = "챌린지 내역",
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+
+                Text(
+                    modifier = Modifier
+                        .padding(top = 12.dp),
+                    text = "현재 0명이 이 챌린지를 완료했어요!",
+                    fontSize = 14.sp,
+                    color = Color.Gray
+                )
+            }
+        }
+    }
+}

@@ -539,7 +539,8 @@ fun challengeRegistrationCard(
     challengeDTO: ChallengeDTO,
     height: Dp,
     sumKm: Float,
-    sumCount: Int
+    sumCount: Int,
+    onChallengeIsPopup: (Boolean) -> Unit
 ) {
 
     var currentProcess by remember {
@@ -568,6 +569,7 @@ fun challengeRegistrationCard(
                     bounded = true
                 )
             ) {
+                onChallengeIsPopup(true)
             },
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -581,32 +583,11 @@ fun challengeRegistrationCard(
             Column(
                 modifier = Modifier.fillMaxSize()
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = challengeDTO.title,
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
-                    )
-
-                    Box(
-                        modifier = Modifier
-                            .clickable {
-                                
-                            }
-                    ) {
-                        Icon(
-                            modifier = Modifier
-                                .padding(end = 8.dp),
-                            imageVector = Icons.Default.Delete,
-                            contentDescription = "삭제",
-                            tint = Color.Gray
-                        )
-                    }
-                }
-
+                Text(
+                    text = challengeDTO.title,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
+                )
 
                 Text(
                     text = challengeDTO.todayDate,

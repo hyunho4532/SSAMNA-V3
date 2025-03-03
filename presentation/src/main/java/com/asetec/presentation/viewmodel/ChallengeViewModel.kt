@@ -56,9 +56,16 @@ class ChallengeViewModel @Inject constructor(
         }
     }
 
-    suspend fun selectChallengeById() {
+    fun selectChallengeById(id: Int, onSuccess: (List<ChallengeDTO>) -> Unit) {
+        viewModelScope.launch {
+            val challengeDTO = challengeCase.selectChallengeFindById(id)
+            onSuccess(challengeDTO)
+        }
+    }
+
+    suspend fun selectChallengeByGoogleId() {
         val googleId = sharedPreferences.getString("id", "")
-        val challengeDTO = challengeCase.selectChallengeFindById(googleId!!)
+        val challengeDTO = challengeCase.selectChallengeFindByGoogleId(googleId!!)
 
         _challengeData.value = challengeDTO
     }

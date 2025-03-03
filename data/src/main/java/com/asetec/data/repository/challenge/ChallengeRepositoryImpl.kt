@@ -14,7 +14,17 @@ class ChallengeRepositoryImpl @Inject constructor(
         postgrest.from("Challenge").insert(challengeDTO)
     }
 
-    override suspend fun selectChallengeFindById(googleId: String): List<ChallengeDTO> {
+    override suspend fun selectChallengeFindById(id: Int): List<ChallengeDTO> {
+        return withContext(Dispatchers.IO) {
+            postgrest.from("Challenge").select {
+                filter {
+                    eq("id", id)
+                }
+            }.decodeList<ChallengeDTO>()
+        }
+    }
+
+    override suspend fun selectChallengeFindByGoogleId(googleId: String): List<ChallengeDTO> {
         return withContext(Dispatchers.IO) {
             postgrest.from("Challenge").select {
                 filter {

@@ -2,6 +2,7 @@ package com.asetec.presentation.ui.main.home.screen
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -42,6 +43,8 @@ import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.box.polygon.PolygonBox
 import com.asetec.presentation.component.dialog.ChallengeBottomSheet
+import com.asetec.presentation.component.dialog.ShowChallengeDetailDialog
+import com.asetec.presentation.component.dialog.ShowChallengeDialog
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateCard
 import com.asetec.presentation.component.tool.challengeRegistrationCard
@@ -88,13 +91,17 @@ fun ProfileScreen(
         mutableStateOf(false)
     }
 
+    val showChallengeDialogPopup = remember {
+        mutableStateOf(false)
+    }
+
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = false
     )
 
     LaunchedEffect(key1 = Unit) {
         activityLocationViewModel.selectActivityFindById(userList.value.id)
-        challengeViewModel.selectChallengeById()
+        challengeViewModel.selectChallengeByGoogleId()
     }
 
     LaunchedEffect(key1 = activateData.value) {
@@ -263,9 +270,20 @@ fun ProfileScreen(
                     height = 80.dp,
                     sumKm = sumKm.toFloat(),
                     sumCount = sumCount
-                )
+                ) { isPopup ->
+                    challengeViewModel.selectChallengeById(challengeDTO.id) {
+                        Log.d("ProfileScreen", it.toString())
+                        showChallengeDialogPopup.value = isPopup
+                    }
+                }
             }
         }
+    }
+
+    if (showChallengeDialogPopup.value) {
+        ShowChallengeDetailDialog(
+            isShowChallengePopup = showChallengeDialogPopup,
+        )
     }
 
     if (showChallengeBottomSheet.value) {
