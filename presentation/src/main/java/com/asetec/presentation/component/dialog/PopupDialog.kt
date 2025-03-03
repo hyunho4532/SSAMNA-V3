@@ -2,7 +2,6 @@ package com.asetec.presentation.component.dialog
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -45,6 +44,7 @@ import com.asetec.presentation.component.row.BoxRow
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.util.responsive.setUpDialogWidth
+import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.JsonParseViewModel
@@ -548,6 +548,20 @@ fun ShowChallengeDetailDialog(
                         fontSize = 14.sp,
                         color = Color.Black
                     )
+
+                    Box(
+                        modifier = Modifier
+                            .padding(top = 16.dp)
+                    ) {
+                        CustomButton(
+                            type = ButtonType.RunningStatus.DeleteStatus.CHALLENGE,
+                            width = setUpWidth(),
+                            height = 40.dp,
+                            text = "챌린지 삭제",
+                            backgroundColor = Color(0xFFEE3A3A),
+                            data = it
+                        )
+                    }
                 }
             }
         }

@@ -18,4 +18,10 @@ class ChallengeCase @Inject constructor(
     suspend fun selectChallengeFindByGoogleId(googleId: String) : List<ChallengeDTO> {
         return challengeRepository.selectChallengeFindByGoogleId(googleId)
     }
+
+    suspend fun deleteChallenge(id: Int, onSuccess: (Boolean) -> Unit) {
+        challengeRepository.delete(id) {
+            onSuccess(it)
+        }
+    }
 }

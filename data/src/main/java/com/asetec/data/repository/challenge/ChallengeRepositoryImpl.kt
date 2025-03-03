@@ -33,4 +33,16 @@ class ChallengeRepositoryImpl @Inject constructor(
             }.decodeList<ChallengeDTO>()
         }
     }
+
+    override suspend fun delete(id: Int, onSuccess: (Boolean) -> Unit) {
+        return withContext(Dispatchers.IO) {
+            postgrest.from("Challenge").delete {
+                filter {
+                    eq("id", id)
+                }
+            }
+
+            onSuccess(true)
+        }
+    }
 }

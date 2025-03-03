@@ -3,7 +3,10 @@ package com.asetec.presentation.component.tool
 import android.content.Context
 import android.content.Intent
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.os.Process
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -25,6 +28,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.domain.model.dto.ActivateDTO
+import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
@@ -49,7 +53,7 @@ fun CustomButton(
     backgroundColor: Color,
     onNavigateToLogin: () -> Unit = {},
     shape: String = "Circle",
-    data: Challenge = Challenge(),
+    data: Any? = null,
     onClick: (permissionPopup: Boolean) -> Unit = { },
     @ApplicationContext context: Context = LocalContext.current,
     cameraPositionState: CameraPositionState = rememberCameraPositionState(),
@@ -107,7 +111,7 @@ fun CustomButton(
 
                         ButtonType.RunningStatus.InsertStatus.CHALLENGE -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                challengeViewModel.saveChallenge(data)
+                                challengeViewModel.saveChallenge(data as Challenge)
                             }
                         }
 
@@ -124,6 +128,21 @@ fun CustomButton(
                                         Toast.makeText(context, "활동 내역을 삭제했습니다!", Toast.LENGTH_SHORT).show()
                                     } else {
                                         Toast.makeText(context, "삭제 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        }
+
+                        ButtonType.RunningStatus.DeleteStatus.CHALLENGE -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                challengeViewModel.deleteChallenge(data as ChallengeDTO) {
+                                    if (it) {
+                                        val intent = Intent(context, HomeActivity::class.java)
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                        context.startActivity(intent)
+
+                                        val handler = Handler(Looper.getMainLooper())
+                                        handler.postDelayed({ Toast.makeText(context, "챌린지 내역을 삭제했습니다!", Toast.LENGTH_SHORT).show() }, 0)
                                     }
                                 }
                             }

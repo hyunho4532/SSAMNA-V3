@@ -2,6 +2,7 @@ package com.asetec.presentation.viewmodel
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -72,5 +73,13 @@ class ChallengeViewModel @Inject constructor(
         val challengeDTO = challengeCase.selectChallengeFindByGoogleId(googleId!!)
 
         _challengeData.value = challengeDTO
+    }
+
+    fun deleteChallenge(challengeDTO: ChallengeDTO, onSuccess: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            challengeCase.deleteChallenge(challengeDTO.id) {
+                onSuccess(it)
+            }
+        }
     }
 }
