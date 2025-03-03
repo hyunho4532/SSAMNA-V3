@@ -222,7 +222,7 @@ fun ProfileScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "목표 (1)",
+                text = "스마트워치",
                 fontSize = 22.sp,
             )
 
