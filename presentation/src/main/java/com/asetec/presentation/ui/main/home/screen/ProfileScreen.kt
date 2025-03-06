@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -26,9 +27,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -38,10 +41,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.box.polygon.PolygonBox
 import com.asetec.presentation.component.dialog.ChallengeBottomSheet
+import com.asetec.presentation.component.dialog.ShowChallengeDetailDialog
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateCard
 import com.asetec.presentation.component.tool.challengeRegistrationCard
@@ -67,6 +72,7 @@ fun ProfileScreen(
 ) {
     val activateData  = activityLocationViewModel.activateData.collectAsState()
     val challengeData = challengeViewModel.challengeData.collectAsState()
+    val challengeDetailData = challengeViewModel.challengeDetailData.collectAsState()
 
     val challengeDataTitle: List<String> = challengeData.value.map {
         it.title
@@ -88,13 +94,17 @@ fun ProfileScreen(
         mutableStateOf(false)
     }
 
+    val showChallengeDialogPopup = remember {
+        mutableStateOf(false)
+    }
+
     val sheetState = rememberModalBottomSheetState(
         skipPartiallyExpanded = false
     )
 
     LaunchedEffect(key1 = Unit) {
         activityLocationViewModel.selectActivityFindById(userList.value.id)
-        challengeViewModel.selectChallengeById()
+        challengeViewModel.selectChallengeByGoogleId()
     }
 
     LaunchedEffect(key1 = activateData.value) {
@@ -173,12 +183,17 @@ fun ProfileScreen(
         }
         Column (
             modifier = Modifier
-                .height(calculatorActivateCardWeight(activateData))
+                .height(
+                    calculatorActivateCardWeight(
+                        data = activateData,
+                        minHeight = 160,
+                        maxHeight = 320
+                    )
+                )
                 .verticalScroll(rememberScrollState())
         ) {
             activateData.value.forEach { activateDTO ->
                 activateCard(
-                    navController = navController,
                     height = 160.dp,
                     borderStroke = 1,
                     activateDTO = activateDTO,
@@ -208,7 +223,7 @@ fun ProfileScreen(
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "목표 (1)",
+                text = "스마트워치",
                 fontSize = 22.sp,
             )
 
@@ -217,6 +232,32 @@ fun ProfileScreen(
                     .size(28.dp),
                 painter = painterResource(id = R.drawable.baseline_add_24),
                 contentDescription = "추가 아이콘"
+            )
+        }
+
+        Column (
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(
+                    calculatorActivateCardWeight(
+                        data = challengeData,
+                        minHeight = 80,
+                        maxHeight = 160
+                    )
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = "현재 스마트 워치가 등록이 안되어 있습니다!",
+                color = Color.Gray,
+                fontSize = 14.sp
+            )
+
+            Text(
+                text = "심박수 측정과 더 정확한 운동 데이터 제공을 도와드려요!",
+                color = Color.Gray,
+                fontSize = 12.sp
             )
         }
 
@@ -254,7 +295,13 @@ fun ProfileScreen(
 
         Column (
             modifier = Modifier
-                .height(320.dp)
+                .height(
+                    calculatorActivateCardWeight(
+                        data = challengeData,
+                        minHeight = 80,
+                        maxHeight = 160
+                    )
+                )
                 .verticalScroll(rememberScrollState())
         ) {
             challengeData.value.forEach { challengeDTO ->
@@ -263,8 +310,21 @@ fun ProfileScreen(
                     height = 80.dp,
                     sumKm = sumKm.toFloat(),
                     sumCount = sumCount
-                )
+                ) { isPopup ->
+                    challengeViewModel.selectChallengeById(challengeDTO.id) {
+                        showChallengeDialogPopup.value = isPopup
+                    }
+                }
             }
+        }
+    }
+
+    if (showChallengeDialogPopup.value) {
+        if (challengeDetailData.value.isNotEmpty()) {
+            ShowChallengeDetailDialog(
+                isShowChallengePopup = showChallengeDialogPopup,
+                challengeDetailData = challengeDetailData.value
+            )
         }
     }
 

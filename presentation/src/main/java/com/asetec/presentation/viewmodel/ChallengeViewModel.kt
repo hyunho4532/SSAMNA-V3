@@ -2,6 +2,7 @@ package com.asetec.presentation.viewmodel
 
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -32,6 +33,9 @@ class ChallengeViewModel @Inject constructor(
     private val _challengeData = MutableStateFlow<List<ChallengeDTO>>(emptyList())
     val challengeData: StateFlow<List<ChallengeDTO>> = _challengeData
 
+    private val _challengeDetailData = MutableStateFlow<List<ChallengeDTO>>(emptyList())
+    val challengeDetailData: StateFlow<List<ChallengeDTO>> = _challengeDetailData
+
     @RequiresApi(Build.VERSION_CODES.O)
     fun saveChallenge(data: Challenge) {
         val googleId = sharedPreferences.getString("id", "")
@@ -56,10 +60,26 @@ class ChallengeViewModel @Inject constructor(
         }
     }
 
-    suspend fun selectChallengeById() {
+    fun selectChallengeById(id: Int, onSuccess: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val challengeDTO = challengeCase.selectChallengeFindById(id)
+            _challengeDetailData.value = challengeDTO
+            onSuccess(true)
+        }
+    }
+
+    suspend fun selectChallengeByGoogleId() {
         val googleId = sharedPreferences.getString("id", "")
-        val challengeDTO = challengeCase.selectChallengeFindById(googleId!!)
+        val challengeDTO = challengeCase.selectChallengeFindByGoogleId(googleId!!)
 
         _challengeData.value = challengeDTO
+    }
+
+    fun deleteChallenge(challengeDTO: ChallengeDTO, onSuccess: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            challengeCase.deleteChallenge(challengeDTO.id) {
+                onSuccess(it)
+            }
+        }
     }
 }

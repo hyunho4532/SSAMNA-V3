@@ -3,6 +3,7 @@ package com.asetec.presentation.component.tool
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -24,7 +25,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -233,7 +233,6 @@ fun ReportCard(userState: User) {
 
 @Composable
 fun activateCard(
-    navController: NavController = rememberNavController(),
     context: Context? = LocalContext.current,
     height: Dp,
     backgroundColor: Color = Color.White,
@@ -251,7 +250,7 @@ fun activateCard(
         modifier = Modifier
             .width(setUpWidth())
             .height(height)
-            .padding(top = 8.dp, start = 8.dp)
+            .padding(top = 8.dp)
             .clickable(
                 interactionSource = remember {
                     MutableInteractionSource()
@@ -530,7 +529,8 @@ fun challengeRegistrationCard(
     challengeDTO: ChallengeDTO,
     height: Dp,
     sumKm: Float,
-    sumCount: Int
+    sumCount: Int,
+    onChallengeIsPopup: (Boolean) -> Unit
 ) {
 
     var currentProcess by remember {
@@ -549,7 +549,7 @@ fun challengeRegistrationCard(
         modifier = Modifier
             .width(setUpWidth())
             .height(height)
-            .padding(top = 8.dp, start = 8.dp)
+            .padding(top = 8.dp)
             .clickable(
                 interactionSource = remember {
                     MutableInteractionSource()
@@ -559,6 +559,7 @@ fun challengeRegistrationCard(
                     bounded = true
                 )
             ) {
+                onChallengeIsPopup(true)
             },
         colors = CardDefaults.cardColors(
             containerColor = Color.White

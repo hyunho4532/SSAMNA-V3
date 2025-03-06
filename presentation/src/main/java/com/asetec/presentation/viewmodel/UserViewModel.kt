@@ -124,6 +124,7 @@ class UserViewModel @Inject constructor(
                 0 -> it.copy(recentExerciseCheck = text)
                 1 -> it.copy(recentWalkingCheck = text)
                 2 -> it.copy(targetPeriod = text)
+                3 -> it.copy(isSmartWatch = text)
                 else -> throw Exception("에러")
             }
         }

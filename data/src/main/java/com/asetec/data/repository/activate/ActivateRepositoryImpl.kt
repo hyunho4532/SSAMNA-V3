@@ -16,6 +16,17 @@ class ActivateRepositoryImpl @Inject constructor(
         postgrest.from("Activity").insert(activateDTO)
     }
 
+    override suspend fun delete(googleId: String, date: String, onSuccess: (Boolean) -> Unit) {
+        postgrest.from("Activity").delete {
+            filter {
+                eq("google_id", googleId)
+                eq("today_format", date)
+            }
+        }
+
+        onSuccess(true)
+    }
+
     override suspend fun selectActivateById(googleId: String): List<ActivateDTO> {
         return withContext(Dispatchers.IO) {
             postgrest.from("Activity").select {

@@ -24,8 +24,6 @@ data class FormatImpl(
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getTodayFormatDate(): String {
         val currentDateTime = ZonedDateTime.now(ZoneId.of("Asia/Seoul"))
-
-
         return currentDateTime.format(formatter)
     }
 
@@ -49,6 +47,7 @@ data class FormatImpl(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun parseMonthDaysStr(dateStr: String): String {
+        Log.d("FormatImpl", dateStr)
         return LocalDate.parse(dateStr, formatter)!!.format(formatter)
     }
 
