@@ -31,6 +31,7 @@ import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -231,6 +232,32 @@ fun ProfileScreen(
                     .size(28.dp),
                 painter = painterResource(id = R.drawable.baseline_add_24),
                 contentDescription = "추가 아이콘"
+            )
+        }
+
+        Column (
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(
+                    calculatorActivateCardWeight(
+                        data = challengeData,
+                        minHeight = 80,
+                        maxHeight = 160
+                    )
+                ),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center,
+        ) {
+            Text(
+                text = "현재 스마트 워치가 등록이 안되어 있습니다!",
+                color = Color.Gray,
+                fontSize = 14.sp
+            )
+
+            Text(
+                text = "심박수 측정과 더 정확한 운동 데이터 제공을 도와드려요!",
+                color = Color.Gray,
+                fontSize = 12.sp
             )
         }
 
