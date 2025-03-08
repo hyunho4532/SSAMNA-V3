@@ -1,9 +1,7 @@
 package com.asetec.presentation.component.tool
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -55,6 +53,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.asetec.domain.model.state.Activate
@@ -66,7 +65,6 @@ import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
-import com.asetec.presentation.ui.feature.detail.ActivateDetailActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.double
@@ -241,7 +239,8 @@ fun activateCard(
     activateDTO: ActivateDTO? = ActivateDTO(),
     showBottomSheet: MutableState<Boolean>? = mutableStateOf(false),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
-    cardType: CardType
+    cardType: CardType,
+    navController: NavController = rememberNavController()
 ) {
     val imageName = activate?.assets?.replace("R.drawable.", "")
     val imageResId = context?.resources?.getIdentifier(imageName, "drawable", context.packageName)
@@ -267,10 +266,7 @@ fun activateCard(
                         activateName = activate!!.name
                     )
                 } else {
-                    val intent = Intent(context, ActivateDetailActivity::class.java)
-                    intent.putExtra("googleId", activateDTO!!.googleId)
-                    intent.putExtra("date", activateDTO.todayFormat)
-                    context?.startActivity(intent)
+                    navController.navigate("activateDetail/${activateDTO!!.id}")
                 }
             },
         colors = CardDefaults.cardColors(
@@ -399,7 +395,6 @@ fun activateFormCard(
     backgroundColor: Color = Color.White,
     borderStroke: Int? = 0,
     activateForm: ActivateForm? = ActivateForm(),
-    activateDTO: ActivateDTO? = ActivateDTO(),
     showBottomSheet: MutableState<Boolean>? = mutableStateOf(false),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     cardType: CardType
@@ -693,6 +688,64 @@ fun activateHistoryCard(
                         textAlign = TextAlign.Center
                     )
                 }
+            }
+        }
+    }
+}
+
+/**
+ * 차트 상세 분석 카드
+ */
+@Composable
+fun chartDetailCard(
+    height: Dp,
+    backgroundColor: Color = Color.White,
+    navController: NavController = rememberNavController()
+) {
+    Card (
+        modifier = Modifier
+            .width(setUpWidth())
+            .height(height)
+            .clickable(
+                interactionSource = remember {
+                    MutableInteractionSource()
+                },
+                indication = rememberRipple(
+                    color = Color.Gray,
+                    bounded = true
+                )
+            ) {
+                navController.navigate("activateChart")
+            },
+        colors = CardDefaults.cardColors(
+            containerColor = backgroundColor
+        ),
+        border = BorderStroke(1.dp, Color.Gray)
+    ) {
+        Row (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_graph_24),
+                contentDescription = "그래프 로고"
+            )
+
+            Column {
+                Text(
+                    modifier = Modifier.padding(start = 6.dp),
+                    text = "차트 분석 확인하기",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+
+                Text(
+                    modifier = Modifier.padding(start = 6.dp),
+                    text = "고도, 걸음, 페이스 측정",
+                    fontSize = 14.sp
+                )
             }
         }
     }

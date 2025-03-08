@@ -19,15 +19,20 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.presentation.R
 import com.asetec.presentation.component.marker.MapMarker
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.tool.activateHistoryCard
+import com.asetec.presentation.component.tool.chartDetailCard
 import com.asetec.presentation.component.util.analyzeRunningFeedback
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.ButtonType
@@ -46,20 +51,20 @@ import kotlinx.serialization.json.double
 
 @Composable
 fun DetailScreen(
-    googleId: String,
-    date: String,
-    activityLocationViewModel: ActivityLocationViewModel,
-    context: Context,
+    id: String,
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
+    navController: NavController = rememberNavController(),
 ) {
     val activateData = activityLocationViewModel.activateData.collectAsState()
     val cameraPositionState = rememberCameraPositionState()
+    val context = LocalContext.current
 
     val pace = remember {
         mutableDoubleStateOf(0.0)
     }
 
     LaunchedEffect(key1 = Unit) {
-        activityLocationViewModel.selectActivityFindByIdDate(googleId, date)
+        activityLocationViewModel.selectActivityFindById(id.toInt())
     }
 
     val coordsList: List<Coordinate> = activityLocationViewModel.setCoordList(activateData)
@@ -103,11 +108,20 @@ fun DetailScreen(
                 }
             }
 
+            /**
+             * 운동 내역을 확인하기 위한 카드 UI
+             * 시간, 칼로리, km 확인
+             */
             activateHistoryCard(
                 activate = activateData,
                 height = 50.dp
             )
 
+            Spacer(width = 0.dp, height = 40.dp)
+
+            /**
+             * 차트 상세 분석으로 이동하기 위한 카드 UI
+             */
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -120,7 +134,7 @@ fun DetailScreen(
             ) {
                 Column {
                     Text(
-                        text = "활동 분석",
+                        text = "차트 분석",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
                     )
@@ -130,8 +144,19 @@ fun DetailScreen(
                         height = 10.dp,
                         isBottomBorder = true
                     )
+
+                    Box(
+                        modifier = Modifier.padding(top = 12.dp)
+                    ) {
+                        chartDetailCard(
+                            height = 50.dp,
+                            backgroundColor = Color.White,
+                            navController = navController
+                        )
+                    }
                 }
             }
+
 
             Box(
                 modifier = Modifier

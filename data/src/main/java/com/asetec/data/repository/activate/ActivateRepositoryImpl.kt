@@ -27,7 +27,7 @@ class ActivateRepositoryImpl @Inject constructor(
         onSuccess(true)
     }
 
-    override suspend fun selectActivateById(googleId: String): List<ActivateDTO> {
+    override suspend fun selectActivateByGoogleId(googleId: String): List<ActivateDTO> {
         return withContext(Dispatchers.IO) {
             postgrest.from("Activity").select {
                 filter {
@@ -48,15 +48,13 @@ class ActivateRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun selectActivityFindByIdDate(
-        googleId: String,
-        date: String
+    override suspend fun selectActivityFindById(
+        id: Int
     ): List<ActivateDTO> {
         return withContext(Dispatchers.IO) {
             postgrest.from("Activity").select {
                 filter {
-                    eq("google_id", googleId)
-                    eq("today_format", date)
+                    eq("id", id)
                 }
             }.decodeList<ActivateDTO>()
         }

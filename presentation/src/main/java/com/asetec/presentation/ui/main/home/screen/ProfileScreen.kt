@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -27,7 +26,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,7 +39,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.box.polygon.PolygonBox
@@ -103,7 +100,7 @@ fun ProfileScreen(
     )
 
     LaunchedEffect(key1 = Unit) {
-        activityLocationViewModel.selectActivityFindById(userList.value.id)
+        activityLocationViewModel.selectActivityFindByGoogleId(userList.value.id)
         challengeViewModel.selectChallengeByGoogleId()
     }
 
@@ -198,6 +195,7 @@ fun ProfileScreen(
                     borderStroke = 1,
                     activateDTO = activateDTO,
                     cardType = CardType.ActivateStatus.Activity,
+                    navController = navController
                 )
             }
         }

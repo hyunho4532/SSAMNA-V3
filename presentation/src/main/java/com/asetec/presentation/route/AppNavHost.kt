@@ -1,6 +1,7 @@
 package com.asetec.presentation.route
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -22,6 +23,8 @@ import com.asetec.presentation.ui.feature.login.UserInfoScreen
 import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.OnBoardingScreen
+import com.asetec.presentation.ui.feature.detail.DetailScreen
+import com.asetec.presentation.ui.feature.detail.chart.ActivateChart
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
@@ -93,7 +96,7 @@ fun ScreenNavigationConfiguration(
     LaunchedEffect(key1 = Unit) {
         val googleId = userViewModel.getSavedLoginState()
         userViewModel.selectUserFindById(googleId)
-        activityLocationViewModel.selectActivityFindById(googleId)
+        activityLocationViewModel.selectActivityFindByGoogleId(googleId)
     }
 
     NavHost(navController = navController, startDestination = Screens.HomeScreen.route) {
@@ -120,6 +123,23 @@ fun ScreenNavigationConfiguration(
                 context = context,
                 userList = userList
             )
+        }
+
+        composable(
+            route = "activateDetail/{id}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")
+            Log.d("AppNavHost", id.toString())
+
+            DetailScreen(
+                id = id!!,
+                navController = navController
+            )
+        }
+
+        composable(
+            route = "activateChart"
+        ) {
+            ActivateChart()
         }
     }
 }
