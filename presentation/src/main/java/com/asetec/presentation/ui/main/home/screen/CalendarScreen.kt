@@ -1,6 +1,7 @@
 package com.asetec.presentation.ui.main.home.screen
 
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -46,6 +47,8 @@ fun CalendarScreen(
     val activateData = activityLocationViewModel.activateData.collectAsState()
     val pages = listOf("매주", "매달", "연간")
 
+    Log.d("CalendarScreen", activateList.toString())
+
     var currentMonth by remember {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mutableStateOf(LocalDate.now())
@@ -55,7 +58,7 @@ fun CalendarScreen(
     }
 
     val todayList = activateList.value.map {
-        it.todayFormat.substring(0, 12)
+        it.todayFormat.substring(0, 11)
     }
 
     Column(

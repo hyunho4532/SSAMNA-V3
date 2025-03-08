@@ -3,7 +3,9 @@ package com.asetec.presentation.ui.feature.login
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -14,6 +16,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -31,9 +35,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -65,6 +72,8 @@ fun UserInfoScreen(
 
     val userState = userViewModel.user.collectAsState()
 
+    val focusManager = LocalFocusManager.current
+
     val enableExerciseTextField = remember {
         mutableStateOf(true)
     }
@@ -82,6 +91,10 @@ fun UserInfoScreen(
     }
 
     val (selectedOption2, setSelectedOption2) = remember {
+        mutableStateOf(yesORNo[0])
+    }
+
+    val (selectedOption3, setSelectedOption3) = remember {
         mutableStateOf(yesORNo[0])
     }
 
@@ -107,6 +120,12 @@ fun UserInfoScreen(
                 .fillMaxSize()
                 .background(Color.White)
                 .verticalScroll(rememberScrollState())
+                .pointerInput(Unit) {
+                    detectTapGestures(onTap = {
+                        focusManager.clearFocus()
+                    })
+                }
+
         ) {
             val fontSize = setFontSize(densityDpi)
 
@@ -190,7 +209,8 @@ fun UserInfoScreen(
                         yesORNo = yesORNo,
                         id = 0,
                         selectedOption = selectedOption,
-                        onOptionSelected = setSelectedOption
+                        onOptionSelected = setSelectedOption,
+                        userState = userState
                     )
                 }
 
@@ -208,23 +228,30 @@ fun UserInfoScreen(
                     )
 
                     Box(
-                        modifier = Modifier.padding(top = 36.dp, start = 16.dp)
+                        modifier = Modifier
+                            .padding(top = 36.dp, start = 16.dp)
                     ) {
                         OutlinedTextField(
                             modifier = Modifier
                                 .width(240.dp)
                                 .height(56.dp),
-                            value = userState.value.recentExerciseName ?: "",
+                            value = userState.value.recentExerciseName,
                             onValueChange = {
                                 userViewModel.saveExerciseName(it)
                             },
+                            singleLine = true,
                             enabled = enableExerciseTextField.value,
                             placeholder = {
                                 Text(
                                     text = stringResource(id = R.string.hint_recent_exercise),
                                     color = Color.Gray
                                 )
-                            }
+                            },
+                            keyboardActions = KeyboardActions(
+                                onDone = {
+                                    focusManager.clearFocus()
+                                }
+                            )
                         )
                     }
                 }
@@ -246,7 +273,8 @@ fun UserInfoScreen(
                         yesORNo = yesORNo,
                         id = 1,
                         selectedOption = selectedOption1,
-                        onOptionSelected = setSelectedOption1
+                        onOptionSelected = setSelectedOption1,
+                        userState = userState
                     )
                 }
 
@@ -282,19 +310,23 @@ fun UserInfoScreen(
 
                             OutlinedTextField(
                                 modifier = Modifier
-                                    .width(44.dp)
+                                    .width(60.dp)
                                     .height(56.dp),
                                 value = userState.value.recentWalkingOfWeek,
                                 onValueChange = {
                                     userViewModel.saveWalkingOfWeek(it)
                                 },
+                                singleLine = true,
                                 enabled = enableWalkingTextField.value,
                                 placeholder = {
                                     Text(
                                         text = stringResource(id = R.string.hint_exercise_week),
                                         color = Color.Gray
                                     )
-                                }
+                                },
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    keyboardType = KeyboardType.Number
+                                )
                             )
 
                             Spacer(width = 80.dp, height = 0.dp)
@@ -312,13 +344,17 @@ fun UserInfoScreen(
                                 onValueChange = {
                                     userViewModel.saveWalkingOfTime(it)
                                 },
+                                singleLine = true,
                                 enabled = enableWalkingTextField.value,
                                 placeholder = {
                                     Text(
                                         text = stringResource(id = R.string.hint_exercise_time),
                                         color = Color.Gray
                                     )
-                                }
+                                },
+                                keyboardOptions = KeyboardOptions.Default.copy(
+                                    keyboardType = KeyboardType.Number
+                                )
                             )
                         }
                     }
@@ -341,7 +377,30 @@ fun UserInfoScreen(
                         yesORNo = yesORNo,
                         id = 2,
                         selectedOption = selectedOption2,
-                        onOptionSelected = setSelectedOption2
+                        onOptionSelected = setSelectedOption2,
+                        userState = userState
+                    )
+                }
+
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(120.dp)
+                        .padding(top = 46.dp)
+                ) {
+                    Text(
+                        text = "5. 현재 가지고 계신 스마트 워치가 있으신가요?",
+                        modifier = Modifier.padding(start = 16.dp),
+                        fontWeight = FontWeight.Bold,
+                        fontSize = fontSize
+                    )
+
+                    RadioRow(
+                        yesORNo = yesORNo,
+                        id = 3,
+                        selectedOption = selectedOption3,
+                        onOptionSelected = setSelectedOption3,
+                        userState = userState
                     )
                 }
 
@@ -351,8 +410,14 @@ fun UserInfoScreen(
                 ) {
                     Button(
                         onClick = {
-                            val userStateJson = Uri.encode(Json.encodeToString(userState.value))
-                            navController.navigate("report?userState=${userStateJson}")
+                            val users = userState.value
+
+                            if(users.recentExerciseName.isNotEmpty() && users.recentWalkingOfWeek.isNotEmpty() && users.recentWalkingOfTime.isNotEmpty()) {
+                                val userStateJson = Uri.encode(Json.encodeToString(userState.value))
+                                navController.navigate("report?userState=${userStateJson}")
+                            } else {
+                                Toast.makeText(context, "입력하지 않은 정보가 있습니다.", Toast.LENGTH_SHORT).show()
+                            }
                         },
                         modifier = Modifier
                             .width(setUpWidth()),

@@ -8,5 +8,6 @@ interface LocationServiceManager {
     fun stopLocationService(context: Context)
     fun getLatitude(): Double
     fun getLongitude(): Double
-    suspend fun locationFlow(): Flow<Pair<Double, Double>>
+    fun getAltitude() : Double
+    suspend fun locationFlow(): Flow<Pair<List<Double>, Double>>
 }

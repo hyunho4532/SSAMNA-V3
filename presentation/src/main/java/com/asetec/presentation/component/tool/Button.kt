@@ -1,8 +1,12 @@
 package com.asetec.presentation.component.tool
 
 import android.content.Context
+import android.content.Intent
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.os.Process
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -23,16 +27,18 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.domain.model.dto.ActivateDTO
+import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpButtonWidth
 import com.asetec.presentation.enum.ButtonType
+import com.asetec.presentation.ui.main.home.HomeActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
 import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
-import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -47,17 +53,17 @@ fun CustomButton(
     backgroundColor: Color,
     onNavigateToLogin: () -> Unit = {},
     shape: String = "Circle",
-    data: Challenge = Challenge(),
+    data: Any? = null,
     onClick: (permissionPopup: Boolean) -> Unit = { },
     @ApplicationContext context: Context = LocalContext.current,
     cameraPositionState: CameraPositionState = rememberCameraPositionState(),
-    coordinate: List<LatLng> = emptyList(),
+    coordinate: List<Coordinate> = emptyList(),
+    activateData: State<List<ActivateDTO>>? = null,
     locationManagerViewModel: LocationManagerViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel()
 ) {
-
     val activates = activityLocationViewModel.activates.collectAsState()
 
     Button(
@@ -93,7 +99,6 @@ fun CustomButton(
                                 Toast.makeText(context, "최소 100보 이상은 걸어야 합니다!", Toast.LENGTH_SHORT).show()
                             }
                         }
-
                         ButtonType.RunningStatus.InsertStatus.RUNNING -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 activityLocationViewModel.saveActivity(
@@ -106,7 +111,40 @@ fun CustomButton(
 
                         ButtonType.RunningStatus.InsertStatus.CHALLENGE -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                challengeViewModel.saveChallenge(data)
+                                challengeViewModel.saveChallenge(data as Challenge)
+                            }
+                        }
+
+                        ButtonType.RunningStatus.DeleteStatus.RUNNING -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                activityLocationViewModel.deleteActivityFindById(
+                                    googleId = activateData!!.value[0].googleId,
+                                    date = activateData.value[0].todayFormat
+                                ) {
+                                    if (it) {
+                                        val intent = Intent(context, HomeActivity::class.java)
+                                        context.startActivity(intent)
+
+                                        Toast.makeText(context, "활동 내역을 삭제했습니다!", Toast.LENGTH_SHORT).show()
+                                    } else {
+                                        Toast.makeText(context, "삭제 중 오류가 발생했습니다.", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        }
+
+                        ButtonType.RunningStatus.DeleteStatus.CHALLENGE -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                challengeViewModel.deleteChallenge(data as ChallengeDTO) {
+                                    if (it) {
+                                        val intent = Intent(context, HomeActivity::class.java)
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                        context.startActivity(intent)
+
+                                        val handler = Handler(Looper.getMainLooper())
+                                        handler.postDelayed({ Toast.makeText(context, "챌린지 내역을 삭제했습니다!", Toast.LENGTH_SHORT).show() }, 0)
+                                    }
+                                }
                             }
                         }
 
