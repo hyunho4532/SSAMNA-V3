@@ -120,6 +120,31 @@ fun DetailScreen(
             ) {
                 Column {
                     Text(
+                        text = "활동 분석",
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 18.sp
+                    )
+
+                    Spacer(
+                        width = setUpWidth(),
+                        height = 10.dp,
+                        isBottomBorder = true
+                    )
+                }
+            }
+
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(140.dp)
+                    .align(Alignment.Start)
+                    .padding(
+                        top = 40.dp,
+                        start = 24.dp
+                    )
+            ) {
+                Column {
+                    Text(
                         text = "이번 활동의 페이스 분석",
                         fontWeight = FontWeight.Bold,
                         fontSize = 18.sp
