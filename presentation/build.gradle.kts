@@ -58,6 +58,10 @@ dependencies {
     implementation(libs.identity.googleid)
     implementation(libs.lottie)
     implementation(libs.fagadiya.smooth.bottom.navigation)
+    implementation(libs.vico.compose)
+    implementation(libs.vico.compose.m2)
+    implementation(libs.vico.compose.m3)
+    implementation(libs.vico.views)
 
     /**
      * KMP

@@ -1,5 +1,6 @@
 [versions]
 agp = "8.3.0"
+vico = "2.0.3"
 compose = "1.0.0"
 composeNav = "2.8.5"
 kotlin = "1.9.0"
@@ -35,6 +36,11 @@ lottie = "6.6.2"
 jitpack = "1.1.2"
 
 [libraries]
+# 오픈소스, 라이브러리, KMP 등
+vico-compose = { group = "com.patrykandpatrick.vico", name = "compose", version.ref = "vico" }
+vico-compose-m2 = { group = "com.patrykandpatrick.vico", name = "compose-m2", version.ref = "vico" }
+vico-compose-m3 = { group = "com.patrykandpatrick.vico", name = "compose-m3", version.ref = "vico" }
+vico-views = { group = "com.patrykandpatrick.vico", name = "views", version.ref = "vico" }
 fagadiya-smooth-bottom-navigation = { group = "com.github.PratikFagadiya", name = "AnimatedSmoothBottomNavigation-JetpackCompose", version.ref = "jitpack" }
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 identity-googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleIdLib" }
@@ -60,6 +66,7 @@ play-services-auth = { group = "com.google.android.gms", name = "play-services-a
 google-accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "pager" }
 google-accompanist-pager-indicator = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "pager" }
 
+# androidx 전용
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
 androidx-work-runtime = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "work" }
