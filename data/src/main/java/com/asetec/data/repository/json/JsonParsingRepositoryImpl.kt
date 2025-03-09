@@ -2,6 +2,7 @@ package com.asetec.data.repository.json
 
 import android.content.Context
 import android.content.res.AssetManager
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.state.ActivityType
@@ -38,5 +39,14 @@ class JsonParsingRepositoryImpl @Inject constructor(
         onType(type)
 
         return gson.fromJson(json, listType.type)
+    }
+
+    override fun dataToJson(data: Any): String {
+        return gson.toJson(data)
+    }
+
+    override fun dataFromJson(data: String): List<Coordinate> {
+        val listType: TypeToken<*> = object : TypeToken<List<Coordinate>>() {}
+        return gson.fromJson(data, listType.type)
     }
 }

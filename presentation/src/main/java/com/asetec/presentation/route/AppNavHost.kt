@@ -1,7 +1,6 @@
 package com.asetec.presentation.route
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -15,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.animation.Screens
 import com.asetec.presentation.ui.feature.login.LoginScreen
@@ -27,6 +27,7 @@ import com.asetec.presentation.ui.feature.detail.DetailScreen
 import com.asetec.presentation.ui.feature.detail.chart.ActivateChart
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import com.asetec.presentation.viewmodel.JsonParseViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
 import com.google.android.gms.location.LocationServices
 import kotlinx.serialization.json.Json
@@ -82,7 +83,8 @@ fun ScreenNavigationConfiguration(
     navController: NavHostController,
     context: Context,
     userViewModel: UserViewModel = hiltViewModel(),
-    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
+    jsonParseViewModel: JsonParseViewModel = hiltViewModel()
 ) {
 
     val isClickable = remember {
@@ -138,10 +140,15 @@ fun ScreenNavigationConfiguration(
         composable(
             route = "activateChart?coords={coords}",
             arguments = listOf(navArgument("coords") {
-                type = NavType.StringListType
+                type = NavType.StringType
             })
         ) { backStackEntry ->
-            ActivateChart()
+            val coords = backStackEntry.arguments?.getString("coords")
+            val coordsList: List<Coordinate> = jsonParseViewModel.dataFromJson(coords!!)
+
+            ActivateChart(
+                coordsList = coordsList
+            )
         }
     }
 }

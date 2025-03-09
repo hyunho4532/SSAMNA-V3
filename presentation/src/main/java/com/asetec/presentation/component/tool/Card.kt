@@ -66,6 +66,7 @@ import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import com.asetec.presentation.viewmodel.JsonParseViewModel
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.doubleOrNull
@@ -700,8 +701,9 @@ fun activateHistoryCard(
 fun chartDetailCard(
     height: Dp,
     backgroundColor: Color = Color.White,
+    coordsList: List<Coordinate>,
     navController: NavController = rememberNavController(),
-    coordsList: List<Coordinate>
+    jsonParseViewModel: JsonParseViewModel = hiltViewModel()
 ) {
     Card (
         modifier = Modifier
@@ -716,7 +718,8 @@ fun chartDetailCard(
                     bounded = true
                 )
             ) {
-                navController.navigate("activateChart?coords=${coordsList}")
+                val coords = jsonParseViewModel.dataToJson(coordsList)
+                navController.navigate("activateChart?coords=${coords}")
             },
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor
