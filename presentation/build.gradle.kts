@@ -53,16 +53,12 @@ dependencies {
     /**
      * gitHub Open Source
      */
-    implementation(libs.dautovicharis.chart)
     implementation(libs.animated.nav.bar)
     implementation(libs.dotenv.kotlin)
     implementation(libs.identity.googleid)
     implementation(libs.lottie)
     implementation(libs.fagadiya.smooth.bottom.navigation)
 
-    /**
-     * KMP
-     */
     implementation(libs.google.accompanist.pager)
     implementation(libs.google.accompanist.pager.indicator )
     implementation(libs.google.maps.compose)

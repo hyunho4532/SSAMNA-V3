@@ -1,6 +1,5 @@
 package com.asetec.presentation.ui.feature.detail
 
-import android.content.Context
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -151,7 +150,8 @@ fun DetailScreen(
                         chartDetailCard(
                             height = 50.dp,
                             backgroundColor = Color.White,
-                            navController = navController
+                            navController = navController,
+                            coordsList = coordsList
                         )
                     }
                 }

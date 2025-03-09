@@ -128,7 +128,6 @@ fun ScreenNavigationConfiguration(
         composable(
             route = "activateDetail/{id}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")
-            Log.d("AppNavHost", id.toString())
 
             DetailScreen(
                 id = id!!,
@@ -137,8 +136,11 @@ fun ScreenNavigationConfiguration(
         }
 
         composable(
-            route = "activateChart"
-        ) {
+            route = "activateChart?coords={coords}",
+            arguments = listOf(navArgument("coords") {
+                type = NavType.StringListType
+            })
+        ) { backStackEntry ->
             ActivateChart()
         }
     }

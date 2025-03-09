@@ -53,13 +53,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.dto.ChallengeDTO
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
@@ -700,7 +700,8 @@ fun activateHistoryCard(
 fun chartDetailCard(
     height: Dp,
     backgroundColor: Color = Color.White,
-    navController: NavController = rememberNavController()
+    navController: NavController = rememberNavController(),
+    coordsList: List<Coordinate>
 ) {
     Card (
         modifier = Modifier
@@ -715,7 +716,7 @@ fun chartDetailCard(
                     bounded = true
                 )
             ) {
-                navController.navigate("activateChart")
+                navController.navigate("activateChart?coords=${coordsList}")
             },
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor
