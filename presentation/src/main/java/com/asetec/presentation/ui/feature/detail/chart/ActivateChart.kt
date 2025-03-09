@@ -1,29 +1,26 @@
 package com.asetec.presentation.ui.feature.detail.chart
 
-import android.util.Log
+import android.text.TextPaint
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.nativeCanvas
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.asetec.domain.model.location.Coordinate
+import com.asetec.presentation.component.util.calculatorActivateChartWidth
 
 @Composable
 fun ActivateChart(
@@ -42,11 +39,12 @@ fun ActivateChart(
         )
 
         Box(
-            modifier = Modifier.horizontalScroll(rememberScrollState())
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
         ) {
             Canvas(
                 modifier = Modifier
-                    .width(2000.dp)
+                    .width(calculatorActivateChartWidth(coordsList = coordsList))
                     .height(90.dp)
                     .padding(12.dp)
             ) {
@@ -69,6 +67,25 @@ fun ActivateChart(
                             end = Offset(endX, endY),
                             strokeWidth = 5f
                         )
+
+                        drawCircle(
+                            color = Color(0xFF5c9afa),
+                            radius = 8f,
+                            center = Offset(endX, endY)
+                        )
+
+                        drawContext.canvas.nativeCanvas.apply {
+                            val text = String.format("%.3f", altitude)
+
+                            drawText(
+                                text,
+                                endX - 44,
+                                endY + 40,
+                                TextPaint().apply {
+                                    textSize = 30f
+                                }
+                            )
+                        }
                     }
                 }
             }

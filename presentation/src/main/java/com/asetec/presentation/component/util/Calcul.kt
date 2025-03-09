@@ -3,14 +3,17 @@ package com.asetec.presentation.component.util
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.State
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.entry.KcalEntry
 import com.asetec.domain.model.entry.KmEntry
 import com.asetec.domain.model.entry.StepEntry
+import com.asetec.domain.model.location.Coordinate
 import java.time.DayOfWeek
 import java.time.LocalDate
+import kotlin.math.sqrt
 
 /**
  * 비례 관계를 이용하여 card의 width를 조정하는 함수
@@ -33,7 +36,20 @@ fun calculatorActivateCardWeight(
     }
 }
 
+/**
+ * coordsList 사이즈에 따라 width를 조정한다.
+ */
+fun calculatorActivateChartWidth(coordsList: List<Coordinate>): Dp {
+    val width = 480
 
+    val renderingWidth = if (coordsList.size > 1) {
+        (coordsList.size - 1) * (width / coordsList.size)
+    } else {
+        width
+    }
+
+    return renderingWidth.dp
+}
 
 /**
  * 이번 주 km, kcal 계산 함수
