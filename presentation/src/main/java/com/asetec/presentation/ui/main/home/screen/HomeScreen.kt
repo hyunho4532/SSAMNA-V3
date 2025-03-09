@@ -139,7 +139,8 @@ fun HomeScreen(
         Coordinate(
             latitude = it.latitude,
             longitude = it.longitude,
-            altitude = it.altitude
+            altitude = it.altitude,
+            km = it.km
         )
     }
 

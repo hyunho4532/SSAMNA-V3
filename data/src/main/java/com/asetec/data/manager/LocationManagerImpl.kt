@@ -74,7 +74,7 @@ class LocationManagerImpl @Inject constructor(
 
             val distanceKm = FormatImpl().calculateDistanceToKm(pedometerCount)
 
-            emit(Pair(listOf(getLatitude(), getLongitude(), distanceKm), getAltitude()))
+            emit(Pair(listOf(getLatitude(), getLongitude(), getAltitude()), distanceKm))
             delay(5000)
         }
     }

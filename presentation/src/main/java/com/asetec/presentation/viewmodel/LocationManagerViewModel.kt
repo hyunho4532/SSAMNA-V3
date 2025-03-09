@@ -34,12 +34,13 @@ class LocationManagerViewModel @Inject constructor(
                      */
                     _coordinate.value.coordz.subList(0, _coordinate.value.coordz.size)
 
-                    locationManagerCase.getCurrentLocation().collectLatest { (locations: List<Double>, altitude) ->
-                        _coordinate.value.coordz.add(Location(locations[0], locations[1], altitude))
+                    locationManagerCase.getCurrentLocation().collectLatest { (locations: List<Double>, km) ->
+                        _coordinate.value.coordz.add(Location(locations[0], locations[1], locations[2], km))
                     }
 
                 }
             }
+
         }
     }
 

@@ -1,5 +1,6 @@
 package com.asetec.presentation.component.util
 
+import android.util.Log
 import com.asetec.domain.model.calcul.FormatImpl
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Activate
@@ -64,7 +65,7 @@ data class JsonObjImpl(
                                 put("latitude", data.latitude)
                                 put("longitude", data.longitude)
                                 put("altitude", data.altitude)
-                                put("distanceKm", data.km)
+                                put("km", data.km)
                             })
                         }
                     })

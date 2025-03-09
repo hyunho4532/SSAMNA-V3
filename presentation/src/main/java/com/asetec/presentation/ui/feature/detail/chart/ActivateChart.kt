@@ -31,6 +31,10 @@ fun ActivateChart(
         coordsList.map { it.longitude.toFloat() }
     }
 
+    val kmList = remember(coordsList) {
+        coordsList.map { it.km.toFloat() }
+    }
+
     Column {
         Text(
             modifier = Modifier.padding(top = 12.dp, start = 12.dp),
@@ -76,11 +80,11 @@ fun ActivateChart(
                         )
 
                         drawContext.canvas.nativeCanvas.apply {
-                            val text = String.format("%.3f", altitude)
+                            val text = String.format("%.5f", altitude)
 
                             drawText(
                                 text,
-                                endX - 44,
+                                endX - 70,
                                 endY + 40,
                                 TextPaint().apply {
                                     textSize = 30f
@@ -113,16 +117,16 @@ fun ActivateChart(
             ) {
                 val width = size.width
                 val height = size.height
-                val maxAltitude = altitudeList.maxOrNull() ?: 1f
-                val minAltitude = altitudeList.minOrNull() ?: 0f
-                val altitudeRange = maxAltitude - minAltitude
+                val maxKm = kmList.maxOrNull() ?: 1f
+                val mimKm = kmList.minOrNull() ?: 0f
+                val kmRange = maxKm - mimKm
 
-                altitudeList.forEachIndexed { index, altitude ->
+                kmList.forEachIndexed { index, km ->
                     if (index > 0) {
-                        val startX = (index - 1) * (width / altitudeList.size)
-                        val startY = height - ((altitudeList[index - 1] - minAltitude) / altitudeRange) * height
-                        val endX = index * (width / altitudeList.size)
-                        val endY = height - ((altitude - minAltitude) / altitudeRange) * height
+                        val startX = (index - 1) * (width / kmList.size)
+                        val startY = height - ((kmList[index - 1] - mimKm) / kmRange) * height
+                        val endX = index * (width / kmList.size)
+                        val endY = height - ((km - mimKm) / kmRange) * height
 
                         drawLine(
                             color =  Color(0xFFF11F38),
@@ -138,11 +142,11 @@ fun ActivateChart(
                         )
 
                         drawContext.canvas.nativeCanvas.apply {
-                            val text = String.format("%.3f", altitude)
+                            val text = String.format("%.2f", km)
 
                             drawText(
                                 text,
-                                endX - 44,
+                                endX - 30,
                                 endY + 40,
                                 TextPaint().apply {
                                     textSize = 30f
