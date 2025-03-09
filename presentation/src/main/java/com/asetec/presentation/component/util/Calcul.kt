@@ -15,19 +15,25 @@ import java.time.LocalDate
 /**
  * 비례 관계를 이용하여 card의 width를 조정하는 함수
  */
-fun calculatorActivateCardWeight(activateData: State<List<ActivateDTO>>): Dp {
+fun calculatorActivateCardWeight(
+    minHeight: Int,
+    maxHeight: Int,
+    data: State<List<Any>>
+): Dp {
 
-    val size = activateData.value.size
+    val size = data.value.size
 
     return if (size > 0) {
         /**
          * 비례 관계
          */
-        (320 * (size / 2f)).coerceIn(160f, 320f).dp
+        (maxHeight * (size / 2f)).coerceIn(minHeight.toFloat(), maxHeight.toFloat()).dp
     } else {
         0.dp
     }
 }
+
+
 
 /**
  * 이번 주 km, kcal 계산 함수
@@ -63,6 +69,7 @@ fun getThisWeek(
         }
         "step" -> {
             sumList = stepList.filter { entry ->
+                Log.d("entry", entry.date)
                 val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
                 entryDate in startOfWeek..endOfWeek
             }.sumOf { it.step }.toDouble()
@@ -170,10 +177,10 @@ fun getLastMonth(
     var sumList = 0.0
 
     val today = LocalDate.now()
-    val lastMonth = today.minusMonths(-1)
+    val lastMonth = today.minusMonths(1)
 
     val startOfLastMonth = lastMonth.withDayOfMonth(1)
-    val endOfLastMonth = lastMonth.withDayOfMonth(today.lengthOfMonth())
+    val endOfLastMonth = lastMonth.withDayOfMonth(lastMonth.lengthOfMonth())
 
     when (type) {
         "kcal" -> {
@@ -296,10 +303,11 @@ fun analyzeRunningFeedback(time: String, distance: Double, calories: Double, onP
 
     onPaceReceive(pace)
 
-    return when {
-        pace < 5.0 -> "현재 페이스가 매우 빠릅니다! 너무 무리하지 않도록 조절하세요.🔥"
-        pace in 5.0..7.0 -> "완벽한 페이스입니다! 이 속도를 유지하면서 즐겁게 달려보세요. 🏃‍♂️"
-        pace in 7.0..10.0 -> "조금 더 속도를 올리면 좋겠어요! 하지만 꾸준히 달리는 게 가장 중요합니다. 😊"
-        else -> "현재 속도가 느립니다. 하지만 걱정하지 마세요! 조금씩 속도를 올려보는 건 어떨까요? 🚀"
+    return when (pace) {
+        in 0.1 .. 5.0 -> "현재 페이스가 매우 빠릅니다!\n너무 무리하지 않도록 조절하세요.🔥"
+        in 5.0..7.0 -> "완벽한 페이스입니다!\n이 속도를 유지하면서 즐겁게 달려보세요. 🏃‍♂️"
+        in 7.0..10.0 -> "조금 더 속도를 올리면 좋겠어요!\n하지만 꾸준히 달리는 게 가장 중요합니다. 😊"
+        0.0 -> "페이스를 분석할 수 없습니다!"
+        else -> "현재 속도가 느립니다. 하지만 걱정하지 마세요!\n조금씩 속도를 올려보는 건 어떨까요? 🚀"
     }
 }

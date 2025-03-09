@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.animation.Screens
 import com.asetec.presentation.ui.feature.login.LoginScreen
@@ -22,8 +23,11 @@ import com.asetec.presentation.ui.feature.login.UserInfoScreen
 import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.OnBoardingScreen
+import com.asetec.presentation.ui.feature.detail.DetailScreen
+import com.asetec.presentation.ui.feature.detail.chart.ActivateChart
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import com.asetec.presentation.viewmodel.JsonParseViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
 import com.google.android.gms.location.LocationServices
 import kotlinx.serialization.json.Json
@@ -79,7 +83,8 @@ fun ScreenNavigationConfiguration(
     navController: NavHostController,
     context: Context,
     userViewModel: UserViewModel = hiltViewModel(),
-    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
+    jsonParseViewModel: JsonParseViewModel = hiltViewModel()
 ) {
 
     val isClickable = remember {
@@ -93,7 +98,7 @@ fun ScreenNavigationConfiguration(
     LaunchedEffect(key1 = Unit) {
         val googleId = userViewModel.getSavedLoginState()
         userViewModel.selectUserFindById(googleId)
-        activityLocationViewModel.selectActivityFindById(googleId)
+        activityLocationViewModel.selectActivityFindByGoogleId(googleId)
     }
 
     NavHost(navController = navController, startDestination = Screens.HomeScreen.route) {
@@ -119,6 +124,30 @@ fun ScreenNavigationConfiguration(
                 navController = navController,
                 context = context,
                 userList = userList
+            )
+        }
+
+        composable(
+            route = "activateDetail/{id}") { backStackEntry ->
+            val id = backStackEntry.arguments?.getString("id")
+
+            DetailScreen(
+                id = id!!,
+                navController = navController
+            )
+        }
+
+        composable(
+            route = "activateChart?coords={coords}",
+            arguments = listOf(navArgument("coords") {
+                type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val coords = backStackEntry.arguments?.getString("coords")
+            val coordsList: List<Coordinate> = jsonParseViewModel.dataFromJson(coords!!)
+
+            ActivateChart(
+                coordsList = coordsList
             )
         }
     }
