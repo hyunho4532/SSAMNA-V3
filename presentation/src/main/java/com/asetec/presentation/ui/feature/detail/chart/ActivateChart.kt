@@ -20,6 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.asetec.domain.model.location.Coordinate
+import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.util.calculatorActivateChartWidth
 
 @Composable
@@ -33,7 +34,7 @@ fun ActivateChart(
     Column {
         Text(
             modifier = Modifier.padding(top = 12.dp, start = 12.dp),
-            text = "고도 분석",
+            text = "고도 분석 🗻",
             fontSize = 16.sp,
             fontWeight = FontWeight.Bold
         )
@@ -70,6 +71,68 @@ fun ActivateChart(
 
                         drawCircle(
                             color = Color(0xFF5c9afa),
+                            radius = 8f,
+                            center = Offset(endX, endY)
+                        )
+
+                        drawContext.canvas.nativeCanvas.apply {
+                            val text = String.format("%.3f", altitude)
+
+                            drawText(
+                                text,
+                                endX - 44,
+                                endY + 40,
+                                TextPaint().apply {
+                                    textSize = 30f
+                                }
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        Spacer(width = 0.dp, height = 24.dp)
+
+        Text(
+            modifier = Modifier.padding(top = 12.dp, start = 12.dp),
+            text = "거리 분석 🚩",
+            fontSize = 16.sp,
+            fontWeight = FontWeight.Bold
+        )
+
+        Box(
+            modifier = Modifier
+                .horizontalScroll(rememberScrollState())
+        ) {
+            Canvas(
+                modifier = Modifier
+                    .width(calculatorActivateChartWidth(coordsList = coordsList))
+                    .height(90.dp)
+                    .padding(12.dp)
+            ) {
+                val width = size.width
+                val height = size.height
+                val maxAltitude = altitudeList.maxOrNull() ?: 1f
+                val minAltitude = altitudeList.minOrNull() ?: 0f
+                val altitudeRange = maxAltitude - minAltitude
+
+                altitudeList.forEachIndexed { index, altitude ->
+                    if (index > 0) {
+                        val startX = (index - 1) * (width / altitudeList.size)
+                        val startY = height - ((altitudeList[index - 1] - minAltitude) / altitudeRange) * height
+                        val endX = index * (width / altitudeList.size)
+                        val endY = height - ((altitude - minAltitude) / altitudeRange) * height
+
+                        drawLine(
+                            color =  Color(0xFFF11F38),
+                            start = Offset(startX, startY),
+                            end = Offset(endX, endY),
+                            strokeWidth = 5f
+                        )
+
+                        drawCircle(
+                            color = Color(0xFFF11F38),
                             radius = 8f,
                             center = Offset(endX, endY)
                         )
