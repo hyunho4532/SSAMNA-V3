@@ -4,10 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.os.Build
+import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.asetec.data.service.LocationService
 import com.asetec.domain.manager.LocationServiceManager
+import com.asetec.domain.model.calcul.FormatImpl
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -63,8 +66,15 @@ class LocationManagerImpl @Inject constructor(
     override fun getAltitude(): Double = altitude
 
     override suspend fun locationFlow(): Flow<Pair<List<Double>, Double>> = flow {
+
+        val sharedPreferences: SharedPreferences = context.getSharedPreferences("sensor_prefs", Context.MODE_PRIVATE)
+
         while (true) {
-            emit(Pair(listOf(getLatitude(), getLongitude()), getAltitude()))
+            val pedometerCount = sharedPreferences.getInt("pedometerCount", 0) // 적절한 키를 사용하세요.
+
+            val distanceKm = FormatImpl().calculateDistanceToKm(pedometerCount)
+
+            emit(Pair(listOf(getLatitude(), getLongitude(), distanceKm), getAltitude()))
             delay(5000)
         }
     }

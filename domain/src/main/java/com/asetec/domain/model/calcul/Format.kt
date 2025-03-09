@@ -1,4 +1,4 @@
-package com.asetec.presentation.component.util
+package com.asetec.domain.model.calcul
 
 import java.time.LocalDate
 

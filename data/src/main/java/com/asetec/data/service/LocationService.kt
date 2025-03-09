@@ -36,7 +36,6 @@ class LocationService : Service() {
         locationCallback = object: LocationCallback() {
             override fun onLocationResult(locationResult: LocationResult) {
                 locationResult.lastLocation?.let { location ->
-                    Log.d("LocationService", location.altitude.toString())
                     sendLocationBroadcast(location.latitude, location.longitude, location.altitude)
                 }
             }

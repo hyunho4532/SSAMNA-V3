@@ -2,14 +2,13 @@ package com.asetec.presentation.viewmodel
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.usecase.challenge.ChallengeCase
-import com.asetec.presentation.component.util.FormatImpl
+import com.asetec.domain.model.calcul.FormatImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow

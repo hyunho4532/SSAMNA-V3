@@ -1,15 +1,12 @@
-package com.asetec.presentation.component.util
+package com.asetec.domain.model.calcul
 
 import android.os.Build
 import android.util.Log
 import androidx.annotation.RequiresApi
 import java.time.LocalDate
-import java.time.YearMonth
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalAdjuster
-import java.time.temporal.TemporalAdjusters
 import kotlin.math.roundToInt
 
 data class FormatImpl(

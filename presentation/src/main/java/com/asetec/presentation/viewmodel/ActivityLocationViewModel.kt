@@ -13,7 +13,7 @@ import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.usecase.activate.ActivateCase
-import com.asetec.presentation.component.util.FormatImpl
+import com.asetec.domain.model.calcul.FormatImpl
 import com.asetec.presentation.component.util.JsonObjImpl
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.lifecycle.HiltViewModel

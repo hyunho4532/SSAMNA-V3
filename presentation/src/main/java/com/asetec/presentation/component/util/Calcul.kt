@@ -3,17 +3,15 @@ package com.asetec.presentation.component.util
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.runtime.State
-import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import com.asetec.domain.model.dto.ActivateDTO
+import com.asetec.domain.model.calcul.FormatImpl
 import com.asetec.domain.model.entry.KcalEntry
 import com.asetec.domain.model.entry.KmEntry
 import com.asetec.domain.model.entry.StepEntry
 import com.asetec.domain.model.location.Coordinate
 import java.time.DayOfWeek
 import java.time.LocalDate
-import kotlin.math.sqrt
 
 /**
  * 비례 관계를 이용하여 card의 width를 조정하는 함수
