@@ -53,15 +53,12 @@ dependencies {
     /**
      * gitHub Open Source
      */
+    implementation(libs.dautovicharis.chart)
     implementation(libs.animated.nav.bar)
     implementation(libs.dotenv.kotlin)
     implementation(libs.identity.googleid)
     implementation(libs.lottie)
     implementation(libs.fagadiya.smooth.bottom.navigation)
-    implementation(libs.vico.compose)
-    implementation(libs.vico.compose.m2)
-    implementation(libs.vico.compose.m3)
-    implementation(libs.vico.views)
 
     /**
      * KMP
