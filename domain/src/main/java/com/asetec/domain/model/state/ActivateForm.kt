@@ -7,12 +7,12 @@ import kotlinx.serialization.Serializable
 @Keep
 data class  ActivateForm(
     val index: String = "",
-    val name: String = "오늘은 출근!",
+    val name: String = "오늘은! 출근",
     val description: String = "",
     val assets: String = "",
 
     /** 활동 종류 **/
-    var activateFormResId: Int = 2131165316,
+    var activateFormResId: Int = 2131165327,
 
     /** 마커 표시 팝업 **/
     var showMarkerPopup: Boolean = false,
