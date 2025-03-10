@@ -34,6 +34,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.asetec.domain.model.dto.ChallengeDTO
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.location.Location
 import com.asetec.domain.model.state.Challenge
 import com.asetec.presentation.R
@@ -42,6 +44,7 @@ import com.asetec.presentation.component.row.BoxRow
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.util.responsive.setUpDialogWidth
+import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.JsonParseViewModel
@@ -57,7 +60,7 @@ fun ShowCompleteDialog(
     context: Context,
     sensorManagerViewModel: SensorManagerViewModel,
     locationState: State<Location>,
-    coordinate: List<LatLng>,
+    coordinate: List<Coordinate>,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     jsonParseViewModel: JsonParseViewModel = hiltViewModel()
 ) {
@@ -484,6 +487,89 @@ fun PermissionDialog(
                             onNavigateToLogin()
                         }
                     )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun ShowChallengeDetailDialog(
+    isShowChallengePopup: MutableState<Boolean>,
+    challengeDetailData: List<ChallengeDTO>
+) {
+    Dialog(
+        onDismissRequest = {
+            isShowChallengePopup.value = false
+        }
+    ) {
+        Card(
+            modifier = Modifier
+                .width(420.dp)
+                .height(200.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            )
+        ) {
+            Column (
+                modifier = Modifier
+                    .padding(
+                        top = 14.dp,
+                        start = 8.dp
+                    )
+            ) {
+                challengeDetailData.forEach {
+                    Box(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            modifier = Modifier
+                                .align(Alignment.Center),
+                            text = "챌린지 내역",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.Bold,
+                        )
+                    }
+
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 12.dp),
+                        text = it.title,
+                        fontSize = 16.sp,
+                        color = Color.Black
+                    )
+
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 6.dp),
+                        text = "챌린지 완료까지 53% 남았습니다!",
+                        fontSize = 14.sp,
+                        color = Color.Gray
+                    )
+
+                    Text(
+                        modifier = Modifier
+                            .padding(top = 6.dp),
+                        text = "등록일: ${it.todayDate}",
+                        fontSize = 12.sp,
+                        color = Color.Gray
+                    )
+
+                    Box(
+                        modifier = Modifier
+                            .padding(top = 32.dp)
+                    ) {
+                        CustomButton(
+                            type = ButtonType.RunningStatus.DeleteStatus.CHALLENGE,
+                            width = setUpWidth(),
+                            height = 40.dp,
+                            text = "챌린지 삭제",
+                            backgroundColor = Color(0xFFEE3A3A),
+                            data = it
+                        )
+                    }
                 }
             }
         }

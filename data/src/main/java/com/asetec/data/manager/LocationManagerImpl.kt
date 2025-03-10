@@ -4,11 +4,13 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.content.SharedPreferences
 import android.os.Build
 import android.util.Log
 import androidx.localbroadcastmanager.content.LocalBroadcastManager
 import com.asetec.data.service.LocationService
 import com.asetec.domain.manager.LocationServiceManager
+import com.asetec.domain.model.calcul.FormatImpl
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -21,12 +23,14 @@ class LocationManagerImpl @Inject constructor(
 
     private var latitude: Double = 0.0
     private var longitude: Double = 0.0
+    private var altitude: Double = 0.0
 
     private val locationReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             if (intent?.action == "com.ssamna.LOCATION_UPDATE") {
                 latitude = intent.getDoubleExtra("latitude", 0.0)
                 longitude = intent.getDoubleExtra("longitude", 0.0)
+                altitude = intent.getDoubleExtra("altitude", 0.0)
             }
         }
     }
@@ -59,9 +63,18 @@ class LocationManagerImpl @Inject constructor(
 
     override fun getLongitude(): Double = longitude
 
-    override suspend fun locationFlow(): Flow<Pair<Double, Double>> = flow {
+    override fun getAltitude(): Double = altitude
+
+    override suspend fun locationFlow(): Flow<Pair<List<Double>, Double>> = flow {
+
+        val sharedPreferences: SharedPreferences = context.getSharedPreferences("sensor_prefs", Context.MODE_PRIVATE)
+
         while (true) {
-            emit(Pair(getLatitude(), getLongitude()))
+            val pedometerCount = sharedPreferences.getInt("pedometerCount", 0) // 적절한 키를 사용하세요.
+
+            val distanceKm = FormatImpl().calculateDistanceToKm(pedometerCount)
+
+            emit(Pair(listOf(getLatitude(), getLongitude(), getAltitude()), distanceKm))
             delay(5000)
         }
     }

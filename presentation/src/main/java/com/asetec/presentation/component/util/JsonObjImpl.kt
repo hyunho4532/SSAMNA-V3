@@ -1,9 +1,10 @@
 package com.asetec.presentation.component.util
 
+import android.util.Log
+import com.asetec.domain.model.calcul.FormatImpl
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.ActivateForm
-import com.google.android.gms.maps.model.LatLng
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonArray
@@ -17,7 +18,7 @@ data class JsonObjImpl(
     val activate: StateFlow<Activate>? = null,
     val activateForm: StateFlow<ActivateForm>? = null,
     val runningList: Array<Any>? = null,
-    val coordinateList: List<LatLng>? = null
+    val coordinateList: List<Coordinate> = emptyList()
 ) : JsonObj() {
     override fun build(): JsonObject {
 
@@ -59,10 +60,12 @@ data class JsonObjImpl(
             "coordinate" -> {
                 data = buildJsonObject {
                     put("coords", buildJsonArray {
-                        coordinateList?.forEach { latLng ->
+                        coordinateList.forEach { data ->
                             add(buildJsonObject {
-                                put("latitude", latLng.latitude)
-                                put("longitude", latLng.longitude)
+                                put("latitude", data.latitude)
+                                put("longitude", data.longitude)
+                                put("altitude", data.altitude)
+                                put("km", data.km)
                             })
                         }
                     })

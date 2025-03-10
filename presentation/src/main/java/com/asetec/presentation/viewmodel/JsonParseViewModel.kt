@@ -3,6 +3,7 @@ package com.asetec.presentation.viewmodel
 import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.state.ActivityType
@@ -59,5 +60,13 @@ class JsonParseViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun dataToJson(data: Any): String {
+        return jsonParseCase.dataToJson(data)
+    }
+
+    fun dataFromJson(data: String): List<Coordinate> {
+        return jsonParseCase.dataFromJson(data)
     }
 }

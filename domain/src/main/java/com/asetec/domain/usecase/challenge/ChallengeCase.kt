@@ -11,7 +11,17 @@ class ChallengeCase @Inject constructor(
         challengeRepository.insert(challengeDTO)
     }
 
-    suspend fun selectChallengeFindById(googleId: String) : List<ChallengeDTO> {
-        return challengeRepository.selectChallengeFindById(googleId)
+    suspend fun selectChallengeFindById(id: Int) : List<ChallengeDTO> {
+        return challengeRepository.selectChallengeFindById(id)
+    }
+
+    suspend fun selectChallengeFindByGoogleId(googleId: String) : List<ChallengeDTO> {
+        return challengeRepository.selectChallengeFindByGoogleId(googleId)
+    }
+
+    suspend fun deleteChallenge(id: Int, onSuccess: (Boolean) -> Unit) {
+        challengeRepository.delete(id) {
+            onSuccess(it)
+        }
     }
 }

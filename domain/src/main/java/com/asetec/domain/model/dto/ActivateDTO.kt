@@ -8,6 +8,9 @@ import kotlinx.serialization.json.buildJsonObject
 @Serializable
 data class ActivateDTO(
 
+    @SerialName("id")
+    val id: Int = 0,
+
     @SerialName("google_id")
     val googleId: String = "",
 

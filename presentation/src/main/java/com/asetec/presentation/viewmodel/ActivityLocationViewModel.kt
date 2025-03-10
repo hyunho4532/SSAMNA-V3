@@ -14,10 +14,9 @@ import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.usecase.activate.ActivateCase
-import com.asetec.presentation.component.util.FormatImpl
+import com.asetec.domain.model.calcul.FormatImpl
 import com.asetec.presentation.component.util.JsonObjImpl
 import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.maps.model.LatLng
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -134,7 +133,7 @@ class ActivityLocationViewModel @Inject constructor(
     fun saveActivity(
         runningIcon: Int,
         runningTitle: String,
-        coordinate: List<LatLng>
+        coordinate: List<Coordinate>
     ) {
         val pedometerCount = sharedPreferences?.getInt("pedometerCount", _activates.value.pedometerCount)
         val googleId = sharedPreferences2?.getString("id", "")
@@ -168,8 +167,6 @@ class ActivityLocationViewModel @Inject constructor(
             coordinateList = coordinate
         ).build()
 
-        Log.d("ActivityLocationViewModel", time.toString())
-
         val activateDTO = ActivateDTO (
             googleId = googleId!!,
             title = _activates.value.runningTitle,
@@ -190,13 +187,21 @@ class ActivityLocationViewModel @Inject constructor(
         }
     }
 
-    suspend fun selectActivityFindById(googleId: String) {
-        val activateDTO = activateCase?.selectActivityFindById(googleId)
+    fun deleteActivityFindById(googleId: String, date: String, onSuccess: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            activateCase?.deleteActivity(googleId, date) {
+                onSuccess(it)
+            }
+        }
+    }
+
+    suspend fun selectActivityFindByGoogleId(googleId: String) {
+        val activateDTO = activateCase?.selectActivityFindByGoogleId(googleId)
         _activateData.value = activateDTO!!
     }
 
-    suspend fun selectActivityFindByIdDate(googleId: String, date: String) {
-        val activateDTO = activateCase?.selectActivityFindByIdDate(googleId, date)
+    suspend fun selectActivityFindById(id: Int) {
+        val activateDTO = activateCase?.selectActivityFindById(id)
         _activateData.value = activateDTO!!
     }
 

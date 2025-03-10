@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.usecase.challenge.ChallengeCase
-import com.asetec.presentation.component.util.FormatImpl
+import com.asetec.domain.model.calcul.FormatImpl
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -31,6 +31,9 @@ class ChallengeViewModel @Inject constructor(
 
     private val _challengeData = MutableStateFlow<List<ChallengeDTO>>(emptyList())
     val challengeData: StateFlow<List<ChallengeDTO>> = _challengeData
+
+    private val _challengeDetailData = MutableStateFlow<List<ChallengeDTO>>(emptyList())
+    val challengeDetailData: StateFlow<List<ChallengeDTO>> = _challengeDetailData
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun saveChallenge(data: Challenge) {
@@ -56,10 +59,26 @@ class ChallengeViewModel @Inject constructor(
         }
     }
 
-    suspend fun selectChallengeById() {
+    fun selectChallengeById(id: Int, onSuccess: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            val challengeDTO = challengeCase.selectChallengeFindById(id)
+            _challengeDetailData.value = challengeDTO
+            onSuccess(true)
+        }
+    }
+
+    suspend fun selectChallengeByGoogleId() {
         val googleId = sharedPreferences.getString("id", "")
-        val challengeDTO = challengeCase.selectChallengeFindById(googleId!!)
+        val challengeDTO = challengeCase.selectChallengeFindByGoogleId(googleId!!)
 
         _challengeData.value = challengeDTO
+    }
+
+    fun deleteChallenge(challengeDTO: ChallengeDTO, onSuccess: (Boolean) -> Unit) {
+        viewModelScope.launch {
+            challengeCase.deleteChallenge(challengeDTO.id) {
+                onSuccess(it)
+            }
+        }
     }
 }
