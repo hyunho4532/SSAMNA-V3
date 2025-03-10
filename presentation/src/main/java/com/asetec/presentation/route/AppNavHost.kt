@@ -1,6 +1,7 @@
 package com.asetec.presentation.route
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -94,6 +95,8 @@ fun ScreenNavigationConfiguration(
     val userList = userViewModel.user.collectAsState()
     val activateList = activityLocationViewModel.activateData.collectAsState()
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
+
+    Log.d("AppNavHost", activateList.value.toString())
 
     LaunchedEffect(key1 = Unit) {
         val googleId = userViewModel.getSavedLoginState()

@@ -47,8 +47,6 @@ fun CalendarScreen(
     val activateData = activityLocationViewModel.activateData.collectAsState()
     val pages = listOf("매주", "매달", "연간")
 
-    Log.d("CalendarScreen", activateList.toString())
-
     var currentMonth by remember {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mutableStateOf(LocalDate.now())
@@ -57,9 +55,12 @@ fun CalendarScreen(
         }
     }
 
-    val todayList = activateList.value.map {
-        it.todayFormat.substring(0, 11)
+    val todayList: List<String> = activateList.value.map { item ->
+        val trimmedDate = item.todayFormat.trim() // 공백 제거
+        Log.d("CalendarScreen", trimmedDate.length.toString())
+        if (trimmedDate.length == 11) trimmedDate.take(11) else trimmedDate.take(12)
     }
+
 
     Column(
         modifier = Modifier
