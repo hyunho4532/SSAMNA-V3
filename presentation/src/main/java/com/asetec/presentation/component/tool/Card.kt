@@ -1,7 +1,6 @@
 package com.asetec.presentation.component.tool
 
 import android.content.Context
-import android.content.Intent
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
@@ -24,7 +23,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -61,13 +59,14 @@ import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.dto.ChallengeDTO
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
-import com.asetec.presentation.ui.feature.detail.ActivateDetailActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import com.asetec.presentation.viewmodel.JsonParseViewModel
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.doubleOrNull
@@ -233,7 +232,6 @@ fun ReportCard(userState: User) {
 
 @Composable
 fun activateCard(
-    navController: NavController = rememberNavController(),
     context: Context? = LocalContext.current,
     height: Dp,
     backgroundColor: Color = Color.White,
@@ -242,7 +240,8 @@ fun activateCard(
     activateDTO: ActivateDTO? = ActivateDTO(),
     showBottomSheet: MutableState<Boolean>? = mutableStateOf(false),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
-    cardType: CardType
+    cardType: CardType,
+    navController: NavController = rememberNavController()
 ) {
     val imageName = activate?.assets?.replace("R.drawable.", "")
     val imageResId = context?.resources?.getIdentifier(imageName, "drawable", context.packageName)
@@ -251,7 +250,7 @@ fun activateCard(
         modifier = Modifier
             .width(setUpWidth())
             .height(height)
-            .padding(top = 8.dp, start = 8.dp)
+            .padding(top = 8.dp)
             .clickable(
                 interactionSource = remember {
                     MutableInteractionSource()
@@ -268,10 +267,7 @@ fun activateCard(
                         activateName = activate!!.name
                     )
                 } else {
-                    val intent = Intent(context, ActivateDetailActivity::class.java)
-                    intent.putExtra("googleId", activateDTO!!.googleId)
-                    intent.putExtra("date", activateDTO.todayFormat)
-                    context?.startActivity(intent)
+                    navController.navigate("activateDetail/${activateDTO!!.id}")
                 }
             },
         colors = CardDefaults.cardColors(
@@ -400,7 +396,6 @@ fun activateFormCard(
     backgroundColor: Color = Color.White,
     borderStroke: Int? = 0,
     activateForm: ActivateForm? = ActivateForm(),
-    activateDTO: ActivateDTO? = ActivateDTO(),
     showBottomSheet: MutableState<Boolean>? = mutableStateOf(false),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     cardType: CardType
@@ -530,7 +525,8 @@ fun challengeRegistrationCard(
     challengeDTO: ChallengeDTO,
     height: Dp,
     sumKm: Float,
-    sumCount: Int
+    sumCount: Int,
+    onChallengeIsPopup: (Boolean) -> Unit
 ) {
 
     var currentProcess by remember {
@@ -549,7 +545,7 @@ fun challengeRegistrationCard(
         modifier = Modifier
             .width(setUpWidth())
             .height(height)
-            .padding(top = 8.dp, start = 8.dp)
+            .padding(top = 8.dp)
             .clickable(
                 interactionSource = remember {
                     MutableInteractionSource()
@@ -559,6 +555,7 @@ fun challengeRegistrationCard(
                     bounded = true
                 )
             ) {
+                onChallengeIsPopup(true)
             },
         colors = CardDefaults.cardColors(
             containerColor = Color.White
@@ -692,6 +689,67 @@ fun activateHistoryCard(
                         textAlign = TextAlign.Center
                     )
                 }
+            }
+        }
+    }
+}
+
+/**
+ * 차트 상세 분석 카드
+ */
+@Composable
+fun chartDetailCard(
+    height: Dp,
+    backgroundColor: Color = Color.White,
+    coordsList: List<Coordinate>,
+    navController: NavController = rememberNavController(),
+    jsonParseViewModel: JsonParseViewModel = hiltViewModel()
+) {
+    Card (
+        modifier = Modifier
+            .width(setUpWidth())
+            .height(height)
+            .clickable(
+                interactionSource = remember {
+                    MutableInteractionSource()
+                },
+                indication = rememberRipple(
+                    color = Color.Gray,
+                    bounded = true
+                )
+            ) {
+                val coords = jsonParseViewModel.dataToJson(coordsList)
+                navController.navigate("activateChart?coords=${coords}")
+            },
+        colors = CardDefaults.cardColors(
+            containerColor = backgroundColor
+        ),
+        border = BorderStroke(1.dp, Color.Gray)
+    ) {
+        Row (
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.baseline_graph_24),
+                contentDescription = "그래프 로고"
+            )
+
+            Column {
+                Text(
+                    modifier = Modifier.padding(start = 6.dp),
+                    text = "차트 분석 확인하기",
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 16.sp
+                )
+
+                Text(
+                    modifier = Modifier.padding(start = 6.dp),
+                    text = "고도, 걸음, 페이스 측정",
+                    fontSize = 14.sp
+                )
             }
         }
     }

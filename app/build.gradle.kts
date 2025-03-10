@@ -13,8 +13,8 @@ android {
         applicationId = "com.asetec.ssamna"
         minSdk = 24
         targetSdk = 34
-        versionCode = 17
-        versionName = "2.7"
+        versionCode = 19
+        versionName = "2.9"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

@@ -59,9 +59,6 @@ dependencies {
     implementation(libs.lottie)
     implementation(libs.fagadiya.smooth.bottom.navigation)
 
-    /**
-     * KMP
-     */
     implementation(libs.google.accompanist.pager)
     implementation(libs.google.accompanist.pager.indicator )
     implementation(libs.google.maps.compose)

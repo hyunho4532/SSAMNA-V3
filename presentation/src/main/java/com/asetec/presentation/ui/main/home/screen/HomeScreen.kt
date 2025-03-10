@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.domain.model.location.Coordinate
 import com.asetec.presentation.R
 import com.asetec.presentation.component.aside.HomeAside
 import com.asetec.presentation.component.box.TopBox
@@ -59,6 +60,7 @@ import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
+import kotlinx.coroutines.delay
 
 @SuppressLint("UseOfNonLambdaOffsetOverload")
 @OptIn(ExperimentalPermissionsApi::class)
@@ -129,8 +131,17 @@ fun HomeScreen(
         it.latitude != 0.0
     }
 
-    val coordinates = coordinatesFiltering.map {
+    val coordinatesPolyline = coordinatesFiltering.map {
         LatLng(it.latitude, it.longitude)
+    }
+
+    val coordinates = coordinatesFiltering.map {
+        Coordinate(
+            latitude = it.latitude,
+            longitude = it.longitude,
+            altitude = it.altitude,
+            km = it.km
+        )
     }
 
     if (locationPermissionState.allPermissionsGranted) {
@@ -162,7 +173,7 @@ fun HomeScreen(
                 }
 
                 Polyline(
-                    points = coordinates,
+                    points = coordinatesPolyline,
                     color = Color.Gray,
                     width = 3f
                 )
