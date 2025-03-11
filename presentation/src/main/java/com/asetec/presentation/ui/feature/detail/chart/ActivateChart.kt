@@ -90,7 +90,7 @@ fun ActivateChart(
                                 drawText(
                                     text,
                                     endX - 50,
-                                    endY - 30,
+                                    endY - 20,
                                     TextPaint().apply {
                                         textSize = 30f
                                     }

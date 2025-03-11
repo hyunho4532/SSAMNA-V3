@@ -324,3 +324,7 @@ fun analyzeRunningFeedback(time: String, distance: Double, calories: Double, onP
         else -> "현재 속도가 느립니다. 하지만 걱정하지 마세요!\n조금씩 속도를 올려보는 건 어떨까요? 🚀"
     }
 }
+
+/**
+ * 진행률 계산
+ */
