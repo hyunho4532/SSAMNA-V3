@@ -1,6 +1,7 @@
 package com.asetec.presentation.ui.feature.detail.chart
 
 import android.text.TextPaint
+import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
@@ -80,16 +81,35 @@ fun ActivateChart(
                         )
 
                         drawContext.canvas.nativeCanvas.apply {
-                            val text = String.format("%.5f", altitude)
+                            val text = String.format("%.2f", altitude)
 
-                            drawText(
-                                text,
-                                endX - 70,
-                                endY + 40,
-                                TextPaint().apply {
-                                    textSize = 30f
-                                }
-                            )
+                            /**
+                             * 짝수는 위로
+                             */
+                            if (index % 2 == 0) {
+                                drawText(
+                                    text,
+                                    endX - 50,
+                                    endY - 30,
+                                    TextPaint().apply {
+                                        textSize = 30f
+                                    }
+                                )
+                            }
+
+                            /**
+                             * 홀수는 아래로
+                             */
+                            if (index % 2 != 0) {
+                                drawText(
+                                    text,
+                                    endX - 50,
+                                    endY + 40,
+                                    TextPaint().apply {
+                                        textSize = 30f
+                                    }
+                                )
+                            }
                         }
                     }
                 }

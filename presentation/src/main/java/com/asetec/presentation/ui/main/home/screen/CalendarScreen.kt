@@ -31,7 +31,7 @@ import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.grid.ActivateGrid
-import com.asetec.presentation.component.row.CustomTabRow
+import com.asetec.presentation.component.row.ActivateTabRow
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.ButtonType
@@ -58,9 +58,6 @@ fun CalendarScreen(
     val todayList: List<String> = activateList.value.map {
         it.todayFormat.substring(0, 13)
     }
-
-    Log.d("CalendarScreen", todayList.toString())
-
 
     Column(
         modifier = Modifier
@@ -163,7 +160,7 @@ fun CalendarScreen(
                 .width(setUpWidth())
                 .padding(top = 32.dp)
         ) {
-            CustomTabRow(
+            ActivateTabRow(
                 pages = pages,
                 activateList = activateList
             )

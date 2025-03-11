@@ -29,7 +29,7 @@ import kotlinx.serialization.json.jsonPrimitive
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun CustomTabRow(
+fun ActivateTabRow(
     pages: List<String>,
     activateList: State<List<ActivateDTO>>
 ) {
