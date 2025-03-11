@@ -321,7 +321,8 @@ fun ProfileScreen(
         if (challengeDetailData.value.isNotEmpty()) {
             ShowChallengeDetailDialog(
                 isShowChallengePopup = showChallengeDialogPopup,
-                challengeDetailData = challengeDetailData.value
+                challengeDetailData = challengeDetailData.value,
+                sumKm = sumKm
             )
         }
     }
