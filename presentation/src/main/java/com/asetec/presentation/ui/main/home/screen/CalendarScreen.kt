@@ -55,11 +55,11 @@ fun CalendarScreen(
         }
     }
 
-    val todayList: List<String> = activateList.value.map { item ->
-        val trimmedDate = item.todayFormat.trim() // 공백 제거
-        Log.d("CalendarScreen", trimmedDate.length.toString())
-        if (trimmedDate.length == 11) trimmedDate.take(11) else trimmedDate.take(12)
+    val todayList: List<String> = activateList.value.map {
+        it.todayFormat.substring(0, 13)
     }
+
+    Log.d("CalendarScreen", todayList.toString())
 
 
     Column(

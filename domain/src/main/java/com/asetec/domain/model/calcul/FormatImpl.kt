@@ -16,7 +16,7 @@ data class FormatImpl(
     @RequiresApi(Build.VERSION_CODES.O)
     val formatter: DateTimeFormatter =
         if (type == "YY:MM:DD:H") DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a h:mm")
-        else DateTimeFormatter.ofPattern("yyyy년 M월 d일")
+        else DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getTodayFormatDate(): String {

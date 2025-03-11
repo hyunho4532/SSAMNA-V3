@@ -83,7 +83,6 @@ fun getThisWeek(
         }
         "step" -> {
             sumList = stepList.filter { entry ->
-                Log.d("entry", entry.date)
                 val entryDate = FormatImpl("YY:MM:DD").parseMonthDaysDate(entry.date)
                 entryDate in startOfWeek..endOfWeek
             }.sumOf { it.step }.toDouble()
