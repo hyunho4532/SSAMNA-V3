@@ -484,8 +484,7 @@ fun challengeCard(
             },
         colors = CardDefaults.cardColors(
             containerColor = Color.White
-        ),
-        border = BorderStroke(2.dp, Color.Gray)
+        )
     ) {
         Box(
             modifier = Modifier
@@ -514,6 +513,12 @@ fun challengeCard(
                 Text(
                     text = challenge.description,
                     fontSize = 12.sp,
+                )
+
+                Spacer(
+                    width = setUpWidth(),
+                    height = 20.dp,
+                    isBottomBorder = true
                 )
             }
         }

@@ -2,6 +2,7 @@ package com.asetec.presentation.component.dialog
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -496,8 +497,23 @@ fun PermissionDialog(
 @Composable
 fun ShowChallengeDetailDialog(
     isShowChallengePopup: MutableState<Boolean>,
-    challengeDetailData: List<ChallengeDTO>
+    challengeDetailData: List<ChallengeDTO>,
+    sumKm: Double,
+    sumCount: Int
 ) {
+    val progress = challengeDetailData.find {
+        Log.d("PopupDialog", it.title)
+        it.title.contains("달리기") || it.title.contains("보!!")
+    }?.let {
+        if (it.title.contains("달리기")) {
+            (sumKm / it.goal).coerceIn(0.0, 1.0).toFloat()
+        } else {
+            Log.d("PopupDialog", it.goal.toString())
+            (sumCount.toDouble() / it.goal).coerceIn(0.0, 1.0).toFloat()
+        }
+    } ?: 0f
+
+
     Dialog(
         onDismissRequest = {
             isShowChallengePopup.value = false
@@ -544,7 +560,7 @@ fun ShowChallengeDetailDialog(
                     Text(
                         modifier = Modifier
                             .padding(top = 6.dp),
-                        text = "챌린지 완료까지 53% 남았습니다!",
+                        text = "챌린지 완료까지 ${String.format("%.2f", progress * 100)}% 남았습니다!",
                         fontSize = 14.sp,
                         color = Color.Gray
                     )
