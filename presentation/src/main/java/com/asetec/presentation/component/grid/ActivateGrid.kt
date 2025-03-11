@@ -36,8 +36,6 @@ fun ActivateGrid(
 
     val list = (1..FormatImpl("YY:MM:DD").getMonthDays(yearMonth)).map { it }
 
-    Log.d("ActivateGrid", todayList.toString())
-
     val activityDays = todayList.map {
         FormatImpl("YY:MM:DD").parseMonthDaysStr(it)
     }
