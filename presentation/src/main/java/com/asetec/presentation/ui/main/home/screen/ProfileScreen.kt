@@ -322,7 +322,8 @@ fun ProfileScreen(
             ShowChallengeDetailDialog(
                 isShowChallengePopup = showChallengeDialogPopup,
                 challengeDetailData = challengeDetailData.value,
-                sumKm = sumKm
+                sumKm = sumKm,
+                sumCount = sumCount
             )
         }
     }
