@@ -106,6 +106,7 @@ fun CustomButton(
                                     runningTitle = activates.value.activateName,
                                     coordinate = coordinate
                                 )
+                                locationManagerViewModel.clearCoordinate()
                             }
                         }
 

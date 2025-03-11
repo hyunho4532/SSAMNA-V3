@@ -31,7 +31,7 @@ import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.grid.ActivateGrid
-import com.asetec.presentation.component.row.CustomTabRow
+import com.asetec.presentation.component.row.ActivateTabRow
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.ButtonType
@@ -47,8 +47,6 @@ fun CalendarScreen(
     val activateData = activityLocationViewModel.activateData.collectAsState()
     val pages = listOf("매주", "매달", "연간")
 
-    Log.d("CalendarScreen", activateList.toString())
-
     var currentMonth by remember {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             mutableStateOf(LocalDate.now())
@@ -57,8 +55,8 @@ fun CalendarScreen(
         }
     }
 
-    val todayList = activateList.value.map {
-        it.todayFormat.substring(0, 11)
+    val todayList: List<String> = activateList.value.map {
+        it.todayFormat.substring(0, 13)
     }
 
     Column(
@@ -162,7 +160,7 @@ fun CalendarScreen(
                 .width(setUpWidth())
                 .padding(top = 32.dp)
         ) {
-            CustomTabRow(
+            ActivateTabRow(
                 pages = pages,
                 activateList = activateList
             )

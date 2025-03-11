@@ -15,8 +15,8 @@ data class FormatImpl(
 
     @RequiresApi(Build.VERSION_CODES.O)
     val formatter: DateTimeFormatter =
-        if (type == "YY:MM:DD:H") DateTimeFormatter.ofPattern("yyyy년 M월 d일 a h:mm")
-        else DateTimeFormatter.ofPattern("yyyy년 M월 d일")
+        if (type == "YY:MM:DD:H") DateTimeFormatter.ofPattern("yyyy년 MM월 dd일 a h:mm")
+        else DateTimeFormatter.ofPattern("yyyy년 MM월 dd일")
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun getTodayFormatDate(): String {
@@ -44,13 +44,11 @@ data class FormatImpl(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun parseMonthDaysStr(dateStr: String): String {
-        Log.d("FormatImpl", dateStr)
         return LocalDate.parse(dateStr, formatter)!!.format(formatter)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun parseMonthDaysDate(dateStr: String): LocalDate {
-        Log.d("FormatImpl", dateStr)
         return LocalDate.parse(dateStr, formatter)
     }
 

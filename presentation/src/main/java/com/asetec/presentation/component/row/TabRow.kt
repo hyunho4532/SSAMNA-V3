@@ -29,7 +29,7 @@ import kotlinx.serialization.json.jsonPrimitive
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun CustomTabRow(
+fun ActivateTabRow(
     pages: List<String>,
     activateList: State<List<ActivateDTO>>
 ) {
@@ -38,15 +38,15 @@ fun CustomTabRow(
     val coroutineScope = rememberCoroutineScope()
 
     val kcalList = activateList.value.map {
-        KcalEntry(it.todayFormat.substring(0, 11), it.cul["kcal_cul"]?.jsonPrimitive!!.double)
+        KcalEntry(it.todayFormat.substring(0, 13), it.cul["kcal_cul"]?.jsonPrimitive!!.double)
     }
 
     val kmList = activateList.value.map {
-        KmEntry(it.todayFormat.substring(0, 11), it.cul["km_cul"]?.jsonPrimitive!!.double)
+        KmEntry(it.todayFormat.substring(0, 13), it.cul["km_cul"]?.jsonPrimitive!!.double)
     }
 
     val stepList = activateList.value.map {
-        StepEntry(it.todayFormat.substring(0, 11), it.cul["goal_count"]?.jsonPrimitive!!.int)
+        StepEntry(it.todayFormat.substring(0, 13), it.cul["goal_count"]?.jsonPrimitive!!.int)
     }
 
     TabRow(

@@ -63,4 +63,8 @@ class LocationManagerViewModel @Inject constructor(
             )
         }
     }
+
+    fun clearCoordinate() {
+        _coordinate.value.coordz.clear()
+    }
 }
