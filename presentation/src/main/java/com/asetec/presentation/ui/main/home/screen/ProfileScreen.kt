@@ -51,7 +51,6 @@ import com.asetec.presentation.component.util.calculatorActivateCardWeight
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.enum.ProfileStatusType
-import com.asetec.presentation.ui.feature.goal.GoalActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
 import kotlinx.serialization.json.double
@@ -215,13 +214,12 @@ fun ProfileScreen(
                         bounded = true
                     )
                 ) {
-                    val intent = Intent(context, GoalActivity::class.java)
-                    context.startActivity(intent)
+                    navController.navigate("crew")
                 },
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
             Text(
-                text = "스마트워치",
+                text = "크루",
                 fontSize = 22.sp,
             )
 
