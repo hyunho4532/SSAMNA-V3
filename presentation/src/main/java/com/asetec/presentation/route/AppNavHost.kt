@@ -24,6 +24,7 @@ import com.asetec.presentation.ui.feature.login.UserInfoScreen
 import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.OnBoardingScreen
+import com.asetec.presentation.ui.feature.crew.CrewScreen
 import com.asetec.presentation.ui.feature.detail.DetailScreen
 import com.asetec.presentation.ui.feature.detail.chart.ActivateChart
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
@@ -96,8 +97,6 @@ fun ScreenNavigationConfiguration(
     val activateList = activityLocationViewModel.activateData.collectAsState()
     val fusedLocationClient = LocationServices.getFusedLocationProviderClient(context)
 
-    Log.d("AppNavHost", activateList.value.toString())
-
     LaunchedEffect(key1 = Unit) {
         val googleId = userViewModel.getSavedLoginState()
         userViewModel.selectUserFindById(googleId)
@@ -152,6 +151,11 @@ fun ScreenNavigationConfiguration(
             ActivateChart(
                 coordsList = coordsList
             )
+        }
+
+        composable(
+            route = "crew") {
+            CrewScreen()
         }
     }
 }
