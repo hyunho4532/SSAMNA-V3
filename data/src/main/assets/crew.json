@@ -4,5 +4,17 @@
     "name": "땀나!",
     "description": "전 지역! 모든 사람들이 땀나 크루에 참여해보세요!",
     "assets": "R.drawable.emoji_very_smile"
+  },
+  {
+    "index": 1,
+    "name": "나홀로모닝",
+    "description": "아침에 런닝을 하시는 분들을 위한 크루에 참여해보세요!",
+    "assets": "R.drawable.emoji_very_smile"
+  },
+  {
+    "index": 2,
+    "name": "나홀로이브닝",
+    "description": "저녁에 런닝을 하시는 분들을 위한 크루에 참여해보세요!",
+    "assets": "R.drawable.emoji_very_smile"
   }
 ]

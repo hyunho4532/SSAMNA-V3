@@ -8,6 +8,7 @@ import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.state.ActivityType
 import com.asetec.domain.model.state.Challenge
+import com.asetec.domain.model.state.Crew
 import com.asetec.domain.model.state.Running
 import com.asetec.domain.usecase.json.JsonParseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +30,9 @@ class JsonParseViewModel @Inject constructor(
 
     private val _challengeJsonData = mutableStateListOf<Challenge>()
     val challengeJsonData: List<Challenge> = _challengeJsonData
+
+    private val _crewJsonData = mutableStateListOf<Crew>()
+    val crewJsonData: List<Crew> = _crewJsonData
 
     fun activateJsonParse(fileName: String, type: String) {
 
@@ -56,6 +60,11 @@ class JsonParseViewModel @Inject constructor(
                 "challenge" -> {
                     for (challenge in activityData) {
                         _challengeJsonData.add(challenge as Challenge)
+                    }
+                }
+                "crew" -> {
+                    for (crew in activityData) {
+                        _crewJsonData.add(crew as Crew)
                     }
                 }
             }

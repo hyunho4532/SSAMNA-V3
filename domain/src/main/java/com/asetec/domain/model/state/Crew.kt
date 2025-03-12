@@ -1,0 +1,13 @@
+package com.asetec.domain.model.state
+
+import androidx.annotation.Keep
+import kotlinx.serialization.Serializable
+
+@Serializable
+@Keep
+data class Crew(
+    val index: String = "",
+    val name: String = "",
+    val description: String = "",
+    val assets: String = ""
+): ActivityType
