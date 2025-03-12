@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 @Keep
 data class Crew(
-    val index: String = "",
+    val index: Int = 0,
     val name: String = "",
     val description: String = "",
     val assets: String = ""
