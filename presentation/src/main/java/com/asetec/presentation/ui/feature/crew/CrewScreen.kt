@@ -6,11 +6,15 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.Card
 import androidx.compose.material3.Text
@@ -29,7 +33,11 @@ import com.asetec.presentation.viewmodel.JsonParseViewModel
 fun CrewScreen(
     jsonParseViewModel: JsonParseViewModel = hiltViewModel()
 ) {
-    val crewData = jsonParseViewModel.crewJsonData
+    val crewSize = jsonParseViewModel.crewJsonData.size
+
+    val crewData = jsonParseViewModel.crewJsonData.map {
+        it
+    }
 
     LaunchedEffect(key1 = Unit) {
         if (jsonParseViewModel.activateJsonData.isEmpty()) {
@@ -48,31 +56,32 @@ fun CrewScreen(
             fontWeight = FontWeight.Bold
         )
 
-        Row (
-            modifier = Modifier
-                .fillMaxSize()
-                .horizontalScroll(rememberScrollState())
-        ) {
-            crewData.forEach {
-                val startPadding = if (it.index > 0) 16.dp else 0.dp
+        val pagerState = rememberPagerState(pageCount = {
+            crewSize
+        })
 
-                Box(
-                    modifier = Modifier
-                        .padding(start = startPadding)
-                ) {
-                    Card(
-                        modifier = Modifier
-                            .width(160.dp)
-                            .height(120.dp)
-                    ) {
+        HorizontalPager(
+            modifier = Modifier
+                .padding(top = 6.dp),
+            state = pagerState,
+            pageSpacing = 16.dp
+        ) { page ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(120.dp)
+            ) {
+                crewData.forEach {
+                    if (pagerState.currentPage == it.index) {
                         Text(
                             modifier = Modifier
-                                .padding(start = 4.dp),
-                            text = it.name
+                                .padding(top = 6.dp, start = 4.dp),
+                            text = it.name,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 16.sp
                         )
                     }
                 }
-
             }
         }
     }
