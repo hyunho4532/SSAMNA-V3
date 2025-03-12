@@ -7,6 +7,7 @@ import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.state.ActivityType
 import com.asetec.domain.model.state.Challenge
+import com.asetec.domain.model.state.Crew
 import com.asetec.domain.model.state.Running
 import com.asetec.domain.repository.json.JsonParsingRepository
 import com.google.gson.Gson
@@ -27,7 +28,8 @@ class JsonParsingRepositoryImpl @Inject constructor(
             "activate" -> object : TypeToken<List<Activate>>() {}
             "activate_form" -> object : TypeToken<List<ActivateForm>>() {}
             "running" -> object : TypeToken<List<Running>>() {}
-            else -> object : TypeToken<List<Challenge>>() {}
+            "challenge" -> object : TypeToken<List<Challenge>>() {}
+            else -> object : TypeToken<List<Crew>>() {}
         }
 
         val assetManager: AssetManager = context.assets
