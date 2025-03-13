@@ -4,24 +4,20 @@ import android.annotation.SuppressLint
 import android.content.Context
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,10 +31,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.asetec.presentation.R
+import com.asetec.presentation.component.tool.CustomButton
+import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.JsonParseViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 
 @SuppressLint("DiscouragedApi")
 @Composable
@@ -119,7 +115,8 @@ fun CrewScreen(
                             Box(
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .height(90.dp)
+                                    .height(140.dp)
+                                    .padding(top = 4.dp, start = 4.dp)
                             ) {
                                 Column {
                                     Text(
@@ -133,7 +130,49 @@ fun CrewScreen(
                                         fontSize = 14.sp,
                                         color = Color.Gray
                                     )
+
+                                    Row(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(top = 12.dp),
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                    ) {
+                                        Box {
+                                            Row(
+                                                verticalAlignment = Alignment.CenterVertically
+                                            ) {
+                                                Image(
+                                                    imageVector = Icons.Default.AccountCircle,
+                                                    contentDescription = "구성원 수"
+                                                )
+
+                                                Text(
+                                                    text = "0/${it.member}명"
+                                                )
+                                            }
+                                        }
+
+                                        Text(
+                                            modifier = Modifier
+                                                .padding(top = 4.dp, end = 6.dp),
+                                            text = "피드: 0",
+                                            color = Color.Gray
+                                        )
+                                    }
                                 }
+                            }
+
+                            Box(
+                                modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                            ) {
+                                CustomButton(
+                                    type = ButtonType.RunningStatus.OPEN,
+                                    width = 160.dp,
+                                    height = 42.dp,
+                                    text = "크루 참여하기",
+                                    showIcon = false,
+                                    backgroundColor = Color(0xFF5c9afa),
+                                )
                             }
                         }
                     }

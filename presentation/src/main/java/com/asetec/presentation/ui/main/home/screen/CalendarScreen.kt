@@ -1,7 +1,6 @@
 package com.asetec.presentation.ui.main.home.screen
 
 import android.os.Build
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
