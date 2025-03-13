@@ -9,5 +9,6 @@ data class Crew(
     val index: Int = 0,
     val name: String = "",
     val description: String = "",
-    val assets: String = ""
+    val assets: String = "",
+    val member: Int = 0
 ): ActivityType

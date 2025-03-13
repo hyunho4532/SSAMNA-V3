@@ -155,7 +155,9 @@ fun ScreenNavigationConfiguration(
 
         composable(
             route = "crew") {
-            CrewScreen()
+            CrewScreen(
+                context = context
+            )
         }
     }
 }
