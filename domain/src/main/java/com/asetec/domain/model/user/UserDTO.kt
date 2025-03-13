@@ -5,7 +5,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserDTO (
-
     @SerialName("google_id")
     val googleId: String = "",
 
