@@ -67,10 +67,8 @@ class ChallengeViewModel @Inject constructor(
         }
     }
 
-    suspend fun selectChallengeByGoogleId() {
-        val googleId = sharedPreferences.getString("id", "")
+    suspend fun selectChallengeByGoogleId(googleId: String) {
         val challengeDTO = challengeCase.selectChallengeFindByGoogleId(googleId!!)
-
         _challengeData.value = challengeDTO
     }
 

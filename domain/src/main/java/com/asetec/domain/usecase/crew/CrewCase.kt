@@ -14,4 +14,8 @@ class CrewCase @Inject constructor(
     suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {
         return crewRepository.isCrewDataExists(googleId)
     }
+
+    suspend fun crewFindById(googleId: String): List<CrewDTO> {
+        return crewRepository.crewFindById(googleId)
+    }
 }

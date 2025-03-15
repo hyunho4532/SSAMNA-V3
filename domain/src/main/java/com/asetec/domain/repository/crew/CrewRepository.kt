@@ -6,4 +6,5 @@ import com.asetec.domain.model.dto.CrewDTO
 interface CrewRepository {
     suspend fun insert(crewDTO: CrewDTO)
     suspend fun isCrewDataExists(googleId: String): List<CrewDTO>
+    suspend fun crewFindById(googleId: String): List<CrewDTO>
 }

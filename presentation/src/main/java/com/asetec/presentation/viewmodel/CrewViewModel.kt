@@ -6,7 +6,6 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.calcul.FormatImpl
-import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.domain.model.state.Crew
 import com.asetec.domain.usecase.crew.CrewCase
@@ -24,8 +23,8 @@ class CrewViewModel @Inject constructor(
 ): ViewModel() {
     private val sharedPreferences = appContext.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-    private val _crew = MutableStateFlow(CrewDTO())
-    private val crew: StateFlow<CrewDTO> = _crew
+    private val _crew = MutableStateFlow<List<CrewDTO>>(emptyList())
+    val crew: StateFlow<List<CrewDTO>> = _crew
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun saveCrew(data: Crew) {
@@ -49,5 +48,10 @@ class CrewViewModel @Inject constructor(
      */
     suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {
         return crewCase.isCrewDataExists(googleId)
+    }
+
+    suspend fun crewFindById(googleId: String) {
+        val crewDTO = crewCase.crewFindById(googleId)
+        _crew.value = crewDTO
     }
 }
