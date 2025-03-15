@@ -28,4 +28,8 @@ sealed class ButtonType {
     sealed class MarkerStatus: ButtonType() {
         data object FINISH: MarkerStatus()
     }
+
+    sealed class CrewStatus: ButtonType() {
+        data object INSERT: CrewStatus()
+    }
 }
