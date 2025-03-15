@@ -68,7 +68,7 @@ fun CrewScreen(
 
         isCrewDataExists.value = crewViewModel.isCrewDataExists(googleId)
     }
-    
+
 
     Column (
         modifier = Modifier

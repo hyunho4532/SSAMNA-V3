@@ -24,4 +24,14 @@ class CrewRepositoryImpl @Inject constructor(
             }.decodeList<CrewDTO>()
         }
     }
+
+    override suspend fun crewFindById(googleId: String): List<CrewDTO> {
+        return withContext(Dispatchers.IO) {
+            postgrest.from("Crew").select {
+                filter {
+                    eq("user_id ", googleId)
+                }
+            }.decodeList<CrewDTO>()
+        }
+    }
 }

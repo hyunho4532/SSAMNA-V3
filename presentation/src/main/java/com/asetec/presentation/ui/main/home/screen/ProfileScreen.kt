@@ -1,11 +1,14 @@
 package com.asetec.presentation.ui.main.home.screen
 
+import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,7 +35,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -53,22 +59,28 @@ import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.enum.ProfileStatusType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
+import com.asetec.presentation.viewmodel.CrewViewModel
+import com.asetec.presentation.viewmodel.UserViewModel
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonPrimitive
 
+@SuppressLint("DiscouragedApi")
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     navController: NavController = rememberNavController(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel(),
+    crewViewModel: CrewViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel(),
     userList: State<User>,
     context: Context
 ) {
     val activateData  = activityLocationViewModel.activateData.collectAsState()
     val challengeData = challengeViewModel.challengeData.collectAsState()
     val challengeDetailData = challengeViewModel.challengeDetailData.collectAsState()
+    val crewData = crewViewModel.crew.collectAsState()
 
     val challengeDataTitle: List<String> = challengeData.value.map {
         it.title
@@ -99,8 +111,11 @@ fun ProfileScreen(
     )
 
     LaunchedEffect(key1 = Unit) {
+        val googleId = userViewModel.getSavedLoginState()
+
         activityLocationViewModel.selectActivityFindByGoogleId(userList.value.id)
-        challengeViewModel.selectChallengeByGoogleId()
+        challengeViewModel.selectChallengeByGoogleId(googleId = googleId)
+        crewViewModel.crewFindById(googleId = googleId)
     }
 
     LaunchedEffect(key1 = activateData.value) {
@@ -234,27 +249,33 @@ fun ProfileScreen(
         Column (
             modifier = Modifier
                 .fillMaxWidth()
-                .height(
-                    calculatorActivateCardWeight(
-                        data = challengeData,
-                        minHeight = 80,
-                        maxHeight = 160
-                    )
-                ),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center,
+                .height(60.dp)
+                .horizontalScroll(rememberScrollState()),
+            horizontalAlignment = Alignment.Start
         ) {
-            Text(
-                text = "현재 스마트 워치가 등록이 안되어 있습니다!",
-                color = Color.Gray,
-                fontSize = 14.sp
-            )
+            Row {
+                crewData.value.forEachIndexed { index, crewItem ->
+                    val imageName = crewItem.picture.replace("R.drawable.", "")
+                    val imageResId = context.resources.getIdentifier(imageName, "drawable", context.packageName)
 
-            Text(
-                text = "심박수 측정과 더 정확한 운동 데이터 제공을 도와드려요!",
-                color = Color.Gray,
-                fontSize = 12.sp
-            )
+                    Box(
+                        modifier = Modifier
+                            .padding(
+                                top = 6.dp,
+                                start = if (index == 0) 0.dp else 18.dp
+                            )
+                    ) {
+                        Image(
+                            painter = painterResource(id = imageResId),
+                            contentDescription = "크루 아이콘",
+                            contentScale = ContentScale.Crop,
+                            modifier = Modifier
+                                .size(80.dp)
+                                .clip(CircleShape)
+                        )
+                    }
+                }
+            }
         }
 
         Spacer(width = 0.dp, height = 46.dp)
