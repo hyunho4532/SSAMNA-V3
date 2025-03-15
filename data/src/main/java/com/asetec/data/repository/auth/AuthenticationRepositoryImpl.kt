@@ -20,8 +20,6 @@ class AuthenticationRepositoryImpl @Inject constructor(
         task: Task<GoogleSignInAccount>?,
         onSuccess: (isUser: Boolean) -> Unit
     ) {
-        Log.d("AuthenticationRepository Start", "테스트")
-
         val isValidateUser = postgrest.from("User")
             .select {
                 filter {

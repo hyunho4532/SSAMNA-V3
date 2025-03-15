@@ -67,9 +67,6 @@ class UserViewModel @Inject constructor(
              * isUser: false -> 계정이 존재하지 않는다.
              */
             loginCase.invoke(task) { id, email, name, isUser ->
-
-                Log.d("loginCase success", isUser.toString())
-
                 saveLoginState(id)
 
                 if (!isUser) {
