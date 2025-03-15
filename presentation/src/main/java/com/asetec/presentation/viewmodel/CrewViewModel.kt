@@ -2,11 +2,11 @@ package com.asetec.presentation.viewmodel
 
 import android.content.Context
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.calcul.FormatImpl
+import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.domain.model.state.Crew
 import com.asetec.domain.usecase.crew.CrewCase
@@ -20,7 +20,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CrewViewModel @Inject constructor(
     @ApplicationContext appContext: Context,
-    val crewCase: CrewCase
+    private val crewCase: CrewCase
 ): ViewModel() {
     private val sharedPreferences = appContext.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
@@ -35,11 +35,19 @@ class CrewViewModel @Inject constructor(
         val crewDTO = CrewDTO(
             userId = userId,
             title = data.name,
+            picture = data.assets,
             createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
         )
 
         viewModelScope.launch {
             crewCase.insert(crewDTO)
         }
+    }
+
+    /**
+     * 크루 데이터가 이미 존재하는지에 대한 함수
+     */
+    suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {
+        return crewCase.isCrewDataExists(googleId)
     }
 }
