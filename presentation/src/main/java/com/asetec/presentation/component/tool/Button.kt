@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.Process
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -30,12 +31,14 @@ import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Challenge
+import com.asetec.domain.model.state.Crew
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpButtonWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.ui.main.home.HomeActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
+import com.asetec.presentation.viewmodel.CrewViewModel
 import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 import com.google.maps.android.compose.CameraPositionState
@@ -61,7 +64,8 @@ fun CustomButton(
     locationManagerViewModel: LocationManagerViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
-    challengeViewModel: ChallengeViewModel = hiltViewModel()
+    challengeViewModel: ChallengeViewModel = hiltViewModel(),
+    crewViewModel: CrewViewModel = hiltViewModel()
 ) {
     val activates = activityLocationViewModel.activates.collectAsState()
 
@@ -145,6 +149,12 @@ fun CustomButton(
                                         handler.postDelayed({ Toast.makeText(context, "챌린지 내역을 삭제했습니다!", Toast.LENGTH_SHORT).show() }, 0)
                                     }
                                 }
+                            }
+                        }
+
+                        ButtonType.CrewStatus.INSERT -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                crewViewModel.saveCrew(data as Crew)
                             }
                         }
 

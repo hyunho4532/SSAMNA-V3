@@ -166,11 +166,12 @@ fun CrewScreen(
                                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                             ) {
                                 CustomButton(
-                                    type = ButtonType.RunningStatus.OPEN,
+                                    type = ButtonType.CrewStatus.INSERT,
                                     width = 160.dp,
                                     height = 42.dp,
                                     text = "크루 참여하기",
                                     showIcon = false,
+                                    data = it,
                                     backgroundColor = Color(0xFF5c9afa),
                                 )
                             }
