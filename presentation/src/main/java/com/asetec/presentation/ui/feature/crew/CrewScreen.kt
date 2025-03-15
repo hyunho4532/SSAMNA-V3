@@ -2,6 +2,7 @@ package com.asetec.presentation.ui.feature.crew
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -22,6 +23,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -31,8 +35,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.enum.ButtonType
+import com.asetec.presentation.viewmodel.CrewViewModel
 import com.asetec.presentation.viewmodel.JsonParseViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
 
@@ -41,11 +47,13 @@ import com.asetec.presentation.viewmodel.UserViewModel
 fun CrewScreen(
     context: Context,
     userViewModel: UserViewModel = hiltViewModel(),
-    jsonParseViewModel: JsonParseViewModel = hiltViewModel()
+    jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
+    crewViewModel: CrewViewModel = hiltViewModel()
 ) {
     val crewSize = jsonParseViewModel.crewJsonData.size
 
-    val userData = userViewModel.user.collectAsState()
+    val isCrewDataExists = remember { mutableStateOf<List<CrewDTO>?>(null) }
+
     val crewData = jsonParseViewModel.crewJsonData.map {
         it
     }
@@ -57,7 +65,10 @@ fun CrewScreen(
 
         val googleId = userViewModel.getSavedLoginState()
         userViewModel.selectUserFindById(googleId)
+
+        isCrewDataExists.value = crewViewModel.isCrewDataExists(googleId)
     }
+    
 
     Column (
         modifier = Modifier
@@ -165,15 +176,24 @@ fun CrewScreen(
                             Box(
                                 modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
                             ) {
-                                CustomButton(
-                                    type = ButtonType.CrewStatus.INSERT,
-                                    width = 160.dp,
-                                    height = 42.dp,
-                                    text = "크루 참여하기",
-                                    showIcon = false,
-                                    data = it,
-                                    backgroundColor = Color(0xFF5c9afa),
-                                )
+
+                                val isUserInCrew = isCrewDataExists.value?.any { crewDTO ->
+                                    it.name == crewDTO.title && userViewModel.getSavedLoginState() == crewDTO.userId
+                                } ?: false
+
+                                if (isUserInCrew) {
+                                    Text(text = "이미 존재하는 크루입니다!")
+                                } else {
+                                    CustomButton(
+                                        type = ButtonType.CrewStatus.INSERT,
+                                        width = 160.dp,
+                                        height = 42.dp,
+                                        text = "크루 참여하기",
+                                        showIcon = false,
+                                        data = it,
+                                        backgroundColor = Color(0xFF5c9afa),
+                                    )
+                                }
                             }
                         }
                     }

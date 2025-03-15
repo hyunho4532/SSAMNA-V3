@@ -10,4 +10,8 @@ class CrewCase @Inject constructor(
     suspend fun insert(crewDTO: CrewDTO) {
         crewRepository.insert(crewDTO)
     }
+
+    suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {
+        return crewRepository.isCrewDataExists(googleId)
+    }
 }
