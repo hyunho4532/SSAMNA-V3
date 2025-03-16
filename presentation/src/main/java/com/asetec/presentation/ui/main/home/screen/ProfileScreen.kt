@@ -248,8 +248,8 @@ fun ProfileScreen(
 
         Column (
             modifier = Modifier
-                .fillMaxWidth()
-                .height(60.dp)
+                .width(setUpWidth())
+                .height(116.dp)
                 .horizontalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.Start
         ) {
@@ -264,15 +264,36 @@ fun ProfileScreen(
                                 top = 6.dp,
                                 start = if (index == 0) 0.dp else 18.dp
                             )
+                            .clickable(
+                                interactionSource = remember {
+                                    MutableInteractionSource()
+                                },
+                                indication = rememberRipple(
+                                    color = Color.Gray,
+                                    bounded = true
+                                )
+                            ) {
+                              navController.navigate("")
+                            },
                     ) {
-                        Image(
-                            painter = painterResource(id = imageResId),
-                            contentDescription = "크루 아이콘",
-                            contentScale = ContentScale.Crop,
-                            modifier = Modifier
-                                .size(80.dp)
-                                .clip(CircleShape)
-                        )
+                        Column(
+                            horizontalAlignment = Alignment.CenterHorizontally
+                        ) {
+                            Image(
+                                painter = painterResource(id = imageResId),
+                                contentDescription = "크루 아이콘",
+                                contentScale = ContentScale.Crop,
+                                modifier = Modifier
+                                    .size(86.dp)
+                                    .clip(CircleShape)
+                            )
+                            Text(
+                                modifier = Modifier
+                                    .padding(top = 4.dp),
+                                text = crewItem.title,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
                     }
                 }
             }

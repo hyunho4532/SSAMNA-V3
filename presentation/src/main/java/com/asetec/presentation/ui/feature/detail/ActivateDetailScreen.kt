@@ -49,7 +49,7 @@ import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.double
 
 @Composable
-fun DetailScreen(
+fun ActivateDetailScreen(
     id: String,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     navController: NavController = rememberNavController(),
