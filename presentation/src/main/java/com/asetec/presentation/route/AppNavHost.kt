@@ -25,7 +25,7 @@ import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.OnBoardingScreen
 import com.asetec.presentation.ui.feature.crew.CrewScreen
-import com.asetec.presentation.ui.feature.detail.DetailScreen
+import com.asetec.presentation.ui.feature.detail.ActivateDetailScreen
 import com.asetec.presentation.ui.feature.detail.chart.ActivateChart
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
@@ -133,7 +133,7 @@ fun ScreenNavigationConfiguration(
             route = "activateDetail/{id}") { backStackEntry ->
             val id = backStackEntry.arguments?.getString("id")
 
-            DetailScreen(
+            ActivateDetailScreen(
                 id = id!!,
                 navController = navController
             )
