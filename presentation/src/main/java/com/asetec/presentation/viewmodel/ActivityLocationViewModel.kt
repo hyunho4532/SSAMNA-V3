@@ -15,6 +15,7 @@ import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.usecase.activate.ActivateCase
 import com.asetec.domain.model.calcul.FormatImpl
+import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.presentation.component.util.JsonObjImpl
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,6 +25,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import java.math.BigDecimal
 import javax.inject.Inject
 
 @HiltViewModel
@@ -136,7 +138,7 @@ class ActivityLocationViewModel @Inject constructor(
         coordinate: List<Coordinate>
     ) {
         val pedometerCount = sharedPreferences?.getInt("pedometerCount", _activates.value.pedometerCount)
-        val googleId = sharedPreferences2?.getString("id", "")
+        val userId = sharedPreferences2?.getString("id", "")
         val time = sharedPreferences?.getLong("time", 0L)
 
         /**
@@ -168,7 +170,7 @@ class ActivityLocationViewModel @Inject constructor(
         ).build()
 
         val activateDTO = ActivateDTO (
-            googleId = googleId!!,
+            googleId = userId!!,
             title = _activates.value.runningTitle,
             coord = coordinateData,
             status = statusData,
@@ -180,10 +182,18 @@ class ActivityLocationViewModel @Inject constructor(
             eqDate = FormatImpl("YY:MM:DD").getTodayFormatDate()
         )
 
+        val activateNotificationDTO = ActivateNotificationDTO (
+            userId = userId,
+            title = "오늘 ${BigDecimal(FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount))}km 달렸습니다!",
+            createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
+        )
+
         viewModelScope.launch {
             activateCase?.saveActivity(activateDTO = activateDTO) {
                 sharedPreferences?.edit()!!.putLong("time", it).apply()
             }
+
+            activateCase?.saveActivityNotification(activateNotificationDTO = activateNotificationDTO)
         }
     }
 

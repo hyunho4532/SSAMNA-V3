@@ -77,6 +77,7 @@ dependencies {
     implementation(libs.ktor.core)
     implementation(libs.ktor.android)
     implementation(libs.ktor.utils)
+    implementation("com.google.code.gson:gson:2.10.1")
 
     /**
      * androidx

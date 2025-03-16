@@ -71,11 +71,7 @@ class JsonParseViewModel @Inject constructor(
         }
     }
 
-    fun dataToJson(data: Any): String {
-        return jsonParseCase.dataToJson(data)
-    }
-
-    fun dataFromJson(data: String): List<Coordinate> {
-        return jsonParseCase.dataFromJson(data)
+    fun dataFromJson(data: String, type: String): List<Any> {
+        return jsonParseCase.dataFromJson(data, type)
     }
 }
