@@ -15,7 +15,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.domain.model.location.Coordinate
+import com.asetec.domain.model.state.Crew
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.animation.Screens
 import com.asetec.presentation.ui.feature.login.LoginScreen
@@ -26,6 +28,7 @@ import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.OnBoardingScreen
 import com.asetec.presentation.ui.feature.crew.CrewScreen
 import com.asetec.presentation.ui.feature.detail.ActivateDetailScreen
+import com.asetec.presentation.ui.feature.detail.CrewDetailScreen
 import com.asetec.presentation.ui.feature.detail.chart.ActivateChart
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
@@ -146,7 +149,7 @@ fun ScreenNavigationConfiguration(
             })
         ) { backStackEntry ->
             val coords = backStackEntry.arguments?.getString("coords")
-            val coordsList: List<Coordinate> = jsonParseViewModel.dataFromJson(coords!!)
+            val coordsList: List<Coordinate> = jsonParseViewModel.dataFromJson(coords!!, "coordinate") as List<Coordinate>
 
             ActivateChart(
                 coordsList = coordsList
@@ -156,6 +159,22 @@ fun ScreenNavigationConfiguration(
         composable(
             route = "crew") {
             CrewScreen(
+                context = context
+            )
+        }
+
+        composable(
+            route = "crewDetail/{crew}",
+            arguments = listOf(navArgument("crew") {
+              type = NavType.StringType
+            })
+        ) { backStackEntry ->
+            val crewItem = backStackEntry.arguments?.getString("crew")
+            val crewList = jsonParseViewModel.dataFromJson(crewItem!!, "crew") as List<CrewDTO>
+
+            CrewDetailScreen(
+                crewList = crewList,
+                navController = navController,
                 context = context
             )
         }

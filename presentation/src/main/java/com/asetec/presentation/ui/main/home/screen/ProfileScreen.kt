@@ -2,6 +2,7 @@ package com.asetec.presentation.ui.main.home.screen
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
@@ -60,7 +61,9 @@ import com.asetec.presentation.enum.ProfileStatusType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
 import com.asetec.presentation.viewmodel.CrewViewModel
+import com.asetec.presentation.viewmodel.JsonParseViewModel
 import com.asetec.presentation.viewmodel.UserViewModel
+import com.google.gson.Gson
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonPrimitive
@@ -74,6 +77,7 @@ fun ProfileScreen(
     challengeViewModel: ChallengeViewModel = hiltViewModel(),
     crewViewModel: CrewViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
+    jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
     userList: State<User>,
     context: Context
 ) {
@@ -273,7 +277,9 @@ fun ProfileScreen(
                                     bounded = true
                                 )
                             ) {
-                              navController.navigate("")
+                                val crewList = listOf(crewItem)
+                                val crew = Uri.encode(Gson().toJson(crewList))
+                                navController.navigate("crewDetail/$crew")
                             },
                     ) {
                         Column(
