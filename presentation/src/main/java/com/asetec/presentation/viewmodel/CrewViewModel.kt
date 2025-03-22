@@ -6,6 +6,7 @@ import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.calcul.FormatImpl
+import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.domain.model.state.Crew
 import com.asetec.domain.usecase.crew.CrewCase
@@ -25,6 +26,9 @@ class CrewViewModel @Inject constructor(
 
     private val _crew = MutableStateFlow<List<CrewDTO>>(emptyList())
     val crew: StateFlow<List<CrewDTO>> = _crew
+
+    private val _notification = MutableStateFlow<List<ActivateNotificationDTO>>(emptyList())
+    val notification: StateFlow<List<ActivateNotificationDTO>> = _notification
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun saveCrew(data: Crew) {
@@ -54,5 +58,10 @@ class CrewViewModel @Inject constructor(
     suspend fun crewFindById(googleId: String) {
         val crewDTO = crewCase.crewFindById(googleId)
         _crew.value = crewDTO
+    }
+
+    suspend fun notificationAll() {
+        val notificationDTO = crewCase.notificationAll()
+        _notification.value = notificationDTO
     }
 }

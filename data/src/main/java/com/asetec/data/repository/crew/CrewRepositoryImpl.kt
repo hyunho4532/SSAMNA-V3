@@ -1,5 +1,6 @@
 package com.asetec.data.repository.crew
 
+import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.domain.repository.crew.CrewRepository
@@ -32,6 +33,14 @@ class CrewRepositoryImpl @Inject constructor(
                     eq("user_id ", googleId)
                 }
             }.decodeList<CrewDTO>()
+        }
+    }
+
+    override suspend fun notificationAll(): List<ActivateNotificationDTO> {
+        return withContext(Dispatchers.IO) {
+            postgrest.from("ActivateNotification").select {
+
+            }.decodeList<ActivateNotificationDTO>()
         }
     }
 }
