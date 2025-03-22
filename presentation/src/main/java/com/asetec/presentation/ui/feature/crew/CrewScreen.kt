@@ -104,7 +104,7 @@ fun CrewScreen(
                     val imageName = it.assets.replace("R.drawable.", "")
                     val imageResId = context.resources.getIdentifier(imageName, "drawable", context.packageName)
 
-                    if (pagerState.currentPage == it.index) {
+                    if (pagerState.currentPage + 1 == it.index) {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -130,6 +130,8 @@ fun CrewScreen(
                                     .padding(top = 4.dp, start = 4.dp)
                             ) {
                                 Column {
+                                    Text(text = it.index.toString())
+
                                     Text(
                                         text = it.name,
                                         fontWeight = FontWeight.Bold,

@@ -20,5 +20,8 @@ data class CrewDTO(
     @SerialName("created_at")
     val createdAt: String = "",
 
+    @SerialName("crew_id")
+    val crewId: Int = 0,
+
     var crewExists: String = ""
 )
