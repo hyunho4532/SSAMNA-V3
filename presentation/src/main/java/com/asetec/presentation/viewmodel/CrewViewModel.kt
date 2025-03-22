@@ -36,6 +36,7 @@ class CrewViewModel @Inject constructor(
             title = data.name,
             picture = data.assets,
             createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
+            crewId = data.index
         )
 
         viewModelScope.launch {
