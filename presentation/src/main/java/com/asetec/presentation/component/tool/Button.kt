@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -31,17 +32,21 @@ import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Challenge
+import com.asetec.domain.model.state.Crew
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpButtonWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.ui.main.home.HomeActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
+import com.asetec.presentation.viewmodel.CrewViewModel
 import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
+import com.asetec.presentation.viewmodel.UserViewModel
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
 
 @Composable
 fun CustomButton(
@@ -62,12 +67,25 @@ fun CustomButton(
     locationManagerViewModel: LocationManagerViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
-    challengeViewModel: ChallengeViewModel = hiltViewModel()
+    challengeViewModel: ChallengeViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel(),
+    crewViewModel: CrewViewModel = hiltViewModel()
 ) {
     val activates = activityLocationViewModel.activates.collectAsState()
+    val crew = crewViewModel.crew.collectAsState()
+
+    val googleId = userViewModel.getSavedLoginState()
+
+    LaunchedEffect(key1 = Unit) {
+        this.launch {
+            crewViewModel.crewFindById(googleId)
+        }
+    }
 
     Button(
         onClick = {
+
+
             when (type) {
                 ButtonType.PermissionStatus.POPUP -> {
                     onClick(true)
@@ -104,7 +122,8 @@ fun CustomButton(
                                 activityLocationViewModel.saveActivity(
                                     runningIcon = activates.value.activateResId,
                                     runningTitle = activates.value.activateName,
-                                    coordinate = coordinate
+                                    coordinate = coordinate,
+                                    crew = crew
                                 )
                                 locationManagerViewModel.clearCoordinate()
                             }
@@ -146,6 +165,12 @@ fun CustomButton(
                                         handler.postDelayed({ Toast.makeText(context, "챌린지 내역을 삭제했습니다!", Toast.LENGTH_SHORT).show() }, 0)
                                     }
                                 }
+                            }
+                        }
+
+                        ButtonType.CrewStatus.INSERT -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                                crewViewModel.saveCrew(data as Crew)
                             }
                         }
 

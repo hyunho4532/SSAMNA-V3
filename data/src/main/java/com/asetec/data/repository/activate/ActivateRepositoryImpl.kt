@@ -1,6 +1,7 @@
 package com.asetec.data.repository.activate
 
 import com.asetec.domain.model.dto.ActivateDTO
+import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.repository.activate.ActivateRepository
 import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.coroutines.Dispatchers
@@ -10,10 +11,14 @@ import javax.inject.Inject
 class ActivateRepositoryImpl @Inject constructor(
     private val postgrest: Postgrest
 ) : ActivateRepository {
-    override suspend fun insert(activateDTO: ActivateDTO, onTime: (Long) -> Unit) {
+    override suspend fun saveActivity(activateDTO: ActivateDTO, onTime: (Long) -> Unit) {
         onTime(0L)
 
-        postgrest.from("Activity").insert(activateDTO)
+        postgrest.from("Activate").insert(activateDTO)
+    }
+
+    override suspend fun saveActivityNotification(activateNotificationDTO: ActivateNotificationDTO) {
+        postgrest.from("ActivateNotification").insert(activateNotificationDTO)
     }
 
     override suspend fun delete(googleId: String, date: String, onSuccess: (Boolean) -> Unit) {
@@ -29,7 +34,7 @@ class ActivateRepositoryImpl @Inject constructor(
 
     override suspend fun selectActivateByGoogleId(googleId: String): List<ActivateDTO> {
         return withContext(Dispatchers.IO) {
-            postgrest.from("Activity").select {
+            postgrest.from("Activate").select {
                 filter {
                     eq("google_id", googleId)
                 }
@@ -39,7 +44,7 @@ class ActivateRepositoryImpl @Inject constructor(
 
     override suspend fun selectActivateByDate(googleId: String, date: String): List<ActivateDTO> {
         return withContext(Dispatchers.IO) {
-            postgrest.from("Activity").select {
+            postgrest.from("Activate").select {
                 filter {
                     eq("google_id", googleId)
                     eq("eq_date", date)
@@ -52,7 +57,7 @@ class ActivateRepositoryImpl @Inject constructor(
         id: Int
     ): List<ActivateDTO> {
         return withContext(Dispatchers.IO) {
-            postgrest.from("Activity").select {
+            postgrest.from("Activate").select {
                 filter {
                     eq("id", id)
                 }

@@ -1,0 +1,67 @@
+package com.asetec.presentation.viewmodel
+
+import android.content.Context
+import android.os.Build
+import androidx.annotation.RequiresApi
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.asetec.domain.model.calcul.FormatImpl
+import com.asetec.domain.model.dto.ActivateNotificationDTO
+import com.asetec.domain.model.dto.CrewDTO
+import com.asetec.domain.model.state.Crew
+import com.asetec.domain.usecase.crew.CrewCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+@HiltViewModel
+class CrewViewModel @Inject constructor(
+    @ApplicationContext appContext: Context,
+    private val crewCase: CrewCase
+): ViewModel() {
+    private val sharedPreferences = appContext.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
+
+    private val _crew = MutableStateFlow<List<CrewDTO>>(emptyList())
+    val crew: StateFlow<List<CrewDTO>> = _crew
+
+    private val _notification = MutableStateFlow<List<ActivateNotificationDTO>>(emptyList())
+    val notification: StateFlow<List<ActivateNotificationDTO>> = _notification
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun saveCrew(data: Crew) {
+
+        val userId = sharedPreferences.getString("id", "").toString()
+
+        val crewDTO = CrewDTO(
+            userId = userId,
+            title = data.name,
+            picture = data.assets,
+            createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
+            crewId = data.index
+        )
+
+        viewModelScope.launch {
+            crewCase.insert(crewDTO)
+        }
+    }
+
+    /**
+     * 크루 데이터가 이미 존재하는지에 대한 함수
+     */
+    suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {
+        return crewCase.isCrewDataExists(googleId)
+    }
+
+    suspend fun crewFindById(googleId: String) {
+        val crewDTO = crewCase.crewFindById(googleId)
+        _crew.value = crewDTO
+    }
+
+    suspend fun notificationAll() {
+        val notificationDTO = crewCase.notificationAll()
+        _notification.value = notificationDTO
+    }
+}

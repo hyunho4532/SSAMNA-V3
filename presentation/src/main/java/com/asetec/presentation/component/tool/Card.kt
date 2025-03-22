@@ -67,6 +67,7 @@ import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.CardType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.JsonParseViewModel
+import com.google.gson.Gson
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.doubleOrNull
@@ -723,8 +724,8 @@ fun chartDetailCard(
                     bounded = true
                 )
             ) {
-                val coords = jsonParseViewModel.dataToJson(coordsList)
-                navController.navigate("activateChart?coords=${coords}")
+                val coords = Uri.encode(Gson().toJson(coordsList))
+                navController.navigate("activateChart?coords=$coords")
             },
         colors = CardDefaults.cardColors(
             containerColor = backgroundColor

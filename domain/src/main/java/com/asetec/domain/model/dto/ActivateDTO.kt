@@ -39,5 +39,5 @@ data class ActivateDTO(
     val todayFormat: String = "",
 
     @SerialName("eq_date")
-    val eqDate: String = ""
+    val eqDate: String = "",
 )

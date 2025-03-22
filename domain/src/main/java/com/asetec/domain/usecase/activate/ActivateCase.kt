@@ -1,6 +1,7 @@
 package com.asetec.domain.usecase.activate
 
 import com.asetec.domain.model.dto.ActivateDTO
+import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.repository.activate.ActivateRepository
 import javax.inject.Inject
 
@@ -8,9 +9,13 @@ class ActivateCase @Inject constructor(
     private val activateRepository: ActivateRepository
 ) {
     suspend fun saveActivity(activateDTO: ActivateDTO, onTime: (Long) -> Unit) {
-        activateRepository.insert(activateDTO) {
+        activateRepository.saveActivity(activateDTO) {
             onTime(it)
         }
+    }
+
+    suspend fun saveActivityNotification(activateNotificationDTO: ActivateNotificationDTO) {
+        activateRepository.saveActivityNotification(activateNotificationDTO)
     }
 
     suspend fun deleteActivity(googleId: String, date: String, onSuccess: (Boolean) -> Unit) {
