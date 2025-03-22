@@ -17,6 +17,7 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
@@ -41,9 +42,11 @@ import com.asetec.presentation.viewmodel.ChallengeViewModel
 import com.asetec.presentation.viewmodel.CrewViewModel
 import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
+import com.asetec.presentation.viewmodel.UserViewModel
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.launch
 
 @Composable
 fun CustomButton(
@@ -65,12 +68,24 @@ fun CustomButton(
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel(),
+    userViewModel: UserViewModel = hiltViewModel(),
     crewViewModel: CrewViewModel = hiltViewModel()
 ) {
     val activates = activityLocationViewModel.activates.collectAsState()
+    val crew = crewViewModel.crew.collectAsState()
+
+    val googleId = userViewModel.getSavedLoginState()
+
+    LaunchedEffect(key1 = Unit) {
+        this.launch {
+            crewViewModel.crewFindById(googleId)
+        }
+    }
 
     Button(
         onClick = {
+
+
             when (type) {
                 ButtonType.PermissionStatus.POPUP -> {
                     onClick(true)
@@ -107,7 +122,8 @@ fun CustomButton(
                                 activityLocationViewModel.saveActivity(
                                     runningIcon = activates.value.activateResId,
                                     runningTitle = activates.value.activateName,
-                                    coordinate = coordinate
+                                    coordinate = coordinate,
+                                    crew = crew
                                 )
                                 locationManagerViewModel.clearCoordinate()
                             }

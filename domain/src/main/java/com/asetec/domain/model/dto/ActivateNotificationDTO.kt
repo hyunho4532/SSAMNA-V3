@@ -11,6 +11,9 @@ data class ActivateNotificationDTO(
     @SerialName("title")
     val title: String = "",
 
+    @SerialName("crew_id")
+    val crewId: List<List<Int>> = emptyList(),
+
     @SerialName("created_at")
     val createdAt: String = ""
 )
