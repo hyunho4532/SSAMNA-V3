@@ -1,7 +1,8 @@
 package com.asetec.presentation.component.util
 
-import android.util.Log
+import androidx.compose.runtime.State
 import com.asetec.domain.model.calcul.FormatImpl
+import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.ActivateForm
@@ -18,7 +19,8 @@ data class JsonObjImpl(
     val activate: StateFlow<Activate>? = null,
     val activateForm: StateFlow<ActivateForm>? = null,
     val runningList: Array<Any>? = null,
-    val coordinateList: List<Coordinate> = emptyList()
+    val coordinateList: List<Coordinate> = emptyList(),
+    val crewList: State<List<CrewDTO>>? = null
 ) : JsonObj() {
     override fun build(): JsonObject {
 
@@ -66,6 +68,18 @@ data class JsonObjImpl(
                                 put("longitude", data.longitude)
                                 put("altitude", data.altitude)
                                 put("km", data.km)
+                            })
+                        }
+                    })
+                }
+            }
+
+            "crewId" -> {
+                data = buildJsonObject {
+                    put("idx", buildJsonArray {
+                        crewList!!.value.forEach { data ->
+                            add(buildJsonObject {
+                                put("id", data.crewId)
                             })
                         }
                     })

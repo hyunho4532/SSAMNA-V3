@@ -25,6 +25,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonObject
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -171,6 +172,11 @@ class ActivityLocationViewModel @Inject constructor(
             coordinateList = coordinate
         ).build()
 
+        val crewData = JsonObjImpl(
+            type = "crewId",
+            crewList = crew
+        ).build()
+
         val activateDTO = ActivateDTO (
             googleId = userId!!,
             title = _activates.value.runningTitle,
@@ -184,22 +190,18 @@ class ActivityLocationViewModel @Inject constructor(
             eqDate = FormatImpl("YY:MM:DD").getTodayFormatDate()
         )
 
-        val crewId = crew.value.map {
-            listOf(it.crewId)
-        }
-
-        if (crewId.isNotEmpty()) {
+        if (crew.value.isEmpty()) {
             activateNotificationDTO = ActivateNotificationDTO (
                 userId = userId,
                 title = "오늘 ${BigDecimal(FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount))}km 달렸습니다!",
-                crewId = emptyList(),
+                crewId = buildJsonObject {  },
                 createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             )
         } else {
             activateNotificationDTO = ActivateNotificationDTO (
                 userId = userId,
                 title = "오늘 ${BigDecimal(FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount))}km 달렸습니다!",
-                crewId = crewId,
+                crewId = crewData,
                 createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             )
         }

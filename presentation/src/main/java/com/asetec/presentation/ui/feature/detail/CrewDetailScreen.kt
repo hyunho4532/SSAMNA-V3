@@ -1,6 +1,7 @@
 package com.asetec.presentation.ui.feature.detail
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,22 +13,31 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.asetec.domain.model.dto.CrewDTO
+import com.asetec.presentation.viewmodel.CrewViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 
 @Composable
 fun CrewDetailScreen(
     crewList: List<CrewDTO>,
     navController: NavController = rememberNavController(),
-    context: Context
+    context: Context,
+    crewViewModel: CrewViewModel = hiltViewModel()
 ) {
+    LaunchedEffect(key1 = Unit) {
+        crewViewModel.notificationAll()
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
