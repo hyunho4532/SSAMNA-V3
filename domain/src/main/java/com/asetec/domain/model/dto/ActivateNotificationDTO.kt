@@ -2,6 +2,8 @@ package com.asetec.domain.model.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.buildJsonObject
 
 @Serializable
 data class ActivateNotificationDTO(
@@ -12,7 +14,7 @@ data class ActivateNotificationDTO(
     val title: String = "",
 
     @SerialName("crew_id")
-    val crewId: List<List<Int>> = emptyList(),
+    val crewId: JsonObject = buildJsonObject {  },
 
     @SerialName("created_at")
     val createdAt: String = ""
