@@ -1,4 +1,4 @@
-package com.asetec.presentation.component.row.tab
+package com.asetec.presentation.component.row.tab.activate
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,41 +15,41 @@ import androidx.compose.ui.unit.sp
 import com.asetec.domain.model.entry.KcalEntry
 import com.asetec.domain.model.entry.KmEntry
 import com.asetec.domain.model.entry.StepEntry
-import com.asetec.presentation.component.util.getLastYear
-import com.asetec.presentation.component.util.getThisYear
+import com.asetec.presentation.component.util.getLastWeek
+import com.asetec.presentation.component.util.getThisWeek
 
 @Composable
-fun Year(
+fun Week(
     kcalList: List<KcalEntry>,
     kmList: List<KmEntry>,
     stepList: List<StepEntry>
 ) {
 
-    val stepOfThisYear = getThisYear(
+    val stepOfThisWeek = getThisWeek(
         type = "step",
         stepList = stepList
     )
 
-    val stepOfLastYear = getLastYear(
+    val stepOfLastWeek = getLastWeek(
         type = "step",
         stepList = stepList
     )
 
-    val kcalOfThisYear = getThisYear(
+    val kcalOfThisWeek = getThisWeek(
         type = "kcal",
         kcalList = kcalList
     )
 
-    val kcalOfLastYear = getLastYear(
+    val kcalOfLastWeek = getLastWeek(
         type = "kcal",
         kcalList = kcalList)
 
-    val kmOfThisYear = getThisYear(
+    val kmOfThisWeek = getThisWeek(
         type = "km",
         kmList = kmList
     )
 
-    val kmOfLastYear = getLastYear(
+    val kmOfLastWeek = getLastWeek(
         type = "km",
         kmList = kmList)
 
@@ -80,7 +80,7 @@ fun Year(
                     .weight(1f)
             ) {
                 Text(
-                    text = "올해",
+                    text = "이번 주",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -93,7 +93,7 @@ fun Year(
                     .weight(1f)
             ) {
                 Text(
-                    text = "작년",
+                    text = "지난 주",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -121,7 +121,7 @@ fun Year(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kcalOfThisYear),
+                    text = String.format("%.2f", kcalOfThisWeek),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -132,7 +132,7 @@ fun Year(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kcalOfLastYear),
+                    text = String.format("%.2f", kcalOfLastWeek),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -159,7 +159,7 @@ fun Year(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kmOfThisYear),
+                    text = String.format("%.2f", kmOfThisWeek),
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -171,7 +171,7 @@ fun Year(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kmOfLastYear),
+                    text = String.format("%.2f", kmOfLastWeek),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -198,7 +198,7 @@ fun Year(
                     .weight(1f)
             ) {
                 Text(
-                    text = stepOfThisYear.toInt().toString(),
+                    text = stepOfThisWeek.toInt().toString(),
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -210,7 +210,7 @@ fun Year(
                     .weight(1f)
             ) {
                 Text(
-                    text = stepOfLastYear.toInt().toString(),
+                    text = stepOfLastWeek.toInt().toString(),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
