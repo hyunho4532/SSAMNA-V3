@@ -1,12 +1,12 @@
 package com.asetec.presentation.component.row
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -15,15 +15,16 @@ import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.entry.StepEntry
 import com.asetec.domain.model.entry.KcalEntry
 import com.asetec.domain.model.entry.KmEntry
-import com.asetec.presentation.component.row.tab.Month
-import com.asetec.presentation.component.row.tab.Week
-import com.asetec.presentation.component.row.tab.Year
+import com.asetec.presentation.component.row.tab.activate.Month
+import com.asetec.presentation.component.row.tab.activate.Week
+import com.asetec.presentation.component.row.tab.activate.Year
+import com.asetec.presentation.component.row.tab.crew.Notification
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.double
+import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
@@ -33,6 +34,7 @@ import kotlinx.serialization.json.jsonPrimitive
 fun <T> ActivateTabRow(
     pages: List<String>,
     dataList: List<T>,
+    crewId: Int = 0,
     type: String,
 ) {
 
@@ -62,6 +64,7 @@ fun <T> ActivateTabRow(
             }
         } else null
     }
+
 
     TabRow(
         backgroundColor = Color.White,
@@ -111,7 +114,10 @@ fun <T> ActivateTabRow(
             }
         } else if (type == "crew") {
             when (page) {
-
+                1 -> Notification(
+                    crewId = crewId,
+                    notificationList = dataList,
+                )
             }
         }
     }

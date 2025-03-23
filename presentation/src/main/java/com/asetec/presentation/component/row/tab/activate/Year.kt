@@ -1,4 +1,4 @@
-package com.asetec.presentation.component.row.tab
+package com.asetec.presentation.component.row.tab.activate
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,41 +15,41 @@ import androidx.compose.ui.unit.sp
 import com.asetec.domain.model.entry.KcalEntry
 import com.asetec.domain.model.entry.KmEntry
 import com.asetec.domain.model.entry.StepEntry
-import com.asetec.presentation.component.util.getLastMonth
-import com.asetec.presentation.component.util.getThisMonth
+import com.asetec.presentation.component.util.getLastYear
+import com.asetec.presentation.component.util.getThisYear
 
 @Composable
-fun Month(
+fun Year(
     kcalList: List<KcalEntry>,
     kmList: List<KmEntry>,
     stepList: List<StepEntry>
 ) {
 
-    val stepOfThisMonth = getThisMonth(
+    val stepOfThisYear = getThisYear(
         type = "step",
         stepList = stepList
     )
 
-    val stepOfLastMonth = getLastMonth(
+    val stepOfLastYear = getLastYear(
         type = "step",
         stepList = stepList
     )
 
-    val kcalOfThisMonth = getThisMonth(
+    val kcalOfThisYear = getThisYear(
         type = "kcal",
         kcalList = kcalList
     )
 
-    val kcalOfLastMonth = getLastMonth(
+    val kcalOfLastYear = getLastYear(
         type = "kcal",
         kcalList = kcalList)
 
-    val kmOfThisMonth = getThisMonth(
+    val kmOfThisYear = getThisYear(
         type = "km",
         kmList = kmList
     )
 
-    val kmOfLastMonth = getLastMonth(
+    val kmOfLastYear = getLastYear(
         type = "km",
         kmList = kmList)
 
@@ -80,7 +80,7 @@ fun Month(
                     .weight(1f)
             ) {
                 Text(
-                    text = "이번 달",
+                    text = "올해",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -93,7 +93,7 @@ fun Month(
                     .weight(1f)
             ) {
                 Text(
-                    text = "저번 달",
+                    text = "작년",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -121,7 +121,7 @@ fun Month(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kcalOfThisMonth),
+                    text = String.format("%.2f", kcalOfThisYear),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -132,7 +132,7 @@ fun Month(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kcalOfLastMonth),
+                    text = String.format("%.2f", kcalOfLastYear),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -159,7 +159,7 @@ fun Month(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kmOfThisMonth),
+                    text = String.format("%.2f", kmOfThisYear),
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -171,7 +171,7 @@ fun Month(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kmOfLastMonth),
+                    text = String.format("%.2f", kmOfLastYear),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -198,7 +198,7 @@ fun Month(
                     .weight(1f)
             ) {
                 Text(
-                    text = stepOfThisMonth.toInt().toString(),
+                    text = stepOfThisYear.toInt().toString(),
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -210,7 +210,7 @@ fun Month(
                     .weight(1f)
             ) {
                 Text(
-                    text = stepOfLastMonth.toInt().toString(),
+                    text = stepOfLastYear.toInt().toString(),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }

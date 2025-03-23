@@ -1,6 +1,7 @@
 package com.asetec.presentation.ui.feature.detail
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -9,10 +10,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -32,6 +37,9 @@ import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.contentOrNull
+import kotlinx.serialization.json.int
+import kotlinx.serialization.json.jsonArray
+import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
 @Composable
@@ -49,83 +57,66 @@ fun CrewDetailScreen(
 
     val notificationData = crewViewModel.notification.collectAsState()
 
-    val idx = notificationData.value.map {
-        it.crewId["idx"]
+    val crewId = remember {
+        mutableIntStateOf(0)
     }
 
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .verticalScroll(rememberScrollState())
     ) {
-        idx.forEach { jsonElement ->
-            if (jsonElement is JsonArray) {
-                jsonElement.forEach { item ->
-                    if (item is JsonObject) {
-                        val notificationCrewId = item["id"]?.jsonPrimitive?.contentOrNull!!.toInt()
+        crewList.forEach { crew ->
+            crewId.intValue = crew.crewId
 
-                        crewList.forEach { crew ->
-                            notificationData.value.forEach { notification ->
-                                if (crew.crewId == notificationCrewId) {
-                                    val imageName = crew.picture.replace("R.drawable.", "")
-                                    val imageResId = context.resources.getIdentifier(
-                                        imageName,
-                                        "drawable",
-                                        context.packageName
-                                    )
+            val imageName = crew.picture.replace("R.drawable.", "")
+            val imageResId = context.resources.getIdentifier(
+                imageName,
+                "drawable",
+                context.packageName
+            )
 
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .height(260.dp)
-                                    ) {
-                                        Image(
-                                            modifier = Modifier
-                                                .fillMaxWidth(),
-                                            painter = painterResource(id = imageResId),
-                                            contentDescription = "크루 상세 이미지",
-                                            contentScale = ContentScale.Crop
-                                        )
-                                    }
+            Box(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .height(260.dp)
+            ) {
+                Image(
+                    modifier = Modifier
+                        .fillMaxWidth(),
+                    painter = painterResource(id = imageResId),
+                    contentDescription = "크루 상세 이미지",
+                    contentScale = ContentScale.Crop
+                )
+            }
 
-                                    Box(
-                                        modifier = Modifier
-                                            .padding(top = 12.dp, start = 6.dp)
-                                    ) {
-                                        Text(
-                                            text = crew.title,
-                                            fontSize = 18.sp
-                                        )
-                                    }
+            Box(
+                modifier = Modifier
+                    .padding(top = 12.dp, start = 6.dp)
+            ) {
+                Text(
+                    text = crew.title,
+                    fontSize = 18.sp
+                )
+            }
 
-                                    Box(
-                                        modifier = Modifier
-                                            .align(Alignment.CenterHorizontally)
-                                    ) {
-                                        Spacer(
-                                            width = 1200.dp,
-                                            height = 4.dp,
-                                            isBottomBorder = true
-                                        )
-                                    }
-
-                                    Box(
-                                        modifier = Modifier
-                                            .width(setUpWidth())
-                                            .align(Alignment.CenterHorizontally)
-                                            .padding(top = 24.dp)
-                                    ) {
-                                        ActivateTabRow(
-                                            pages = pages,
-                                            dataList = crewList,
-                                            type = "crew"
-                                        )
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+            Box(
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+            ) {
+                Spacer(
+                    width = 1200.dp,
+                    height = 4.dp,
+                    isBottomBorder = true
+                )
             }
         }
+
+        ActivateTabRow(
+            pages = pages,
+            dataList = notificationData.value,
+            crewId = crewId.intValue,
+            type = "crew"
+        )
     }
 }

@@ -1,4 +1,4 @@
-package com.asetec.presentation.component.row.tab
+package com.asetec.presentation.component.row.tab.activate
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -15,41 +15,41 @@ import androidx.compose.ui.unit.sp
 import com.asetec.domain.model.entry.KcalEntry
 import com.asetec.domain.model.entry.KmEntry
 import com.asetec.domain.model.entry.StepEntry
-import com.asetec.presentation.component.util.getLastWeek
-import com.asetec.presentation.component.util.getThisWeek
+import com.asetec.presentation.component.util.getLastMonth
+import com.asetec.presentation.component.util.getThisMonth
 
 @Composable
-fun Week(
+fun Month(
     kcalList: List<KcalEntry>,
     kmList: List<KmEntry>,
     stepList: List<StepEntry>
 ) {
 
-    val stepOfThisWeek = getThisWeek(
+    val stepOfThisMonth = getThisMonth(
         type = "step",
         stepList = stepList
     )
 
-    val stepOfLastWeek = getLastWeek(
+    val stepOfLastMonth = getLastMonth(
         type = "step",
         stepList = stepList
     )
 
-    val kcalOfThisWeek = getThisWeek(
+    val kcalOfThisMonth = getThisMonth(
         type = "kcal",
         kcalList = kcalList
     )
 
-    val kcalOfLastWeek = getLastWeek(
+    val kcalOfLastMonth = getLastMonth(
         type = "kcal",
         kcalList = kcalList)
 
-    val kmOfThisWeek = getThisWeek(
+    val kmOfThisMonth = getThisMonth(
         type = "km",
         kmList = kmList
     )
 
-    val kmOfLastWeek = getLastWeek(
+    val kmOfLastMonth = getLastMonth(
         type = "km",
         kmList = kmList)
 
@@ -80,7 +80,7 @@ fun Week(
                     .weight(1f)
             ) {
                 Text(
-                    text = "이번 주",
+                    text = "이번 달",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -93,7 +93,7 @@ fun Week(
                     .weight(1f)
             ) {
                 Text(
-                    text = "지난 주",
+                    text = "저번 달",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold,
                     modifier = Modifier.align(Alignment.Center)
@@ -121,7 +121,7 @@ fun Week(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kcalOfThisWeek),
+                    text = String.format("%.2f", kcalOfThisMonth),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -132,7 +132,7 @@ fun Week(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kcalOfLastWeek),
+                    text = String.format("%.2f", kcalOfLastMonth),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -159,7 +159,7 @@ fun Week(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kmOfThisWeek),
+                    text = String.format("%.2f", kmOfThisMonth),
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -171,7 +171,7 @@ fun Week(
                     .weight(1f)
             ) {
                 Text(
-                    text = String.format("%.2f", kmOfLastWeek),
+                    text = String.format("%.2f", kmOfLastMonth),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
@@ -198,7 +198,7 @@ fun Week(
                     .weight(1f)
             ) {
                 Text(
-                    text = stepOfThisWeek.toInt().toString(),
+                    text = stepOfThisMonth.toInt().toString(),
                     modifier = Modifier
                         .align(Alignment.Center)
                 )
@@ -210,7 +210,7 @@ fun Week(
                     .weight(1f)
             ) {
                 Text(
-                    text = stepOfLastWeek.toInt().toString(),
+                    text = stepOfLastMonth.toInt().toString(),
                     modifier = Modifier.align(Alignment.Center)
                 )
             }
