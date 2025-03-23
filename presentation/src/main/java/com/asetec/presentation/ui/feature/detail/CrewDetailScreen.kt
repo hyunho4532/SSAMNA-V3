@@ -1,20 +1,19 @@
 package com.asetec.presentation.ui.feature.detail
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -24,13 +23,15 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.asetec.domain.model.dto.CrewDTO
+import com.asetec.presentation.component.row.ActivateTabRow
+import com.asetec.presentation.component.tool.Spacer
+import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.viewmodel.CrewViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.serialization.json.Json
+import com.google.accompanist.pager.rememberPagerState
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.contentOrNull
-import kotlinx.serialization.json.jsonObject
 import kotlinx.serialization.json.jsonPrimitive
 
 @Composable
@@ -43,6 +44,8 @@ fun CrewDetailScreen(
     LaunchedEffect(key1 = Unit) {
         crewViewModel.notificationAll()
     }
+
+    val pages = listOf("랭킹", "기록")
 
     val notificationData = crewViewModel.notification.collectAsState()
 
@@ -89,14 +92,34 @@ fun CrewDetailScreen(
                                             .padding(top = 12.dp, start = 6.dp)
                                     ) {
                                         Text(
-                                            text = crew.crewId.toString(),
+                                            text = crew.title,
                                             fontSize = 18.sp
                                         )
                                     }
 
-                                    Text(
-                                        text = "오늘 ${notification.feed}km 달렸습니다!"
-                                    )
+                                    Box(
+                                        modifier = Modifier
+                                            .align(Alignment.CenterHorizontally)
+                                    ) {
+                                        Spacer(
+                                            width = 1200.dp,
+                                            height = 4.dp,
+                                            isBottomBorder = true
+                                        )
+                                    }
+
+                                    Box(
+                                        modifier = Modifier
+                                            .width(setUpWidth())
+                                            .align(Alignment.CenterHorizontally)
+                                            .padding(top = 24.dp)
+                                    ) {
+                                        ActivateTabRow(
+                                            pages = pages,
+                                            dataList = crewList,
+                                            type = "crew"
+                                        )
+                                    }
                                 }
                             }
                         }
