@@ -1,7 +1,6 @@
 package com.asetec.presentation.ui.feature.login
 
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

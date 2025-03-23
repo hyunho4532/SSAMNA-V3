@@ -1,7 +1,6 @@
 package com.asetec.presentation.ui.feature.detail.chart
 
 import android.text.TextPaint
-import android.util.Log
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box

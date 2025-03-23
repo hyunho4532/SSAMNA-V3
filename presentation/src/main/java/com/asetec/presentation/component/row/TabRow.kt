@@ -24,29 +24,43 @@ import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.double
-import kotlinx.serialization.json.int
+import kotlinx.serialization.json.doubleOrNull
+import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ActivateTabRow(
+fun <T> ActivateTabRow(
     pages: List<String>,
-    activateList: State<List<ActivateDTO>>
+    dataList: List<T>,
+    type: String,
 ) {
 
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
-    val kcalList = activateList.value.map {
-        KcalEntry(it.todayFormat.substring(0, 13), it.cul["kcal_cul"]?.jsonPrimitive!!.double)
+    val kcalList = dataList.mapNotNull {
+        if (it is ActivateDTO) {
+            it.cul["kcal_cul"]?.jsonPrimitive?.doubleOrNull?.let { kcal ->
+                KcalEntry(it.todayFormat.substring(0, 13), kcal)
+            }
+        } else null
     }
 
-    val kmList = activateList.value.map {
-        KmEntry(it.todayFormat.substring(0, 13), it.cul["km_cul"]?.jsonPrimitive!!.double)
+    val kmList = dataList.mapNotNull {
+        if (it is ActivateDTO) {
+            it.cul["km_cul"]?.jsonPrimitive?.doubleOrNull?.let { km ->
+                KmEntry(it.todayFormat.substring(0, 13), km)
+            }
+        } else null
     }
 
-    val stepList = activateList.value.map {
-        StepEntry(it.todayFormat.substring(0, 13), it.cul["goal_count"]?.jsonPrimitive!!.int)
+    val stepList = dataList.mapNotNull {
+        if (it is ActivateDTO) {
+            it.cul["goal_count"]?.jsonPrimitive?.intOrNull?.let { steps ->
+                StepEntry(it.todayFormat.substring(0, 13), steps)
+            }
+        } else null
     }
 
     TabRow(
@@ -77,22 +91,28 @@ fun ActivateTabRow(
         count = pages.size,
         state = pagerState
     ) { page ->
-        when (page) {
-            0 -> Week(
-                kcalList = kcalList,
-                kmList = kmList,
-                stepList = stepList
-            )
-            1 -> Month(
-                kcalList = kcalList,
-                kmList = kmList,
-                stepList = stepList
-            )
-            2 -> Year(
-                kcalList = kcalList,
-                kmList = kmList,
-                stepList = stepList
-            )
+        if (type == "activate") {
+            when (page) {
+                0 -> Week(
+                    kcalList = kcalList,
+                    kmList = kmList,
+                    stepList = stepList
+                )
+                1 -> Month(
+                    kcalList = kcalList,
+                    kmList = kmList,
+                    stepList = stepList
+                )
+                2 -> Year(
+                    kcalList = kcalList,
+                    kmList = kmList,
+                    stepList = stepList
+                )
+            }
+        } else if (type == "crew") {
+            when (page) {
+
+            }
         }
     }
 }
