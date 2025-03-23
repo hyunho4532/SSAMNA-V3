@@ -95,7 +95,7 @@ fun CrewDetailScreen(
                                     }
 
                                     Text(
-                                        text = notification.title
+                                        text = "오늘 ${notification.feed}km 달렸습니다!"
                                     )
                                 }
                             }

@@ -3,6 +3,7 @@ package com.asetec.presentation.viewmodel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
@@ -25,7 +26,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonArray
 import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
 import java.math.BigDecimal
 import javax.inject.Inject
 
@@ -190,17 +193,25 @@ class ActivityLocationViewModel @Inject constructor(
             eqDate = FormatImpl("YY:MM:DD").getTodayFormatDate()
         )
 
-        if (crew.value.isEmpty()) {
-            activateNotificationDTO = ActivateNotificationDTO (
+        Log.d("ActivityLocationViewModel", FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount).toString())
+
+        activateNotificationDTO = if (crew.value.isEmpty()) {
+            ActivateNotificationDTO (
                 userId = userId,
-                title = "오늘 ${BigDecimal(FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount))}km 달렸습니다!",
-                crewId = buildJsonObject {  },
+                feed = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
+                crewId = buildJsonObject {
+                    put("idx", buildJsonArray {
+                        add(buildJsonObject {
+                            put("id", 0)
+                        })
+                    })
+                },
                 createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             )
         } else {
-            activateNotificationDTO = ActivateNotificationDTO (
+            ActivateNotificationDTO (
                 userId = userId,
-                title = "오늘 ${BigDecimal(FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount))}km 달렸습니다!",
+                feed = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
                 crewId = crewData,
                 createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             )
