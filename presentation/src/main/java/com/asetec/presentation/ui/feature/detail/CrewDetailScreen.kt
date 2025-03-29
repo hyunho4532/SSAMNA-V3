@@ -3,8 +3,10 @@ package com.asetec.presentation.ui.feature.detail
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -27,16 +29,10 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.presentation.component.row.ActivateTabRow
-import com.asetec.presentation.component.tool.Spacer
-import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.viewmodel.CrewViewModel
-import com.google.accompanist.pager.rememberPagerState
-import kotlinx.coroutines.launch
-import kotlinx.serialization.json.JsonArray
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.contentOrNull
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -92,23 +88,36 @@ fun CrewDetailScreen(
 
             Box(
                 modifier = Modifier
-                    .padding(top = 12.dp, start = 6.dp)
+                    .padding(top = 12.dp, start = 6.dp, end = 6.dp)
             ) {
-                Text(
-                    text = crew.title,
-                    fontSize = 18.sp
-                )
-            }
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        text = crew.title,
+                        fontSize = 18.sp
+                    )
 
-            Box(
-                modifier = Modifier
-                    .align(Alignment.CenterHorizontally)
-            ) {
-                Spacer(
-                    width = 1200.dp,
-                    height = 4.dp,
-                    isBottomBorder = true
-                )
+                    notificationData.value.forEach { notification ->
+                        val idxArray = notification.crewId["idx"]?.jsonArray
+
+                        val matchingIdx = idxArray!!.firstOrNull {
+                            it.jsonObject["id"]?.jsonPrimitive?.int == crewId.intValue
+                        }
+
+                        val matchingId = matchingIdx!!.jsonObject["id"]!!.jsonPrimitive.int
+
+                        val sumFeed = notificationData.value
+                            .filter { crewId.intValue == matchingId }
+                            .sumOf { it.feed }
+
+                        Text(
+                            text = sumFeed.toString(),
+                            fontSize = 18.sp
+                        )
+                    }
+                }
             }
         }
 

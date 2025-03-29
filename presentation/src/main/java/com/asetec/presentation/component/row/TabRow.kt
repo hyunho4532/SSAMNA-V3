@@ -1,6 +1,5 @@
 package com.asetec.presentation.component.row
 
-import android.util.Log
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Tab
 import androidx.compose.material.TabRow
@@ -24,7 +23,6 @@ import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
@@ -88,9 +86,11 @@ fun <T> ActivateTabRow(
         }
     }
 
+    val padding = if (type == "activate") 50.dp else 0.dp
+
     HorizontalPager(
         modifier = Modifier
-            .padding(top = 50.dp),
+            .padding(top = padding),
         count = pages.size,
         state = pagerState
     ) { page ->

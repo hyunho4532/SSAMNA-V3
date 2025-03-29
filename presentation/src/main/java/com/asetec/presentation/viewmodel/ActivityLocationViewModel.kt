@@ -141,7 +141,8 @@ class ActivityLocationViewModel @Inject constructor(
         runningIcon: Int,
         runningTitle: String,
         coordinate: List<Coordinate>,
-        crew: State<List<CrewDTO>>
+        crew: State<List<CrewDTO>>,
+        userName: String,
     ) {
         val pedometerCount = sharedPreferences?.getInt("pedometerCount", _activates.value.pedometerCount)
         val userId = sharedPreferences2?.getString("id", "")
@@ -193,12 +194,11 @@ class ActivityLocationViewModel @Inject constructor(
             eqDate = FormatImpl("YY:MM:DD").getTodayFormatDate()
         )
 
-        Log.d("ActivityLocationViewModel", FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount).toString())
-
         activateNotificationDTO = if (crew.value.isEmpty()) {
             ActivateNotificationDTO (
                 userId = userId,
-                feed = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
+                feed = pedometerCount,
+                km = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
                 crewId = buildJsonObject {
                     put("idx", buildJsonArray {
                         add(buildJsonObject {
@@ -206,13 +206,16 @@ class ActivityLocationViewModel @Inject constructor(
                         })
                     })
                 },
+                userName = userName,
                 createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             )
         } else {
             ActivateNotificationDTO (
                 userId = userId,
-                feed = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
+                feed = pedometerCount,
+                km = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
                 crewId = crewData,
+                userName = userName,
                 createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             )
         }

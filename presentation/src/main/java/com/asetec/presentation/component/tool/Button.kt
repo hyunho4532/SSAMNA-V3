@@ -74,6 +74,7 @@ fun CustomButton(
     val crew = crewViewModel.crew.collectAsState()
 
     val googleId = userViewModel.getSavedLoginState()
+    val username = userViewModel.getSavedLoginName()
 
     LaunchedEffect(key1 = Unit) {
         this.launch {
@@ -83,8 +84,6 @@ fun CustomButton(
 
     Button(
         onClick = {
-
-
             when (type) {
                 ButtonType.PermissionStatus.POPUP -> {
                     onClick(true)
@@ -117,12 +116,15 @@ fun CustomButton(
                             }
                         }
                         ButtonType.RunningStatus.InsertStatus.RUNNING -> {
+                            userViewModel.selectUserFindById(googleId = googleId)
+
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                                 activityLocationViewModel.saveActivity(
                                     runningIcon = activates.value.activateResId,
                                     runningTitle = activates.value.activateName,
                                     coordinate = coordinate,
-                                    crew = crew
+                                    crew = crew,
+                                    userName = username
                                 )
                                 locationManagerViewModel.clearCoordinate()
                             }

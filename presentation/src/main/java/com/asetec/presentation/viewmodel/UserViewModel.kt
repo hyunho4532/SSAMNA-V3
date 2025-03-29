@@ -2,7 +2,6 @@ package com.asetec.presentation.viewmodel
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.asetec.domain.model.user.User
@@ -40,11 +39,16 @@ class UserViewModel @Inject constructor(
         return sharedPreferences.getString("id", "")!!
     }
 
+    fun getSavedLoginName(): String {
+        return sharedPreferences.getString("name", "")!!
+    }
+
     /**
      * 구글 로그인 진행 후, id 값을 SP에 담는다.
      */
-    private fun saveLoginState(id: String) {
+    private fun saveLoginState(id: String, name: String) {
         sharedPreferences.edit().putString("id", id).apply()
+        sharedPreferences.edit().putString("name", name).apply()
     }
 
     fun mergeAuthStateIntoUserState(user: User): Boolean {
@@ -67,7 +71,7 @@ class UserViewModel @Inject constructor(
              * isUser: false -> 계정이 존재하지 않는다.
              */
             loginCase.invoke(task) { id, email, name, isUser ->
-                saveLoginState(id)
+                saveLoginState(id, name)
 
                 if (!isUser) {
                     val intent = Intent(appContext, HomeActivity::class.java)
