@@ -76,7 +76,7 @@ class CrewViewModel @Inject constructor(
      * 크루 데이터 개수 조회
      * 크루원 사용 용도
      */
-    suspend fun crewCount(): Int {
-        return crewCase.crewCount()
+    suspend fun crewCount(crewId: Int): Int {
+        return crewCase.crewCount(crewId)
     }
 }

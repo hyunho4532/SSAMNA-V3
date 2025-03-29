@@ -58,12 +58,21 @@ fun CrewDetailScreen(
         mutableIntStateOf(0)
     }
 
+    val crewCount = remember {
+        mutableIntStateOf(0)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
     ) {
         crewList.forEach { crew ->
+
+            LaunchedEffect(key1 = Unit) {
+                crewCount.intValue = crewViewModel.crewCount(crew.crewId)
+            }
+
             crewId.intValue = crew.crewId
 
             val imageName = crew.picture.replace("R.drawable.", "")
@@ -112,6 +121,12 @@ fun CrewDetailScreen(
 
                         Text(
                             text = sumFeed.toString(),
+                            fontSize = 15.sp,
+                            color = Color.Gray
+                        )
+
+                        Text(
+                            text = crewCount.intValue.toString(),
                             fontSize = 15.sp,
                             color = Color.Gray
                         )

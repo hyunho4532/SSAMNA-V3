@@ -24,7 +24,7 @@ class CrewCase @Inject constructor(
         return crewRepository.notificationAll()
     }
 
-    suspend fun crewCount(): Int {
-        return crewRepository.crewCount()
+    suspend fun crewCount(crewId: Int): Int {
+        return crewRepository.crewCount(crewId)
     }
 }
