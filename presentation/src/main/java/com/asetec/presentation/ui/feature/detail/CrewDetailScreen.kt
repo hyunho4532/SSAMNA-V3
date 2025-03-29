@@ -2,6 +2,7 @@ package com.asetec.presentation.ui.feature.detail
 
 import android.content.Context
 import android.util.Log
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,9 +12,12 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -22,6 +26,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -119,17 +124,62 @@ fun CrewDetailScreen(
                             .filter { crewId.intValue == matchingId }
                             .sumOf { it.feed }
 
-                        Text(
-                            text = sumFeed.toString(),
-                            fontSize = 15.sp,
-                            color = Color.Gray
-                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
+                            horizontalArrangement = Arrangement.SpaceEvenly
+                        ) {
+                            Card(
+                                modifier = Modifier
+                                    .width(120.dp)
+                                    .height(80.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color(0xFFFAFAFA)
+                                ),
+                                border = BorderStroke(0.5.dp, Color.Gray)
+                            ) {
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = "크루원"
+                                    )
 
-                        Text(
-                            text = crewCount.intValue.toString(),
-                            fontSize = 15.sp,
-                            color = Color.Gray
-                        )
+                                    Text(
+                                        text = crewCount.intValue.toString() + "명",
+                                        fontSize = 15.sp,
+                                        color = Color.Gray
+                                    )
+                                }
+                            }
+
+                            Card(
+                                modifier = Modifier
+                                    .width(120.dp)
+                                    .height(80.dp),
+                                colors = CardDefaults.cardColors(
+                                    containerColor = Color(0xFFFAFAFA)
+                                ),
+                                border = BorderStroke(0.5.dp, Color.Gray)
+                            ) {
+                                Column(
+                                    modifier = Modifier.fillMaxSize(),
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center
+                                ) {
+                                    Text(
+                                        text = "피드"
+                                    )
+
+                                    Text(
+                                        text = sumFeed.toString(),
+                                        fontSize = 15.sp,
+                                        color = Color.Gray
+                                    )
+                                }
+                            }
+                        }
                     }
                 }
             }
