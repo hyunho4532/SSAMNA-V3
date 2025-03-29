@@ -11,10 +11,16 @@ data class ActivateNotificationDTO(
     val userId: String = "",
 
     @SerialName("feed")
-    val feed: Double = 0.0,
+    val feed: Int = 0,
+
+    @SerialName("km")
+    val km: Double = 0.0,
 
     @SerialName("crew_id")
     val crewId: JsonObject = buildJsonObject {  },
+
+    @SerialName("user_name")
+    val userName: String = "",
 
     @SerialName("created_at")
     val createdAt: String = ""

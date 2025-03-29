@@ -4,12 +4,15 @@ import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -51,11 +54,42 @@ fun <T> Notification(
                     Box(
                         modifier = Modifier
                             .padding(top = 12.dp, start = 6.dp)
+                            .align(Alignment.CenterHorizontally)
                     ) {
-                        Text(
-                            text = notification.feed.toString(),
-                            fontSize = 18.sp
-                        )
+                        Card(
+                            modifier = Modifier
+                                .size(width = setUpWidth(), height = 60.dp),
+                            elevation = CardDefaults.cardElevation(
+                                defaultElevation = 1.5.dp
+                            ),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.White
+                            )
+                        ) {
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.SpaceBetween
+                            ) {
+                                Text(
+                                    modifier = Modifier.padding(top = 4.dp, start = 6.dp),
+                                    text = notification.userName,
+                                    fontSize = 14.sp,
+                                )
+
+                                Text(
+                                    modifier = Modifier.padding(top = 4.dp, end = 6.dp),
+                                    text = notification.createdAt,
+                                    fontSize = 14.sp,
+                                )
+                            }
+
+                            Text(
+                                modifier = Modifier.padding(start = 6.dp),
+                                text = "오늘은 ${notification.km}km 달렸습니다!",
+                                fontSize = 14.sp,
+                                color = Color.Gray
+                            )
+                        }
                     }
                 }
             }
