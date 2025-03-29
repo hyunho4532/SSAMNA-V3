@@ -23,4 +23,8 @@ class CrewCase @Inject constructor(
     suspend fun notificationAll(): List<ActivateNotificationDTO> {
         return crewRepository.notificationAll()
     }
+
+    suspend fun crewCount(): Int {
+        return crewRepository.crewCount()
+    }
 }

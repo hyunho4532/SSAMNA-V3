@@ -43,4 +43,8 @@ class CrewRepositoryImpl @Inject constructor(
             }.decodeList<ActivateNotificationDTO>()
         }
     }
+
+    override suspend fun crewCount(): Int {
+        
+    }
 }
