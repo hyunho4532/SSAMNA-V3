@@ -55,13 +55,28 @@ class CrewViewModel @Inject constructor(
         return crewCase.isCrewDataExists(googleId)
     }
 
+    /**
+     * 크루 데이터 조회
+     * googleId 필터 처리
+     */
     suspend fun crewFindById(googleId: String) {
         val crewDTO = crewCase.crewFindById(googleId)
         _crew.value = crewDTO
     }
 
+    /**
+     * 알림 데이터 전체 조회
+     */
     suspend fun notificationAll() {
         val notificationDTO = crewCase.notificationAll()
         _notification.value = notificationDTO
+    }
+
+    /**
+     * 크루 데이터 개수 조회
+     * 크루원 사용 용도
+     */
+    suspend fun crewCount(): Int {
+        return crewCase.crewCount()
     }
 }

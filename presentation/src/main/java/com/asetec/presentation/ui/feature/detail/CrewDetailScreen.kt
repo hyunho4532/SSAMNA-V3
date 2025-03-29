@@ -22,6 +22,7 @@ import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
@@ -90,10 +91,7 @@ fun CrewDetailScreen(
                 modifier = Modifier
                     .padding(top = 12.dp, start = 6.dp, end = 6.dp)
             ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
+                Column {
                     Text(
                         text = crew.title,
                         fontSize = 18.sp
@@ -114,7 +112,8 @@ fun CrewDetailScreen(
 
                         Text(
                             text = sumFeed.toString(),
-                            fontSize = 18.sp
+                            fontSize = 15.sp,
+                            color = Color.Gray
                         )
                     }
                 }
