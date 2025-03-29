@@ -9,5 +9,5 @@ interface CrewRepository {
     suspend fun isCrewDataExists(googleId: String): List<CrewDTO>
     suspend fun crewFindById(googleId: String): List<CrewDTO>
     suspend fun notificationAll(): List<ActivateNotificationDTO>
-    suspend fun crewCount(): Int
+    suspend fun crewCount(crewId: Int): Int
 }
