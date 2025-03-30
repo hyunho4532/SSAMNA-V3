@@ -52,7 +52,7 @@ class CrewRepositoryImpl @Inject constructor(
                 .rpc("get_crew_count", mapOf("crewid" to crewId))
 
             // response.data가 Int가 아닐 경우 처리
-            response.data.length
+            response.data.toInt()
         }
     }
 
