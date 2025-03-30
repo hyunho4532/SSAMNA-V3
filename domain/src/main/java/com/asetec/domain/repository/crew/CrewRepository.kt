@@ -10,4 +10,5 @@ interface CrewRepository {
     suspend fun crewFindById(googleId: String): List<CrewDTO>
     suspend fun notificationAll(): List<ActivateNotificationDTO>
     suspend fun crewCount(crewId: Int): Int
+    suspend fun crewSumFeed(crewId: Int): Int
 }

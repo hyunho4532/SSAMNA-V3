@@ -27,4 +27,8 @@ class CrewCase @Inject constructor(
     suspend fun crewCount(crewId: Int): Int {
         return crewRepository.crewCount(crewId)
     }
+
+    suspend fun crewSumFeed(crewId: Int): Int {
+        return crewRepository.crewSumFeed(crewId)
+    }
 }
