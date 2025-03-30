@@ -67,6 +67,10 @@ fun CrewDetailScreen(
         mutableIntStateOf(0)
     }
 
+    val crewSumFeed = remember {
+        mutableIntStateOf(0)
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -76,6 +80,7 @@ fun CrewDetailScreen(
 
             LaunchedEffect(key1 = Unit) {
                 crewCount.intValue = crewViewModel.crewCount(crew.crewId)
+                crewSumFeed.intValue = crewViewModel.crewSumFeed(crew.crewId)
             }
 
             crewId.intValue = crew.crewId
@@ -111,73 +116,61 @@ fun CrewDetailScreen(
                         fontSize = 18.sp
                     )
 
-                    notificationData.value.forEach { notification ->
-                        val idxArray = notification.crewId["idx"]?.jsonArray
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 16.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly
+                    ) {
+                        Card(
+                            modifier = Modifier
+                                .width(120.dp)
+                                .height(80.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color(0xFFFAFAFA)
+                            ),
+                            border = BorderStroke(0.5.dp, Color.Gray)
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    text = "크루원"
+                                )
 
-                        val matchingIdx = idxArray!!.firstOrNull {
-                            it.jsonObject["id"]?.jsonPrimitive?.int == crewId.intValue
+                                Text(
+                                    text = crewCount.intValue.toString() + "명",
+                                    fontSize = 15.sp,
+                                    color = Color.Gray
+                                )
+                            }
                         }
 
-                        val matchingId = matchingIdx!!.jsonObject["id"]!!.jsonPrimitive.int
-
-                        val sumFeed = notificationData.value
-                            .filter { crewId.intValue == matchingId }
-                            .sumOf { it.feed }
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth().padding(top = 16.dp),
-                            horizontalArrangement = Arrangement.SpaceEvenly
+                        Card(
+                            modifier = Modifier
+                                .width(120.dp)
+                                .height(80.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color(0xFFFAFAFA)
+                            ),
+                            border = BorderStroke(0.5.dp, Color.Gray)
                         ) {
-                            Card(
-                                modifier = Modifier
-                                    .width(120.dp)
-                                    .height(80.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = Color(0xFFFAFAFA)
-                                ),
-                                border = BorderStroke(0.5.dp, Color.Gray)
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
                             ) {
-                                Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Text(
-                                        text = "크루원"
-                                    )
+                                Text(
+                                    text = "피드"
+                                )
 
-                                    Text(
-                                        text = crewCount.intValue.toString() + "명",
-                                        fontSize = 15.sp,
-                                        color = Color.Gray
-                                    )
-                                }
-                            }
-
-                            Card(
-                                modifier = Modifier
-                                    .width(120.dp)
-                                    .height(80.dp),
-                                colors = CardDefaults.cardColors(
-                                    containerColor = Color(0xFFFAFAFA)
-                                ),
-                                border = BorderStroke(0.5.dp, Color.Gray)
-                            ) {
-                                Column(
-                                    modifier = Modifier.fillMaxSize(),
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center
-                                ) {
-                                    Text(
-                                        text = "피드"
-                                    )
-
-                                    Text(
-                                        text = sumFeed.toString(),
-                                        fontSize = 15.sp,
-                                        color = Color.Gray
-                                    )
-                                }
+                                Text(
+                                    text = crewSumFeed.intValue.toString(),
+                                    fontSize = 15.sp,
+                                    color = Color.Gray
+                                )
                             }
                         }
                     }

@@ -79,4 +79,12 @@ class CrewViewModel @Inject constructor(
     suspend fun crewCount(crewId: Int): Int {
         return crewCase.crewCount(crewId)
     }
+
+    /**
+     * 크루원 피드 합계 조회
+     * 피드 조회
+     */
+    suspend fun crewSumFeed(crewId: Int): Int {
+        return crewCase.crewSumFeed(crewId)
+    }
 }

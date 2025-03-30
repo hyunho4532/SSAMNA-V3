@@ -56,4 +56,12 @@ class CrewRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun crewSumFeed(crewId: Int): Int {
+        return withContext(Dispatchers.IO) {
+            val response = postgrest
+                .rpc("get_sum_feed", mapOf("crewid" to crewId))
+
+            response.data.toInt()
+        }
+    }
 }
