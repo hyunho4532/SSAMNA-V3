@@ -4,6 +4,7 @@ import android.util.Log
 import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.dto.CrewDTO
+import com.asetec.domain.model.state.Ranking
 import com.asetec.domain.repository.crew.CrewRepository
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.rpc
@@ -62,6 +63,14 @@ class CrewRepositoryImpl @Inject constructor(
                 .rpc("get_sum_feed", mapOf("crewid" to crewId))
 
             response.data.toInt()
+        }
+    }
+
+    override suspend fun crewRankingTop3(crewId: Int): List<Ranking> {
+        return withContext(Dispatchers.IO) {
+            postgrest
+                .rpc("get_crew_ranking_top3", mapOf("crewid" to crewId))
+                .decodeList()
         }
     }
 }

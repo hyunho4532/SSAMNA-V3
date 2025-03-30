@@ -2,6 +2,7 @@ package com.asetec.domain.usecase.crew
 
 import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.model.dto.CrewDTO
+import com.asetec.domain.model.state.Ranking
 import com.asetec.domain.repository.crew.CrewRepository
 import javax.inject.Inject
 
@@ -30,5 +31,9 @@ class CrewCase @Inject constructor(
 
     suspend fun crewSumFeed(crewId: Int): Int {
         return crewRepository.crewSumFeed(crewId)
+    }
+
+    suspend fun crewRankingTop3(crewId: Int): List<Ranking> {
+        return crewRepository.crewRankingTop3(crewId)
     }
 }

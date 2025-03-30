@@ -9,6 +9,7 @@ import com.asetec.domain.model.calcul.FormatImpl
 import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.domain.model.state.Crew
+import com.asetec.domain.model.state.Ranking
 import com.asetec.domain.usecase.crew.CrewCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -86,5 +87,12 @@ class CrewViewModel @Inject constructor(
      */
     suspend fun crewSumFeed(crewId: Int): Int {
         return crewCase.crewSumFeed(crewId)
+    }
+
+    /**
+     * 크루 랭킹 TOP3 데이터 조회
+     */
+    suspend fun crewRankingTop3(crewId: Int): List<Ranking> {
+        return crewCase.crewRankingTop3(crewId)
     }
 }
