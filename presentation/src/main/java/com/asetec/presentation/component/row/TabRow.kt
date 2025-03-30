@@ -1,6 +1,9 @@
 package com.asetec.presentation.component.row
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material3.TabRowDefaults
@@ -23,6 +26,7 @@ import com.asetec.presentation.component.row.tab.activate.Month
 import com.asetec.presentation.component.row.tab.activate.Week
 import com.asetec.presentation.component.row.tab.activate.Year
 import com.asetec.presentation.component.row.tab.crew.Notification
+import com.asetec.presentation.component.row.tab.crew.Ranking
 import com.asetec.presentation.viewmodel.CrewViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
@@ -74,7 +78,9 @@ fun <T> ActivateTabRow(
     }
 
     LaunchedEffect(key1 = Unit) {
-        crewViewModel.crewRankingTop3(crewId = crewId)
+        val ranking = crewViewModel.crewRankingTop3(crewId = crewId)
+
+        rankingList.addAll(ranking)
     }
 
     TabRow(
@@ -128,7 +134,9 @@ fun <T> ActivateTabRow(
             }
         } else if (type == "crew") {
             when (page) {
-                0 -> Ranking()
+                0 -> Ranking(
+                    rankingList = rankingList
+                )
                 1 -> Notification(
                     crewId = crewId,
                     notificationList = dataList,
