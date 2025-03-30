@@ -6,18 +6,24 @@ import androidx.compose.material.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.entry.StepEntry
 import com.asetec.domain.model.entry.KcalEntry
 import com.asetec.domain.model.entry.KmEntry
+import com.asetec.domain.model.state.Ranking
 import com.asetec.presentation.component.row.tab.activate.Month
 import com.asetec.presentation.component.row.tab.activate.Week
 import com.asetec.presentation.component.row.tab.activate.Year
 import com.asetec.presentation.component.row.tab.crew.Notification
+import com.asetec.presentation.viewmodel.CrewViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
@@ -34,7 +40,11 @@ fun <T> ActivateTabRow(
     dataList: List<T>,
     crewId: Int = 0,
     type: String,
+    crewViewModel: CrewViewModel = hiltViewModel()
 ) {
+    val rankingList = remember {
+        mutableStateListOf<Ranking>()
+    }
 
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
@@ -63,6 +73,9 @@ fun <T> ActivateTabRow(
         } else null
     }
 
+    LaunchedEffect(key1 = Unit) {
+        crewViewModel.crewRankingTop3(crewId = crewId)
+    }
 
     TabRow(
         backgroundColor = Color.White,
@@ -115,6 +128,7 @@ fun <T> ActivateTabRow(
             }
         } else if (type == "crew") {
             when (page) {
+                0 -> Ranking()
                 1 -> Notification(
                     crewId = crewId,
                     notificationList = dataList,

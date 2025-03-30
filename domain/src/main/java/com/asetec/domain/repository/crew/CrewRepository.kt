@@ -3,6 +3,7 @@ package com.asetec.domain.repository.crew
 import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.model.dto.CrewDTO
+import com.asetec.domain.model.state.Ranking
 
 interface CrewRepository {
     suspend fun insert(crewDTO: CrewDTO)
@@ -11,4 +12,5 @@ interface CrewRepository {
     suspend fun notificationAll(): List<ActivateNotificationDTO>
     suspend fun crewCount(crewId: Int): Int
     suspend fun crewSumFeed(crewId: Int): Int
+    suspend fun crewRankingTop3(crewId: Int): List<Ranking>
 }
