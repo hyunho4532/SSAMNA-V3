@@ -11,6 +11,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
@@ -39,7 +41,9 @@ fun <T> Notification(
     notificationList: List<T>
 ) {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState()),
         verticalArrangement = Arrangement.Top
     ) {
         notificationList.forEach { notification ->
@@ -53,7 +57,7 @@ fun <T> Notification(
                 if (matchingIdx != null) {
                     Box(
                         modifier = Modifier
-                            .padding(top = 12.dp, start = 6.dp)
+                            .padding(top = 12.dp, start = 6.dp, bottom = 4.dp)
                             .align(Alignment.CenterHorizontally)
                     ) {
                         Card(

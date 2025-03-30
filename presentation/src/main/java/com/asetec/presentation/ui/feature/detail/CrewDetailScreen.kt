@@ -74,7 +74,6 @@ fun CrewDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
     ) {
         crewList.forEach { crew ->
 
