@@ -58,6 +58,7 @@ fun CustomButton(
     onNavigateToLogin: () -> Unit = {},
     shape: String = "Circle",
     data: Any? = null,
+    crewId: Int? = 0,
     onClick: (permissionPopup: Boolean) -> Unit = { },
     @ApplicationContext context: Context = LocalContext.current,
     cameraPositionState: CameraPositionState = rememberCameraPositionState(),
@@ -177,7 +178,7 @@ fun CustomButton(
 
                         ButtonType.CrewStatus.Delete -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-
+                                crewViewModel.deleteCrew(crewId!!, googleId)
                             }
                         }
 

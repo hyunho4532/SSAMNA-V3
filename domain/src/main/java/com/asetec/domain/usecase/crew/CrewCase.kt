@@ -13,8 +13,8 @@ class CrewCase @Inject constructor(
         crewRepository.insert(crewDTO)
     }
 
-    suspend fun delete(crewId: Int, userId: String) {
-        crewRepository.delete(crewId, userId)
+    suspend fun delete(crewId: Int, userId: String): String {
+        return crewRepository.delete(crewId, userId)
     }
 
     suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {

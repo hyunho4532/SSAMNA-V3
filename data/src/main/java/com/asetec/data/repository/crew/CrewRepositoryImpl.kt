@@ -10,6 +10,7 @@ import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.rpc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.lang.NumberFormatException
 import javax.inject.Inject
 
 class CrewRepositoryImpl @Inject constructor(
@@ -17,6 +18,18 @@ class CrewRepositoryImpl @Inject constructor(
 ): CrewRepository {
     override suspend fun insert(crewDTO: CrewDTO) {
         postgrest.from("Crew").insert(crewDTO)
+    }
+
+    override suspend fun delete(crewId: Int, googleId: String): String {
+        Log.d("CrewRepositoryImpl", "${crewId}, $googleId")
+
+        return withContext(Dispatchers.IO) {
+            val response = postgrest
+                .rpc("delete_crew", mapOf("crewid" to crewId, "userid" to googleId))
+                .decodeAs<String>()
+
+            response
+        }
     }
 
     override suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {
@@ -62,7 +75,13 @@ class CrewRepositoryImpl @Inject constructor(
             val response = postgrest
                 .rpc("get_sum_feed", mapOf("crewid" to crewId))
 
-            response.data.toInt()
+            val sumFeed = try {
+                response.data.toInt()
+            } catch (e: NumberFormatException) {
+                0
+            }
+
+            sumFeed
         }
     }
 
