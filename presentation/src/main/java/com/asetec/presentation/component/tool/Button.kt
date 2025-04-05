@@ -6,6 +6,7 @@ import android.os.Build
 import android.os.Handler
 import android.os.Looper
 import android.os.Process
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
@@ -178,7 +179,13 @@ fun CustomButton(
 
                         ButtonType.CrewStatus.Delete -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                crewViewModel.deleteCrew(crewId!!, googleId)
+                                crewViewModel.deleteCrew(crewId!!, googleId) {
+                                    if (it) {
+                                        val intent = Intent(context, HomeActivity::class.java)
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+                                        context.startActivity(intent)
+                                    }
+                                }
                             }
                         }
 
