@@ -502,13 +502,11 @@ fun ShowChallengeDetailDialog(
     sumCount: Int
 ) {
     val progress = challengeDetailData.find {
-        Log.d("PopupDialog", it.title)
         it.title.contains("달리기") || it.title.contains("보!!")
     }?.let {
         if (it.title.contains("달리기")) {
             (sumKm / it.goal).coerceIn(0.0, 1.0).toFloat()
         } else {
-            Log.d("PopupDialog", it.goal.toString())
             (sumCount.toDouble() / it.goal).coerceIn(0.0, 1.0).toFloat()
         }
     } ?: 0f
