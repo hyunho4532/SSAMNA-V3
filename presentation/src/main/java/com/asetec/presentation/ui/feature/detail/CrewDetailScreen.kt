@@ -127,7 +127,8 @@ fun CrewDetailScreen(
                             width = 100.dp,
                             height = 32.dp,
                             text = "크루 탈퇴",
-                            backgroundColor = Color(0xF0F35353)
+                            backgroundColor = Color(0xF0F35353),
+                            crewId = crew.crewId
                         )
                     }
 

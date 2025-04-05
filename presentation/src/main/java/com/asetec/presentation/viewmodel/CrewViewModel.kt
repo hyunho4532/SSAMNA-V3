@@ -52,8 +52,14 @@ class CrewViewModel @Inject constructor(
     /**
      * 크루 데이터와 활동 기록 데이터 삭제
      */
-    suspend fun deleteCrew(crewId: Int, googleId: String) {
-        crewCase.delete(crewId, googleId)
+    fun deleteCrew(crewId: Int, googleId: String): String {
+        var message = ""
+
+        viewModelScope.launch {
+            message = crewCase.delete(crewId, googleId)
+        }
+
+        return message
     }
 
     /**
