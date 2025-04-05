@@ -175,6 +175,12 @@ fun CustomButton(
                             }
                         }
 
+                        ButtonType.CrewStatus.Delete -> {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+
+                            }
+                        }
+
                         else -> {
                             locationManagerViewModel.startService()
                             sensorManagerViewModel.startService(true)

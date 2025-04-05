@@ -50,6 +50,13 @@ class CrewViewModel @Inject constructor(
     }
 
     /**
+     * 크루 데이터와 활동 기록 데이터 삭제
+     */
+    suspend fun deleteCrew(crewId: Int, googleId: String) {
+        crewCase.delete(crewId, googleId)
+    }
+
+    /**
      * 크루 데이터가 이미 존재하는지에 대한 함수
      */
     suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {
