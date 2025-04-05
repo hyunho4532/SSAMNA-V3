@@ -31,5 +31,6 @@ sealed class ButtonType {
 
     sealed class CrewStatus: ButtonType() {
         data object INSERT: CrewStatus()
+        data object Delete: CrewStatus()
     }
 }

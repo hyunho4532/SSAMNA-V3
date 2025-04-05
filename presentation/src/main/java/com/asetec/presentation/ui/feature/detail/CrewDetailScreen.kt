@@ -38,6 +38,8 @@ import androidx.navigation.compose.rememberNavController
 import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.presentation.component.row.ActivateTabRow
+import com.asetec.presentation.component.tool.CustomButton
+import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.CrewViewModel
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonArray
@@ -110,10 +112,24 @@ fun CrewDetailScreen(
                     .padding(top = 12.dp, start = 6.dp, end = 6.dp)
             ) {
                 Column {
-                    Text(
-                        text = crew.title,
-                        fontSize = 18.sp
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = crew.title,
+                            fontSize = 18.sp
+                        )
+
+                        CustomButton(
+                            type = ButtonType.CrewStatus.Delete,
+                            width = 100.dp,
+                            height = 32.dp,
+                            text = "크루 탈퇴",
+                            backgroundColor = Color(0xF0F35353)
+                        )
+                    }
 
                     Row(
                         modifier = Modifier
