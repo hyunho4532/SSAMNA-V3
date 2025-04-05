@@ -7,7 +7,7 @@ import com.asetec.domain.model.state.Ranking
 
 interface CrewRepository {
     suspend fun insert(crewDTO: CrewDTO)
-    suspend fun delete(crewId: Int, googleId: String): String
+    suspend fun delete(crewId: Int, googleId: String, onResult: (Boolean) -> Unit)
     suspend fun isCrewDataExists(googleId: String): List<CrewDTO>
     suspend fun crewFindById(googleId: String): List<CrewDTO>
     suspend fun notificationAll(): List<ActivateNotificationDTO>

@@ -4,12 +4,15 @@ import android.util.Log
 import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.dto.CrewDTO
+import com.asetec.domain.model.message.DeleteResponse
 import com.asetec.domain.model.state.Ranking
 import com.asetec.domain.repository.crew.CrewRepository
 import io.github.jan.supabase.postgrest.Postgrest
 import io.github.jan.supabase.postgrest.rpc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 import java.lang.NumberFormatException
 import javax.inject.Inject
 
@@ -20,15 +23,16 @@ class CrewRepositoryImpl @Inject constructor(
         postgrest.from("Crew").insert(crewDTO)
     }
 
-    override suspend fun delete(crewId: Int, googleId: String): String {
-        Log.d("CrewRepositoryImpl", "${crewId}, $googleId")
-
+    override suspend fun delete(crewId: Int, googleId: String, onResult: (Boolean) -> Unit) {
         return withContext(Dispatchers.IO) {
-            val response = postgrest
-                .rpc("delete_crew", mapOf("crewid" to crewId, "userid" to googleId))
-                .decodeAs<String>()
+            val params = buildJsonObject {
+                put("crewid", JsonPrimitive(crewId))
+                put("userid", JsonPrimitive(googleId))
+            }
 
-            response
+            val response = postgrest.rpc("delete_crew", params)
+
+            onResult(response.data.toBoolean())
         }
     }
 
