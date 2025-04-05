@@ -1,52 +1,86 @@
 package com.asetec.presentation.component.row
 
+import android.util.Log
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Tab
 import androidx.compose.material.TabRow
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.entry.StepEntry
 import com.asetec.domain.model.entry.KcalEntry
 import com.asetec.domain.model.entry.KmEntry
-import com.asetec.presentation.component.row.tab.Month
-import com.asetec.presentation.component.row.tab.Week
-import com.asetec.presentation.component.row.tab.Year
+import com.asetec.domain.model.state.Ranking
+import com.asetec.presentation.component.row.tab.activate.Month
+import com.asetec.presentation.component.row.tab.activate.Week
+import com.asetec.presentation.component.row.tab.activate.Year
+import com.asetec.presentation.component.row.tab.crew.Notification
+import com.asetec.presentation.component.row.tab.crew.Ranking
+import com.asetec.presentation.viewmodel.CrewViewModel
 import com.google.accompanist.pager.ExperimentalPagerApi
 import com.google.accompanist.pager.HorizontalPager
 import com.google.accompanist.pager.pagerTabIndicatorOffset
 import com.google.accompanist.pager.rememberPagerState
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.double
-import kotlinx.serialization.json.int
+import kotlinx.serialization.json.doubleOrNull
+import kotlinx.serialization.json.intOrNull
 import kotlinx.serialization.json.jsonPrimitive
 
 @OptIn(ExperimentalPagerApi::class)
 @Composable
-fun ActivateTabRow(
+fun <T> ActivateTabRow(
     pages: List<String>,
-    activateList: State<List<ActivateDTO>>
+    dataList: List<T>,
+    crewId: Int = 0,
+    type: String,
+    crewViewModel: CrewViewModel = hiltViewModel()
 ) {
+    val rankingList = remember {
+        mutableStateListOf<Ranking>()
+    }
 
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
-    val kcalList = activateList.value.map {
-        KcalEntry(it.todayFormat.substring(0, 13), it.cul["kcal_cul"]?.jsonPrimitive!!.double)
+    val kcalList = dataList.mapNotNull {
+        if (it is ActivateDTO) {
+            it.cul["kcal_cul"]?.jsonPrimitive?.doubleOrNull?.let { kcal ->
+                KcalEntry(it.todayFormat.substring(0, 13), kcal)
+            }
+        } else null
     }
 
-    val kmList = activateList.value.map {
-        KmEntry(it.todayFormat.substring(0, 13), it.cul["km_cul"]?.jsonPrimitive!!.double)
+    val kmList = dataList.mapNotNull {
+        if (it is ActivateDTO) {
+            it.cul["km_cul"]?.jsonPrimitive?.doubleOrNull?.let { km ->
+                KmEntry(it.todayFormat.substring(0, 13), km)
+            }
+        } else null
     }
 
-    val stepList = activateList.value.map {
-        StepEntry(it.todayFormat.substring(0, 13), it.cul["goal_count"]?.jsonPrimitive!!.int)
+    val stepList = dataList.mapNotNull {
+        if (it is ActivateDTO) {
+            it.cul["goal_count"]?.jsonPrimitive?.intOrNull?.let { steps ->
+                StepEntry(it.todayFormat.substring(0, 13), steps)
+            }
+        } else null
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        val ranking = crewViewModel.crewRankingTop3(crewId = crewId)
+
+        rankingList.addAll(ranking)
     }
 
     TabRow(
@@ -54,7 +88,8 @@ fun ActivateTabRow(
         selectedTabIndex = pagerState.currentPage,
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
-                Modifier.pagerTabIndicatorOffset(pagerState, tabPositions)
+                modifier = Modifier.pagerTabIndicatorOffset(pagerState, tabPositions),
+                color = Color.Gray
             )
         }
     ) {
@@ -71,28 +106,42 @@ fun ActivateTabRow(
         }
     }
 
+    val padding = if (type == "activate") 50.dp else 0.dp
+
     HorizontalPager(
         modifier = Modifier
-            .padding(top = 50.dp),
+            .padding(top = padding),
         count = pages.size,
         state = pagerState
     ) { page ->
-        when (page) {
-            0 -> Week(
-                kcalList = kcalList,
-                kmList = kmList,
-                stepList = stepList
-            )
-            1 -> Month(
-                kcalList = kcalList,
-                kmList = kmList,
-                stepList = stepList
-            )
-            2 -> Year(
-                kcalList = kcalList,
-                kmList = kmList,
-                stepList = stepList
-            )
+        if (type == "activate") {
+            when (page) {
+                0 -> Week(
+                    kcalList = kcalList,
+                    kmList = kmList,
+                    stepList = stepList
+                )
+                1 -> Month(
+                    kcalList = kcalList,
+                    kmList = kmList,
+                    stepList = stepList
+                )
+                2 -> Year(
+                    kcalList = kcalList,
+                    kmList = kmList,
+                    stepList = stepList
+                )
+            }
+        } else if (type == "crew") {
+            when (page) {
+                0 -> Ranking(
+                    rankingList = rankingList
+                )
+                1 -> Notification(
+                    crewId = crewId,
+                    notificationList = dataList,
+                )
+            }
         }
     }
 }

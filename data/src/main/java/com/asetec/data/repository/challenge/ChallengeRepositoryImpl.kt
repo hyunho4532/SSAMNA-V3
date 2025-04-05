@@ -18,7 +18,7 @@ class ChallengeRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             postgrest.from("Challenge").select {
                 filter {
-                    eq("id", id)
+                    eq("user_id", id)
                 }
             }.decodeList<ChallengeDTO>()
         }

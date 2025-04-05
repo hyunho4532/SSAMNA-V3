@@ -2,11 +2,13 @@ package com.asetec.data.repository.json
 
 import android.content.Context
 import android.content.res.AssetManager
+import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.state.ActivityType
 import com.asetec.domain.model.state.Challenge
+import com.asetec.domain.model.state.Crew
 import com.asetec.domain.model.state.Running
 import com.asetec.domain.repository.json.JsonParsingRepository
 import com.google.gson.Gson
@@ -27,7 +29,8 @@ class JsonParsingRepositoryImpl @Inject constructor(
             "activate" -> object : TypeToken<List<Activate>>() {}
             "activate_form" -> object : TypeToken<List<ActivateForm>>() {}
             "running" -> object : TypeToken<List<Running>>() {}
-            else -> object : TypeToken<List<Challenge>>() {}
+            "challenge" -> object : TypeToken<List<Challenge>>() {}
+            else -> object : TypeToken<List<Crew>>() {}
         }
 
         val assetManager: AssetManager = context.assets
@@ -41,12 +44,12 @@ class JsonParsingRepositoryImpl @Inject constructor(
         return gson.fromJson(json, listType.type)
     }
 
-    override fun dataToJson(data: Any): String {
-        return gson.toJson(data)
-    }
+    override fun dataFromJson(data: String, type: String): List<Any> {
+        val listType: TypeToken<*> = when (type) {
+            "coordinate" -> object : TypeToken<List<Coordinate>>() {}
+            else -> object : TypeToken<List<CrewDTO>>() {}
+        }
 
-    override fun dataFromJson(data: String): List<Coordinate> {
-        val listType: TypeToken<*> = object : TypeToken<List<Coordinate>>() {}
         return gson.fromJson(data, listType.type)
     }
 }
