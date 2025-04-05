@@ -21,7 +21,7 @@
             android:theme="@style/Theme.SSAMNA"
             />
         <activity
-            android:name=".ui.feature.goal.GoalActivity"
+            android:name=".ui.feature.crew.GoalActivity"
             android:exported="false"
             android:theme="@style/Theme.SSAMNA"
             />

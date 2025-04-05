@@ -1,7 +1,6 @@
 package com.asetec.presentation.ui.main.home.screen
 
 import android.os.Build
-import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -40,7 +39,7 @@ import java.time.LocalDate
 
 @Composable
 fun CalendarScreen(
-    activateList: State<List<ActivateDTO>>,
+    activateList: List<ActivateDTO>,
     userList: State<User>,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
 ) {
@@ -55,7 +54,7 @@ fun CalendarScreen(
         }
     }
 
-    val todayList: List<String> = activateList.value.map {
+    val todayList: List<String> = activateList.map {
         it.todayFormat.substring(0, 13)
     }
 
@@ -162,8 +161,9 @@ fun CalendarScreen(
         ) {
             ActivateTabRow(
                 pages = pages,
-                activateList = activateList
+                dataList = activateList,
+                type = "activate"
             )
         }
-   }
+    }
 }

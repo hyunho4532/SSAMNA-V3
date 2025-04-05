@@ -15,6 +15,8 @@ import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.usecase.activate.ActivateCase
 import com.asetec.domain.model.calcul.FormatImpl
+import com.asetec.domain.model.dto.ActivateNotificationDTO
+import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.presentation.component.util.JsonObjImpl
 import com.google.android.gms.location.FusedLocationProviderClient
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -24,14 +26,19 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.buildJsonArray
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import java.math.BigDecimal
 import javax.inject.Inject
 
 @HiltViewModel
 class ActivityLocationViewModel @Inject constructor(
     private val activateCase: ActivateCase?,
-    @ApplicationContext appContext: Context?
+    @ApplicationContext appContext: Context?,
 ): ViewModel() {
 
+    private lateinit var activateNotificationDTO: ActivateNotificationDTO
     private var sharedPreferences = appContext?.getSharedPreferences("sensor_prefs", Context.MODE_PRIVATE)
     private val sharedPreferences2 = appContext?.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
@@ -133,10 +140,12 @@ class ActivityLocationViewModel @Inject constructor(
     fun saveActivity(
         runningIcon: Int,
         runningTitle: String,
-        coordinate: List<Coordinate>
+        coordinate: List<Coordinate>,
+        crew: State<List<CrewDTO>>,
+        userName: String,
     ) {
         val pedometerCount = sharedPreferences?.getInt("pedometerCount", _activates.value.pedometerCount)
-        val googleId = sharedPreferences2?.getString("id", "")
+        val userId = sharedPreferences2?.getString("id", "")
         val time = sharedPreferences?.getLong("time", 0L)
 
         /**
@@ -167,8 +176,13 @@ class ActivityLocationViewModel @Inject constructor(
             coordinateList = coordinate
         ).build()
 
+        val crewData = JsonObjImpl(
+            type = "crewId",
+            crewList = crew
+        ).build()
+
         val activateDTO = ActivateDTO (
-            googleId = googleId!!,
+            googleId = userId!!,
             title = _activates.value.runningTitle,
             coord = coordinateData,
             status = statusData,
@@ -180,10 +194,38 @@ class ActivityLocationViewModel @Inject constructor(
             eqDate = FormatImpl("YY:MM:DD").getTodayFormatDate()
         )
 
+        activateNotificationDTO = if (crew.value.isEmpty()) {
+            ActivateNotificationDTO (
+                userId = userId,
+                feed = pedometerCount,
+                km = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
+                crewId = buildJsonObject {
+                    put("idx", buildJsonArray {
+                        add(buildJsonObject {
+                            put("id", 0)
+                        })
+                    })
+                },
+                userName = userName,
+                createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
+            )
+        } else {
+            ActivateNotificationDTO (
+                userId = userId,
+                feed = pedometerCount,
+                km = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
+                crewId = crewData,
+                userName = userName,
+                createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
+            )
+        }
+
         viewModelScope.launch {
             activateCase?.saveActivity(activateDTO = activateDTO) {
                 sharedPreferences?.edit()!!.putLong("time", it).apply()
             }
+
+            activateCase?.saveActivityNotification(activateNotificationDTO = activateNotificationDTO)
         }
     }
 
