@@ -1,16 +1,19 @@
 package com.asetec.domain.model.common
 
-import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class Code(
-    @SerializedName("code")
+    @SerialName("id")
+    val id: Int = 0,
+
+    @SerialName("code")
     val code: String = "",
 
-    @SerializedName("name")
+    @SerialName("name")
     val name: String = "",
 
-    @SerializedName("img_path")
+    @SerialName("img_path")
     val imgPath: String = ""
 )
