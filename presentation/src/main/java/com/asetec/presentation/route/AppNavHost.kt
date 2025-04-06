@@ -1,7 +1,6 @@
 package com.asetec.presentation.route
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -17,7 +16,6 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.domain.model.location.Coordinate
-import com.asetec.domain.model.state.Crew
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.animation.Screens
 import com.asetec.presentation.ui.feature.login.LoginScreen
@@ -26,10 +24,11 @@ import com.asetec.presentation.ui.feature.login.UserInfoScreen
 import com.asetec.presentation.ui.main.home.screen.HomeScreen
 import com.asetec.presentation.ui.main.home.screen.ProfileScreen
 import com.asetec.presentation.ui.feature.OnBoardingScreen
+import com.asetec.presentation.ui.feature.activate.ActivateScreen
 import com.asetec.presentation.ui.feature.crew.CrewScreen
-import com.asetec.presentation.ui.feature.detail.ActivateDetailScreen
-import com.asetec.presentation.ui.feature.detail.CrewDetailScreen
-import com.asetec.presentation.ui.feature.detail.chart.ActivateChart
+import com.asetec.presentation.ui.feature.activate.detail.ActivateDetailScreen
+import com.asetec.presentation.ui.feature.crew.detail.CrewDetailScreen
+import com.asetec.presentation.ui.feature.crew.detail.chart.ActivateChart
 import com.asetec.presentation.ui.main.home.screen.CalendarScreen
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.JsonParseViewModel
@@ -177,6 +176,12 @@ fun ScreenNavigationConfiguration(
                 navController = navController,
                 context = context
             )
+        }
+
+        composable(
+            route = "activate"
+        ) {
+            ActivateScreen()
         }
     }
 }

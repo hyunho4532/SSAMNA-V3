@@ -1,4 +1,4 @@
-package com.asetec.presentation.ui.feature.detail.chart
+package com.asetec.presentation.ui.feature.crew.detail.chart
 
 import android.text.TextPaint
 import androidx.compose.foundation.Canvas

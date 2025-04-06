@@ -3,6 +3,7 @@ package com.asetec.presentation.ui.main.home.screen
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -190,7 +191,10 @@ fun ProfileScreen(
 
             Image(
                 modifier = Modifier
-                    .size(28.dp),
+                    .size(28.dp)
+                    .clickable {
+                        navController.navigate("activate")
+                    },
                 painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
                 contentDescription = "활동 아이콘"
             )
