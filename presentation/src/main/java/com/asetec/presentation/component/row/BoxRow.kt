@@ -30,6 +30,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.asetec.domain.model.common.Code
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.Running
 import com.asetec.presentation.R
@@ -43,7 +44,6 @@ fun BoxRow(
     data: List<Any>,
     userLocationViewModel: ActivityLocationViewModel = hiltViewModel()
 ) {
-
     var selectedIndex by remember {
         mutableStateOf<String?>("1")
     }
@@ -61,8 +61,8 @@ fun BoxRow(
                     text = items.activateName
                 )
             }
-            else if (items is Running) {
-                val imageName = items.assets.replace("R.drawable.", "")
+            else if (items is Code) {
+                val imageName = items.imgPath.replace("R.drawable.", "")
                 val imageResId = context.resources.getIdentifier(imageName, "drawable", context.packageName)
 
                 Box(
@@ -78,15 +78,15 @@ fun BoxRow(
                                 bounded = true
                             )
                         ) {
-                            selectedIndex = items.index
+                            selectedIndex = items.id.toString()
                             userLocationViewModel.statusClick(
-                                name = items.status,
+                                name = items.name,
                                 resId = imageResId
                             )
                         }
                 ) {
 
-                    if (selectedIndex == items.index) {
+                    if (selectedIndex == items.id.toString()) {
                         Image(
                             modifier = Modifier
                                 .size(32.dp)
@@ -101,7 +101,7 @@ fun BoxRow(
                             .align(Alignment.BottomCenter),
                     ) {
                         Text(
-                            text = items.status
+                            text = items.name
                         )
 
                         Image(

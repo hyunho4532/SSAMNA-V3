@@ -24,6 +24,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,6 +37,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.asetec.domain.model.common.Code
 import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.location.Location
@@ -48,6 +51,8 @@ import com.asetec.presentation.component.util.responsive.setUpDialogWidth
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
+import com.asetec.presentation.viewmodel.CommonCodeViewModel
+import com.asetec.presentation.viewmodel.CrewViewModel
 import com.asetec.presentation.viewmodel.JsonParseViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -63,19 +68,27 @@ fun ShowCompleteDialog(
     locationState: State<Location>,
     coordinate: List<Coordinate>,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
-    jsonParseViewModel: JsonParseViewModel = hiltViewModel()
+    codeViewModel: CommonCodeViewModel = hiltViewModel()
 ) {
     val cameraPositionState = rememberCameraPositionState()
 
     val activates = activityLocationViewModel.activates.collectAsState()
 
+    val activateStatusList = remember {
+        mutableStateListOf<Code>()
+    }
+
     LaunchedEffect(key1 = Unit) {
-        if (jsonParseViewModel.runningJsonData.isEmpty()) {
-            jsonParseViewModel.activateJsonParse("running.json", "running")
+        if (activateStatusList.isEmpty()) {
+            val codes = codeViewModel.select()
+            activateStatusList.addAll(codes)
         }
 
         cameraPositionState.move(
-            CameraUpdateFactory.newLatLngZoom(LatLng(locationState.value.latitude, locationState.value.longitude), 16f)
+            CameraUpdateFactory.newLatLngZoom(
+                LatLng(locationState.value.latitude, locationState.value.longitude),
+                16f
+            )
         )
     }
 
@@ -119,7 +132,7 @@ fun ShowCompleteDialog(
 
                 BoxRow(
                     context = context,
-                    data = jsonParseViewModel.runningJsonData
+                    data = activateStatusList
                 )
 
                 Box(

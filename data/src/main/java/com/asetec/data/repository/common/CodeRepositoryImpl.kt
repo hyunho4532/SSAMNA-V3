@@ -1,5 +1,6 @@
 package com.asetec.data.repository.common
 
+import android.util.Log
 import com.asetec.domain.model.common.Code
 import com.asetec.domain.repository.common.CodeRepository
 import io.github.jan.supabase.postgrest.Postgrest
@@ -15,7 +16,7 @@ class CodeRepositoryImpl @Inject constructor(
         return withContext(Dispatchers.IO) {
             postgrest
                 .rpc("get_common_code", mapOf("groupkey" to "ACTIVATE_STATUS"))
-                .decodeList()
+                .decodeList<Code>()
         }
     }
 }
