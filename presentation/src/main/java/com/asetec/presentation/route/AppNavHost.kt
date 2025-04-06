@@ -181,7 +181,9 @@ fun ScreenNavigationConfiguration(
         composable(
             route = "activate"
         ) {
-            ActivateScreen()
+            ActivateScreen(
+                context = context
+            )
         }
     }
 }
