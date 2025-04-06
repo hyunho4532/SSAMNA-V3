@@ -4,6 +4,7 @@ import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.dto.ActivateNotificationDTO
 import com.asetec.domain.repository.activate.ActivateRepository
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.rpc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -62,6 +63,12 @@ class ActivateRepositoryImpl @Inject constructor(
                     eq("id", id)
                 }
             }.decodeList<ActivateDTO>()
+        }
+    }
+
+    override suspend fun selectActivityAll(): List<ActivateDTO> {
+        return withContext(Dispatchers.IO) {
+            postgrest.from("Activate").select().decodeList()
         }
     }
 }

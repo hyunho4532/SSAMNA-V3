@@ -76,7 +76,6 @@ fun ProfileScreen(
     challengeViewModel: ChallengeViewModel = hiltViewModel(),
     crewViewModel: CrewViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
-    jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
     userList: State<User>,
     context: Context
 ) {
@@ -190,7 +189,10 @@ fun ProfileScreen(
 
             Image(
                 modifier = Modifier
-                    .size(28.dp),
+                    .size(28.dp)
+                    .clickable {
+                        navController.navigate("activate")
+                    },
                 painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
                 contentDescription = "활동 아이콘"
             )

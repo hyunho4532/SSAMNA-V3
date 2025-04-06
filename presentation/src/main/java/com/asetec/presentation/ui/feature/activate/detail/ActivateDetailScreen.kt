@@ -1,4 +1,4 @@
-package com.asetec.presentation.ui.feature.detail
+package com.asetec.presentation.ui.feature.activate.detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

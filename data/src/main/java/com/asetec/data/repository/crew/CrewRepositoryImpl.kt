@@ -1,10 +1,7 @@
 package com.asetec.data.repository.crew
 
-import android.util.Log
 import com.asetec.domain.model.dto.ActivateNotificationDTO
-import com.asetec.domain.model.dto.ChallengeDTO
 import com.asetec.domain.model.dto.CrewDTO
-import com.asetec.domain.model.message.DeleteResponse
 import com.asetec.domain.model.state.Ranking
 import com.asetec.domain.repository.crew.CrewRepository
 import io.github.jan.supabase.postgrest.Postgrest

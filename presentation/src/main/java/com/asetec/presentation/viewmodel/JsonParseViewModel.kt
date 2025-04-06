@@ -1,15 +1,11 @@
 package com.asetec.presentation.viewmodel
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
-import com.asetec.domain.model.location.Coordinate
 import com.asetec.domain.model.state.Activate
 import com.asetec.domain.model.state.ActivateForm
-import com.asetec.domain.model.state.ActivityType
 import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.state.Crew
-import com.asetec.domain.model.state.Running
 import com.asetec.domain.usecase.json.JsonParseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -24,9 +20,6 @@ class JsonParseViewModel @Inject constructor(
 
     private val _activateFormJsonData = mutableListOf<ActivateForm>()
     val activateFormJsonData: List<ActivateForm> = _activateFormJsonData
-
-    private val _runningJsonData = mutableStateListOf<Running>()
-    val runningJsonData: List<Running> = _runningJsonData
 
     private val _challengeJsonData = mutableStateListOf<Challenge>()
     val challengeJsonData: List<Challenge> = _challengeJsonData
@@ -50,11 +43,6 @@ class JsonParseViewModel @Inject constructor(
                 "activate_form" -> {
                     for (activateForm in activityData) {
                         _activateFormJsonData.add(activateForm as ActivateForm)
-                    }
-                }
-                "running" -> {
-                    for (running in activityData) {
-                        _runningJsonData.add(running as Running)
                     }
                 }
                 "challenge" -> {
