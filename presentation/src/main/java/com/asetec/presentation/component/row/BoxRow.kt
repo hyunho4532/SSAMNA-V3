@@ -2,7 +2,6 @@ package com.asetec.presentation.component.row
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -32,10 +31,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.domain.model.common.Code
 import com.asetec.domain.model.state.Activate
-import com.asetec.domain.model.state.Running
 import com.asetec.presentation.R
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
-import com.asetec.presentation.viewmodel.SensorManagerViewModel
 
 @SuppressLint("DiscouragedApi")
 @Composable
