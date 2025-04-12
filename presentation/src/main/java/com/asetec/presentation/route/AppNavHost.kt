@@ -182,7 +182,8 @@ fun ScreenNavigationConfiguration(
             route = "activate"
         ) {
             ActivateScreen(
-                context = context
+                context = context,
+                navController = navController
             )
         }
     }

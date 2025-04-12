@@ -3,11 +3,13 @@ package com.asetec.presentation.ui.feature.activate
 import android.content.Context
 import android.util.Log
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -32,8 +34,10 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.presentation.R
+import com.asetec.presentation.component.box.polygon.PolygonBox
 import com.asetec.presentation.component.marker.MapMarker
 import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.viewmodel.ActivateViewModel
@@ -47,6 +51,7 @@ import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.double
 import kotlinx.serialization.json.doubleOrNull
 import kotlinx.serialization.json.jsonArray
 import kotlinx.serialization.json.jsonObject
@@ -55,7 +60,8 @@ import kotlinx.serialization.json.jsonPrimitive
 @Composable
 fun ActivateScreen(
     @ApplicationContext context: Context,
-    activateViewModel: ActivateViewModel = hiltViewModel()
+    activateViewModel: ActivateViewModel = hiltViewModel(),
+    navController: NavController,
 ) {
     val activateList = remember {
         mutableStateListOf<ActivateDTO>()
@@ -88,8 +94,11 @@ fun ActivateScreen(
             Card(
                 modifier = Modifier
                     .width(setUpWidth())
-                    .height(240.dp)
-                    .padding(top = 12.dp),
+                    .height(360.dp)
+                    .padding(top = 12.dp)
+                    .clickable {
+                        navController.navigate("activateDetail/${item.id}")
+                    },
                 colors = CardDefaults.cardColors(containerColor = Color.White),
                 border = BorderStroke(1.dp, Color.Gray)
             ) {
@@ -143,31 +152,51 @@ fun ActivateScreen(
                             width = 3f
                         )
                     }
-
                 }
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(top = 4.dp, start = 6.dp, end = 6.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = item.title,
-                        fontWeight = FontWeight.Bold
-                    )
-                    Text(
-                        text = item.todayFormat
-                    )
-                }
+                Column {
+                    Row (
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 8.dp),
+                        horizontalArrangement = Arrangement.SpaceAround
+                    ) {
+                        PolygonBox(
+                            title = "시간",
+                            data =  item.time
+                        )
 
-                Column(
-                    modifier = Modifier
-                        .padding(top = 2.dp, start = 6.dp)
-                ) {
-                    Text(
-                        text = item.time
-                    )
+                        PolygonBox(
+                            title = "km",
+                            data =  item.cul["km_cul"]?.jsonPrimitive?.double ?: 0.0
+                        )
+
+                        PolygonBox(
+                            title = "kcal",
+                            data = item.cul["kcal_cul"]?.jsonPrimitive?.double ?: 0.0
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 4.dp, start = 6.dp, end = 6.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween
+                    ) {
+                        Text(
+                            text = item.title,
+                            fontWeight = FontWeight.Bold
+                        )
+                    }
+
+                    Column(
+                        modifier = Modifier
+                            .padding(top = 2.dp, start = 6.dp)
+                    ) {
+                        Text(
+                            text = item.todayFormat
+                        )
+                    }
                 }
             }
         }
