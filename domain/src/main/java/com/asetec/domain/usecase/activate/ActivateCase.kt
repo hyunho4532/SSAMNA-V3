@@ -35,4 +35,8 @@ class ActivateCase @Inject constructor(
     suspend fun selectActivityFindById(id: Int) : List<ActivateDTO> {
         return activateRepository.selectActivityFindById(id)
     }
+
+    suspend fun selectActivityAll(): List<ActivateDTO> {
+        return activateRepository.selectActivityAll()
+    }
 }

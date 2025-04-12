@@ -35,7 +35,7 @@ import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.state.Crew
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpButtonWidth
-import com.asetec.presentation.enum.ButtonType
+import com.asetec.domain.model.enum.ButtonType
 import com.asetec.presentation.ui.main.home.HomeActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
@@ -106,7 +106,7 @@ fun CustomButton(
                 else -> {
                     when (type) {
                         ButtonType.RunningStatus.FINISH -> {
-                            if (sensorManagerViewModel.getSavedSensorState() > 100) {
+                            if (sensorManagerViewModel.getSavedSensorState() < 100) {
                                 sensorManagerViewModel.stopService(
                                     runningStatus = true,
                                     isRunning = false

@@ -64,7 +64,7 @@ import com.asetec.domain.model.state.ActivateForm
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpWidth
-import com.asetec.presentation.enum.CardType
+import com.asetec.domain.model.enum.CardType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.JsonParseViewModel
 import com.google.gson.Gson

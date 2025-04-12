@@ -45,6 +45,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.asetec.domain.model.entry.PolygonBoxItem
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.box.polygon.PolygonBox
@@ -55,8 +56,8 @@ import com.asetec.presentation.component.tool.activateCard
 import com.asetec.presentation.component.tool.challengeRegistrationCard
 import com.asetec.presentation.component.util.calculatorActivateCardWeight
 import com.asetec.presentation.component.util.responsive.setUpWidth
-import com.asetec.presentation.enum.CardType
-import com.asetec.presentation.enum.ProfileStatusType
+import com.asetec.domain.model.enum.CardType
+import com.asetec.domain.model.enum.ProfileStatusType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
 import com.asetec.presentation.viewmodel.CrewViewModel
@@ -76,7 +77,6 @@ fun ProfileScreen(
     challengeViewModel: ChallengeViewModel = hiltViewModel(),
     crewViewModel: CrewViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
-    jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
     userList: State<User>,
     context: Context
 ) {
@@ -135,6 +135,12 @@ fun ProfileScreen(
         }
     }
 
+    val polygonBoxItems = listOf(
+        PolygonBoxItem("걸음 수", sumCount),
+        PolygonBoxItem("칼로리", sumKcal),
+        PolygonBoxItem("km", sumKm)
+    )
+
     Column(
         modifier = Modifier
             .padding(top = 12.dp, start = 12.dp)
@@ -160,21 +166,12 @@ fun ProfileScreen(
                 .padding(top = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween
         ) {
-            PolygonBox(
-                title = "걸음 수",
-                sumCount = sumCount,
-                profileStatusType = ProfileStatusType.Activate
-            )
-            PolygonBox(
-                title = "칼로리",
-                sumKcal = sumKcal,
-                profileStatusType = ProfileStatusType.Kcal
-            )
-            PolygonBox(
-                title = "km",
-                sumKm = sumKm,
-                profileStatusType = ProfileStatusType.Km
-            )
+            polygonBoxItems.forEach { item ->
+                PolygonBox(
+                    title = item.title,
+                    data = item.data
+                )
+            }
         }
 
         Row (
@@ -190,7 +187,10 @@ fun ProfileScreen(
 
             Image(
                 modifier = Modifier
-                    .size(28.dp),
+                    .size(28.dp)
+                    .clickable {
+                        navController.navigate("activate")
+                    },
                 painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
                 contentDescription = "활동 아이콘"
             )

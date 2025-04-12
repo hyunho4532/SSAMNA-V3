@@ -16,22 +16,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.graphics.shapes.CornerRounding
 import androidx.graphics.shapes.RoundedPolygon
-import com.asetec.presentation.enum.ProfileStatusType
+import com.asetec.domain.model.enum.ProfileStatusType
 
 /**
  * 다각형 박스
  */
 @Composable
-fun PolygonBox(
+fun <T> PolygonBox(
+    width: Dp = 90.dp,
+    height: Dp = 90.dp,
     title: String,
-    sumCount: Int = 0,
-    sumKcal: Double = 0.0,
-    sumKm: Double = 0.0,
-    profileStatusType: ProfileStatusType
+    data: T
 ) {
     val hexagon = remember {
         RoundedPolygon(
@@ -47,8 +47,8 @@ fun PolygonBox(
         modifier = Modifier
             .clip(clip)
             .background(Color(0xFF429bf5))
-            .width(90.dp)
-            .height(90.dp)
+            .width(width)
+            .height(height)
     ) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -61,11 +61,7 @@ fun PolygonBox(
             )
 
             Text(
-                text = when (profileStatusType) {
-                    ProfileStatusType.Activate -> sumCount.toString()
-                    ProfileStatusType.Kcal -> String.format("%.2f", sumKcal)
-                    ProfileStatusType.Km -> String.format("%.2f", sumKm)
-                },
+                text = if (data is Double) { String.format("%.2f", data) } else { data.toString() },
                 color = MaterialTheme.colorScheme.onSecondary,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
