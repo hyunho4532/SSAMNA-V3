@@ -33,7 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import com.asetec.domain.model.dto.CrewDTO
 import com.asetec.presentation.component.row.ActivateTabRow
 import com.asetec.presentation.component.tool.CustomButton
-import com.asetec.presentation.enum.ButtonType
+import com.asetec.domain.model.enum.ButtonType
 import com.asetec.presentation.viewmodel.CrewViewModel
 
 @Composable

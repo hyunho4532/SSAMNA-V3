@@ -33,7 +33,7 @@ import com.asetec.presentation.component.icon.Footprint
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.domain.model.calcul.FormatImpl
-import com.asetec.presentation.enum.ButtonType
+import com.asetec.domain.model.enum.ButtonType
 import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 

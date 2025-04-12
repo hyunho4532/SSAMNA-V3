@@ -33,7 +33,7 @@ import com.asetec.presentation.component.grid.ActivateGrid
 import com.asetec.presentation.component.row.ActivateTabRow
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.util.responsive.setUpWidth
-import com.asetec.presentation.enum.ButtonType
+import com.asetec.domain.model.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import java.time.LocalDate
 

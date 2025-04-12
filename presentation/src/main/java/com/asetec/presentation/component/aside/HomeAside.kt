@@ -37,7 +37,7 @@ import com.asetec.presentation.component.dialog.ActivateBottomSheet
 import com.asetec.presentation.component.dialog.ActivateFormBottomSheet
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
-import com.asetec.presentation.enum.ButtonType
+import com.asetec.domain.model.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel
 

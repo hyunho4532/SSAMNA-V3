@@ -35,7 +35,7 @@ import com.asetec.domain.model.state.Challenge
 import com.asetec.domain.model.state.Crew
 import com.asetec.presentation.R
 import com.asetec.presentation.component.util.responsive.setUpButtonWidth
-import com.asetec.presentation.enum.ButtonType
+import com.asetec.domain.model.enum.ButtonType
 import com.asetec.presentation.ui.main.home.HomeActivity
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.ChallengeViewModel
