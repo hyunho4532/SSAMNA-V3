@@ -23,7 +23,7 @@ class ActivateRepositoryImpl @Inject constructor(
     }
 
     override suspend fun delete(googleId: String, date: String, onSuccess: (Boolean) -> Unit) {
-        postgrest.from("Activity").delete {
+        postgrest.from("Activate").delete {
             filter {
                 eq("google_id", googleId)
                 eq("today_format", date)
