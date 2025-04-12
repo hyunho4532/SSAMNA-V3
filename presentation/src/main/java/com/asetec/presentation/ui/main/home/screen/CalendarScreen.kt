@@ -28,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
@@ -43,7 +44,8 @@ import java.time.LocalDate
 fun CalendarScreen(
     activateList: List<ActivateDTO>,
     userList: State<User>,
-    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel()
+    activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
+    navController: NavController,
 ) {
     val activateData = activityLocationViewModel.activateData.collectAsState()
     val pages = listOf("매주", "매달", "연간")
@@ -176,7 +178,8 @@ fun CalendarScreen(
         ActivateDetailBottomSheet(
             showBottomSheet = isPopup,
             sheetState = sheetState,
-            activateData = activateData
+            activateData = activateData,
+            navController = navController
         )
     }
 }
