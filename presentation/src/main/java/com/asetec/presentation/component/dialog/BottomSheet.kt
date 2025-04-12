@@ -1,11 +1,21 @@
 package com.asetec.presentation.component.dialog
 
 import android.content.Context
+import android.util.Log
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
@@ -13,6 +23,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -25,10 +36,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import com.asetec.domain.model.dto.ActivateDTO
 import com.asetec.presentation.component.tool.activateCard
 import com.asetec.presentation.component.tool.activateFormCard
 import com.asetec.presentation.component.tool.challengeCard
 import com.asetec.domain.model.enum.CardType
+import com.asetec.presentation.component.util.responsive.setUpWidth
 import com.asetec.presentation.viewmodel.JsonParseViewModel
 
 /**
@@ -225,5 +239,70 @@ fun ChallengeBottomSheet(
             isChallengePopup = isChallengeIsPopup,
             challenge = jsonParseViewModel.challengeJsonData
         )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ActivateDetailBottomSheet(
+    showBottomSheet: MutableState<Boolean>,
+    sheetState: SheetState,
+    activateData: State<List<ActivateDTO>>,
+    navController: NavController
+) {
+    if (showBottomSheet.value) {
+        ModalBottomSheet(
+            modifier = Modifier
+                .fillMaxSize(),
+            sheetState = sheetState,
+            onDismissRequest = { showBottomSheet.value = false },
+            containerColor = Color.White
+        ) {
+            Column (
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                activateData.value.forEach {
+                    Card (
+                        modifier = Modifier
+                            .width(setUpWidth())
+                            .height(60.dp)
+                            .padding(top = 8.dp)
+                            .clickable(
+                                interactionSource = remember {
+                                    MutableInteractionSource()
+                                },
+                                indication = rememberRipple(
+                                    color = Color.Gray,
+                                    bounded = true
+                                )
+                            ) {
+                                navController.navigate("activateDetail/${it.id}")
+                            },
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        ),
+                        border = BorderStroke(1.dp, Color.Gray)
+                    ) {
+                        Box(
+                            modifier = Modifier.padding(top = 6.dp, start = 6.dp)
+                        ) {
+                            Column {
+                                Text(
+                                    text = it.title,
+                                    fontSize = 16.sp,
+                                    fontWeight = FontWeight.Bold
+                                )
+
+                                Text(
+                                    text = it.todayFormat,
+                                    fontSize = 14.sp
+                                )
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
 }

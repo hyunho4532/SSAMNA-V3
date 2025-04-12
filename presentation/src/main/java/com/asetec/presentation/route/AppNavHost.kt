@@ -118,7 +118,8 @@ fun ScreenNavigationConfiguration(
             composable(Screens.AnalyzeScreen.route) {
                 CalendarScreen(
                     activateList = activateList.value,
-                    userList = userList
+                    userList = userList,
+                    navController = navController
                 )
             }
         }
