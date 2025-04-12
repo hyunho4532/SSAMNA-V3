@@ -1,6 +1,7 @@
 package com.asetec.presentation.ui.main.home.screen
 
 import android.os.Build
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -8,9 +9,11 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
@@ -20,7 +23,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -31,12 +33,12 @@ import com.asetec.domain.model.user.User
 import com.asetec.presentation.R
 import com.asetec.presentation.component.grid.ActivateGrid
 import com.asetec.presentation.component.row.ActivateTabRow
-import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.util.responsive.setUpWidth
-import com.asetec.domain.model.enum.ButtonType
+import com.asetec.presentation.component.dialog.ActivateDetailBottomSheet
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import java.time.LocalDate
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CalendarScreen(
     activateList: List<ActivateDTO>,
@@ -57,6 +59,14 @@ fun CalendarScreen(
     val todayList: List<String> = activateList.map {
         it.todayFormat.substring(0, 13)
     }
+
+    val isPopup = remember {
+        mutableStateOf(false)
+    }
+
+    val sheetState = rememberModalBottomSheetState(
+        skipPartiallyExpanded = false
+    )
 
     Column(
         modifier = Modifier
@@ -130,16 +140,11 @@ fun CalendarScreen(
                     Text(
                         text = "활동 내역 중 ${activateData.value.size}개의 내역이 있습니다!",
                         modifier = Modifier
+                            .clickable {
+                                isPopup.value = true
+                            }
                             .padding(top = 8.dp),
                         fontSize = 14.sp
-                    )
-
-                    CustomButton(
-                        type = ButtonType.HistoryStatus.OPEN,
-                        width = 82.dp,
-                        height = 32.dp,
-                        text = "조회",
-                        backgroundColor = Color(0xFF5c9afa)
                     )
                 }
 
@@ -165,5 +170,13 @@ fun CalendarScreen(
                 type = "activate"
             )
         }
+    }
+
+    if (isPopup.value) {
+        ActivateDetailBottomSheet(
+            showBottomSheet = isPopup,
+            sheetState = sheetState,
+            activateData = activateData
+        )
     }
 }
