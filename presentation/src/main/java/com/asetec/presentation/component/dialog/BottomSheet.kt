@@ -28,7 +28,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.asetec.presentation.component.tool.activateCard
 import com.asetec.presentation.component.tool.activateFormCard
 import com.asetec.presentation.component.tool.challengeCard
-import com.asetec.presentation.enum.CardType
+import com.asetec.domain.model.enum.CardType
 import com.asetec.presentation.viewmodel.JsonParseViewModel
 
 /**
