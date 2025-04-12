@@ -29,7 +29,7 @@ import com.asetec.presentation.animation.SplashLoader
 import com.asetec.presentation.component.dialog.PermissionDialog
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
-import com.asetec.presentation.enum.ButtonType
+import com.asetec.domain.model.enum.ButtonType
 import com.asetec.presentation.component.util.responsive.setSubTitleFontSize
 import com.asetec.presentation.component.util.responsive.setTitleFontSize
 import com.asetec.presentation.component.util.responsive.setContentPadding

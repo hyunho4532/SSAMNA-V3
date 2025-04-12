@@ -49,7 +49,7 @@ import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.presentation.component.util.responsive.setUpDialogWidth
 import com.asetec.presentation.component.util.responsive.setUpWidth
-import com.asetec.presentation.enum.ButtonType
+import com.asetec.domain.model.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.CommonCodeViewModel
 import com.asetec.presentation.viewmodel.CrewViewModel

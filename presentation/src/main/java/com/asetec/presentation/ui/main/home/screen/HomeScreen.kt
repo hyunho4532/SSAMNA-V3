@@ -46,7 +46,7 @@ import com.asetec.presentation.component.dialog.ShowCompleteDialog
 import com.asetec.presentation.component.marker.MapMarker
 import com.asetec.presentation.component.tool.CircularProgress
 import com.asetec.presentation.component.tool.CustomButton
-import com.asetec.presentation.enum.ButtonType
+import com.asetec.domain.model.enum.ButtonType
 import com.asetec.presentation.viewmodel.ActivityLocationViewModel
 import com.asetec.presentation.viewmodel.LocationManagerViewModel
 import com.asetec.presentation.viewmodel.SensorManagerViewModel

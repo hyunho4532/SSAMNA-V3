@@ -34,7 +34,7 @@ import com.asetec.presentation.component.tool.activateHistoryCard
 import com.asetec.presentation.component.tool.chartDetailCard
 import com.asetec.presentation.component.util.analyzeRunningFeedback
 import com.asetec.presentation.component.util.responsive.setUpWidth
-import com.asetec.presentation.enum.ButtonType
+import com.asetec.domain.model.enum.ButtonType
 import com.asetec.presentation.ui.feature.analyze.FastRunning
 import com.asetec.presentation.ui.feature.analyze.ModerateRunning
 import com.asetec.presentation.ui.feature.analyze.OptimalRunning

@@ -1,4 +1,4 @@
-package com.asetec.presentation.enum
+package com.asetec.domain.model.enum
 
 sealed class CardType {
     sealed class ActivateStatus: CardType() {
