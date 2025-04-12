@@ -2,6 +2,7 @@ package com.asetec.presentation.component.tool
 
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -246,6 +247,8 @@ fun activateCard(
 ) {
     val imageName = activate?.assets?.replace("R.drawable.", "")
     val imageResId = context?.resources?.getIdentifier(imageName, "drawable", context.packageName)
+
+    Log.d("Card", imageResId.toString())
 
     Card (
         modifier = Modifier
