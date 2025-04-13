@@ -104,6 +104,12 @@ fun OnBoardingScreen(
 
                 Spacer(width = 0.dp, height = screenHeight * 0.2f)
 
+                Box(
+                    modifier =
+                ) {
+
+                }
+
                 CustomButton(
                     type = ButtonType.PermissionStatus.POPUP,
                     width = screenWidth * 0.8f,
