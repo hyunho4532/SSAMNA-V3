@@ -305,8 +305,7 @@ fun ShowChallengeDialog(
 
 @Composable
 fun PermissionDialog(
-    isPermissionPopup: MutableState<Boolean>,
-    onNavigateToLogin: () -> Unit
+    isPermissionPopup: MutableState<Boolean>
 ) {
     Dialog(
         onDismissRequest = {
@@ -495,11 +494,7 @@ fun PermissionDialog(
                         width = 100.dp,
                         height = 40.dp,
                         text = "확인",
-                        backgroundColor = Color(0xFF5c9afa),
-                        onNavigateToLogin = {
-                            isPermissionPopup.value = false
-                            onNavigateToLogin()
-                        }
+                        backgroundColor = Color(0xFF5c9afa)
                     )
                 }
             }
