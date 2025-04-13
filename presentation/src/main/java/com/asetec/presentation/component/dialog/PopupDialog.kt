@@ -15,10 +15,12 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -306,7 +308,7 @@ fun ShowChallengeDialog(
 @Composable
 fun PermissionDialog(
     isPermissionPopup: MutableState<Boolean>,
-    onNavigateToLogin: () -> Unit
+    onPermissionUserCheck: (Boolean) -> Unit
 ) {
     Dialog(
         onDismissRequest = {
@@ -483,22 +485,149 @@ fun PermissionDialog(
                     horizontalArrangement = Arrangement.SpaceEvenly
                 ) {
                     CustomButton(
-                        type = ButtonType.PermissionStatus.CANCEL,
+                        type = ButtonType.PermissionStatus.USERCANCEL,
                         width = 100.dp,
                         height = 40.dp,
                         text = "취소",
-                        backgroundColor = Color(0xFFE91E63)
+                        backgroundColor = Color(0xFFE91E63),
+                        onNavigateToCheck = {
+                            isPermissionPopup.value = false
+                        }
                     )
 
                     CustomButton(
-                        type = ButtonType.PermissionStatus.CLICK,
+                        type = ButtonType.PermissionStatus.USERCLICK,
                         width = 100.dp,
                         height = 40.dp,
-                        text = "확인",
+                        text = "동의",
                         backgroundColor = Color(0xFF5c9afa),
-                        onNavigateToLogin = {
+                        onNavigateToCheck = {
+                            onPermissionUserCheck(it)
                             isPermissionPopup.value = false
-                            onNavigateToLogin()
+                        }
+                    )
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun PrivacyConsentDialog(
+    isPrivacyPermissionPopup: MutableState<Boolean>,
+    onPermissionPrivacyCheck: (Boolean) -> Unit
+) {
+    Dialog(
+        onDismissRequest = {
+            isPrivacyPermissionPopup.value = false
+        }
+    ) {
+        Card(
+            modifier = Modifier
+                .width(420.dp)
+                .height(420.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.White
+            )
+        ) {
+            Column(
+                modifier = Modifier
+                    .padding(
+                        top = 14.dp,
+                        start = 8.dp
+                    )
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(42.dp)
+                        .align(Alignment.CenterHorizontally)
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        verticalArrangement = Arrangement.Center,
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                    ) {
+                        Text(
+                            text = "개인정보 수집 및 이용 동의 안내",
+                            fontSize = 16.sp,
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Text(
+                            modifier = Modifier
+                                .padding(top = 4.dp),
+                            text = "현재 서비스 제공을 위해 아래 정보를 수집 합니다.",
+                            fontSize = 14.sp,
+                            color = Color.Gray
+                        )
+                    }
+                }
+
+                Spacer(
+                    width = setUpDialogWidth(420.dp),
+                    height = 10.dp,
+                    isBottomBorder = true
+                )
+
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(260.dp)
+                        .padding(top = 24.dp, start = 6.dp)
+                ) {
+                    Text("1. 수집 항목")
+                    Text("- 필수: 이름, 이메일, 나이, ")
+                    Text("- 선택: 위치 정보(위도, 경도), 알림, 센서 \n")
+
+                    Text("2. 수집 목적")
+                    Text("- 회원 식별 및 서비스 제공")
+                    Text("- 맞춤형 서비스 제공")
+                    Text("- 위치 기반 기능 제공 (GPS)")
+                    Text("- 센서 기반 기능 제공 (만보기, km, kcal)\n")
+
+                    Text("3. 보유 및 이용 기간")
+                    Text("- 서비스 종료 또는 회원 탈퇴 시까지")
+                    Text("- 관련 법령에 따른 보관 예외 있음\n")
+
+                    Text("4. 동의 거부 시 불이익")
+                    Text("- 필수 항목 미동의 시 서비스 이용 제한\n")
+
+                    Text(
+                        "※ 위 내용을 충분히 숙지하였으며, 개인정보 수집 및 이용에 동의합니다.",
+                        fontWeight = FontWeight.Medium
+                    )
+                }
+
+                Spacer(width = 0.dp, height = 26.dp)
+
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceEvenly
+                ) {
+                    CustomButton(
+                        type = ButtonType.PermissionStatus.PRIVACYCANCEL,
+                        width = 100.dp,
+                        height = 40.dp,
+                        text = "취소",
+                        backgroundColor = Color(0xFFE91E63),
+                        onNavigateToCheck = {
+                            onPermissionPrivacyCheck(false)
+                            isPrivacyPermissionPopup.value = false
+                        }
+                    )
+
+                    CustomButton(
+                        type = ButtonType.PermissionStatus.PRIVACYCLICK,
+                        width = 100.dp,
+                        height = 40.dp,
+                        text = "동의",
+                        backgroundColor = Color(0xFF5c9afa),
+                        onNavigateToCheck = {
+                            onPermissionPrivacyCheck(true)
+                            isPrivacyPermissionPopup.value = false
                         }
                     )
                 }
