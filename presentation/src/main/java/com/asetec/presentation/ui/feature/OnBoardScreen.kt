@@ -40,6 +40,7 @@ import com.asetec.presentation.component.dialog.PermissionDialog
 import com.asetec.presentation.component.tool.CustomButton
 import com.asetec.presentation.component.tool.Spacer
 import com.asetec.domain.model.enum.ButtonType
+import com.asetec.presentation.component.dialog.PrivacyConsentDialog
 import com.asetec.presentation.component.util.responsive.setSubTitleFontSize
 import com.asetec.presentation.component.util.responsive.setTitleFontSize
 import com.asetec.presentation.component.util.responsive.setContentPadding
@@ -50,7 +51,17 @@ fun OnBoardingScreen(
     navController: NavController
 ) {
 
+    /**
+     * 사용자 권한 확인 팝업
+     */
     val isPermissionPopup = remember {
+        mutableStateOf(false)
+    }
+
+    /**
+     * 개인 정보 수집 동의 권한 확인 팝업
+     */
+    val isPrivacyPopup = remember {
         mutableStateOf(false)
     }
 
@@ -61,8 +72,11 @@ fun OnBoardingScreen(
         mutableStateOf(false)
     }
 
-    LaunchedEffect(key1 = Unit) {
-        Log.d("OnBoardScreen", isPermissionPopup.toString())
+    /**
+     * 개인 정보 수집 권한 확인 상태
+     */
+    val isPrivacyPermissionCheck = remember {
+        mutableStateOf(false)
     }
 
     CompositionLocalProvider(
@@ -195,7 +209,7 @@ fun OnBoardingScreen(
                                 .height(40.dp)
                                 .align(Alignment.CenterVertically)
                                 .clickable {
-                                    isPermissionPopup.value = true
+                                    isPrivacyPopup.value = true
                                 },
                             colors = CardDefaults.cardColors(
                                 containerColor = Color.White
@@ -224,9 +238,8 @@ fun OnBoardingScreen(
                                     )
 
                                     Checkbox(
-                                        checked = false,
+                                        checked = isPrivacyPermissionCheck.value,
                                         onCheckedChange = {
-
                                         },
                                         colors = CheckboxDefaults.colors(
                                             checkedColor = Color(0xFF5c9afa)
@@ -240,26 +253,40 @@ fun OnBoardingScreen(
 
                 Spacer(width = 0.dp, height = 20.dp)
 
-                CustomButton(
-                    type = ButtonType.EventStatus.ROUTE,
-                    width = screenWidth * 0.8f,
-                    height = 46.dp,
-                    text = "운동 여정하기!",
-                    showIcon = true,
-                    backgroundColor = Color(0xFF5c9afa),
-                    shape = "Rectangle",
-                    onClick = {
-                        if (it) {
-                            navController.navigate("login")
+                if (isUserPermissionCheck.value && isPrivacyPermissionCheck.value) {
+                    CustomButton(
+                        type = ButtonType.EventStatus.ROUTE,
+                        width = screenWidth * 0.8f,
+                        height = 46.dp,
+                        text = "운동 여정하기!",
+                        showIcon = true,
+                        backgroundColor = Color(0xFF5c9afa),
+                        shape = "Rectangle",
+                        onClick = {
+                            if (it) {
+                                navController.navigate("login")
+                            }
                         }
-                    }
-                )
+                    )
+                }
             }
         }
 
         if (isPermissionPopup.value) {
             PermissionDialog(
-                isPermissionPopup = isPermissionPopup
+                isPermissionPopup = isPermissionPopup,
+                onPermissionUserCheck = {
+                    isUserPermissionCheck.value = it
+                }
+            )
+        }
+
+        if (isPrivacyPopup.value) {
+            PrivacyConsentDialog(
+                isPrivacyPermissionPopup = isPrivacyPopup,
+                onPermissionPrivacyCheck = {
+                    isPrivacyPermissionCheck.value = it
+                }
             )
         }
     }

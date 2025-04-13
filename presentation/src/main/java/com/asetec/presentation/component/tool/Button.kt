@@ -56,7 +56,7 @@ fun CustomButton(
     text: String,
     showIcon: Boolean = false,
     backgroundColor: Color,
-    onNavigateToLogin: () -> Unit = {},
+    onNavigateToCheck: (Boolean) -> Unit = {},
     shape: String = "Circle",
     data: Any? = null,
     crewId: Int? = 0,
@@ -90,18 +90,23 @@ fun CustomButton(
                 ButtonType.EventStatus.ROUTE -> {
                     onClick(true)
                 }
-                ButtonType.PermissionStatus.CANCEL -> {
-                    Process.killProcess(Process.myPid())
+                ButtonType.PermissionStatus.USERCANCEL -> {
+                    onNavigateToCheck(false)
                 }
-                ButtonType.PermissionStatus.CLICK -> {
-                    onNavigateToLogin()
+                ButtonType.PermissionStatus.PRIVACYCANCEL -> {
+                    onNavigateToCheck(false)
+                }
+                ButtonType.PermissionStatus.USERCLICK -> {
+                    onNavigateToCheck(true)
+                }
+                ButtonType.PermissionStatus.PRIVACYCLICK -> {
+                    onNavigateToCheck(true)
                 }
                 ButtonType.MarkerStatus.FINISH -> {
                     activityLocationViewModel.setLatLng(
                         latitude = cameraPositionState.position.target.latitude,
                         longitude = cameraPositionState.position.target.longitude
                     )
-
                 }
                 else -> {
                     when (type) {
