@@ -3,9 +3,12 @@ package com.asetec.domain.model.enum
 sealed class ButtonType {
 
     sealed class PermissionStatus: ButtonType() {
-        data object POPUP: PermissionStatus()
         data object CLICK: PermissionStatus()
         data object CANCEL: PermissionStatus()
+    }
+
+    sealed class EventStatus: ButtonType() {
+        data object ROUTE: EventStatus()
     }
 
     sealed class RunningStatus: ButtonType() {

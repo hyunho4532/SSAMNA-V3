@@ -87,7 +87,7 @@ fun CustomButton(
     Button(
         onClick = {
             when (type) {
-                ButtonType.PermissionStatus.POPUP -> {
+                ButtonType.EventStatus.ROUTE -> {
                     onClick(true)
                 }
                 ButtonType.PermissionStatus.CANCEL -> {
