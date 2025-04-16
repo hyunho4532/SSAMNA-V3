@@ -40,14 +40,14 @@
 }
 
 # UserDTO 유지 (패키지명이 맞는지 확인 필요)
--keep class com.asetec.domain.model.user.UserDTO { *; }
+-keep class com.app.domain.model.user.UserDTO { *; }
 
 # 리플렉션 사용 보호
 -keepattributes Signature
 -keepattributes *Annotation*
 
 # JSON 직렬화에 사용될 데이터 모델 유지 (패키지명 확인 필요)
--keep class com.asetec.domain.model.** { *; }
+-keep class com.app.domain.model.** { *; }
 
 # Supabase에서 사용하는 JSON 관련 클래스 보호
 -keep class org.json.** { *; }
