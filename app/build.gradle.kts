@@ -6,15 +6,15 @@ plugins {
 }
 
 android {
-    namespace = "com.asetec.ssamna"
+    namespace = "com.app.ssamna"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.asetec.ssamna"
+        applicationId = "com.app.ssamna"
         minSdk = 24
         targetSdk = 34
-        versionCode = 22
-        versionName = "3.2"
+        versionCode = 3
+        versionName = "1.2"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

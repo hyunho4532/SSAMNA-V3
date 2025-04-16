@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.asetec.domain"
+    namespace = "com.app.domain"
     compileSdk = 34
 
     defaultConfig {

@@ -21,19 +21,19 @@
         tools:targetApi="31">
 
         <service
-            android:name="com.asetec.data.service.LocationService"
+            android:name="com.app.data.service.LocationService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="location"/>
 
         <service
-            android:name="com.asetec.data.service.SensorService"
+            android:name="com.app.data.service.SensorService"
             android:enabled="true"
             android:exported="false"
             android:foregroundServiceType="health" />
 
         <activity
-            android:name="com.asetec.presentation.ui.main.SSAMNA"
+            android:name="com.app.presentation.ui.main.SSAMNA"
             android:exported="true"
             tools:replace="android:exported">
             <intent-filter>
@@ -45,7 +45,7 @@
 
 
         <activity
-            android:name="com.asetec.presentation.ui.main.home.HomeActivity"
+            android:name="com.app.presentation.ui.main.home.HomeActivity"
             android:exported="true"
             tools:replace="android:exported">
             <intent-filter>
