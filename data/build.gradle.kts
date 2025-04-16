@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.asetec.data"
+    namespace = "com.app.data"
     compileSdk = 34
 
     defaultConfig {
