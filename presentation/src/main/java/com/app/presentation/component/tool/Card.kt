@@ -248,8 +248,6 @@ fun activateCard(
     val imageName = activate?.assets?.replace("R.drawable.", "")
     val imageResId = context?.resources?.getIdentifier(imageName, "drawable", context.packageName)
 
-    Log.d("Card", imageResId.toString())
-
     Card (
         modifier = Modifier
             .width(setUpWidth())
