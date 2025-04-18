@@ -1,5 +1,6 @@
 package com.app.data.repository.auth
 
+import android.util.Log
 import com.app.domain.model.user.User
 import com.app.domain.model.user.UserDTO
 import com.app.domain.repository.user.AuthenticationRepository
@@ -65,6 +66,8 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun selectUserFindById(googleId: String) : UserDTO {
+        Log.d("AuthenticationRepository", googleId)
+
         return withContext(Dispatchers.IO) {
             postgrest.from("User").select {
                 filter {

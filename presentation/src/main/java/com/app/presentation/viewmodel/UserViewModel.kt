@@ -28,6 +28,7 @@ class UserViewModel @Inject constructor(
 
     private val _user = MutableStateFlow(User(
         id = getSavedLoginState(),
+        name = getSavedLoginName(),
         recentExerciseName = ""
     ))
 
@@ -37,6 +38,7 @@ class UserViewModel @Inject constructor(
      * SP에 담은 id 값을 가져온다.
      */
     fun getSavedLoginState(): String {
+        val id = sharedPreferences.getString("id", "")!!
         return sharedPreferences.getString("id", "")!!
     }
 
@@ -132,9 +134,12 @@ class UserViewModel @Inject constructor(
 
     /** 최종적으로 정보 확인 후 데이터베이스에 저장 **/
     fun saveUser(userState: User) {
+        Log.d("UserViewModel", userState.id + userState.name)
+
+        saveLoginState(userState.id, userState.name)
+
         viewModelScope.launch {
             loginCase.saveUser(userState)
-            saveLoginState(userState.id, userState.name)
         }
     }
 

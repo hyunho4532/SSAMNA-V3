@@ -61,6 +61,7 @@ fun CrewScreen(
         }
 
         val googleId = userViewModel.getSavedLoginState()
+
         userViewModel.selectUserFindById(googleId)
 
         isCrewDataExists.value = crewViewModel.isCrewDataExists(googleId)
