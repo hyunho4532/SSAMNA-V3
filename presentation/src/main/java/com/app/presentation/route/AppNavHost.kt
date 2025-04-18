@@ -1,6 +1,7 @@
 package com.app.presentation.route
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -101,6 +102,7 @@ fun ScreenNavigationConfiguration(
 
     LaunchedEffect(key1 = Unit) {
         val googleId = userViewModel.getSavedLoginState()
+
         userViewModel.selectUserFindById(googleId)
         activityLocationViewModel.selectActivityFindByGoogleId(googleId)
     }

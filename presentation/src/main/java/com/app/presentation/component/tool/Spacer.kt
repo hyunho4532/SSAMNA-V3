@@ -19,9 +19,6 @@ fun Spacer(
     height: Dp?,
     isBottomBorder: Boolean = false
 ) {
-
-    Log.d("Spacer", isBottomBorder.toString())
-
     Box(
         modifier = Modifier
             .width(width)
