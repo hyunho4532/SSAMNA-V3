@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.app.domain.model.calcul.FormatImpl
 import com.app.domain.model.dto.ActivateNotificationDTO
 import com.app.domain.model.dto.CrewDTO
-import com.app.domain.model.state.Crew
+import com.app.domain.model.state.CrewSub
 import com.app.domain.model.state.CrewMaster
 import com.app.domain.model.state.Ranking
 import com.app.domain.usecase.crew.CrewCase
@@ -39,7 +39,7 @@ class CrewViewModel @Inject constructor(
     val notification: StateFlow<List<ActivateNotificationDTO>> = _notification
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun saveCrew(data: Crew) {
+    fun saveCrew(data: CrewMaster) {
 
         val userId = sharedPreferences.getString("id", "").toString()
 
@@ -48,7 +48,7 @@ class CrewViewModel @Inject constructor(
             title = data.name,
             picture = data.assets,
             createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
-            crewId = data.index
+            crewId = data.id
         )
 
         viewModelScope.launch {

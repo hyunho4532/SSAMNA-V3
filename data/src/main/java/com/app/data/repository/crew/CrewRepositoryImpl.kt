@@ -18,7 +18,7 @@ class CrewRepositoryImpl @Inject constructor(
     private val postgrest: Postgrest
 ): CrewRepository {
     override suspend fun insert(crewDTO: CrewDTO) {
-        postgrest.from("Crew").insert(crewDTO)
+        postgrest.from("CrewSub").insert(crewDTO)
     }
 
     override suspend fun delete(crewId: Int, googleId: String, onResult: (Boolean) -> Unit) {
@@ -36,7 +36,7 @@ class CrewRepositoryImpl @Inject constructor(
 
     override suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {
         return withContext(Dispatchers.IO) {
-            postgrest.from("Crew").select {
+            postgrest.from("CrewSub").select {
                 filter {
                     eq("user_id ", googleId)
                 }
@@ -52,7 +52,7 @@ class CrewRepositoryImpl @Inject constructor(
 
     override suspend fun crewFindById(googleId: String): List<CrewDTO> {
         return withContext(Dispatchers.IO) {
-            postgrest.from("Crew").select {
+            postgrest.from("CrewSub").select {
                 filter {
                     eq("user_id ", googleId)
                 }
