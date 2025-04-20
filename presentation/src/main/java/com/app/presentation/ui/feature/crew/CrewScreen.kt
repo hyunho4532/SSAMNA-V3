@@ -2,6 +2,7 @@ package com.app.presentation.ui.feature.crew
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -35,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.app.domain.model.dto.CrewDTO
 import com.app.presentation.component.tool.CustomButton
 import com.app.domain.model.enum.ButtonType
+import com.app.domain.model.state.CrewMaster
 import com.app.presentation.viewmodel.CrewViewModel
 import com.app.presentation.viewmodel.JsonParseViewModel
 import com.app.presentation.viewmodel.UserViewModel
@@ -47,18 +49,16 @@ fun CrewScreen(
     jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
     crewViewModel: CrewViewModel = hiltViewModel()
 ) {
-    val crewSize = jsonParseViewModel.crewJsonData.size
+    val isCrewDataExists = remember {
+        mutableStateOf<List<CrewDTO>?>(null)
+    }
 
-    val isCrewDataExists = remember { mutableStateOf<List<CrewDTO>?>(null) }
-
-    val crewData = jsonParseViewModel.crewJsonData.map {
-        it
+    val crewMaster = remember {
+        mutableStateOf<List<CrewMaster>?>(null)
     }
 
     LaunchedEffect(key1 = Unit) {
-        if (jsonParseViewModel.activateJsonData.isEmpty()) {
-            jsonParseViewModel.activateJsonParse("crew.json", "crew")
-        }
+        crewMaster.value = crewViewModel.crewMasterAll()
 
         val googleId = userViewModel.getSavedLoginState()
         userViewModel.selectUserFindById(googleId)
@@ -79,7 +79,7 @@ fun CrewScreen(
         )
 
         val pagerState = rememberPagerState(pageCount = {
-            crewSize
+            crewMaster.value?.size ?: 0
         })
 
         HorizontalPager(
@@ -97,11 +97,11 @@ fun CrewScreen(
                 ),
                 border = BorderStroke(1.dp, Color.Gray)
             ) {
-                crewData.forEach {
+                crewMaster.value?.forEach {
                     val imageName = it.assets.replace("R.drawable.", "")
                     val imageResId = context.resources.getIdentifier(imageName, "drawable", context.packageName)
 
-                    if (pagerState.currentPage + 1 == it.index) {
+                    if (pagerState.currentPage + 1 == it.id) {
                         Column(
                             modifier = Modifier
                                 .fillMaxSize()
@@ -127,8 +127,6 @@ fun CrewScreen(
                                     .padding(top = 4.dp, start = 4.dp)
                             ) {
                                 Column {
-                                    Text(text = it.index.toString())
-
                                     Text(
                                         text = it.name,
                                         fontWeight = FontWeight.Bold,
@@ -157,7 +155,7 @@ fun CrewScreen(
                                                 )
 
                                                 Text(
-                                                    text = "0/${it.member}명"
+                                                    text = "크루원: ${it.member}명"
                                                 )
                                             }
                                         }
@@ -165,7 +163,7 @@ fun CrewScreen(
                                         Text(
                                             modifier = Modifier
                                                 .padding(top = 4.dp, end = 6.dp),
-                                            text = "피드: 0",
+                                            text = "피드: ???",
                                             color = Color.Gray
                                         )
                                     }

@@ -1,6 +1,7 @@
 package com.app.presentation.ui.feature.login
 
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -53,9 +54,11 @@ fun LoginScreen(
     val authResultLauncher = rememberLauncherForActivityResult (
         contract = GoogleApiContract()
     ) { task ->
-       viewModel.onGoogleSignIn(task) {
-           isNotUser = it
-       }
+        viewModel.saveLoginState(task!!.result.id.toString(), task.result.email.toString())
+
+        viewModel.onGoogleSignIn(task) {
+            isNotUser = it
+        }
     }
 
     LaunchedEffect(key1 = authState.email) {

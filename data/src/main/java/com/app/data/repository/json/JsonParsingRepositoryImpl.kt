@@ -8,7 +8,6 @@ import com.app.domain.model.state.Activate
 import com.app.domain.model.state.ActivateForm
 import com.app.domain.model.state.ActivityType
 import com.app.domain.model.state.Challenge
-import com.app.domain.model.state.Crew
 import com.app.domain.repository.json.JsonParsingRepository
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
@@ -27,8 +26,7 @@ class JsonParsingRepositoryImpl @Inject constructor(
         val listType: TypeToken<*> = when (type) {
             "activate" -> object : TypeToken<List<Activate>>() {}
             "activate_form" -> object : TypeToken<List<ActivateForm>>() {}
-            "challenge" -> object : TypeToken<List<Challenge>>() {}
-            else -> object : TypeToken<List<Crew>>() {}
+            else -> object : TypeToken<List<Challenge>>() {}
         }
 
         val assetManager: AssetManager = context.assets

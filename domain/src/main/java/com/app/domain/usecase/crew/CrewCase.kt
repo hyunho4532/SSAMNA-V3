@@ -2,6 +2,7 @@ package com.app.domain.usecase.crew
 
 import com.app.domain.model.dto.ActivateNotificationDTO
 import com.app.domain.model.dto.CrewDTO
+import com.app.domain.model.state.CrewMaster
 import com.app.domain.model.state.Ranking
 import com.app.domain.repository.crew.CrewRepository
 import javax.inject.Inject
@@ -21,6 +22,10 @@ class CrewCase @Inject constructor(
 
     suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {
         return crewRepository.isCrewDataExists(googleId)
+    }
+
+    suspend fun crewMasterAll(): List<CrewMaster> {
+        return crewRepository.crewMasterAll()
     }
 
     suspend fun crewFindById(googleId: String): List<CrewDTO> {

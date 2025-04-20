@@ -204,6 +204,16 @@ fun ReportCard(userState: User) {
                     modifier = Modifier
                         .height(80.dp)
                 ) {
+                    val recentWalkingOfWeek = when (userState.recentWalkingOfWeek) {
+                        "안함" -> userState.recentWalkingOfWeek
+                        else -> userState.recentWalkingOfWeek + "회"
+                    }
+
+                    val recentWalkingOfTime = when (userState.recentWalkingOfTime) {
+                        "안함" -> userState.recentWalkingOfTime
+                        else -> userState.recentWalkingOfTime + "분씩 진행!"
+                    }
+
                     Text(
                         text = "하루에 걷기 또는 달리기를 하시나요? ${userState.recentWalkingCheck}",
                         fontWeight = FontWeight.Bold,
@@ -211,7 +221,7 @@ fun ReportCard(userState: User) {
                     )
 
                     Text(
-                        text = "주: ${userState.recentWalkingOfWeek}회 ${userState.recentWalkingOfTime}분씩 진행!",
+                        text = "주: $recentWalkingOfWeek $recentWalkingOfTime",
                         fontSize = 14.sp,
                         modifier = Modifier.padding(top = 24.dp)
                     )
@@ -247,8 +257,6 @@ fun activateCard(
 ) {
     val imageName = activate?.assets?.replace("R.drawable.", "")
     val imageResId = context?.resources?.getIdentifier(imageName, "drawable", context.packageName)
-
-    Log.d("Card", imageResId.toString())
 
     Card (
         modifier = Modifier
