@@ -127,8 +127,6 @@ fun CrewScreen(
                                     .padding(top = 4.dp, start = 4.dp)
                             ) {
                                 Column {
-                                    Text(text = it.id.toString())
-
                                     Text(
                                         text = it.name,
                                         fontWeight = FontWeight.Bold,
@@ -157,7 +155,7 @@ fun CrewScreen(
                                                 )
 
                                                 Text(
-                                                    text = "0/${it.member}명"
+                                                    text = "크루원: ${it.member}명"
                                                 )
                                             }
                                         }
@@ -165,7 +163,7 @@ fun CrewScreen(
                                         Text(
                                             modifier = Modifier
                                                 .padding(top = 4.dp, end = 6.dp),
-                                            text = "피드: 0",
+                                            text = "피드: ???",
                                             color = Color.Gray
                                         )
                                     }

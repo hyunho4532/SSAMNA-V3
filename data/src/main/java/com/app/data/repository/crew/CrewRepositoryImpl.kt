@@ -18,7 +18,17 @@ class CrewRepositoryImpl @Inject constructor(
     private val postgrest: Postgrest
 ): CrewRepository {
     override suspend fun insert(crewDTO: CrewDTO) {
-        postgrest.from("CrewSub").insert(crewDTO)
+        return withContext(Dispatchers.IO) {
+            val params = buildJsonObject {
+                put("p_user_id", JsonPrimitive(crewDTO.userId))
+                put("p_title", JsonPrimitive(crewDTO.title))
+                put("p_picture", JsonPrimitive(crewDTO.picture))
+                put("p_created_at", JsonPrimitive(crewDTO.createdAt))
+                put("p_crew_id", JsonPrimitive(crewDTO.crewId))
+            }
+
+            postgrest.rpc("insert_crew", params)
+        }
     }
 
     override suspend fun delete(crewId: Int, googleId: String, onResult: (Boolean) -> Unit) {
