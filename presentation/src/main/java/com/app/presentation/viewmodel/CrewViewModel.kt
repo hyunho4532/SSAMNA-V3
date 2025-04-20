@@ -9,6 +9,7 @@ import com.app.domain.model.calcul.FormatImpl
 import com.app.domain.model.dto.ActivateNotificationDTO
 import com.app.domain.model.dto.CrewDTO
 import com.app.domain.model.state.Crew
+import com.app.domain.model.state.CrewMaster
 import com.app.domain.model.state.Ranking
 import com.app.domain.usecase.crew.CrewCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,9 +26,15 @@ class CrewViewModel @Inject constructor(
 ): ViewModel() {
     private val sharedPreferences = appContext.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
+    /**
+     * 크루 관련 데이터
+     */
     private val _crew = MutableStateFlow<List<CrewDTO>>(emptyList())
     val crew: StateFlow<List<CrewDTO>> = _crew
 
+    /**
+     * 알림 관련 데이터
+     */
     private val _notification = MutableStateFlow<List<ActivateNotificationDTO>>(emptyList())
     val notification: StateFlow<List<ActivateNotificationDTO>> = _notification
 
@@ -65,6 +72,13 @@ class CrewViewModel @Inject constructor(
      */
     suspend fun isCrewDataExists(googleId: String): List<CrewDTO> {
         return crewCase.isCrewDataExists(googleId)
+    }
+
+    /**
+     * 크루 마스터 데이터 전체 조회
+     */
+    suspend fun crewMasterAll(): List<CrewMaster> {
+        return crewCase.crewMasterAll()
     }
 
     /**

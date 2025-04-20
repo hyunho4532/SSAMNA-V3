@@ -2,6 +2,7 @@ package com.app.data.repository.crew
 
 import com.app.domain.model.dto.ActivateNotificationDTO
 import com.app.domain.model.dto.CrewDTO
+import com.app.domain.model.state.CrewMaster
 import com.app.domain.model.state.Ranking
 import com.app.domain.repository.crew.CrewRepository
 import io.github.jan.supabase.postgrest.Postgrest
@@ -43,6 +44,12 @@ class CrewRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun crewMasterAll(): List<CrewMaster> {
+        return withContext(Dispatchers.IO) {
+            postgrest.from("CrewMaster").select().decodeList<CrewMaster>()
+        }
+    }
+
     override suspend fun crewFindById(googleId: String): List<CrewDTO> {
         return withContext(Dispatchers.IO) {
             postgrest.from("Crew").select {
@@ -55,9 +62,7 @@ class CrewRepositoryImpl @Inject constructor(
 
     override suspend fun notificationAll(): List<ActivateNotificationDTO> {
         return withContext(Dispatchers.IO) {
-            postgrest.from("ActivateNotification").select {
-
-            }.decodeList<ActivateNotificationDTO>()
+            postgrest.from("ActivateNotification").select().decodeList<ActivateNotificationDTO>()
         }
     }
 
