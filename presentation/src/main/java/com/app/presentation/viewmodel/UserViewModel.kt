@@ -38,7 +38,6 @@ class UserViewModel @Inject constructor(
      * SP에 담은 id 값을 가져온다.
      */
     fun getSavedLoginState(): String {
-        val id = sharedPreferences.getString("id", "")!!
         return sharedPreferences.getString("id", "")!!
     }
 
@@ -49,7 +48,7 @@ class UserViewModel @Inject constructor(
     /**
      * 구글 로그인 진행 후, id 값을 SP에 담는다.
      */
-    private fun saveLoginState(id: String, name: String) {
+    fun saveLoginState(id: String, name: String) {
         sharedPreferences.edit().putString("id", id).apply()
         sharedPreferences.edit().putString("name", name).apply()
     }
