@@ -59,6 +59,9 @@ class ChallengeViewModel @Inject constructor(
         }
     }
 
+    fun selectChallengeAll(): List<Challenge> {
+    }
+
     fun selectChallengeById(id: Int, onSuccess: (Boolean) -> Unit) {
         viewModelScope.launch {
             val challengeDTO = challengeCase.selectChallengeFindById(id)
