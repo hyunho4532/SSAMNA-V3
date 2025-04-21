@@ -3,6 +3,7 @@ package com.app.presentation.ui.main.home.screen
 import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -30,6 +31,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableDoubleStateOf
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -57,6 +59,8 @@ import com.app.presentation.component.tool.challengeRegistrationCard
 import com.app.presentation.component.util.calculatorActivateCardWeight
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.domain.model.enum.CardType
+import com.app.domain.model.state.ChallengeMaster
+import com.app.domain.model.state.CrewMaster
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.ChallengeViewModel
 import com.app.presentation.viewmodel.CrewViewModel
@@ -83,8 +87,8 @@ fun ProfileScreen(
     val challengeDetailData = challengeViewModel.challengeDetailData.collectAsState()
     val crewData = crewViewModel.crew.collectAsState()
 
-    val challengeDataTitle: List<String> = challengeData.value.map {
-        it.title
+    val challengeMaster = remember {
+        mutableStateListOf<ChallengeMaster>()
     }
 
     var sumCount by remember {
@@ -115,8 +119,15 @@ fun ProfileScreen(
         val googleId = userViewModel.getSavedLoginState()
 
         activityLocationViewModel.selectActivityFindByGoogleId(userList.value.id)
+        challengeMaster.addAll(challengeViewModel.selectChallengeAll())
         challengeViewModel.selectChallengeByGoogleId(googleId = googleId)
         crewViewModel.crewFindById(googleId = googleId)
+
+        Log.d("ProfileScreen", challengeMaster.toString())
+    }
+
+    val challengeDataTitle: List<String> = challengeMaster.map {
+        it.name
     }
 
     LaunchedEffect(key1 = activateData.value) {
@@ -375,7 +386,8 @@ fun ProfileScreen(
         ChallengeBottomSheet(
             showBottomSheet = showChallengeBottomSheet,
             sheetState = sheetState,
-            challengeDataTitle = challengeDataTitle
+            challengeDataTitle = challengeDataTitle,
+            challengeMaster = challengeMaster
         )
     }
 }

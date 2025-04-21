@@ -1,6 +1,7 @@
 package com.app.data.repository.challenge
 
 import com.app.domain.model.dto.ChallengeDTO
+import com.app.domain.model.state.ChallengeMaster
 import com.app.domain.repository.challenge.ChallengeRepository
 import io.github.jan.supabase.postgrest.Postgrest
 import kotlinx.coroutines.Dispatchers
@@ -12,6 +13,12 @@ class ChallengeRepositoryImpl @Inject constructor(
 ): ChallengeRepository {
     override suspend fun insert(challengeDTO: ChallengeDTO) {
         postgrest.from("Challenge").insert(challengeDTO)
+    }
+
+    override suspend fun selectChallengeAll(): List<ChallengeMaster> {
+        return withContext(Dispatchers.IO) {
+            postgrest.from("ChallengeMaster").select().decodeList<ChallengeMaster>()
+        }
     }
 
     override suspend fun selectChallengeFindById(id: Int): List<ChallengeDTO> {

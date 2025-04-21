@@ -66,6 +66,7 @@ import com.app.domain.model.user.User
 import com.app.presentation.R
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.domain.model.enum.CardType
+import com.app.domain.model.state.ChallengeMaster
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.JsonParseViewModel
 import com.google.gson.Gson
@@ -474,7 +475,7 @@ fun activateFormCard(
 
 @Composable
 fun challengeCard(
-    challenge: Challenge,
+    challenge: ChallengeMaster,
     height: Dp,
     onChallengeIsPopup: (Int, Boolean) -> Unit
 ) {
@@ -492,7 +493,7 @@ fun challengeCard(
                     bounded = true
                 )
             ) {
-                onChallengeIsPopup(challenge.index, true)
+                onChallengeIsPopup(challenge.id, true)
             },
         colors = CardDefaults.cardColors(
             containerColor = Color.White
