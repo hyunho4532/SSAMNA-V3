@@ -2,10 +2,11 @@ package com.app.domain.repository.challenge
 
 import com.app.domain.model.dto.ChallengeDTO
 import com.app.domain.model.state.ChallengeMaster
+import com.app.domain.model.state.ChallengeSub
 
 
 interface ChallengeRepository {
-    suspend fun insert(challengeDTO: ChallengeDTO)
+    suspend fun insert(challengeSub: ChallengeSub)
 
     suspend fun selectChallengeAll() : List<ChallengeMaster>
 

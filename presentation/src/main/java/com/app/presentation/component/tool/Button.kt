@@ -29,12 +29,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.app.domain.model.dto.ActivateDTO
 import com.app.domain.model.dto.ChallengeDTO
 import com.app.domain.model.location.Coordinate
-import com.app.domain.model.state.Challenge
+import com.app.domain.model.state.ChallengeSub
 import com.app.presentation.R
 import com.app.presentation.component.util.responsive.setUpButtonWidth
 import com.app.domain.model.enum.ButtonType
+import com.app.domain.model.state.ChallengeMaster
 import com.app.domain.model.state.CrewMaster
-import com.app.domain.model.state.CrewSub
 import com.app.presentation.ui.main.home.HomeActivity
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.ChallengeViewModel
@@ -138,7 +138,9 @@ fun CustomButton(
 
                         ButtonType.RunningStatus.InsertStatus.CHALLENGE -> {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                challengeViewModel.saveChallenge(data as Challenge)
+                                if (data is ChallengeMaster) {
+                                    challengeViewModel.saveChallenge(data)
+                                }
                             }
                         }
 

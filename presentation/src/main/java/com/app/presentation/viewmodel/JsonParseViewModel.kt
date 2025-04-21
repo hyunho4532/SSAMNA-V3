@@ -1,10 +1,8 @@
 package com.app.presentation.viewmodel
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.app.domain.model.state.Activate
 import com.app.domain.model.state.ActivateForm
-import com.app.domain.model.state.Challenge
 import com.app.domain.usecase.json.JsonParseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

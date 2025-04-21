@@ -117,13 +117,12 @@ fun ProfileScreen(
 
     LaunchedEffect(key1 = Unit) {
         val googleId = userViewModel.getSavedLoginState()
+        val challengeMasterAll = challengeViewModel.selectChallengeAll()
 
         activityLocationViewModel.selectActivityFindByGoogleId(userList.value.id)
-        challengeMaster.addAll(challengeViewModel.selectChallengeAll())
+        challengeMaster.addAll(challengeMasterAll)
         challengeViewModel.selectChallengeByGoogleId(googleId = googleId)
         crewViewModel.crewFindById(googleId = googleId)
-
-        Log.d("ProfileScreen", challengeMaster.toString())
     }
 
     val challengeDataTitle: List<String> = challengeMaster.map {
