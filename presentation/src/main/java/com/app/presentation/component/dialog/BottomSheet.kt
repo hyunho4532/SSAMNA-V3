@@ -25,6 +25,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -41,6 +42,7 @@ import com.app.presentation.component.tool.activateCard
 import com.app.presentation.component.tool.activateFormCard
 import com.app.presentation.component.tool.challengeCard
 import com.app.domain.model.enum.CardType
+import com.app.domain.model.state.ChallengeMaster
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.presentation.viewmodel.JsonParseViewModel
 
@@ -179,10 +181,9 @@ fun ActivateFormBottomSheet(
 fun ChallengeBottomSheet(
     showBottomSheet: MutableState<Boolean>,
     sheetState: SheetState,
-    jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
-    challengeDataTitle: List<String>
+    challengeMaster: List<ChallengeMaster>,
+    challengeDataTitle: List<String>,
 ) {
-
     var dataIsLoading by remember {
         mutableStateOf(false)
     }
@@ -196,9 +197,6 @@ fun ChallengeBottomSheet(
     }
 
     LaunchedEffect(key1 = Unit) {
-        if (jsonParseViewModel.challengeJsonData.isEmpty()) {
-            jsonParseViewModel.activateJsonParse("challenge.json", "challenge")
-        }
         dataIsLoading = true
     }
 
@@ -217,7 +215,7 @@ fun ChallengeBottomSheet(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                jsonParseViewModel.challengeJsonData.forEach { challenge ->
+                challengeMaster.forEach { challenge ->
                     if (!challengeDataTitle.contains(challenge.name)) {
                         challengeCard(
                             challenge = challenge,
@@ -236,7 +234,7 @@ fun ChallengeBottomSheet(
         ShowChallengeDialog(
             index = challengeIndex,
             isChallengePopup = isChallengeIsPopup,
-            challenge = jsonParseViewModel.challengeJsonData
+            challenge = challengeMaster
         )
     }
 }

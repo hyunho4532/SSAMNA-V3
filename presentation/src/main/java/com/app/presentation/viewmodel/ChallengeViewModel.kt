@@ -9,6 +9,7 @@ import com.app.domain.model.state.Challenge
 import com.app.domain.model.dto.ChallengeDTO
 import com.app.domain.usecase.challenge.ChallengeCase
 import com.app.domain.model.calcul.FormatImpl
+import com.app.domain.model.state.ChallengeMaster
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -59,7 +60,8 @@ class ChallengeViewModel @Inject constructor(
         }
     }
 
-    fun selectChallengeAll(): List<Challenge> {
+    suspend fun selectChallengeAll(): List<ChallengeMaster> {
+        return challengeCase.selectChallengeAll()
     }
 
     fun selectChallengeById(id: Int, onSuccess: (Boolean) -> Unit) {
