@@ -1,6 +1,7 @@
 package com.app.presentation.component.dialog
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -25,7 +26,6 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -43,6 +43,7 @@ import com.app.presentation.component.tool.activateFormCard
 import com.app.presentation.component.tool.challengeCard
 import com.app.domain.model.enum.CardType
 import com.app.domain.model.state.ChallengeMaster
+import com.app.domain.model.state.ChallengeSub
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.presentation.viewmodel.JsonParseViewModel
 
@@ -216,14 +217,12 @@ fun ChallengeBottomSheet(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 challengeMaster.forEach { challenge ->
-                    if (!challengeDataTitle.contains(challenge.name)) {
-                        challengeCard(
-                            challenge = challenge,
-                            height = 80.dp
-                        ) { index, isPopup ->
-                            challengeIndex.intValue = index
-                            isChallengeIsPopup.value = isPopup
-                        }
+                    challengeCard(
+                        challenge = challenge,
+                        height = 80.dp
+                    ) { index, isPopup ->
+                        challengeIndex.intValue = index
+                        isChallengeIsPopup.value = isPopup
                     }
                 }
             }

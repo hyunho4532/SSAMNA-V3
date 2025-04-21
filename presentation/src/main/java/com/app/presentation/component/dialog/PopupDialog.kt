@@ -40,7 +40,6 @@ import com.app.domain.model.common.Code
 import com.app.domain.model.dto.ChallengeDTO
 import com.app.domain.model.location.Coordinate
 import com.app.domain.model.location.Location
-import com.app.domain.model.state.Challenge
 import com.app.presentation.R
 import com.app.presentation.component.marker.MapMarker
 import com.app.presentation.component.row.BoxRow
@@ -50,6 +49,7 @@ import com.app.presentation.component.util.responsive.setUpDialogWidth
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.domain.model.enum.ButtonType
 import com.app.domain.model.state.ChallengeMaster
+import com.app.domain.model.state.ChallengeSub
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.CommonCodeViewModel
 import com.app.presentation.viewmodel.SensorManagerViewModel

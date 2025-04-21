@@ -2,7 +2,6 @@ package com.app.presentation.component.tool
 
 import android.content.Context
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -58,7 +57,6 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.app.domain.model.state.Activate
 import com.app.domain.model.dto.ActivateDTO
-import com.app.domain.model.state.Challenge
 import com.app.domain.model.dto.ChallengeDTO
 import com.app.domain.model.location.Coordinate
 import com.app.domain.model.state.ActivateForm
