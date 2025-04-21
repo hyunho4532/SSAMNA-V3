@@ -25,8 +25,7 @@ class JsonParsingRepositoryImpl @Inject constructor(
 
         val listType: TypeToken<*> = when (type) {
             "activate" -> object : TypeToken<List<Activate>>() {}
-            "activate_form" -> object : TypeToken<List<ActivateForm>>() {}
-            else -> object : TypeToken<List<Challenge>>() {}
+            else -> object : TypeToken<List<ActivateForm>>() {}
         }
 
         val assetManager: AssetManager = context.assets
