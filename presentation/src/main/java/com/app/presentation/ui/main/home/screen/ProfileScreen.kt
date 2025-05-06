@@ -61,6 +61,7 @@ import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.domain.model.enum.CardType
 import com.app.domain.model.state.ChallengeMaster
 import com.app.domain.model.state.CrewMaster
+import com.app.presentation.component.admob.Banner
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.ChallengeViewModel
 import com.app.presentation.viewmodel.CrewViewModel
@@ -152,7 +153,7 @@ fun ProfileScreen(
     Column(
         modifier = Modifier
             .padding(top = 12.dp, start = 12.dp)
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(rememberScrollState()),
     ) {
 
         Image(
@@ -367,6 +368,15 @@ fun ProfileScreen(
                     }
                 }
             }
+        }
+
+        Spacer(width = 0.dp, height = 24.dp)
+
+        Column(
+            modifier = Modifier.width(setUpWidth()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Banner()
         }
     }
 
