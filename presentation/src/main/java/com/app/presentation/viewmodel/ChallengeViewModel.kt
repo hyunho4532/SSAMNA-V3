@@ -27,9 +27,6 @@ class ChallengeViewModel @Inject constructor(
 
     private val sharedPreferences = appContext.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-    private val _challenge = MutableStateFlow(ChallengeDTO())
-    private val challenge: StateFlow<ChallengeDTO> = _challenge
-
     private val _challengeData = MutableStateFlow<List<ChallengeDTO>>(emptyList())
     val challengeData: StateFlow<List<ChallengeDTO>> = _challengeData
 
