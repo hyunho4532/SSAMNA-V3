@@ -1,6 +1,7 @@
 package com.app.presentation.component.dialog
 
 import android.content.Context
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -41,6 +42,8 @@ import com.app.presentation.component.tool.activateCard
 import com.app.presentation.component.tool.activateFormCard
 import com.app.presentation.component.tool.challengeCard
 import com.app.domain.model.enum.CardType
+import com.app.domain.model.state.ChallengeMaster
+import com.app.domain.model.state.ChallengeSub
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.presentation.viewmodel.JsonParseViewModel
 
@@ -179,10 +182,9 @@ fun ActivateFormBottomSheet(
 fun ChallengeBottomSheet(
     showBottomSheet: MutableState<Boolean>,
     sheetState: SheetState,
-    jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
-    challengeDataTitle: List<String>
+    challengeMaster: List<ChallengeMaster>,
+    challengeDataTitle: List<String>,
 ) {
-
     var dataIsLoading by remember {
         mutableStateOf(false)
     }
@@ -196,9 +198,6 @@ fun ChallengeBottomSheet(
     }
 
     LaunchedEffect(key1 = Unit) {
-        if (jsonParseViewModel.challengeJsonData.isEmpty()) {
-            jsonParseViewModel.activateJsonParse("challenge.json", "challenge")
-        }
         dataIsLoading = true
     }
 
@@ -217,15 +216,13 @@ fun ChallengeBottomSheet(
                 verticalArrangement = Arrangement.Top,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                jsonParseViewModel.challengeJsonData.forEach { challenge ->
-                    if (!challengeDataTitle.contains(challenge.name)) {
-                        challengeCard(
-                            challenge = challenge,
-                            height = 80.dp
-                        ) { index, isPopup ->
-                            challengeIndex.intValue = index
-                            isChallengeIsPopup.value = isPopup
-                        }
+                challengeMaster.forEach { challenge ->
+                    challengeCard(
+                        challenge = challenge,
+                        height = 80.dp
+                    ) { index, isPopup ->
+                        challengeIndex.intValue = index
+                        isChallengeIsPopup.value = isPopup
                     }
                 }
             }
@@ -236,7 +233,7 @@ fun ChallengeBottomSheet(
         ShowChallengeDialog(
             index = challengeIndex,
             isChallengePopup = isChallengeIsPopup,
-            challenge = jsonParseViewModel.challengeJsonData
+            challenge = challengeMaster
         )
     }
 }

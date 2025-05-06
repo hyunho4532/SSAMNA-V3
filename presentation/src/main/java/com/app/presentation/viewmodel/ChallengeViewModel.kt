@@ -5,10 +5,11 @@ import android.os.Build
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.app.domain.model.state.Challenge
+import com.app.domain.model.state.ChallengeSub
 import com.app.domain.model.dto.ChallengeDTO
 import com.app.domain.usecase.challenge.ChallengeCase
 import com.app.domain.model.calcul.FormatImpl
+import com.app.domain.model.state.ChallengeMaster
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,9 +27,6 @@ class ChallengeViewModel @Inject constructor(
 
     private val sharedPreferences = appContext.getSharedPreferences("user_prefs", Context.MODE_PRIVATE)
 
-    private val _challenge = MutableStateFlow(ChallengeDTO())
-    private val challenge: StateFlow<ChallengeDTO> = _challenge
-
     private val _challengeData = MutableStateFlow<List<ChallengeDTO>>(emptyList())
     val challengeData: StateFlow<List<ChallengeDTO>> = _challengeData
 
@@ -36,27 +34,30 @@ class ChallengeViewModel @Inject constructor(
     val challengeDetailData: StateFlow<List<ChallengeDTO>> = _challengeDetailData
 
     @RequiresApi(Build.VERSION_CODES.O)
-    fun saveChallenge(data: Challenge) {
+    fun saveChallenge(data: ChallengeMaster) {
         val googleId = sharedPreferences.getString("id", "")
 
         try {
-            _challenge.update {
-                it.copy(
-                    googleId = googleId!!,
-                    title = data.name,
-                    goal = data.goal,
-                    type = data.type,
-                    todayDate = FormatImpl("YY:MM:DD:H").getTodayFormatDate()
-                )
-            }
+            val challengeSub = ChallengeSub(
+                googleId = googleId!!,
+                title = data.name,
+                description = data.description,
+                goal = data.goal,
+                type = data.type,
+                todayDate = FormatImpl("YY:MM:DD:H").getTodayFormatDate()
+            )
 
             viewModelScope.launch {
-                challengeCase.saveChallenge(challenge.value)
+                challengeCase.saveChallenge(challengeSub)
             }
 
         } catch (e: Exception) {
             e.printStackTrace()
         }
+    }
+
+    suspend fun selectChallengeAll(): List<ChallengeMaster> {
+        return challengeCase.selectChallengeAll()
     }
 
     fun selectChallengeById(id: Int, onSuccess: (Boolean) -> Unit) {

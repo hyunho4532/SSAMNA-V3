@@ -1,10 +1,8 @@
 package com.app.presentation.viewmodel
 
-import androidx.compose.runtime.mutableStateListOf
 import androidx.lifecycle.ViewModel
 import com.app.domain.model.state.Activate
 import com.app.domain.model.state.ActivateForm
-import com.app.domain.model.state.Challenge
 import com.app.domain.usecase.json.JsonParseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -19,9 +17,6 @@ class JsonParseViewModel @Inject constructor(
 
     private val _activateFormJsonData = mutableListOf<ActivateForm>()
     val activateFormJsonData: List<ActivateForm> = _activateFormJsonData
-
-    private val _challengeJsonData = mutableStateListOf<Challenge>()
-    val challengeJsonData: List<Challenge> = _challengeJsonData
 
     fun activateJsonParse(fileName: String, type: String) {
 
@@ -39,11 +34,6 @@ class JsonParseViewModel @Inject constructor(
                 "activate_form" -> {
                     for (activateForm in activityData) {
                         _activateFormJsonData.add(activateForm as ActivateForm)
-                    }
-                }
-                "challenge" -> {
-                    for (challenge in activityData) {
-                        _challengeJsonData.add(challenge as Challenge)
                     }
                 }
             }

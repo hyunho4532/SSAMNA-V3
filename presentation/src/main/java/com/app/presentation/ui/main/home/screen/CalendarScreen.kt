@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -32,6 +34,7 @@ import androidx.navigation.NavController
 import com.app.domain.model.dto.ActivateDTO
 import com.app.domain.model.user.User
 import com.app.presentation.R
+import com.app.presentation.component.admob.Banner
 import com.app.presentation.component.grid.ActivateGrid
 import com.app.presentation.component.row.ActivateTabRow
 import com.app.presentation.component.util.responsive.setUpWidth
@@ -161,10 +164,19 @@ fun CalendarScreen(
             }
         }
 
+        Box (
+            modifier = Modifier
+                .padding(top = 8.dp)
+                .width(setUpWidth())
+                .align(Alignment.CenterHorizontally)
+        ) {
+            Banner()
+        }
+
         Box(
             modifier = Modifier
                 .width(setUpWidth())
-                .padding(top = 32.dp)
+                .padding(top = 12.dp)
         ) {
             ActivateTabRow(
                 pages = pages,
