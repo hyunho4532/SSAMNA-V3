@@ -13,8 +13,8 @@ android {
         applicationId = "com.app.ssamna"
         minSdk = 24
         targetSdk = 34
-        versionCode = 11
-        versionName = "1.2.6"
+        versionCode = 13
+        versionName = "1.2.8"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
