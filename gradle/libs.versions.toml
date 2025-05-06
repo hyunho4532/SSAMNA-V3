@@ -7,6 +7,7 @@ coreKtx = "1.13.1"
 playServiceMap = "18.1.0"
 playServiceLoc = "21.0.1"
 playServiceAuth = "20.7.0"
+playServiceAds = "22.5.0"
 pager = "0.20.1"
 composeMaps = "2.11.1"
 coil = "2.4.0"
@@ -34,6 +35,7 @@ lottie = "6.6.2"
 jitpack = "1.1.2"
 
 [libraries]
+
 fagadiya-smooth-bottom-navigation = { group = "com.github.PratikFagadiya", name = "AnimatedSmoothBottomNavigation-JetpackCompose", version.ref = "jitpack" }
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 identity-googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleIdLib" }
@@ -56,6 +58,7 @@ google-maps-compose = { group = "com.google.maps.android", name="maps-compose", 
 play-services-maps = { group = "com.google.android.gms", name = "play-services-maps", version.ref = "playServiceMap" }
 play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServiceLoc" }
 play-services-auth = { group = "com.google.android.gms", name = "play-services-auth", version.ref = "playServiceAuth" }
+play-services-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "playServiceAds" }
 google-accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "pager" }
 google-accompanist-pager-indicator = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "pager" }
 

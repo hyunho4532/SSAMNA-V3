@@ -8,6 +8,7 @@ import androidx.activity.viewModels
 import com.app.presentation.route.AppNavHost
 import com.app.presentation.ui.main.home.HomeActivity
 import com.app.presentation.viewmodel.UserViewModel
+import com.google.android.gms.ads.MobileAds
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -17,6 +18,11 @@ class SSAMNA : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        /**
+         * MobileAds 초기화
+         */
+        MobileAds.initialize(this) {}
 
         val id = userViewModel.user.value.id
 
