@@ -155,6 +155,7 @@ fun ProfileScreen(
         modifier = Modifier
             .fillMaxSize()
             .padding(top = 12.dp, start = 12.dp)
+            .verticalScroll(rememberScrollState())
     ) {
 
         Column(
@@ -164,15 +165,21 @@ fun ProfileScreen(
         ) {
             Image(
                 modifier = Modifier
-                    .size(64.dp),
-                painter = painterResource(id = R.drawable.baseline_person_24),
+                    .size(76.dp)
+                    .clickable {
+                        Log.d("ProfileScreen", "1234")
+                    }
+                    .clip(CircleShape),
+                painter = painterResource(id = R.drawable.default_user),
                 contentDescription = "프로필 아이콘"
             )
+
+            Spacer(width = 0.dp, height = 8.dp)
 
             Text(
                 text = userList.value.name,
                 fontWeight = FontWeight.Bold,
-                fontSize = 18.sp
+                fontSize = 24.sp
             )
         }
 
