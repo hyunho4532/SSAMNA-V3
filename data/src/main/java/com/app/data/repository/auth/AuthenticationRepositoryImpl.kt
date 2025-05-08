@@ -8,8 +8,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.rpc
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
 import javax.inject.Inject
 
 class AuthenticationRepositoryImpl @Inject constructor(
@@ -66,14 +69,23 @@ class AuthenticationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun selectUserFindById(googleId: String) : UserDTO {
-        Log.d("AuthenticationRepository", googleId)
-
         return withContext(Dispatchers.IO) {
             postgrest.from("User").select {
                 filter {
                     eq("google_id", googleId)
                 }
             }.decodeSingle<UserDTO>()
+        }
+    }
+
+    override suspend fun updateProfileUrl(googleId: String, profileUrl: String) {
+        return withContext(Dispatchers.IO) {
+            val params = buildJsonObject {
+                put("p_user_id", JsonPrimitive(googleId))
+                put("p_profile_url", JsonPrimitive(profileUrl))
+            }
+
+            postgrest.rpc("update_profile_url", params)
         }
     }
 }

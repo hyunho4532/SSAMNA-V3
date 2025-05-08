@@ -10,4 +10,5 @@ interface AuthenticationRepository {
     fun signInWithGoogle(task: Task<GoogleSignInAccount>?, onSuccess: (id: String, email: String, name: String) -> Unit)
     suspend fun saveUser(user: User)
     suspend fun selectUserFindById(googleId: String) : UserDTO
+    suspend fun updateProfileUrl(googleId: String, profileUrl: String)
 }
