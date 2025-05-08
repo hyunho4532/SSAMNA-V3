@@ -25,4 +25,8 @@ class LoginCase @Inject constructor(
     suspend fun selectUserFindById(googleId: String) : UserDTO {
         return authenticationRepository.selectUserFindById(googleId)
     }
+
+    suspend fun updateProfileUrl(googleId: String, profileUrl: String) {
+        authenticationRepository.updateProfileUrl(googleId, profileUrl)
+    }
 }

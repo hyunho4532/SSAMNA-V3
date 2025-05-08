@@ -4,7 +4,11 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Uri
 import android.util.Log
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -48,6 +52,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.compose.AsyncImage
 import com.app.domain.model.entry.PolygonBoxItem
 import com.app.domain.model.user.User
 import com.app.presentation.R
@@ -89,6 +94,32 @@ fun ProfileScreen(
     val challengeDetailData = challengeViewModel.challengeDetailData.collectAsState()
     val crewData = crewViewModel.crew.collectAsState()
 
+    /**
+     * googleId를 전역 변수로 선언한다.
+     */
+    val googleId = userViewModel.getSavedLoginState()
+
+    var selectedImageUri by remember {
+        mutableStateOf<Uri?>(null)
+    }
+
+    /**
+     * 갤러리에서 이미지를 선택하는 런처
+     */
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = { uri ->
+            /**
+             * 이미지를 선택하면 user 테이블에 프로필 이미지를 업데이트한다.
+             */
+            selectedImageUri = uri
+            userViewModel.updateProfileUrl(
+                googleId = googleId,
+                profileUrl = selectedImageUri.toString()
+            )
+        }
+    )
+
     val challengeMaster = remember {
         mutableStateListOf<ChallengeMaster>()
     }
@@ -118,7 +149,6 @@ fun ProfileScreen(
     )
 
     LaunchedEffect(key1 = Unit) {
-        val googleId = userViewModel.getSavedLoginState()
         val challengeMasterAll = challengeViewModel.selectChallengeAll()
 
         activityLocationViewModel.selectActivityFindByGoogleId(userList.value.id)
@@ -163,15 +193,22 @@ fun ProfileScreen(
                 .width(setUpWidth()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Image(
+            AsyncImage(
+                model = selectedImageUri,
+                contentDescription = "avatar",
+                contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.default_user),
+                error = painterResource(R.drawable.default_user),
                 modifier = Modifier
-                    .size(76.dp)
+                    .size(78.dp)
+                    .clip(CircleShape)
                     .clickable {
-                        Log.d("ProfileScreen", "1234")
+                        singlePhotoPickerLauncher.launch(
+                            PickVisualMediaRequest(
+                                ActivityResultContracts.PickVisualMedia.ImageOnly
+                            )
+                        )
                     }
-                    .clip(CircleShape),
-                painter = painterResource(id = R.drawable.default_user),
-                contentDescription = "프로필 아이콘"
             )
 
             Spacer(width = 0.dp, height = 8.dp)
