@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -152,22 +153,28 @@ fun ProfileScreen(
 
     Column(
         modifier = Modifier
+            .fillMaxSize()
             .padding(top = 12.dp, start = 12.dp)
-            .verticalScroll(rememberScrollState()),
     ) {
 
-        Image(
+        Column(
             modifier = Modifier
-                .size(46.dp),
-            painter = painterResource(id = R.drawable.baseline_person_24),
-            contentDescription = "프로필 아이콘"
-        )
+                .width(setUpWidth()),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(64.dp),
+                painter = painterResource(id = R.drawable.baseline_person_24),
+                contentDescription = "프로필 아이콘"
+            )
 
-        Text(
-            text = userList.value.name + "님, 환영합니다!",
-            fontWeight = FontWeight.Bold,
-            fontSize = 18.sp
-        )
+            Text(
+                text = userList.value.name,
+                fontWeight = FontWeight.Bold,
+                fontSize = 18.sp
+            )
+        }
 
         Row (
             modifier = Modifier
