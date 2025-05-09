@@ -29,4 +29,8 @@ class LoginCase @Inject constructor(
     suspend fun updateProfileUrl(googleId: String, profileUrl: String) {
         authenticationRepository.updateProfileUrl(googleId, profileUrl)
     }
+
+    suspend fun selectProfileUrl(googleId: String) : String {
+        return authenticationRepository.selectProfileUrl(googleId)
+    }
 }

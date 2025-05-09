@@ -88,4 +88,22 @@ class AuthenticationRepositoryImpl @Inject constructor(
             postgrest.rpc("update_profile_url", params)
         }
     }
+
+    override suspend fun selectProfileUrl(googleId: String): String {
+        var profileUrl = ""
+
+        withContext(Dispatchers.IO) {
+            val params = buildJsonObject {
+                put("p_user_id", JsonPrimitive(googleId))
+            }
+
+            val result = postgrest.rpc("get_profile_url", params)
+
+            Log.d("AuthenticationRepository", result.data)
+
+            profileUrl = result.data
+        }
+
+        return profileUrl
+    }
 }

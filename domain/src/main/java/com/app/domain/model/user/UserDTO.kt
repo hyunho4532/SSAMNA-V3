@@ -33,5 +33,8 @@ data class UserDTO (
     val recentWalkingOfTime: String = "",
 
     @SerialName("targetPeriod")
-    val targetPeriod: String = ""
+    val targetPeriod: String = "",
+
+    @SerialName("profile_url")
+    val profileUrl: String? = ""
 )
