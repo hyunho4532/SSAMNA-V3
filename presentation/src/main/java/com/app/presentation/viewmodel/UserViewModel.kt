@@ -171,4 +171,8 @@ class UserViewModel @Inject constructor(
             loginCase.updateProfileUrl(googleId, profileUrl)
         }
     }
+
+    suspend fun selectProfileUrl(googleId: String) : String {
+        return loginCase.selectProfileUrl(googleId)
+    }
 }

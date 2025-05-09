@@ -2,13 +2,14 @@ package com.app.presentation.ui.main.home.screen
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -26,6 +27,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.rememberRipple
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -44,15 +46,23 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
+import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
+import coil.compose.rememberAsyncImagePainter
+import coil.compose.rememberImagePainter
+import coil.request.ImageRequest
 import com.app.domain.model.entry.PolygonBoxItem
 import com.app.domain.model.user.User
 import com.app.presentation.R
@@ -151,6 +161,8 @@ fun ProfileScreen(
     LaunchedEffect(key1 = Unit) {
         val challengeMasterAll = challengeViewModel.selectChallengeAll()
 
+        selectedImageUri = userViewModel.selectProfileUrl(googleId).toUri()
+
         activityLocationViewModel.selectActivityFindByGoogleId(userList.value.id)
         challengeMaster.addAll(challengeMasterAll)
         challengeViewModel.selectChallengeByGoogleId(googleId = googleId)
@@ -181,6 +193,16 @@ fun ProfileScreen(
         PolygonBoxItem("km", sumKm)
     )
 
+    val painter = rememberAsyncImagePainter(
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(selectedImageUri)
+            .size(78)
+            .build(),
+        onError = {
+            Log.e("ProfileScreen", "Error loading image: ${it.result.throwable}")
+        }
+    )
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -193,12 +215,10 @@ fun ProfileScreen(
                 .width(setUpWidth()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            AsyncImage(
-                model = selectedImageUri,
+            Image(
+                painter = rememberAsyncImagePainter(selectedImageUri),
                 contentDescription = "avatar",
                 contentScale = ContentScale.Crop,
-                placeholder = painterResource(R.drawable.default_user),
-                error = painterResource(R.drawable.default_user),
                 modifier = Modifier
                     .size(78.dp)
                     .clip(CircleShape)
