@@ -59,6 +59,12 @@ class ActivityLocationViewModel @Inject constructor(
     val activates: StateFlow<Activate> = _activates
     val activatesForm: StateFlow<ActivateForm> = _activatesForm
 
+    /**
+     *
+     */
+    private val _isPublic = MutableStateFlow(false)
+    val isPublic: StateFlow<Boolean> = _isPublic
+
     @SuppressLint("MissingPermission")
     fun getCurrentLocation(
         fusedLocationClient: FusedLocationProviderClient,
@@ -186,6 +192,7 @@ class ActivityLocationViewModel @Inject constructor(
             status = statusData,
             running = runningData,
             runningForm = runningFormData,
+            isPublic = _isPublic.value,
             time = FormatImpl("YY:MM:DD:H").getFormatTime(time!!),
             cul = culData,
             todayFormat = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
@@ -205,6 +212,7 @@ class ActivityLocationViewModel @Inject constructor(
                     })
                 },
                 userName = userName,
+                isPublic = _isPublic.value,
                 createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             )
         } else {
@@ -214,6 +222,7 @@ class ActivityLocationViewModel @Inject constructor(
                 km = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
                 crewId = crewData,
                 userName = userName,
+                isPublic = _isPublic.value,
                 createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             )
         }
@@ -263,5 +272,12 @@ class ActivityLocationViewModel @Inject constructor(
         }
 
         return coordList
+    }
+
+    /**
+     * 활동 공개 여부 (switch가 변경 될 때마다 데이터 수정 또는 변경
+     */
+    fun changeUseStatus(isPublic: Boolean) {
+        _isPublic.value = isPublic
     }
 }

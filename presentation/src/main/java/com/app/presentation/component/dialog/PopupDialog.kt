@@ -2,6 +2,7 @@ package com.app.presentation.component.dialog
 
 import android.annotation.SuppressLint
 import android.content.Context
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,17 +15,26 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Switch
+import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -49,7 +59,6 @@ import com.app.presentation.component.util.responsive.setUpDialogWidth
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.domain.model.enum.ButtonType
 import com.app.domain.model.state.ChallengeMaster
-import com.app.domain.model.state.ChallengeSub
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.CommonCodeViewModel
 import com.app.presentation.viewmodel.SensorManagerViewModel
@@ -71,6 +80,7 @@ fun ShowCompleteDialog(
     val cameraPositionState = rememberCameraPositionState()
 
     val activates = activityLocationViewModel.activates.collectAsState()
+    val isPublic = activityLocationViewModel.isPublic.collectAsState()
 
     val activateStatusList = remember {
         mutableStateListOf<Code>()
@@ -172,7 +182,43 @@ fun ShowCompleteDialog(
                         .padding(top = 48.dp)
                 ) {
                     Text(
-                        text = "3. 회원님이 운동한 내역",
+                        text = "3. 활동을 공개할까요?",
+                        fontSize = 17.sp,
+                        fontWeight = FontWeight.Bold,
+                    )
+                }
+
+                Switch(
+                    checked = isPublic.value,
+                    onCheckedChange = {
+                        activityLocationViewModel.changeUseStatus(it)
+                    },
+                    colors = SwitchDefaults.colors(
+                        checkedThumbColor = Color(0xFFDCE7FF),
+                        checkedTrackColor = Color(0xFFA2B6FC),
+                        uncheckedThumbColor = Color(0xFFDCE7FF),
+                        uncheckedTrackColor = Color(0xFFA2B6FC),
+                        uncheckedBorderColor = Color.Transparent
+                    ),
+                    thumbContent = if (isPublic.value) {
+                        {
+                            Icon(
+                                imageVector = Icons.Filled.Check,
+                                contentDescription = null,
+                                modifier = Modifier.size(SwitchDefaults.IconSize)
+                            )
+                        }
+                    } else {
+                        null
+                    }
+                )
+
+                Box(
+                    modifier = Modifier
+                        .padding(top = 48.dp)
+                ) {
+                    Text(
+                        text = "4. 회원님이 운동한 내역",
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold,
                     )
