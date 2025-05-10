@@ -3,6 +3,7 @@ package com.app.presentation.viewmodel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
@@ -58,6 +59,12 @@ class ActivityLocationViewModel @Inject constructor(
     val locations: StateFlow<Location> = _locations
     val activates: StateFlow<Activate> = _activates
     val activatesForm: StateFlow<ActivateForm> = _activatesForm
+
+    /**
+     *
+     */
+    private val _isPublic = MutableStateFlow(false)
+    val isPublic: StateFlow<Boolean> = _isPublic
 
     @SuppressLint("MissingPermission")
     fun getCurrentLocation(
@@ -186,6 +193,7 @@ class ActivityLocationViewModel @Inject constructor(
             status = statusData,
             running = runningData,
             runningForm = runningFormData,
+            isPublic = _isPublic.value,
             time = FormatImpl("YY:MM:DD:H").getFormatTime(time!!),
             cul = culData,
             todayFormat = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
@@ -193,6 +201,8 @@ class ActivityLocationViewModel @Inject constructor(
         )
 
         activateNotificationDTO = if (crew.value.isEmpty()) {
+            Log.d("ActivityLocationViewModel", _isPublic.value.toString())
+
             ActivateNotificationDTO (
                 userId = userId,
                 feed = pedometerCount,
@@ -205,6 +215,7 @@ class ActivityLocationViewModel @Inject constructor(
                     })
                 },
                 userName = userName,
+                isPublic = _isPublic.value,
                 createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             )
         } else {
@@ -214,6 +225,7 @@ class ActivityLocationViewModel @Inject constructor(
                 km = FormatImpl("YY:MM:DD:H").calculateDistanceToKm(pedometerCount),
                 crewId = crewData,
                 userName = userName,
+                isPublic = _isPublic.value,
                 createdAt = FormatImpl("YY:MM:DD:H").getTodayFormatDate(),
             )
         }
@@ -263,5 +275,12 @@ class ActivityLocationViewModel @Inject constructor(
         }
 
         return coordList
+    }
+
+    /**
+     * 활동 공개 여부 (switch가 변경 될 때마다 데이터 수정 또는 변경
+     */
+    fun changeUseStatus(isPublic: Boolean) {
+        _isPublic.value = isPublic
     }
 }

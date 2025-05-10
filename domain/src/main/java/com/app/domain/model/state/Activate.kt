@@ -5,6 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Keep
+/**
+ * 활동 모델
+ */
 data class Activate(
     val index: String = "",
     val name: String = "",
@@ -17,7 +20,7 @@ data class Activate(
     val googleId: String = "",
 
     /** 활동 종류 **/
-    var activateResId: Int = 2131165328,
+    var activateResId: Int = 2131165330,
     var activateName: String = "달리기",
 
     /** 측정 상태 **/
@@ -41,8 +44,8 @@ data class Activate(
     /**
      * 이모티콘
      */
-    var statusIcon: Int = 0,
-    var statusName: String = "",
+    var statusIcon: Int = 2131165372,
+    var statusName: String = "매우 좋음",
 
     /**
      *

@@ -72,7 +72,13 @@ class CrewRepositoryImpl @Inject constructor(
 
     override suspend fun notificationAll(): List<ActivateNotificationDTO> {
         return withContext(Dispatchers.IO) {
-            postgrest.from("ActivateNotification").select().decodeList<ActivateNotificationDTO>()
+            postgrest.from("ActivateNotification")
+                .select {
+                    filter {
+                        eq("is_public", true)
+                    }
+                }
+                .decodeList<ActivateNotificationDTO>()
         }
     }
 

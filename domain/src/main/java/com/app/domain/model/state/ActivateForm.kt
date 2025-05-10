@@ -5,6 +5,9 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 @Keep
+/**
+ * 활동 형태 모델
+ */
 data class ActivateForm(
     val index: String = "",
     val name: String = "오늘은! 출근",
@@ -12,7 +15,7 @@ data class ActivateForm(
     val assets: String = "",
 
     /** 활동 종류 **/
-    var activateFormResId: Int = 2131165328,
+    var activateFormResId: Int = 2131165330,
 
     /** 마커 표시 팝업 **/
     var showMarkerPopup: Boolean = false,

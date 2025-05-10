@@ -1,5 +1,6 @@
 package com.app.data.repository.activate
 
+import android.util.Log
 import com.app.domain.model.dto.ActivateDTO
 import com.app.domain.model.dto.ActivateNotificationDTO
 import com.app.domain.repository.activate.ActivateRepository
