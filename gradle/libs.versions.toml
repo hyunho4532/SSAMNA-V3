@@ -33,14 +33,11 @@ browser = "1.5.0"
 googleIdLib = "1.1.1"
 lottie = "6.6.2"
 jitpack = "1.1.2"
-glide = "4.15.1"
+composeBeta = "1.0.0-beta01"
 
 [libraries]
 
 fagadiya-smooth-bottom-navigation = { group = "com.github.PratikFagadiya", name = "AnimatedSmoothBottomNavigation-JetpackCompose", version.ref = "jitpack" }
-glide = { group = "com.github.bumptech.glide", name = "glide", version.ref = "glide" }
-glide-compiler = { group = "com.github.bumptech.glide", name = "compiler", version.ref = "glide" }
-glide-compose = { group = "com.github.bumptech.glide", name = "compose", version.ref = "compose" }
 lottie = { group = "com.airbnb.android", name = "lottie-compose", version.ref = "lottie" }
 identity-googleid = { group = "com.google.android.libraries.identity.googleid", name = "googleid", version.ref = "googleIdLib" }
 dotenv-kotlin = { group = "io.github.cdimascio", name = "dotenv-kotlin", version.ref = "dotenv" }
