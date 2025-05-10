@@ -3,6 +3,7 @@ package com.app.presentation.viewmodel
 import android.annotation.SuppressLint
 import android.content.Context
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.State
 import androidx.lifecycle.ViewModel
@@ -200,6 +201,8 @@ class ActivityLocationViewModel @Inject constructor(
         )
 
         activateNotificationDTO = if (crew.value.isEmpty()) {
+            Log.d("ActivityLocationViewModel", _isPublic.value.toString())
+
             ActivateNotificationDTO (
                 userId = userId,
                 feed = pedometerCount,

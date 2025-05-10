@@ -23,7 +23,7 @@ data class ActivateNotificationDTO(
     val userName: String = "",
 
     @SerialName("is_public")
-    val isPublic: Boolean? = true,
+    val isPublic: Boolean = true,
 
     @SerialName("created_at")
     val createdAt: String = ""
