@@ -44,8 +44,8 @@ data class Activate(
     /**
      * 이모티콘
      */
-    var statusIcon: Int = 0,
-    var statusName: String = "",
+    var statusIcon: Int = 2131165372,
+    var statusName: String = "매우 좋음",
 
     /**
      *
