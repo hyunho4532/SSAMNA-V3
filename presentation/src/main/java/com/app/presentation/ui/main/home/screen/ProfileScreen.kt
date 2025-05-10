@@ -76,6 +76,8 @@ import com.app.presentation.viewmodel.ChallengeViewModel
 import com.app.presentation.viewmodel.CrewViewModel
 import com.app.presentation.viewmodel.UserViewModel
 import com.google.gson.Gson
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.double
 import kotlinx.serialization.json.int
 import kotlinx.serialization.json.jsonPrimitive
@@ -250,8 +252,8 @@ fun ProfileScreen(
                     Icons.Filled.Settings,
                     contentDescription = "사용자 설정 아이콘",
                     modifier = Modifier.clickable {
-                        userList
-                        navController.navigate("settings")
+                        val userJson = Json.encodeToString(userList.value)
+                        navController.navigate("settings/$userJson")
                     }
                 )
             }
