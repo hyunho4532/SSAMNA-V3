@@ -28,6 +28,7 @@ import com.app.presentation.ui.feature.OnBoardingScreen
 import com.app.presentation.ui.feature.activate.ActivateScreen
 import com.app.presentation.ui.feature.crew.CrewScreen
 import com.app.presentation.ui.feature.activate.detail.ActivateDetailScreen
+import com.app.presentation.ui.feature.auth.SettingScreen
 import com.app.presentation.ui.feature.crew.detail.CrewDetailScreen
 import com.app.presentation.ui.feature.crew.detail.chart.ActivateChart
 import com.app.presentation.ui.main.home.screen.CalendarScreen
@@ -187,6 +188,17 @@ fun ScreenNavigationConfiguration(
             ActivateScreen(
                 context = context,
                 navController = navController
+            )
+        }
+
+        composable("settings/{userJson}") { backStackEntry ->
+            val userJson = backStackEntry.arguments?.getString("userJson")
+            val user = userJson.let {
+                Json.decodeFromString<User>(it!!)
+            }
+
+            SettingScreen(
+                user = user
             )
         }
     }
