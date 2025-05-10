@@ -173,7 +173,7 @@ class UserViewModel @Inject constructor(
         }
     }
 
-    suspend fun selectProfileUrl(googleId: String) : String? {
+    fun selectProfileUrl(googleId: String) : String? {
         return sharedPreferences.getString("profileUrl", "")
     }
 }

@@ -32,6 +32,9 @@ data class ActivateDTO(
     @SerialName("time")
     val time: String = "",
 
+    @SerialName("is_public")
+    val isPublic: Boolean = true,
+
     @SerialName("cul")
     val cul: JsonObject = buildJsonObject {  },
 
