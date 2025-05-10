@@ -59,6 +59,7 @@ import androidx.core.net.toUri
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import coil.ImageLoader
 import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
@@ -130,6 +131,13 @@ fun ProfileScreen(
         }
     )
 
+    // Custom ImageLoader 설정
+    val imageLoader = remember {
+        ImageLoader.Builder(context)
+            .crossfade(true)
+            .build()
+    }
+
     val challengeMaster = remember {
         mutableStateListOf<ChallengeMaster>()
     }
@@ -161,7 +169,7 @@ fun ProfileScreen(
     LaunchedEffect(key1 = Unit) {
         val challengeMasterAll = challengeViewModel.selectChallengeAll()
 
-        selectedImageUri = userViewModel.selectProfileUrl(googleId).toUri()
+        selectedImageUri = userViewModel.selectProfileUrl(googleId)?.toUri()
 
         activityLocationViewModel.selectActivityFindByGoogleId(userList.value.id)
         challengeMaster.addAll(challengeMasterAll)
@@ -193,16 +201,6 @@ fun ProfileScreen(
         PolygonBoxItem("km", sumKm)
     )
 
-    val painter = rememberAsyncImagePainter(
-        model = ImageRequest.Builder(LocalContext.current)
-            .data(selectedImageUri)
-            .size(78)
-            .build(),
-        onError = {
-            Log.e("ProfileScreen", "Error loading image: ${it.result.throwable}")
-        }
-    )
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -216,7 +214,14 @@ fun ProfileScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
-                painter = rememberAsyncImagePainter(selectedImageUri),
+                painter = rememberAsyncImagePainter(
+                    ImageRequest.Builder(context)
+                        .data(selectedImageUri)
+                        .placeholder(R.drawable.default_user)
+                        .error(R.drawable.default_user)
+                        .build(),
+                    imageLoader = imageLoader
+                ),
                 contentDescription = "avatar",
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
