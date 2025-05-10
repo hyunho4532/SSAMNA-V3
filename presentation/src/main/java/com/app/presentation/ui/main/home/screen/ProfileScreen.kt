@@ -278,6 +278,10 @@ fun ProfileScreen(
                 contentDescription = "활동 아이콘"
             )
         }
+
+        /**
+         * 활동 내역을 조회한다.
+         */
         Column (
             modifier = Modifier
                 .height(
@@ -302,6 +306,9 @@ fun ProfileScreen(
 
         Spacer(width = 0.dp, height = 46.dp)
 
+        /**
+         * 현재 사용자의 크루와 크루 갯수, 크루 등록 화면으로 이동되는 아이콘을 조회한다.
+         */
         Row (
             modifier = Modifier
                 .fillMaxWidth()
@@ -332,6 +339,9 @@ fun ProfileScreen(
             )
         }
 
+        /**
+         * 크루 내역을 조회한다.
+         */
         Column (
             modifier = Modifier
                 .width(setUpWidth())
@@ -389,6 +399,9 @@ fun ProfileScreen(
 
         Spacer(width = 0.dp, height = 46.dp)
 
+        /**
+         * 현재 사용자의 챌린지와 챌린지 갯수, 챌린지 등록 바텀 팝업창으로 이동되는 아이콘을 조회한다.
+         */
         Row (
             modifier = Modifier
                 .fillMaxWidth()
@@ -419,6 +432,9 @@ fun ProfileScreen(
             )
         }
 
+        /**
+         * 챌린지 내역을 조회한다.
+         */
         Column (
             modifier = Modifier
                 .height(
