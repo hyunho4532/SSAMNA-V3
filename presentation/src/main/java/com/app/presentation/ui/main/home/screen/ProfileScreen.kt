@@ -23,6 +23,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Icon
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
@@ -230,11 +233,28 @@ fun ProfileScreen(
 
             Spacer(width = 0.dp, height = 8.dp)
 
-            Text(
-                text = userList.value.name,
-                fontWeight = FontWeight.Bold,
-                fontSize = 24.sp
-            )
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.Center,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = userList.value.name,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 24.sp
+                )
+
+                Spacer(width = 4.dp, height = 0.dp)
+
+                Icon(
+                    Icons.Filled.Settings,
+                    contentDescription = "사용자 설정 아이콘",
+                    modifier = Modifier.clickable {
+                        userList
+                        navController.navigate("settings")
+                    }
+                )
+            }
         }
 
         /**
