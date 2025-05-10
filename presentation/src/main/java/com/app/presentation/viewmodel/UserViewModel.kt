@@ -162,4 +162,18 @@ class UserViewModel @Inject constructor(
             }
         }
     }
+
+    /**
+     * 프로필 이미지를 업데이트하여 데이터에 등록한다.
+     */
+    fun updateProfileUrl(googleId: String, profileUrl: String) {
+        sharedPreferences.edit().apply {
+            putString("profileUrl", profileUrl)
+            apply()
+        }
+    }
+
+    suspend fun selectProfileUrl(googleId: String) : String? {
+        return sharedPreferences.getString("profileUrl", "")
+    }
 }
