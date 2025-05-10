@@ -28,6 +28,7 @@ import com.app.presentation.ui.feature.OnBoardingScreen
 import com.app.presentation.ui.feature.activate.ActivateScreen
 import com.app.presentation.ui.feature.crew.CrewScreen
 import com.app.presentation.ui.feature.activate.detail.ActivateDetailScreen
+import com.app.presentation.ui.feature.auth.SettingScreen
 import com.app.presentation.ui.feature.crew.detail.CrewDetailScreen
 import com.app.presentation.ui.feature.crew.detail.chart.ActivateChart
 import com.app.presentation.ui.main.home.screen.CalendarScreen
@@ -188,6 +189,12 @@ fun ScreenNavigationConfiguration(
                 context = context,
                 navController = navController
             )
+        }
+
+        composable(
+            route = "settings"
+        ) {
+            SettingScreen()
         }
     }
 }
