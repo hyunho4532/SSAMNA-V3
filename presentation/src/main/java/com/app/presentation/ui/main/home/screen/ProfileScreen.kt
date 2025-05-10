@@ -2,10 +2,7 @@ package com.app.presentation.ui.main.home.screen
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.content.Intent
-import android.graphics.BitmapFactory
 import android.net.Uri
-import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,7 +24,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.ripple.rememberRipple
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
@@ -46,11 +42,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ImageBitmap
-import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -60,9 +52,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import coil.ImageLoader
-import coil.compose.AsyncImage
 import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import coil.request.ImageRequest
 import com.app.domain.model.entry.PolygonBoxItem
 import com.app.domain.model.user.User
@@ -77,7 +67,6 @@ import com.app.presentation.component.util.calculatorActivateCardWeight
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.domain.model.enum.CardType
 import com.app.domain.model.state.ChallengeMaster
-import com.app.domain.model.state.CrewMaster
 import com.app.presentation.component.admob.Banner
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.ChallengeViewModel
@@ -208,6 +197,9 @@ fun ProfileScreen(
             .verticalScroll(rememberScrollState())
     ) {
 
+        /**
+         * 프로필의 이미지와 이름을 조회한다.
+         */
         Column(
             modifier = Modifier
                 .width(setUpWidth()),
@@ -245,6 +237,9 @@ fun ProfileScreen(
             )
         }
 
+        /**
+         * Polygon를 이용하여 걸음 수, 칼로리, km를 조회한다.
+         */
         Row (
             modifier = Modifier
                 .width(setUpWidth())
@@ -259,6 +254,9 @@ fun ProfileScreen(
             }
         }
 
+        /**
+         * 현재 사용자의 활동과 활동 갯수, 전체 활동 화면이 이동되는 아이콘을 조회한다.
+         */
         Row (
             modifier = Modifier
                 .fillMaxWidth()
