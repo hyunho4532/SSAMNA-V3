@@ -89,6 +89,9 @@ fun CustomButton(
                 ButtonType.EventStatus.ROUTE -> {
                     onClick(true)
                 }
+                ButtonType.EventStatus.DARKTHEME -> {
+                    
+                }
                 ButtonType.PermissionStatus.USERCANCEL -> {
                     onNavigateToCheck(false)
                 }
