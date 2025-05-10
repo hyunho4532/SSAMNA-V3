@@ -191,10 +191,15 @@ fun ScreenNavigationConfiguration(
             )
         }
 
-        composable(
-            route = "settings"
-        ) {
-            SettingScreen()
+        composable("settings/{userJson}") { backStackEntry ->
+            val userJson = backStackEntry.arguments?.getString("userJson")
+            val user = userJson.let {
+                Json.decodeFromString<User>(it!!)
+            }
+
+            SettingScreen(
+                user = user
+            )
         }
     }
 }
