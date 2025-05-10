@@ -2,7 +2,6 @@ package com.app.presentation.component.dialog
 
 import android.annotation.SuppressLint
 import android.content.Context
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -20,21 +19,18 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -59,6 +55,7 @@ import com.app.presentation.component.util.responsive.setUpDialogWidth
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.domain.model.enum.ButtonType
 import com.app.domain.model.state.ChallengeMaster
+import com.app.presentation.component.util.DefaultSwitch
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.CommonCodeViewModel
 import com.app.presentation.viewmodel.SensorManagerViewModel
@@ -173,7 +170,13 @@ fun ShowCompleteDialog(
                                 text = stringResource(id = R.string.hint_name_exercise),
                                 color = Color.Gray
                             )
-                        }
+                        },
+                        colors = TextFieldDefaults.colors(
+                            unfocusedContainerColor = DefaultSwitch().unfocusedContainerColor,
+                            unfocusedIndicatorColor = DefaultSwitch().unfocusedIndicatorColor,
+                            focusedIndicatorColor = DefaultSwitch().focusedIndicatorColor,
+                            focusedContainerColor = DefaultSwitch().focusedContainerColor
+                        )
                     )
                 }
 
