@@ -182,8 +182,7 @@ fun ActivateFormBottomSheet(
 fun ChallengeBottomSheet(
     showBottomSheet: MutableState<Boolean>,
     sheetState: SheetState,
-    challengeMaster: List<ChallengeMaster>,
-    challengeDataTitle: List<String>,
+    challengeMaster: List<ChallengeMaster>
 ) {
     var dataIsLoading by remember {
         mutableStateOf(false)
@@ -206,8 +205,7 @@ fun ChallengeBottomSheet(
             modifier = Modifier
                 .fillMaxSize(),
             sheetState = sheetState,
-            onDismissRequest = { showBottomSheet.value = false },
-            containerColor = Color.White
+            onDismissRequest = { showBottomSheet.value = false }
         ) {
             Column (
                 modifier = Modifier

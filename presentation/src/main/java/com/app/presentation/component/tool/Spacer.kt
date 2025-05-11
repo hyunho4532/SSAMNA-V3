@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,7 +25,7 @@ fun Spacer(
             .width(width)
             .height(height!!)
             .bottomBorderConditional(isBottomBorder) {
-                bottomBorder(1.dp, Color.Gray)
+                bottomBorder(1.dp, MaterialTheme.colorScheme.onSurface)
             }
     )
 }

@@ -1,5 +1,6 @@
 package com.app.presentation.component.util
 
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
 import androidx.compose.ui.draw.drawBehind
@@ -8,7 +9,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Dp
 
-fun Modifier.bottomBorderConditional(condition: Boolean, modifier: Modifier.() -> Modifier) : Modifier {
+@Composable
+fun Modifier.bottomBorderConditional(condition: Boolean, modifier: @Composable Modifier.() -> Modifier) : Modifier {
     return if (condition) {
         then(modifier(Modifier))
     } else {

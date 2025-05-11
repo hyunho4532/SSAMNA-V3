@@ -28,6 +28,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -45,8 +46,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -171,10 +174,6 @@ fun ProfileScreen(
         crewViewModel.crewFindById(googleId = googleId)
     }
 
-    val challengeDataTitle: List<String> = challengeMaster.map {
-        it.name
-    }
-
     LaunchedEffect(key1 = activateData.value) {
         if (activateData.value.isNotEmpty()) {
             sumCount = activateData.value.sumOf {
@@ -254,7 +253,8 @@ fun ProfileScreen(
                     modifier = Modifier.clickable {
                         val userJson = Json.encodeToString(userList.value)
                         navController.navigate("settings/$userJson")
-                    }
+                    },
+                    tint = MaterialTheme.colorScheme.onSurface
                 )
             }
         }
@@ -288,6 +288,8 @@ fun ProfileScreen(
             Text(
                 text = "활동 (${activateData.value.size})",
                 fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Image(
@@ -297,7 +299,8 @@ fun ProfileScreen(
                         navController.navigate("activate")
                     },
                 painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-                contentDescription = "활동 아이콘"
+                contentDescription = "활동 아이콘",
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
             )
         }
 
@@ -350,13 +353,16 @@ fun ProfileScreen(
             Text(
                 text = "크루",
                 fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Image(
                 modifier = Modifier
                     .size(28.dp),
                 painter = painterResource(id = R.drawable.baseline_add_24),
-                contentDescription = "추가 아이콘"
+                contentDescription = "추가 아이콘",
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
             )
         }
 
@@ -404,7 +410,7 @@ fun ProfileScreen(
                                 contentScale = ContentScale.Crop,
                                 modifier = Modifier
                                     .size(86.dp)
-                                    .clip(CircleShape)
+                                    .clip(CircleShape),
                             )
                             Text(
                                 modifier = Modifier
@@ -443,13 +449,16 @@ fun ProfileScreen(
             Text(
                 text = "챌린지 (${challengeData.value.size})",
                 fontSize = 22.sp,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Image(
                 modifier = Modifier
                     .size(28.dp),
                 painter = painterResource(id = R.drawable.baseline_add_24),
-                contentDescription = "추가 아이콘"
+                contentDescription = "추가 아이콘",
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
             )
         }
 
@@ -506,7 +515,6 @@ fun ProfileScreen(
         ChallengeBottomSheet(
             showBottomSheet = showChallengeBottomSheet,
             sheetState = sheetState,
-            challengeDataTitle = challengeDataTitle,
             challengeMaster = challengeMaster
         )
     }
