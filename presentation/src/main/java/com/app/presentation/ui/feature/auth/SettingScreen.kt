@@ -45,7 +45,7 @@ fun SettingScreen(
             showIcon = true,
             backgroundColor = Color(0xFF5c9afa),
             shape = "Rectangle",
-            themeViewModel = stateViewModel
+            stateViewModel = stateViewModel
         )
     }
 }

@@ -28,6 +28,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -246,7 +247,6 @@ fun activateCard(
     context: Context? = LocalContext.current,
     height: Dp,
     backgroundColor: Color = Color.White,
-    borderStroke: Int? = 0,
     activate: Activate? = Activate(),
     activateDTO: ActivateDTO? = ActivateDTO(),
     showBottomSheet: MutableState<Boolean>? = mutableStateOf(false),
@@ -281,10 +281,7 @@ fun activateCard(
                     navController.navigate("activateDetail/${activateDTO!!.id}")
                 }
             },
-        colors = CardDefaults.cardColors(
-            containerColor = backgroundColor
-        ),
-        border = BorderStroke(borderStroke!!.dp, Color.Gray)
+        border = BorderStroke(width = 1.dp, color = Color.Gray)
     ) {
         if (cardType == CardType.ActivateStatus.Running) {
             Row {
@@ -331,14 +328,16 @@ fun activateCard(
 
                 Column {
                     Text(
-                        text = activateDTO.todayFormat
+                        text = activateDTO.todayFormat,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Spacer(width = 0.dp, height = 4.dp)
 
                     Text(
                         text = "${activateDTO.status["status_title"]} : ${activateDTO.cul["goal_count"]}걸음!",
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 

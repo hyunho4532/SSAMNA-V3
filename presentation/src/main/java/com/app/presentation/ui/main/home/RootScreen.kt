@@ -64,7 +64,6 @@ fun RootScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(Color.White)
         ) {
             ScreenNavigationConfiguration(
                 navController = navController,
