@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -50,12 +51,17 @@ import com.app.domain.model.enum.ButtonType
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.LocationManagerViewModel
 import com.app.presentation.viewmodel.SensorManagerViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.GoogleMapOptions
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.Marker
 import com.google.maps.android.compose.MarkerState
 import com.google.maps.android.compose.Polyline
@@ -69,6 +75,7 @@ fun HomeScreen(
     locationManagerViewModel: LocationManagerViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
+    stateViewModel: StateViewModel = hiltViewModel(),
     context: Context
 ) {
     val coordinateState = locationManagerViewModel.coordinate.collectAsState()
@@ -144,22 +151,23 @@ fun HomeScreen(
         )
     }
 
-    val mapStyleOptions = remember {
-        try {
-            val styleJson = context.resources
-                .openRawResource(R.raw.map_style_dark)
-                .bufferedReader()
-                .use { it.readText() }
-            MapStyleOptions(styleJson)
-        } catch (e: Exception) {
-            null
-        }
+    val mapStyles = if (stateViewModel.isDarkTheme.value) {
+        MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style_dark)
+    } else {
+        null
+    }
+
+    val mapProperties = remember {
+        MapProperties(
+            mapStyleOptions = mapStyles
+        )
     }
 
     if (locationPermissionState.allPermissionsGranted) {
         if (isLocationLoaded) {
             GoogleMap(
-                cameraPositionState = cameraPositionState
+                cameraPositionState = cameraPositionState,
+                properties = mapProperties
             ) {
                 MapMarker(
                     context = context,
@@ -248,7 +256,7 @@ fun HomeScreen(
                         .offset(x = buttonOffset)
                         .align(Alignment.CenterEnd),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
+                        containerColor = MaterialTheme.colorScheme.surface,
                         contentColor = Color.Black
                     ),
                     shape = RectangleShape
@@ -256,7 +264,8 @@ fun HomeScreen(
                     Text(
                         text = if (isPanelVisible) "→" else "←",
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -271,7 +280,8 @@ fun HomeScreen(
                             .animateContentSize()
                     ) {
                         HomeAside(
-                            context = context
+                            context = context,
+                            stateViewModel = stateViewModel
                         )
                     }
                 }

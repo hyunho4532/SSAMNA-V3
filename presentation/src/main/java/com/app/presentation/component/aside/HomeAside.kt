@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.widget.Toast
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -17,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -27,6 +29,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -40,6 +43,7 @@ import com.app.presentation.component.tool.Spacer
 import com.app.domain.model.enum.ButtonType
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.SensorManagerViewModel
+import com.app.presentation.viewmodel.StateViewModel
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,7 +51,8 @@ import com.app.presentation.viewmodel.SensorManagerViewModel
 fun HomeAside(
     context: Context,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
-    sensorManagerViewModel: SensorManagerViewModel = hiltViewModel()
+    sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
+    stateViewModel: StateViewModel
 ) {
 
     val activates by activityLocationViewModel.activates.collectAsState()
@@ -55,6 +60,12 @@ fun HomeAside(
 
     val showActivateBottomSheet = remember {
         mutableStateOf(false)
+    }
+
+    val background = if (stateViewModel.isDarkTheme.value) {
+        Color.Black
+    } else {
+        Color(0xFF5c9afa)
     }
 
     val showActivateFormBottomSheet = remember {
@@ -66,7 +77,7 @@ fun HomeAside(
     )
 
     Column (
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize().background(MaterialTheme.colorScheme.surface),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
     ) {
@@ -100,7 +111,8 @@ fun HomeAside(
                 Image(
                     modifier = Modifier.size(20.dp),
                     painter = painterResource(id = activates.activateResId),
-                    contentDescription = "달리는 사람 아이콘"
+                    contentDescription = "달리는 사람 아이콘",
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                 )
 
                 Text(
@@ -142,7 +154,8 @@ fun HomeAside(
                     modifier = Modifier
                         .size(20.dp),
                     painter = painterResource(id = activatesForm.activateFormResId),
-                    contentDescription = "운동 시간 아이콘"
+                    contentDescription = "운동 시간 아이콘",
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                 )
 
                 Spacer(width = 2.dp, height = 0.dp)
@@ -186,7 +199,8 @@ fun HomeAside(
                 Image(
                     modifier = Modifier.size(20.dp),
                     painter = painterResource(id = R.drawable.baseline_fmd_good_24),
-                    contentDescription = "목표 지점 아이콘"
+                    contentDescription = "목표 지점 아이콘",
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                 )
 
                 Spacer(width = 2.dp, height = 0.dp)
@@ -205,7 +219,7 @@ fun HomeAside(
             height = 36.dp,
             text = sensorManagerViewModel.getSavedButtonNameState()!!,
             showIcon = false,
-            backgroundColor = Color(0xFF5c9afa),
+            backgroundColor = background,
             context = context,
             shape = "Circle"
         )
