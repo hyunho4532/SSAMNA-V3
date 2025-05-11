@@ -1,7 +1,5 @@
 package com.app.presentation.ui.feature.auth
 
-import android.util.Log
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -17,13 +15,15 @@ import com.app.domain.model.enum.ButtonType
 import com.app.domain.model.user.User
 import com.app.presentation.component.tool.CustomButton
 import com.app.presentation.component.util.responsive.setUpWidth
+import com.app.presentation.viewmodel.StateViewModel
 
 /**
  * 사용자 설정 화면
  */
 @Composable
 fun SettingScreen(
-    user: User
+    user: User,
+    stateViewModel: StateViewModel
 ) {
     Column(
         modifier = Modifier
@@ -44,7 +44,8 @@ fun SettingScreen(
             text = "다크 모드 활성화",
             showIcon = true,
             backgroundColor = Color(0xFF5c9afa),
-            shape = "Rectangle"
+            shape = "Rectangle",
+            themeViewModel = stateViewModel
         )
     }
 }
