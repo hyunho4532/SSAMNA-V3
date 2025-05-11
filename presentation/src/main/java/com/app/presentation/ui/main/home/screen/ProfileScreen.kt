@@ -49,7 +49,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -77,6 +76,7 @@ import com.app.presentation.component.admob.Banner
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.ChallengeViewModel
 import com.app.presentation.viewmodel.CrewViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import com.app.presentation.viewmodel.UserViewModel
 import com.google.gson.Gson
 import kotlinx.serialization.encodeToString
@@ -95,7 +95,8 @@ fun ProfileScreen(
     crewViewModel: CrewViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
     userList: State<User>,
-    context: Context
+    context: Context,
+    stateViewModel: StateViewModel
 ) {
     val activateData  = activityLocationViewModel.activateData.collectAsState()
     val challengeData = challengeViewModel.challengeData.collectAsState()
@@ -271,7 +272,8 @@ fun ProfileScreen(
             polygonBoxItems.forEach { item ->
                 PolygonBox(
                     title = item.title,
-                    data = item.data
+                    data = item.data,
+                    stateViewModel = stateViewModel
                 )
             }
         }

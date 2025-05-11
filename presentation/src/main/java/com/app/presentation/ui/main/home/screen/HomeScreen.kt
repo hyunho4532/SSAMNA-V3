@@ -144,9 +144,20 @@ fun HomeScreen(
         )
     }
 
+    val mapStyleOptions = remember {
+        try {
+            val styleJson = context.resources
+                .openRawResource(R.raw.map_style_dark)
+                .bufferedReader()
+                .use { it.readText() }
+            MapStyleOptions(styleJson)
+        } catch (e: Exception) {
+            null
+        }
+    }
+
     if (locationPermissionState.allPermissionsGranted) {
         if (isLocationLoaded) {
-
             GoogleMap(
                 cameraPositionState = cameraPositionState
             ) {
