@@ -114,7 +114,8 @@ fun ScreenNavigationConfiguration(
         composable(Screens.HomeScreen.route) {
             HomeScreen(
                 fusedLocationClient = fusedLocationClient,
-                context = context
+                context = context,
+                stateViewModel = stateViewModel
             )
         }
 
@@ -123,7 +124,8 @@ fun ScreenNavigationConfiguration(
                 CalendarScreen(
                     activateList = activateList.value,
                     userList = userList,
-                    navController = navController
+                    navController = navController,
+                    stateViewModel = stateViewModel
                 )
             }
         }

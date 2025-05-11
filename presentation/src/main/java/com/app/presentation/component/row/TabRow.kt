@@ -3,6 +3,7 @@ package com.app.presentation.component.row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Tab
 import androidx.compose.material.TabRow
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -81,7 +82,7 @@ fun <T> ActivateTabRow(
     }
 
     TabRow(
-        backgroundColor = Color.White,
+        backgroundColor = MaterialTheme.colorScheme.surface,
         selectedTabIndex = pagerState.currentPage,
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
