@@ -20,16 +20,40 @@ fun BottomNavigationBar(
     navController: NavHostController,
     stateViewModel: StateViewModel
 ) {
+    val backgroundColor = if (stateViewModel.isDarkTheme.value) {
+        Color.Gray
+    } else {
+        Color.White
+    }
+
+    val iconTintColor = if (stateViewModel.isDarkTheme.value) {
+        Color.White
+    } else {
+        Color.Gray
+    }
+
+    val iconTintActiveColor = if (stateViewModel.isDarkTheme.value) {
+        Color.White
+    } else {
+        Color.Black
+    }
+
+    val textActiveColor = if (stateViewModel.isDarkTheme.value) {
+        Color.White
+    } else {
+        Color.Black
+    }
+
     SmoothAnimationBottomBar (
         navController = navController,
         bottomNavigationItems = items,
         initialIndex = currentIndex,
         bottomBarProperties = BottomBarProperties(
-            backgroundColor = MaterialTheme.colorScheme.onSurface,
+            backgroundColor = backgroundColor,
             indicatorColor = Color.White.copy(alpha = 0.5F),
-            iconTintColor = Color.Gray,
-            iconTintActiveColor = Color.Black,
-            textActiveColor = Color.Black,
+            iconTintColor = iconTintColor,
+            iconTintActiveColor = iconTintActiveColor,
+            textActiveColor = textActiveColor,
             cornerRadius = 18.dp,
             fontWeight = FontWeight.Medium,
             fontSize = 16.sp,

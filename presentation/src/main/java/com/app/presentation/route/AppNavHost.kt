@@ -133,6 +133,7 @@ fun ScreenNavigationConfiguration(
                 navController = navController,
                 context = context,
                 userList = userList,
+                stateViewModel = stateViewModel
             )
         }
 
