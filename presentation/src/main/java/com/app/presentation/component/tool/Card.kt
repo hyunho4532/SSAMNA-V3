@@ -26,6 +26,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -43,6 +44,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -281,7 +283,7 @@ fun activateCard(
                     navController.navigate("activateDetail/${activateDTO!!.id}")
                 }
             },
-        border = BorderStroke(width = 1.dp, color = Color.Gray)
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.onSurface)
     ) {
         if (cardType == CardType.ActivateStatus.Running) {
             Row {
@@ -353,7 +355,8 @@ fun activateCard(
                         modifier = Modifier
                             .size(22.dp),
                         painter = painterResource(id = activateDTO.running["running_icon"]?.jsonPrimitive!!.int),
-                        contentDescription = "러닝 상태 아이콘"
+                        contentDescription = "러닝 상태 아이콘",
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                     )
 
                     Text(
@@ -508,9 +511,6 @@ fun challengeCard(
             ) {
                 onChallengeIsPopup(challenge.id, true)
             },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
     ) {
         Box(
             modifier = Modifier
@@ -526,19 +526,22 @@ fun challengeCard(
                     Text(
                         text = challenge.name,
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Image(
                         modifier = Modifier.padding(end = 4.dp),
                         painter = painterResource(id = R.drawable.baseline_add_24),
-                        contentDescription = "추가 아이콘"
+                        contentDescription = "추가 아이콘",
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                     )
                 }
 
                 Text(
                     text = challenge.description,
                     fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Spacer(
@@ -588,10 +591,7 @@ fun challengeRegistrationCard(
             ) {
                 onChallengeIsPopup(true)
             },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        border = BorderStroke(1.dp, Color.Gray)
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.onSurface)
     ) {
         Box(
             modifier = Modifier
@@ -603,18 +603,18 @@ fun challengeRegistrationCard(
                 Text(
                     text = challengeDTO.title,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Text(
                     text = challengeDTO.todayDate,
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 if (challengeDTO.type != "비어있음") {
                     LinearProgressIndicator(
-                        modifier = Modifier
-                            .padding(top = 12.dp),
                         progress = {
                             currentProcess / challengeDTO.goal
                         },

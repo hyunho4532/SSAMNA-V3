@@ -1,6 +1,5 @@
 package com.app.presentation.ui.main.home
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -9,10 +8,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.PratikFagadiya.smoothanimationbottombar.model.SmoothAnimationBottomBarScreens
 import com.app.presentation.R
@@ -56,7 +53,8 @@ fun RootScreen(
             BottomNavigationBar(
                 items = bottomNavigationItems,
                 currentIndex = currentIndex,
-                navController = navController
+                navController = navController,
+                stateViewModel = stateViewModel
             )
         }
     ) { innerPadding ->
