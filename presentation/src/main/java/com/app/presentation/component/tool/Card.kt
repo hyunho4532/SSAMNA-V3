@@ -359,7 +359,8 @@ fun activateCard(
                     Text(
                         text = "${activateDTO.running["running_title"]}",
                         fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -373,25 +374,40 @@ fun activateCard(
                 Column (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "시간")
                     Text(
-                        text = activateDTO!!.time
+                        text = "시간",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Text(
+                        text = activateDTO!!.time,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
                 Column (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "칼로리")
                     Text(
-                        text = String.format("%.2f", (activateDTO!!.cul["kcal_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0)
+                        text = "칼로리",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Text(
+                        text = String.format("%.2f", (activateDTO!!.cul["kcal_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
                 Column (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "km")
                     Text(
-                        text = String.format("%.2f", (activateDTO!!.cul["km_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0)
+                        text = "km",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Text(
+                        text = String.format("%.2f", (activateDTO!!.cul["km_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
