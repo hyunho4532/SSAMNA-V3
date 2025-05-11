@@ -119,7 +119,6 @@ fun UserInfoScreen(
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
                 .verticalScroll(rememberScrollState())
                 .pointerInput(Unit) {
                     detectTapGestures(onTap = {

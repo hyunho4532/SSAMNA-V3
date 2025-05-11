@@ -11,6 +11,7 @@ sealed class ButtonType {
 
     sealed class EventStatus: ButtonType() {
         data object ROUTE: EventStatus()
+        data object DARKTHEME: EventStatus()
     }
 
     sealed class RunningStatus: ButtonType() {

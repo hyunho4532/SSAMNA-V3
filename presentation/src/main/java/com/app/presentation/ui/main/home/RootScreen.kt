@@ -12,15 +12,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.rememberNavController
 import com.PratikFagadiya.smoothanimationbottombar.model.SmoothAnimationBottomBarScreens
 import com.app.presentation.R
 import com.app.presentation.animation.Screens
 import com.app.presentation.component.bar.BottomNavigationBar
 import com.app.presentation.route.ScreenNavigationConfiguration
+import com.app.presentation.viewmodel.StateViewModel
 
 @Composable
-fun RootScreen() {
+fun RootScreen(
+    stateViewModel: StateViewModel
+) {
 
     val context = LocalContext.current
 
@@ -60,11 +64,11 @@ fun RootScreen() {
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .background(Color.White)
         ) {
             ScreenNavigationConfiguration(
                 navController = navController,
-                context = context
+                context = context,
+                stateViewModel = stateViewModel
             )
         }
     }

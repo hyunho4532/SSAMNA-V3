@@ -1,7 +1,6 @@
 package com.app.presentation.route
 
 import android.content.Context
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -28,11 +27,13 @@ import com.app.presentation.ui.feature.OnBoardingScreen
 import com.app.presentation.ui.feature.activate.ActivateScreen
 import com.app.presentation.ui.feature.crew.CrewScreen
 import com.app.presentation.ui.feature.activate.detail.ActivateDetailScreen
+import com.app.presentation.ui.feature.auth.SettingScreen
 import com.app.presentation.ui.feature.crew.detail.CrewDetailScreen
 import com.app.presentation.ui.feature.crew.detail.chart.ActivateChart
 import com.app.presentation.ui.main.home.screen.CalendarScreen
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.JsonParseViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import com.app.presentation.viewmodel.UserViewModel
 import com.google.android.gms.location.LocationServices
 import kotlinx.serialization.json.Json
@@ -89,7 +90,8 @@ fun ScreenNavigationConfiguration(
     context: Context,
     userViewModel: UserViewModel = hiltViewModel(),
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
-    jsonParseViewModel: JsonParseViewModel = hiltViewModel()
+    jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
+    stateViewModel: StateViewModel
 ) {
 
     val isClickable = remember {
@@ -130,7 +132,7 @@ fun ScreenNavigationConfiguration(
             ProfileScreen(
                 navController = navController,
                 context = context,
-                userList = userList
+                userList = userList,
             )
         }
 
@@ -187,6 +189,18 @@ fun ScreenNavigationConfiguration(
             ActivateScreen(
                 context = context,
                 navController = navController
+            )
+        }
+
+        composable("settings/{userJson}") { backStackEntry ->
+            val userJson = backStackEntry.arguments?.getString("userJson")
+            val user = userJson.let {
+                Json.decodeFromString<User>(it!!)
+            }
+
+            SettingScreen(
+                user = user,
+                stateViewModel = stateViewModel
             )
         }
     }
