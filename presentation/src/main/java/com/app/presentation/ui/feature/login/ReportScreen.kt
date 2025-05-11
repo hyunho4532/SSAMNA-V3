@@ -55,7 +55,6 @@ fun ReportScreen(
         BoxWithConstraints (
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
         ) {
             val buttonWidth = setUpButtonWidth(densityDpi)
 

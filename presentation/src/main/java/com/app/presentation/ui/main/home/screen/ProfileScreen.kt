@@ -318,7 +318,6 @@ fun ProfileScreen(
             activateData.value.forEach { activateDTO ->
                 activateCard(
                     height = 160.dp,
-                    borderStroke = 1,
                     activateDTO = activateDTO,
                     cardType = CardType.ActivateStatus.Activity,
                     navController = navController

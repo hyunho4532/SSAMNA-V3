@@ -6,18 +6,29 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.graphics.Color
 
 @Composable
 fun SsamnaTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     content: @Composable () -> Unit
 ) {
-    Log.d("SsamnaTheme", darkTheme.toString())
-
     val colorScheme = if (darkTheme) {
-        darkColorScheme()
+        darkColorScheme(
+            primaryContainer = Color.Gray,
+            surface = Color.Gray,
+            background = Color.DarkGray,
+            surfaceVariant = Color.Gray,
+            surfaceTint = Color.Gray
+        )
     } else {
-        lightColorScheme()
+        lightColorScheme(
+            primaryContainer = Color.White,
+            surface = Color.White,
+            background = Color.White,
+            surfaceVariant = Color.White,
+            surfaceTint = Color.White // THIS ONE
+        )
     }
 
     MaterialTheme(

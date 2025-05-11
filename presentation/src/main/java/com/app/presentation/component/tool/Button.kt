@@ -71,7 +71,7 @@ fun CustomButton(
     challengeViewModel: ChallengeViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
     crewViewModel: CrewViewModel = hiltViewModel(),
-    themeViewModel: StateViewModel = StateViewModel()
+    stateViewModel: StateViewModel = StateViewModel()
 ) {
     val activates = activityLocationViewModel.activates.collectAsState()
     val crew = crewViewModel.crew.collectAsState()
@@ -92,7 +92,10 @@ fun CustomButton(
                     onClick(true)
                 }
                 ButtonType.EventStatus.DARKTHEME -> {
-                    themeViewModel.toggleTheme()
+                    /**
+                     * 클릭 시, 테마가 바뀐다./
+                     */
+                    stateViewModel.toggleTheme()
                 }
                 ButtonType.PermissionStatus.USERCANCEL -> {
                     onNavigateToCheck(false)

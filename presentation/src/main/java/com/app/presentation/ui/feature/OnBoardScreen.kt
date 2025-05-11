@@ -85,7 +85,6 @@ fun OnBoardingScreen(
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
         ) {
 
             val screenWidth = maxWidth
