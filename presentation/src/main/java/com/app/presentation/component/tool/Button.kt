@@ -41,6 +41,7 @@ import com.app.presentation.viewmodel.ChallengeViewModel
 import com.app.presentation.viewmodel.CrewViewModel
 import com.app.presentation.viewmodel.LocationManagerViewModel
 import com.app.presentation.viewmodel.SensorManagerViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import com.app.presentation.viewmodel.UserViewModel
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
@@ -69,7 +70,8 @@ fun CustomButton(
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
-    crewViewModel: CrewViewModel = hiltViewModel()
+    crewViewModel: CrewViewModel = hiltViewModel(),
+    themeViewModel: StateViewModel = StateViewModel()
 ) {
     val activates = activityLocationViewModel.activates.collectAsState()
     val crew = crewViewModel.crew.collectAsState()
@@ -90,7 +92,7 @@ fun CustomButton(
                     onClick(true)
                 }
                 ButtonType.EventStatus.DARKTHEME -> {
-                    
+                    themeViewModel.toggleTheme()
                 }
                 ButtonType.PermissionStatus.USERCANCEL -> {
                     onNavigateToCheck(false)
