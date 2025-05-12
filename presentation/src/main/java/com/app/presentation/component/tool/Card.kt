@@ -26,7 +26,6 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -70,6 +69,7 @@ import com.app.domain.model.enum.CardType
 import com.app.domain.model.state.ChallengeMaster
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.JsonParseViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import com.google.gson.Gson
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.double
@@ -653,9 +653,6 @@ fun activateHistoryCard(
                 )
             ) {
             },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
     ) {
         Box(
             modifier = Modifier
@@ -673,7 +670,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f), // 동일한 가중치 적용
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
@@ -681,7 +679,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
@@ -689,7 +688,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -701,7 +701,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
@@ -709,7 +710,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
@@ -717,7 +719,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -731,10 +734,8 @@ fun activateHistoryCard(
 @Composable
 fun chartDetailCard(
     height: Dp,
-    backgroundColor: Color = Color.White,
     coordsList: List<Coordinate>,
-    navController: NavController = rememberNavController(),
-    jsonParseViewModel: JsonParseViewModel = hiltViewModel()
+    navController: NavController = rememberNavController()
 ) {
     Card (
         modifier = Modifier
@@ -752,9 +753,6 @@ fun chartDetailCard(
                 val coords = Uri.encode(Gson().toJson(coordsList))
                 navController.navigate("activateChart?coords=$coords")
             },
-        colors = CardDefaults.cardColors(
-            containerColor = backgroundColor
-        ),
         border = BorderStroke(1.dp, Color.Gray)
     ) {
         Row (
@@ -765,7 +763,8 @@ fun chartDetailCard(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_graph_24),
-                contentDescription = "그래프 로고"
+                contentDescription = "그래프 로고",
+                tint = MaterialTheme.colorScheme.onSurface
             )
 
             Column {
@@ -773,13 +772,15 @@ fun chartDetailCard(
                     modifier = Modifier.padding(start = 6.dp),
                     text = "차트 분석 확인하기",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Text(
                     modifier = Modifier.padding(start = 6.dp),
                     text = "고도, 걸음, 페이스 측정",
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

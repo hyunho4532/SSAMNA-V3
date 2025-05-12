@@ -145,7 +145,8 @@ fun ScreenNavigationConfiguration(
 
             ActivateDetailScreen(
                 id = id!!,
-                navController = navController
+                navController = navController,
+                stateViewModel = stateViewModel
             )
         }
 
@@ -191,7 +192,8 @@ fun ScreenNavigationConfiguration(
         ) {
             ActivateScreen(
                 context = context,
-                navController = navController
+                navController = navController,
+                stateViewModel = stateViewModel
             )
         }
 
