@@ -46,7 +46,7 @@ fun <T> PolygonBox(
     }
 
     val background = if (stateViewModel.isDarkTheme.value) {
-        Color.Gray
+        Color(0xFF606060)
     } else {
         Color(0xFF429bf5)
     }
