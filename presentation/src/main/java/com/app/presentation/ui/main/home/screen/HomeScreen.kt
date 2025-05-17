@@ -223,7 +223,6 @@ fun HomeScreen(
                             width = 120.dp,
                             height = 40.dp,
                             text = "선택 완료!",
-                            backgroundColor = Color(0xFF5c9afa),
                             context = context,
                             cameraPositionState = cameraPositionState
                         )
@@ -280,8 +279,7 @@ fun HomeScreen(
                             .animateContentSize()
                     ) {
                         HomeAside(
-                            context = context,
-                            stateViewModel = stateViewModel
+                            context = context
                         )
                     }
                 }

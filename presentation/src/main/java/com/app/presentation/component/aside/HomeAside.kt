@@ -52,7 +52,6 @@ fun HomeAside(
     context: Context,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
-    stateViewModel: StateViewModel
 ) {
 
     val activates by activityLocationViewModel.activates.collectAsState()
@@ -60,12 +59,6 @@ fun HomeAside(
 
     val showActivateBottomSheet = remember {
         mutableStateOf(false)
-    }
-
-    val background = if (stateViewModel.isDarkTheme.value) {
-        Color.Black
-    } else {
-        Color(0xFF5c9afa)
     }
 
     val showActivateFormBottomSheet = remember {
@@ -219,7 +212,6 @@ fun HomeAside(
             height = 36.dp,
             text = sensorManagerViewModel.getSavedButtonNameState()!!,
             showIcon = false,
-            backgroundColor = background,
             context = context,
             shape = "Circle"
         )

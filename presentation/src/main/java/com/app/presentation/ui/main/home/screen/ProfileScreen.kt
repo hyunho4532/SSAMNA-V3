@@ -201,7 +201,6 @@ fun ProfileScreen(
             .padding(top = 12.dp, start = 12.dp)
             .verticalScroll(rememberScrollState())
     ) {
-
         /**
          * 프로필의 이미지와 이름을 조회한다.
          */
