@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -34,13 +35,15 @@ import com.app.domain.model.dto.CrewDTO
 import com.app.presentation.component.row.ActivateTabRow
 import com.app.presentation.component.tool.CustomButton
 import com.app.domain.model.enum.ButtonType
+import com.app.presentation.component.tool.Spacer
 import com.app.presentation.viewmodel.CrewViewModel
+import com.app.presentation.viewmodel.StateViewModel
 
 @Composable
 fun CrewDetailScreen(
     crewList: List<CrewDTO>,
-    navController: NavController = rememberNavController(),
     context: Context,
+    stateViewModel: StateViewModel,
     crewViewModel: CrewViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = Unit) {
@@ -61,6 +64,12 @@ fun CrewDetailScreen(
 
     val crewSumFeed = remember {
         mutableIntStateOf(0)
+    }
+
+    val background = if (stateViewModel.isDarkTheme.value) {
+        Color.Black
+    } else {
+        Color(0xFF5c9afa)
     }
 
     Column(
@@ -109,7 +118,8 @@ fun CrewDetailScreen(
                     ) {
                         Text(
                             text = crew.title,
-                            fontSize = 18.sp
+                            fontSize = 18.sp,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
 
                         CustomButton(
@@ -117,7 +127,7 @@ fun CrewDetailScreen(
                             width = 100.dp,
                             height = 32.dp,
                             text = "크루 탈퇴",
-                            backgroundColor = Color(0xF0F35353),
+                            backgroundColor = background,
                             crewId = crew.crewId
                         )
                     }
@@ -132,9 +142,6 @@ fun CrewDetailScreen(
                             modifier = Modifier
                                 .width(120.dp)
                                 .height(80.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color(0xFFFAFAFA)
-                            ),
                             border = BorderStroke(0.5.dp, Color.Gray)
                         ) {
                             Column(
@@ -143,13 +150,14 @@ fun CrewDetailScreen(
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 Text(
-                                    text = "크루원"
+                                    text = "크루원",
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
 
                                 Text(
                                     text = crewCount.intValue.toString() + "명",
                                     fontSize = 15.sp,
-                                    color = Color.Gray
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
                         }
@@ -158,9 +166,6 @@ fun CrewDetailScreen(
                             modifier = Modifier
                                 .width(120.dp)
                                 .height(80.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color(0xFFFAFAFA)
-                            ),
                             border = BorderStroke(0.5.dp, Color.Gray)
                         ) {
                             Column(
@@ -169,13 +174,14 @@ fun CrewDetailScreen(
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 Text(
-                                    text = "피드"
+                                    text = "피드",
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
 
                                 Text(
                                     text = crewSumFeed.intValue.toString(),
                                     fontSize = 15.sp,
-                                    color = Color.Gray
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
                         }
@@ -183,6 +189,8 @@ fun CrewDetailScreen(
                 }
             }
         }
+
+        Spacer(width = 0.dp, height = 20.dp)
 
         ActivateTabRow(
             pages = pages,

@@ -19,6 +19,7 @@ import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Switch
 import androidx.compose.material3.SwitchDefaults
@@ -59,6 +60,7 @@ import com.app.presentation.component.util.DefaultSwitch
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.CommonCodeViewModel
 import com.app.presentation.viewmodel.SensorManagerViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.GoogleMap
@@ -278,10 +280,17 @@ fun ShowCompleteDialog(
 fun ShowChallengeDialog(
     index: MutableState<Int>,
     challenge: List<ChallengeMaster>,
-    isChallengePopup: MutableState<Boolean>
+    isChallengePopup: MutableState<Boolean>,
+    stateViewModel: StateViewModel
 ) {
 
     val challengeData = challenge[index.value]
+
+    val background = if (stateViewModel.isDarkTheme.value) {
+        Color.Black
+    } else {
+        Color(0xFF5c9afa)
+    }
 
     Dialog(
         onDismissRequest = {
@@ -293,10 +302,7 @@ fun ShowChallengeDialog(
                 .width(420.dp)
                 .height(200.dp)
                 .verticalScroll(rememberScrollState()),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White
-            )
+            shape = RoundedCornerShape(16.dp)
         ) {
             Column(
                 modifier = Modifier
@@ -307,7 +313,8 @@ fun ShowChallengeDialog(
                 Text(
                     text = "챌린지 등록!",
                     fontSize = 18.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Row(
@@ -319,6 +326,7 @@ fun ShowChallengeDialog(
                     Text(
                         text = "등록하실 챌린지는? ${challengeData.name}",
                         fontSize = 14.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -329,7 +337,8 @@ fun ShowChallengeDialog(
                 ) {
                     Text(
                         text = challengeData.description,
-                        fontSize = 12.sp
+                        fontSize = 12.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -341,7 +350,7 @@ fun ShowChallengeDialog(
                     height = 40.dp,
                     text = "챌린지 등록!",
                     showIcon = false,
-                    backgroundColor = Color(0xFF5c9afa),
+                    backgroundColor = background,
                     shape = "Rectangle",
                     data = challengeData
                 )
