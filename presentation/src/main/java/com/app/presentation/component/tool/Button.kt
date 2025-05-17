@@ -56,7 +56,6 @@ fun CustomButton(
     height: Dp,
     text: String,
     showIcon: Boolean = false,
-    backgroundColor: Color,
     onNavigateToCheck: (Boolean) -> Unit = {},
     shape: String = "Circle",
     data: Any? = null,
@@ -79,6 +78,16 @@ fun CustomButton(
 
     val googleId = userViewModel.getSavedLoginState()
     val username = userViewModel.getSavedLoginName()
+
+    /**
+     * 다크 모드에 따라서 버튼의 색상을 다르게 보여준다
+     */
+    val background = if (stateViewModel.isDarkTheme.value) {
+        Color.Black
+    } else {
+        Color(0xFF5c9afa)
+    }
+
 
     LaunchedEffect(key1 = Unit) {
         this.launch {
@@ -218,7 +227,7 @@ fun CustomButton(
             .width(setUpButtonWidth(cardWidth = width))
             .height(height),
         colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor
+            containerColor = background
         ),
         shape = if (shape == "Circle") CircleShape else RectangleShape
     ) {

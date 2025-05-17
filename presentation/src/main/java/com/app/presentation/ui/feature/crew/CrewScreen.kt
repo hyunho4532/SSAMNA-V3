@@ -46,7 +46,6 @@ import com.app.presentation.viewmodel.UserViewModel
 fun CrewScreen(
     context: Context,
     userViewModel: UserViewModel = hiltViewModel(),
-    jsonParseViewModel: JsonParseViewModel = hiltViewModel(),
     crewViewModel: CrewViewModel = hiltViewModel()
 ) {
     val isCrewDataExists = remember {
@@ -188,7 +187,6 @@ fun CrewScreen(
                                         text = "크루 참여하기",
                                         showIcon = false,
                                         data = it,
-                                        backgroundColor = Color(0xFF5c9afa),
                                     )
                                 }
                             }

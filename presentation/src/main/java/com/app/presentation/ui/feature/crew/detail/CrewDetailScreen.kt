@@ -66,12 +66,6 @@ fun CrewDetailScreen(
         mutableIntStateOf(0)
     }
 
-    val background = if (stateViewModel.isDarkTheme.value) {
-        Color.Black
-    } else {
-        Color(0xFF5c9afa)
-    }
-
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -127,7 +121,6 @@ fun CrewDetailScreen(
                             width = 100.dp,
                             height = 32.dp,
                             text = "크루 탈퇴",
-                            backgroundColor = background,
                             crewId = crew.crewId
                         )
                     }

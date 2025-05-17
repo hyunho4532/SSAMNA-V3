@@ -254,7 +254,6 @@ fun ActivateDetailScreen(
                     width = setUpWidth(),
                     height = 40.dp,
                     text = "활동 내역 삭제",
-                    backgroundColor = Color(0xFFEE3A3A),
                     activateData = activateData
                 )
             }

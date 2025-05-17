@@ -263,7 +263,6 @@ fun ShowCompleteDialog(
                         height = 32.dp,
                         text = "활동 저장!",
                         showIcon = false,
-                        backgroundColor = Color(0xFF5c9afa),
                         context = context,
                         shape = "Rectangle",
                         coordinate = coordinate
@@ -285,12 +284,6 @@ fun ShowChallengeDialog(
 ) {
 
     val challengeData = challenge[index.value]
-
-    val background = if (stateViewModel.isDarkTheme.value) {
-        Color.Black
-    } else {
-        Color(0xFF5c9afa)
-    }
 
     Dialog(
         onDismissRequest = {
@@ -350,7 +343,6 @@ fun ShowChallengeDialog(
                     height = 40.dp,
                     text = "챌린지 등록!",
                     showIcon = false,
-                    backgroundColor = background,
                     shape = "Rectangle",
                     data = challengeData
                 )
@@ -543,7 +535,6 @@ fun PermissionDialog(
                         width = 100.dp,
                         height = 40.dp,
                         text = "취소",
-                        backgroundColor = Color(0xFFE91E63),
                         onNavigateToCheck = {
                             onPermissionUserCheck(it)
                             isPermissionPopup.value = false
@@ -555,7 +546,6 @@ fun PermissionDialog(
                         width = 100.dp,
                         height = 40.dp,
                         text = "동의",
-                        backgroundColor = Color(0xFF5c9afa),
                         onNavigateToCheck = {
                             onPermissionUserCheck(it)
                             isPermissionPopup.value = false
@@ -667,7 +657,6 @@ fun PrivacyConsentDialog(
                         width = 100.dp,
                         height = 40.dp,
                         text = "취소",
-                        backgroundColor = Color(0xFFE91E63),
                         onNavigateToCheck = {
                             onPermissionPrivacyCheck(false)
                             isPrivacyPermissionPopup.value = false
@@ -679,7 +668,6 @@ fun PrivacyConsentDialog(
                         width = 100.dp,
                         height = 40.dp,
                         text = "동의",
-                        backgroundColor = Color(0xFF5c9afa),
                         onNavigateToCheck = {
                             onPermissionPrivacyCheck(true)
                             isPrivacyPermissionPopup.value = false
@@ -777,7 +765,6 @@ fun ShowChallengeDetailDialog(
                             width = setUpWidth(),
                             height = 40.dp,
                             text = "챌린지 삭제",
-                            backgroundColor = Color(0xFFEE3A3A),
                             data = it
                         )
                     }

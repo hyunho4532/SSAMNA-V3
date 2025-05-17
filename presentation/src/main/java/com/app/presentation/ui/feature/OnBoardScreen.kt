@@ -256,7 +256,6 @@ fun OnBoardingScreen(
                         height = 46.dp,
                         text = "운동 여정하기!",
                         showIcon = true,
-                        backgroundColor = Color(0xFF5c9afa),
                         shape = "Rectangle",
                         onClick = {
                             if (it) {

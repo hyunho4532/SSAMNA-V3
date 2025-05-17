@@ -43,7 +43,6 @@ fun SettingScreen(
             height = 46.dp,
             text = "다크 모드 활성화",
             showIcon = true,
-            backgroundColor = Color(0xFF5c9afa),
             shape = "Rectangle",
             stateViewModel = stateViewModel
         )
