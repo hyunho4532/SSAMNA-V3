@@ -29,7 +29,7 @@ import com.app.presentation.ui.feature.crew.CrewScreen
 import com.app.presentation.ui.feature.activate.detail.ActivateDetailScreen
 import com.app.presentation.ui.feature.auth.SettingScreen
 import com.app.presentation.ui.feature.crew.detail.CrewDetailScreen
-import com.app.presentation.ui.feature.crew.detail.chart.ActivateChart
+import com.app.presentation.ui.feature.activate.chart.ActivateChart
 import com.app.presentation.ui.main.home.screen.CalendarScreen
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.JsonParseViewModel
@@ -182,8 +182,8 @@ fun ScreenNavigationConfiguration(
 
             CrewDetailScreen(
                 crewList = crewList,
-                navController = navController,
-                context = context
+                context = context,
+                stateViewModel = stateViewModel
             )
         }
 

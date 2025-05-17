@@ -46,6 +46,7 @@ import com.app.domain.model.state.ChallengeMaster
 import com.app.domain.model.state.ChallengeSub
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.presentation.viewmodel.JsonParseViewModel
+import com.app.presentation.viewmodel.StateViewModel
 
 /**
  * 활동 종류 Bottom Sheet
@@ -182,7 +183,8 @@ fun ActivateFormBottomSheet(
 fun ChallengeBottomSheet(
     showBottomSheet: MutableState<Boolean>,
     sheetState: SheetState,
-    challengeMaster: List<ChallengeMaster>
+    challengeMaster: List<ChallengeMaster>,
+    stateViewModel: StateViewModel
 ) {
     var dataIsLoading by remember {
         mutableStateOf(false)
@@ -231,7 +233,8 @@ fun ChallengeBottomSheet(
         ShowChallengeDialog(
             index = challengeIndex,
             isChallengePopup = isChallengeIsPopup,
-            challenge = challengeMaster
+            challenge = challengeMaster,
+            stateViewModel = stateViewModel
         )
     }
 }

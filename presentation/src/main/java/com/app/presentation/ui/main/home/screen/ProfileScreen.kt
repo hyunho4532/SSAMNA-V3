@@ -517,7 +517,8 @@ fun ProfileScreen(
         ChallengeBottomSheet(
             showBottomSheet = showChallengeBottomSheet,
             sheetState = sheetState,
-            challengeMaster = challengeMaster
+            challengeMaster = challengeMaster,
+            stateViewModel = stateViewModel
         )
     }
 }
