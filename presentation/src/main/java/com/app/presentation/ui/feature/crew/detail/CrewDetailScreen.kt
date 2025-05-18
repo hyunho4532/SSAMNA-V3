@@ -43,7 +43,6 @@ import com.app.presentation.viewmodel.StateViewModel
 fun CrewDetailScreen(
     crewList: List<CrewDTO>,
     context: Context,
-    stateViewModel: StateViewModel,
     crewViewModel: CrewViewModel = hiltViewModel()
 ) {
     LaunchedEffect(key1 = Unit) {

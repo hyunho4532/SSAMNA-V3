@@ -36,6 +36,7 @@ import com.app.presentation.viewmodel.JsonParseViewModel
 import com.app.presentation.viewmodel.StateViewModel
 import com.app.presentation.viewmodel.UserViewModel
 import com.google.android.gms.location.LocationServices
+import io.github.jan.supabase.gotrue.user.UserInfo
 import kotlinx.serialization.json.Json
 
 @Composable
@@ -182,8 +183,7 @@ fun ScreenNavigationConfiguration(
 
             CrewDetailScreen(
                 crewList = crewList,
-                context = context,
-                stateViewModel = stateViewModel
+                context = context
             )
         }
 
@@ -205,7 +205,14 @@ fun ScreenNavigationConfiguration(
 
             SettingScreen(
                 user = user,
+                navController = navController,
                 stateViewModel = stateViewModel
+            )
+        }
+
+        composable("report") {
+            ReportScreen(
+                userState = User()
             )
         }
     }

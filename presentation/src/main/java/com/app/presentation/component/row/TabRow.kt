@@ -82,6 +82,7 @@ fun <T> ActivateTabRow(
     }
 
     TabRow(
+        modifier = Modifier.padding(8.dp),
         backgroundColor = MaterialTheme.colorScheme.surface,
         selectedTabIndex = pagerState.currentPage,
         indicator = { tabPositions ->
@@ -104,11 +105,9 @@ fun <T> ActivateTabRow(
         }
     }
 
-    val padding = if (type == "activate") 50.dp else 0.dp
-
     HorizontalPager(
         modifier = Modifier
-            .padding(top = padding),
+            .padding(top = 56.dp),
         count = pages.size,
         state = pagerState
     ) { page ->

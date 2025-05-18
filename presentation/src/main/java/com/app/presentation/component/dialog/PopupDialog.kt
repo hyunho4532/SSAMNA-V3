@@ -114,7 +114,7 @@ fun ShowCompleteDialog(
                 .verticalScroll(rememberScrollState()),
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = Color.White
+                containerColor = MaterialTheme.colorScheme.surface
             )
         ) {
             Column(
@@ -133,7 +133,8 @@ fun ShowCompleteDialog(
                     Text(
                         text = "1. 회원님, 이번 운동은 어떠셨나요?",
                         fontSize = 17.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -150,6 +151,7 @@ fun ShowCompleteDialog(
                         text = "2. 회원님, 제목을 정해주세요!",
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -190,6 +192,7 @@ fun ShowCompleteDialog(
                         text = "3. 활동을 공개할까요?",
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -226,6 +229,7 @@ fun ShowCompleteDialog(
                         text = "4. 회원님이 운동한 내역",
                         fontSize = 17.sp,
                         fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -365,10 +369,7 @@ fun PermissionDialog(
             modifier = Modifier
                 .width(420.dp)
                 .height(420.dp),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White
-            )
+            shape = RoundedCornerShape(16.dp)
         ) {
             Column (
                 modifier = Modifier
@@ -380,7 +381,7 @@ fun PermissionDialog(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(42.dp)
+                        .height(48.dp)
                         .align(Alignment.CenterHorizontally)
                 ) {
                     Column(
@@ -392,7 +393,8 @@ fun PermissionDialog(
                         Text(
                             text = "사용자 권한 확인 안내",
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
 
                         Text(
@@ -400,7 +402,7 @@ fun PermissionDialog(
                                 .padding(top = 4.dp),
                             text = "현재 아래 권한을 사용하고 있습니다!",
                             fontSize = 14.sp,
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
@@ -435,13 +437,14 @@ fun PermissionDialog(
                                 ) {
                                     Text(
                                         text = "신체 활동 권한 (필수)",
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
 
                                     Text(
                                         text = "걷기, 달리기 등의 활동을 추적합니다!",
                                         fontSize = 12.sp,
-                                        color = Color.Gray
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                             }
@@ -460,13 +463,14 @@ fun PermissionDialog(
                                 ) {
                                     Text(
                                         text = "생체 신호 센서 권한 (필수)",
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
 
                                     Text(
                                         text = "백그라운드에서 실행되는 동안 정보를 액세스합니다.",
                                         fontSize = 12.sp,
-                                        color = Color.Gray
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                             }
@@ -485,13 +489,14 @@ fun PermissionDialog(
                                 ) {
                                     Text(
                                         text = "알림 권한 (선택)",
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
 
                                     Text(
                                         text = "앱에서 걸음 수 정보를 알림을 제공 받습니다!",
                                         fontSize = 12.sp,
-                                        color = Color.Gray
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                             }
@@ -510,13 +515,14 @@ fun PermissionDialog(
                                 ) {
                                     Text(
                                         text = "위치 권한 (선택)",
-                                        fontWeight = FontWeight.Bold
+                                        fontWeight = FontWeight.Bold,
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
 
                                     Text(
                                         text = "현재 위치와 실시간 위치를 추적합니다!",
                                         fontSize = 12.sp,
-                                        color = Color.Gray
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
                                 }
                             }
@@ -571,10 +577,7 @@ fun PrivacyConsentDialog(
             modifier = Modifier
                 .width(420.dp)
                 .height(420.dp),
-            shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(
-                containerColor = Color.White
-            )
+            shape = RoundedCornerShape(16.dp)
         ) {
             Column(
                 modifier = Modifier
@@ -586,7 +589,7 @@ fun PrivacyConsentDialog(
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(42.dp)
+                        .height(52.dp)
                         .align(Alignment.CenterHorizontally)
                 ) {
                     Column(
@@ -598,7 +601,8 @@ fun PrivacyConsentDialog(
                         Text(
                             text = "개인정보 수집 및 이용 동의 안내",
                             fontSize = 16.sp,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
 
                         Text(
@@ -606,7 +610,7 @@ fun PrivacyConsentDialog(
                                 .padding(top = 4.dp),
                             text = "현재 서비스 제공을 위해 아래 정보를 수집 합니다.",
                             fontSize = 14.sp,
-                            color = Color.Gray
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }
@@ -623,26 +627,66 @@ fun PrivacyConsentDialog(
                         .height(260.dp)
                         .padding(top = 24.dp, start = 6.dp)
                 ) {
-                    Text("1. 수집 항목")
-                    Text("- 필수: 이름, 이메일, 나이, ")
-                    Text("- 선택: 위치 정보(위도, 경도), 알림, 센서 \n")
+                    Text(
+                        "1. 수집 항목",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "- 필수: 이름, 이메일, 나이, ",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "- 선택: 위치 정보(위도, 경도), 알림, 센서 \n",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
 
-                    Text("2. 수집 목적")
-                    Text("- 회원 식별 및 서비스 제공")
-                    Text("- 맞춤형 서비스 제공")
-                    Text("- 위치 기반 기능 제공 (GPS)")
-                    Text("- 센서 기반 기능 제공 (만보기, km, kcal)\n")
+                    Text(
+                        "2. 수집 목적",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "- 회원 식별 및 서비스 제공",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "- 맞춤형 서비스 제공",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "- 위치 기반 기능 제공 (GPS)",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "- 센서 기반 기능 제공 (만보기, km, kcal)\n",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
 
-                    Text("3. 보유 및 이용 기간")
-                    Text("- 서비스 종료 또는 회원 탈퇴 시까지")
-                    Text("- 관련 법령에 따른 보관 예외 있음\n")
+                    Text(
+                        "3. 보유 및 이용 기간",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "- 서비스 종료 또는 회원 탈퇴 시까지",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "- 관련 법령에 따른 보관 예외 있음\n",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
 
-                    Text("4. 동의 거부 시 불이익")
-                    Text("- 필수 항목 미동의 시 서비스 이용 제한\n")
+                    Text(
+                        "4. 동의 거부 시 불이익",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Text(
+                        "- 필수 항목 미동의 시 서비스 이용 제한\n",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
 
                     Text(
                         "※ 위 내용을 충분히 숙지하였으며, 개인정보 수집 및 이용에 동의합니다.",
-                        fontWeight = FontWeight.Medium
+                        fontWeight = FontWeight.Medium,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
