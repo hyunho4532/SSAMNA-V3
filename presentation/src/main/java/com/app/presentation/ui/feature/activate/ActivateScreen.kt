@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -38,9 +38,12 @@ import com.app.presentation.component.box.polygon.PolygonBox
 import com.app.presentation.component.marker.MapMarker
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.presentation.viewmodel.ActivateViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.MapUiSettings
 import com.google.maps.android.compose.Polyline
 import com.google.maps.android.compose.rememberCameraPositionState
@@ -56,6 +59,7 @@ fun ActivateScreen(
     @ApplicationContext context: Context,
     activateViewModel: ActivateViewModel = hiltViewModel(),
     navController: NavController,
+    stateViewModel: StateViewModel,
 ) {
     val activateList = remember {
         mutableStateListOf<ActivateDTO>()
@@ -71,6 +75,17 @@ fun ActivateScreen(
     val scrollState = rememberScrollState()
     var mapTouched by remember { mutableStateOf(false) }
 
+    val mapStyles = if (stateViewModel.isDarkTheme.value) {
+        MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style_dark)
+    } else {
+        null
+    }
+
+    val mapProperties = remember {
+        MapProperties(
+            mapStyleOptions = mapStyles
+        )
+    }
 
     Column(
         modifier = Modifier
@@ -93,7 +108,6 @@ fun ActivateScreen(
                     .clickable {
                         navController.navigate("activateDetail/${item.id}")
                     },
-                colors = CardDefaults.cardColors(containerColor = Color.White),
                 border = BorderStroke(1.dp, Color.Gray)
             ) {
                 Box(
@@ -125,7 +139,8 @@ fun ActivateScreen(
                         uiSettings = MapUiSettings(
                             scrollGesturesEnabled = true,
                             zoomGesturesEnabled = true
-                        )
+                        ),
+                        properties = mapProperties
                     ) {
                         coordsArray.forEach { item ->
                             val obj = item.jsonObject
@@ -157,17 +172,20 @@ fun ActivateScreen(
                     ) {
                         PolygonBox(
                             title = "시간",
-                            data =  item.time
+                            data =  item.time,
+                            stateViewModel = stateViewModel
                         )
 
                         PolygonBox(
                             title = "km",
-                            data =  item.cul["km_cul"]?.jsonPrimitive?.double ?: 0.0
+                            data =  item.cul["km_cul"]?.jsonPrimitive?.double ?: 0.0,
+                            stateViewModel = stateViewModel
                         )
 
                         PolygonBox(
                             title = "kcal",
-                            data = item.cul["kcal_cul"]?.jsonPrimitive?.double ?: 0.0
+                            data = item.cul["kcal_cul"]?.jsonPrimitive?.double ?: 0.0,
+                            stateViewModel = stateViewModel
                         )
                     }
 
@@ -179,7 +197,8 @@ fun ActivateScreen(
                     ) {
                         Text(
                             text = item.title,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
 
@@ -188,7 +207,8 @@ fun ActivateScreen(
                             .padding(top = 2.dp, start = 6.dp)
                     ) {
                         Text(
-                            text = item.todayFormat
+                            text = item.todayFormat,
+                            color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                 }

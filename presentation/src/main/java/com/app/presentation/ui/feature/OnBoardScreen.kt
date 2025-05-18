@@ -17,6 +17,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CheckboxDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -85,7 +86,6 @@ fun OnBoardingScreen(
         BoxWithConstraints(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
         ) {
 
             val screenWidth = maxWidth
@@ -114,6 +114,7 @@ fun OnBoardingScreen(
                     text = "운동할 땐 땀💦 배출하자!",
                     fontSize = titleFontSize,
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(top = contentPadding)
                 )
 
@@ -121,6 +122,7 @@ fun OnBoardingScreen(
                     text = "언제 어디서든 편하게!",
                     fontSize = subtitleFontSize,
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(top = contentPadding)
                 )
 
@@ -128,6 +130,7 @@ fun OnBoardingScreen(
                     text = "운동을 즐기세요",
                     fontSize = subtitleFontSize,
                     fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(top = contentPadding / 2)
                 )
 
@@ -148,10 +151,7 @@ fun OnBoardingScreen(
                                 .align(Alignment.CenterVertically)
                                 .clickable {
                                     isPermissionPopup.value = true
-                                },
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.White
-                            )
+                                }
                         ) {
                             Row(
                                 modifier = Modifier.fillMaxSize(),
@@ -159,10 +159,12 @@ fun OnBoardingScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
+                                    modifier = Modifier
+                                        .padding(start = 6.dp),
                                     text = "사용자 권한 확인하기",
-                                    color = Color.Gray,
+                                    color = MaterialTheme.colorScheme.onSurface,
                                     fontWeight = FontWeight.Bold,
-                                    fontSize = 16.sp
+                                    fontSize = 16.sp,
                                 )
 
                                 Row(
@@ -172,7 +174,8 @@ fun OnBoardingScreen(
                                 ) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-                                        contentDescription = "화살표"
+                                        contentDescription = "화살표",
+                                        tint = MaterialTheme.colorScheme.onSurface
                                     )
 
                                     Checkbox(
@@ -181,7 +184,7 @@ fun OnBoardingScreen(
 
                                         },
                                         colors = CheckboxDefaults.colors(
-                                            checkedColor = Color(0xFF5c9afa)
+                                            checkedColor = MaterialTheme.colorScheme.onSurface
                                         )
                                     )
                                 }
@@ -207,10 +210,7 @@ fun OnBoardingScreen(
                                 .align(Alignment.CenterVertically)
                                 .clickable {
                                     isPrivacyPopup.value = true
-                                },
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.White
-                            )
+                                }
                         ) {
                             Row(
                                 modifier = Modifier.fillMaxSize(),
@@ -218,8 +218,10 @@ fun OnBoardingScreen(
                                 verticalAlignment = Alignment.CenterVertically
                             ) {
                                 Text(
+                                    modifier = Modifier
+                                        .padding(start = 6.dp),
                                     text = "개인정보 수집 동의",
-                                    color = Color.Gray,
+                                    color = MaterialTheme.colorScheme.onSurface,
                                     fontWeight = FontWeight.Bold,
                                     fontSize = 16.sp
                                 )
@@ -231,7 +233,8 @@ fun OnBoardingScreen(
                                 ) {
                                     Icon(
                                         painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-                                        contentDescription = "화살표"
+                                        contentDescription = "화살표",
+                                        tint = MaterialTheme.colorScheme.onSurface
                                     )
 
                                     Checkbox(
@@ -239,7 +242,7 @@ fun OnBoardingScreen(
                                         onCheckedChange = {
                                         },
                                         colors = CheckboxDefaults.colors(
-                                            checkedColor = Color(0xFF5c9afa)
+                                            checkedColor = MaterialTheme.colorScheme.onSurface
                                         )
                                     )
                                 }
@@ -257,7 +260,6 @@ fun OnBoardingScreen(
                         height = 46.dp,
                         text = "운동 여정하기!",
                         showIcon = true,
-                        backgroundColor = Color(0xFF5c9afa),
                         shape = "Rectangle",
                         onClick = {
                             if (it) {

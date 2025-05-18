@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -40,6 +38,7 @@ import com.app.presentation.component.row.ActivateTabRow
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.presentation.component.dialog.ActivateDetailBottomSheet
 import com.app.presentation.viewmodel.ActivityLocationViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import java.time.LocalDate
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -49,6 +48,7 @@ fun CalendarScreen(
     userList: State<User>,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     navController: NavController,
+    stateViewModel: StateViewModel,
 ) {
     val activateData = activityLocationViewModel.activateData.collectAsState()
     val pages = listOf("매주", "매달", "연간")

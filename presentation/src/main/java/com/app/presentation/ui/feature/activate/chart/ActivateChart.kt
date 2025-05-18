@@ -1,4 +1,4 @@
-package com.app.presentation.ui.feature.crew.detail.chart
+package com.app.presentation.ui.feature.activate.chart
 
 import android.text.TextPaint
 import androidx.compose.foundation.Canvas
@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -16,6 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.nativeCanvas
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -35,12 +37,15 @@ fun ActivateChart(
         coordsList.map { it.km.toFloat() }
     }
 
+    val textColor = MaterialTheme.colorScheme.onSurface.toArgb()
+
     Column {
         Text(
             modifier = Modifier.padding(top = 12.dp, start = 12.dp),
             text = "고도 분석 🗻",
             fontSize = 16.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Box(
@@ -92,6 +97,7 @@ fun ActivateChart(
                                     endY - 20,
                                     TextPaint().apply {
                                         textSize = 30f
+                                        color = textColor
                                     }
                                 )
                             }
@@ -106,6 +112,7 @@ fun ActivateChart(
                                     endY + 40,
                                     TextPaint().apply {
                                         textSize = 30f
+                                        color = textColor
                                     }
                                 )
                             }
@@ -121,7 +128,8 @@ fun ActivateChart(
             modifier = Modifier.padding(top = 12.dp, start = 12.dp),
             text = "거리 분석 🚩",
             fontSize = 16.sp,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         Box(
@@ -169,6 +177,7 @@ fun ActivateChart(
                                 endY + 40,
                                 TextPaint().apply {
                                     textSize = 30f
+                                    color = textColor
                                 }
                             )
                         }

@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -77,7 +78,6 @@ fun LoginScreen(
         BoxWithConstraints (
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
         ) {
 
             val screenWidth = maxWidth
@@ -102,20 +102,22 @@ fun LoginScreen(
                         text = "나 자신을 관리하자.",
                         modifier = Modifier.padding(start = 16.dp),
                         fontSize = 26.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
                         text = "땀나(SSAMNA) 💦",
                         modifier = Modifier.padding(start = 16.dp, top = 34.dp),
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
                         text = "환영합니다! 같이 떠나볼까요?",
                         modifier = Modifier.padding(start = 16.dp, top = 66.dp),
                         fontSize = 14.sp,
-                        color = Color.Gray
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 

@@ -1,6 +1,5 @@
 package com.app.presentation.ui.feature.activate.detail
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -41,9 +40,12 @@ import com.app.presentation.ui.feature.analyze.OptimalRunning
 import com.app.presentation.ui.feature.analyze.SlowRunning
 import com.app.presentation.ui.feature.analyze.UnknownRunning
 import com.app.presentation.viewmodel.ActivityLocationViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MapStyleOptions
 import com.google.maps.android.compose.GoogleMap
+import com.google.maps.android.compose.MapProperties
 import com.google.maps.android.compose.rememberCameraPositionState
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.double
@@ -53,6 +55,7 @@ fun ActivateDetailScreen(
     id: String,
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     navController: NavController = rememberNavController(),
+    stateViewModel: StateViewModel,
 ) {
     val activateData = activityLocationViewModel.activateData.collectAsState()
     val cameraPositionState = rememberCameraPositionState()
@@ -68,11 +71,22 @@ fun ActivateDetailScreen(
 
     val coordsList: List<Coordinate> = activityLocationViewModel.setCoordList(activateData)
 
+    val mapStyles = if (stateViewModel.isDarkTheme.value) {
+        MapStyleOptions.loadRawResourceStyle(context, R.raw.map_style_dark)
+    } else {
+        null
+    }
+
+    val mapProperties = remember {
+        MapProperties(
+            mapStyleOptions = mapStyles
+        )
+    }
+
     if (coordsList.isNotEmpty()) {
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
                 .verticalScroll(rememberScrollState()),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -94,7 +108,8 @@ fun ActivateDetailScreen(
                             start = 24.dp,
                             end = 24.dp
                         ),
-                    cameraPositionState = cameraPositionState
+                    cameraPositionState = cameraPositionState,
+                    properties = mapProperties
                 ) {
                     coordsList.forEach { data ->
                         MapMarker(
@@ -113,7 +128,7 @@ fun ActivateDetailScreen(
              */
             activateHistoryCard(
                 activate = activateData,
-                height = 50.dp
+                height = 60.dp
             )
 
             Spacer(width = 0.dp, height = 40.dp)
@@ -149,7 +164,6 @@ fun ActivateDetailScreen(
                     ) {
                         chartDetailCard(
                             height = 50.dp,
-                            backgroundColor = Color.White,
                             navController = navController,
                             coordsList = coordsList
                         )
@@ -240,7 +254,6 @@ fun ActivateDetailScreen(
                     width = setUpWidth(),
                     height = 40.dp,
                     text = "활동 내역 삭제",
-                    backgroundColor = Color(0xFFEE3A3A),
                     activateData = activateData
                 )
             }

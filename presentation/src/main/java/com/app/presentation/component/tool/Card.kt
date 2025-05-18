@@ -28,6 +28,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -42,6 +43,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -67,6 +69,7 @@ import com.app.domain.model.enum.CardType
 import com.app.domain.model.state.ChallengeMaster
 import com.app.presentation.viewmodel.ActivityLocationViewModel
 import com.app.presentation.viewmodel.JsonParseViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import com.google.gson.Gson
 import kotlinx.serialization.json.JsonPrimitive
 import kotlinx.serialization.json.double
@@ -83,9 +86,6 @@ fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
             .shadow(
                 elevation = 3.dp
             ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
     ) {
         Box(
             modifier = Modifier
@@ -104,10 +104,10 @@ fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
                 Text(
                     text = text,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .padding(start = 6.dp)
-                        .align(Alignment.CenterVertically)
+                        .align(Alignment.CenterVertically),
                 )
             }
         }
@@ -134,10 +134,7 @@ fun ReportCard(userState: User) {
             .aspectRatio(3f / 4f)
             .shadow(
                 elevation = 3.dp
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
+            )
     ) {
         Column (
             modifier = Modifier.fillMaxSize(),
@@ -168,12 +165,14 @@ fun ReportCard(userState: User) {
                 text = "${userState.name} : ${userState.age.toInt()}살",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(top = 6.dp)
+                modifier = Modifier.padding(top = 6.dp),
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Text(
                 text = userState.email,
                 fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Column (
@@ -189,13 +188,15 @@ fun ReportCard(userState: User) {
                     Text(
                         text = "최근 운동을 진행한 적이 있으신가요? ${userState.recentExerciseCheck}",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
                         text = "최근 진행하고 있는 운동: ${userState.recentExerciseName}",
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(top = 24.dp)
+                        modifier = Modifier.padding(top = 24.dp),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -216,13 +217,15 @@ fun ReportCard(userState: User) {
                     Text(
                         text = "하루에 걷기 또는 달리기를 하시나요? ${userState.recentWalkingCheck}",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
                         text = "주: $recentWalkingOfWeek $recentWalkingOfTime",
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(top = 24.dp)
+                        modifier = Modifier.padding(top = 24.dp),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -233,7 +236,8 @@ fun ReportCard(userState: User) {
                     Text(
                         text = "운동 중 목표 기간이 있습니까? ${userState.targetPeriod}",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -246,7 +250,6 @@ fun activateCard(
     context: Context? = LocalContext.current,
     height: Dp,
     backgroundColor: Color = Color.White,
-    borderStroke: Int? = 0,
     activate: Activate? = Activate(),
     activateDTO: ActivateDTO? = ActivateDTO(),
     showBottomSheet: MutableState<Boolean>? = mutableStateOf(false),
@@ -281,10 +284,7 @@ fun activateCard(
                     navController.navigate("activateDetail/${activateDTO!!.id}")
                 }
             },
-        colors = CardDefaults.cardColors(
-            containerColor = backgroundColor
-        ),
-        border = BorderStroke(borderStroke!!.dp, Color.Gray)
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.onSurface)
     ) {
         if (cardType == CardType.ActivateStatus.Running) {
             Row {
@@ -331,14 +331,16 @@ fun activateCard(
 
                 Column {
                     Text(
-                        text = activateDTO.todayFormat
+                        text = activateDTO.todayFormat,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Spacer(width = 0.dp, height = 4.dp)
 
                     Text(
                         text = "${activateDTO.status["status_title"]} : ${activateDTO.cul["goal_count"]}걸음!",
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -354,13 +356,15 @@ fun activateCard(
                         modifier = Modifier
                             .size(22.dp),
                         painter = painterResource(id = activateDTO.running["running_icon"]?.jsonPrimitive!!.int),
-                        contentDescription = "러닝 상태 아이콘"
+                        contentDescription = "러닝 상태 아이콘",
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                     )
 
                     Text(
                         text = "${activateDTO.running["running_title"]}",
                         fontSize = 11.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -374,25 +378,40 @@ fun activateCard(
                 Column (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "시간")
                     Text(
-                        text = activateDTO!!.time
+                        text = "시간",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Text(
+                        text = activateDTO!!.time,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
                 Column (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "칼로리")
                     Text(
-                        text = String.format("%.2f", (activateDTO!!.cul["kcal_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0)
+                        text = "칼로리",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Text(
+                        text = String.format("%.2f", (activateDTO!!.cul["kcal_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
                 Column (
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Text(text = "km")
                     Text(
-                        text = String.format("%.2f", (activateDTO!!.cul["km_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0)
+                        text = "km",
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+
+                    Text(
+                        text = String.format("%.2f", (activateDTO!!.cul["km_cul"] as? JsonPrimitive)?.doubleOrNull ?: 0.0),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -493,9 +512,6 @@ fun challengeCard(
             ) {
                 onChallengeIsPopup(challenge.id, true)
             },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
     ) {
         Box(
             modifier = Modifier
@@ -511,19 +527,22 @@ fun challengeCard(
                     Text(
                         text = challenge.name,
                         fontSize = 16.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Image(
                         modifier = Modifier.padding(end = 4.dp),
                         painter = painterResource(id = R.drawable.baseline_add_24),
-                        contentDescription = "추가 아이콘"
+                        contentDescription = "추가 아이콘",
+                        colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
                     )
                 }
 
                 Text(
                     text = challenge.description,
                     fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Spacer(
@@ -573,10 +592,7 @@ fun challengeRegistrationCard(
             ) {
                 onChallengeIsPopup(true)
             },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        ),
-        border = BorderStroke(1.dp, Color.Gray)
+        border = BorderStroke(width = 1.dp, color = MaterialTheme.colorScheme.onSurface)
     ) {
         Box(
             modifier = Modifier
@@ -588,18 +604,18 @@ fun challengeRegistrationCard(
                 Text(
                     text = challengeDTO.title,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Text(
                     text = challengeDTO.todayDate,
-                    fontSize = 12.sp
+                    fontSize = 12.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 if (challengeDTO.type != "비어있음") {
                     LinearProgressIndicator(
-                        modifier = Modifier
-                            .padding(top = 12.dp),
                         progress = {
                             currentProcess / challengeDTO.goal
                         },
@@ -638,9 +654,6 @@ fun activateHistoryCard(
                 )
             ) {
             },
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
     ) {
         Box(
             modifier = Modifier
@@ -658,7 +671,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f), // 동일한 가중치 적용
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
@@ -666,7 +680,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
@@ -674,7 +689,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -686,7 +702,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
@@ -694,7 +711,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
@@ -702,7 +720,8 @@ fun activateHistoryCard(
                         fontSize = 14.sp,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.weight(1f),
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -716,10 +735,8 @@ fun activateHistoryCard(
 @Composable
 fun chartDetailCard(
     height: Dp,
-    backgroundColor: Color = Color.White,
     coordsList: List<Coordinate>,
-    navController: NavController = rememberNavController(),
-    jsonParseViewModel: JsonParseViewModel = hiltViewModel()
+    navController: NavController = rememberNavController()
 ) {
     Card (
         modifier = Modifier
@@ -737,9 +754,6 @@ fun chartDetailCard(
                 val coords = Uri.encode(Gson().toJson(coordsList))
                 navController.navigate("activateChart?coords=$coords")
             },
-        colors = CardDefaults.cardColors(
-            containerColor = backgroundColor
-        ),
         border = BorderStroke(1.dp, Color.Gray)
     ) {
         Row (
@@ -750,7 +764,8 @@ fun chartDetailCard(
         ) {
             Icon(
                 painter = painterResource(id = R.drawable.baseline_graph_24),
-                contentDescription = "그래프 로고"
+                contentDescription = "그래프 로고",
+                tint = MaterialTheme.colorScheme.onSurface
             )
 
             Column {
@@ -758,13 +773,15 @@ fun chartDetailCard(
                     modifier = Modifier.padding(start = 6.dp),
                     text = "차트 분석 확인하기",
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
 
                 Text(
                     modifier = Modifier.padding(start = 6.dp),
                     text = "고도, 걸음, 페이스 측정",
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

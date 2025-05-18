@@ -3,6 +3,7 @@ package com.app.presentation.component.row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Tab
 import androidx.compose.material.TabRow
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -81,7 +82,8 @@ fun <T> ActivateTabRow(
     }
 
     TabRow(
-        backgroundColor = Color.White,
+        modifier = Modifier.padding(8.dp),
+        backgroundColor = MaterialTheme.colorScheme.surface,
         selectedTabIndex = pagerState.currentPage,
         indicator = { tabPositions ->
             TabRowDefaults.Indicator(
@@ -103,11 +105,9 @@ fun <T> ActivateTabRow(
         }
     }
 
-    val padding = if (type == "activate") 50.dp else 0.dp
-
     HorizontalPager(
         modifier = Modifier
-            .padding(top = padding),
+            .padding(top = 56.dp),
         count = pages.size,
         state = pagerState
     ) { page ->

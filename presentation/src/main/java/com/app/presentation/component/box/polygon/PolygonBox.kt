@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.graphics.shapes.CornerRounding
 import androidx.graphics.shapes.RoundedPolygon
+import com.app.presentation.viewmodel.StateViewModel
 
 /**
  * 다각형 박스
@@ -30,7 +31,8 @@ fun <T> PolygonBox(
     width: Dp = 90.dp,
     height: Dp = 90.dp,
     title: String,
-    data: T
+    data: T,
+    stateViewModel: StateViewModel = StateViewModel()
 ) {
     val hexagon = remember {
         RoundedPolygon(
@@ -38,14 +40,27 @@ fun <T> PolygonBox(
             rounding = CornerRounding(0.2f)
         )
     }
+
     val clip = remember(hexagon) {
         RoundedPolygonShape(polygon = hexagon)
+    }
+
+    val background = if (stateViewModel.isDarkTheme.value) {
+        Color(0xFF606060)
+    } else {
+        Color(0xFF429bf5)
+    }
+
+    val textColor = if (stateViewModel.isDarkTheme.value) {
+        Color.LightGray
+    } else {
+        Color.White
     }
 
     Box(
         modifier = Modifier
             .clip(clip)
-            .background(Color(0xFF429bf5))
+            .background(background)
             .width(width)
             .height(height)
     ) {
@@ -56,12 +71,12 @@ fun <T> PolygonBox(
         ) {
             Text(
                 title,
-                color = MaterialTheme.colorScheme.onSecondary
+                color = textColor
             )
 
             Text(
                 text = if (data is Double) { String.format("%.2f", data) } else { data.toString() },
-                color = MaterialTheme.colorScheme.onSecondary,
+                color = textColor,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )

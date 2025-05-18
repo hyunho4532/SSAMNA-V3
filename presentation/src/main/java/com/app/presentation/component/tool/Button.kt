@@ -13,6 +13,7 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -41,6 +42,7 @@ import com.app.presentation.viewmodel.ChallengeViewModel
 import com.app.presentation.viewmodel.CrewViewModel
 import com.app.presentation.viewmodel.LocationManagerViewModel
 import com.app.presentation.viewmodel.SensorManagerViewModel
+import com.app.presentation.viewmodel.StateViewModel
 import com.app.presentation.viewmodel.UserViewModel
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
@@ -54,7 +56,6 @@ fun CustomButton(
     height: Dp,
     text: String,
     showIcon: Boolean = false,
-    backgroundColor: Color,
     onNavigateToCheck: (Boolean) -> Unit = {},
     shape: String = "Circle",
     data: Any? = null,
@@ -69,13 +70,24 @@ fun CustomButton(
     activityLocationViewModel: ActivityLocationViewModel = hiltViewModel(),
     challengeViewModel: ChallengeViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
-    crewViewModel: CrewViewModel = hiltViewModel()
+    crewViewModel: CrewViewModel = hiltViewModel(),
+    stateViewModel: StateViewModel = StateViewModel()
 ) {
     val activates = activityLocationViewModel.activates.collectAsState()
     val crew = crewViewModel.crew.collectAsState()
 
     val googleId = userViewModel.getSavedLoginState()
     val username = userViewModel.getSavedLoginName()
+
+    /**
+     * 다크 모드에 따라서 버튼의 색상을 다르게 보여준다
+     */
+    val background = if (stateViewModel.isDarkTheme.value) {
+        Color.Black
+    } else {
+        Color(0xFF5c9afa)
+    }
+
 
     LaunchedEffect(key1 = Unit) {
         this.launch {
@@ -88,6 +100,12 @@ fun CustomButton(
             when (type) {
                 ButtonType.EventStatus.ROUTE -> {
                     onClick(true)
+                }
+                ButtonType.EventStatus.DARKTHEME -> {
+                    /**
+                     * 클릭 시, 테마가 바뀐다./
+                     */
+                    stateViewModel.toggleTheme()
                 }
                 ButtonType.PermissionStatus.USERCANCEL -> {
                     onNavigateToCheck(false)
@@ -209,7 +227,7 @@ fun CustomButton(
             .width(setUpButtonWidth(cardWidth = width))
             .height(height),
         colors = ButtonDefaults.buttonColors(
-            containerColor = backgroundColor
+            containerColor = background
         ),
         shape = if (shape == "Circle") CircleShape else RectangleShape
     ) {
@@ -222,6 +240,9 @@ fun CustomButton(
             Spacer(width = 8.dp, height = 0.dp)
         }
 
-        Text(text = text)
+        Text(
+            text = text,
+            color = MaterialTheme.colorScheme.onSurface
+        )
     }
 }

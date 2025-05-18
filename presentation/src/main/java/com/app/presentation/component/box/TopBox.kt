@@ -12,10 +12,10 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
@@ -36,6 +36,7 @@ import com.app.domain.model.calcul.FormatImpl
 import com.app.domain.model.enum.ButtonType
 import com.app.presentation.viewmodel.LocationManagerViewModel
 import com.app.presentation.viewmodel.SensorManagerViewModel
+import com.app.presentation.viewmodel.StateViewModel
 
 /**
  * 구글 지도에서 맨 위에 측정 중인 상태에서 걸음 수를 보여준다.
@@ -45,10 +46,8 @@ import com.app.presentation.viewmodel.SensorManagerViewModel
 fun TopBox(
     context: Context,
     sensorManagerViewModel: SensorManagerViewModel = hiltViewModel(),
-    locationManagerViewModel: LocationManagerViewModel = hiltViewModel()
+    stateViewModel: StateViewModel = hiltViewModel()
 ) {
-
-    val coordinate = locationManagerViewModel.coordinate.collectAsState()
     val activates = sensorManagerViewModel.activates.collectAsState()
 
     val sensorManager = remember {
@@ -57,6 +56,12 @@ fun TopBox(
 
     val listener = remember {
         sensorManagerViewModel.sensorEventListener()
+    }
+
+    val background = if (stateViewModel.isDarkTheme.value) {
+        Color(0xff121212)
+    } else {
+        Color.White
     }
 
     val stepDetector = sensorManager.getDefaultSensor(Sensor.TYPE_STEP_DETECTOR)
@@ -76,13 +81,13 @@ fun TopBox(
 
     Box(
         modifier = Modifier
-            .background(Color.White)
-            .fillMaxWidth()
             .height(50.dp)
-            .padding(start = 12.dp)
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         Row(
-            modifier = Modifier.fillMaxSize(),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(start = 12.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -102,21 +107,27 @@ fun TopBox(
                             .padding(top = 4.dp),
                         horizontalArrangement = Arrangement.Start
                     ) {
-                        Text(text = "걸음", fontWeight = FontWeight.Bold)
+                        Text(
+                            text = "걸음",
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
 
                         Spacer(width = 2.dp, height = 0.dp)
 
                         Icon(
                             imageVector = Footprint,
                             contentDescription = "걸음 아이콘",
-                            modifier = Modifier.align(Alignment.CenterVertically)
+                            modifier = Modifier.align(Alignment.CenterVertically),
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                     Text(
                         text = "${sensorManagerViewModel.getSavedSensorState()}",
                         modifier = Modifier
                             .padding(top = 4.dp)
-                            .align(Alignment.BottomCenter)
+                            .align(Alignment.BottomCenter),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -137,14 +148,19 @@ fun TopBox(
                             .padding(top = 4.dp),
                         horizontalArrangement = Arrangement.Center
                     ) {
-                        Text(text = "음악", fontWeight = FontWeight.Bold)
+                        Text(
+                            text = "음악",
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
 
                         Spacer(width = 2.dp, height = 0.dp)
 
                         Icon(
                             painter = painterResource(id = R.drawable.baseline_music_24),
                             contentDescription = "음악 아이콘",
-                            modifier = Modifier.align(Alignment.CenterVertically)
+                            modifier = Modifier.align(Alignment.CenterVertically),
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
 
@@ -159,7 +175,8 @@ fun TopBox(
                                 intent.addCategory(Intent.CATEGORY_LAUNCHER)
 
                                 context.startActivity(intent)
-                            }
+                            },
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -180,21 +197,27 @@ fun TopBox(
                             .padding(top = 4.dp),
                         horizontalArrangement = Arrangement.End
                     ) {
-                        Text(text = "시간", fontWeight = FontWeight.Bold)
+                        Text(
+                            text = "시간",
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
 
                         Spacer(width = 2.dp, height = 0.dp)
 
                         Icon(
                             imageVector = Footprint,
                             contentDescription = "시간 아이콘",
-                            modifier = Modifier.align(Alignment.CenterVertically)
+                            modifier = Modifier.align(Alignment.CenterVertically),
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
                     Text(
                         text = FormatImpl("YY:MM:DD:H").getFormatTime(activates.value.time),
                         modifier = Modifier
                             .padding(top = 4.dp)
-                            .align(Alignment.BottomCenter)
+                            .align(Alignment.BottomCenter),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }
@@ -209,7 +232,6 @@ fun TopBox(
                     width = 110.dp,
                     height = 32.dp,
                     text = "측정 완료!",
-                    backgroundColor = Color(0xFF5c9afa),
                     context = context,
                     shape = "Circle"
                 )

@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -55,7 +56,6 @@ fun ReportScreen(
         BoxWithConstraints (
             modifier = Modifier
                 .fillMaxSize()
-                .background(Color.White)
         ) {
             val buttonWidth = setUpButtonWidth(densityDpi)
 
@@ -72,13 +72,15 @@ fun ReportScreen(
                         text = "회원님의 정보를 수집했어요!",
                         modifier = Modifier.padding(top = 16.dp, start = 16.dp),
                         fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
                         text = "정보를 수정하고 싶으시면 뒤로 이동해주세요!",
                         modifier = Modifier.padding(top = 48.dp, start = 16.dp),
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 

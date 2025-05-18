@@ -17,6 +17,7 @@ import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
@@ -46,6 +47,7 @@ import com.app.domain.model.state.ChallengeMaster
 import com.app.domain.model.state.ChallengeSub
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.presentation.viewmodel.JsonParseViewModel
+import com.app.presentation.viewmodel.StateViewModel
 
 /**
  * 활동 종류 Bottom Sheet
@@ -183,7 +185,7 @@ fun ChallengeBottomSheet(
     showBottomSheet: MutableState<Boolean>,
     sheetState: SheetState,
     challengeMaster: List<ChallengeMaster>,
-    challengeDataTitle: List<String>,
+    stateViewModel: StateViewModel
 ) {
     var dataIsLoading by remember {
         mutableStateOf(false)
@@ -206,8 +208,7 @@ fun ChallengeBottomSheet(
             modifier = Modifier
                 .fillMaxSize(),
             sheetState = sheetState,
-            onDismissRequest = { showBottomSheet.value = false },
-            containerColor = Color.White
+            onDismissRequest = { showBottomSheet.value = false }
         ) {
             Column (
                 modifier = Modifier
@@ -233,7 +234,8 @@ fun ChallengeBottomSheet(
         ShowChallengeDialog(
             index = challengeIndex,
             isChallengePopup = isChallengeIsPopup,
-            challenge = challengeMaster
+            challenge = challengeMaster,
+            stateViewModel = stateViewModel
         )
     }
 }
@@ -252,7 +254,7 @@ fun ActivateDetailBottomSheet(
                 .fillMaxSize(),
             sheetState = sheetState,
             onDismissRequest = { showBottomSheet.value = false },
-            containerColor = Color.White
+            containerColor = MaterialTheme.colorScheme.surface
         ) {
             Column (
                 modifier = Modifier.fillMaxWidth(),
@@ -275,24 +277,23 @@ fun ActivateDetailBottomSheet(
                             ) {
                                 navController.navigate("activateDetail/${it.id}")
                             },
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        ),
-                        border = BorderStroke(1.dp, Color.Gray)
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface)
                     ) {
                         Box(
-                            modifier = Modifier.padding(top = 6.dp, start = 6.dp)
+                            modifier = Modifier.padding(top = 2.dp, start = 6.dp)
                         ) {
                             Column {
                                 Text(
                                     text = it.title,
                                     fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
 
                                 Text(
                                     text = it.todayFormat,
-                                    fontSize = 14.sp
+                                    fontSize = 14.sp,
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
                         }
