@@ -86,9 +86,6 @@ fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
             .shadow(
                 elevation = 3.dp
             ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
     ) {
         Box(
             modifier = Modifier
@@ -107,10 +104,10 @@ fun CustomCard(width: Dp, height: Dp, text: String, id: Int) {
                 Text(
                     text = text,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Gray,
+                    color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier
                         .padding(start = 6.dp)
-                        .align(Alignment.CenterVertically)
+                        .align(Alignment.CenterVertically),
                 )
             }
         }
@@ -137,10 +134,7 @@ fun ReportCard(userState: User) {
             .aspectRatio(3f / 4f)
             .shadow(
                 elevation = 3.dp
-            ),
-        colors = CardDefaults.cardColors(
-            containerColor = Color.White
-        )
+            )
     ) {
         Column (
             modifier = Modifier.fillMaxSize(),
@@ -171,12 +165,14 @@ fun ReportCard(userState: User) {
                 text = "${userState.name} : ${userState.age.toInt()}살",
                 fontSize = 20.sp,
                 fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(top = 6.dp)
+                modifier = Modifier.padding(top = 6.dp),
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Text(
                 text = userState.email,
                 fontSize = 16.sp,
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             Column (
@@ -192,13 +188,15 @@ fun ReportCard(userState: User) {
                     Text(
                         text = "최근 운동을 진행한 적이 있으신가요? ${userState.recentExerciseCheck}",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
                         text = "최근 진행하고 있는 운동: ${userState.recentExerciseName}",
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(top = 24.dp)
+                        modifier = Modifier.padding(top = 24.dp),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -219,13 +217,15 @@ fun ReportCard(userState: User) {
                     Text(
                         text = "하루에 걷기 또는 달리기를 하시나요? ${userState.recentWalkingCheck}",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
 
                     Text(
                         text = "주: $recentWalkingOfWeek $recentWalkingOfTime",
                         fontSize = 14.sp,
-                        modifier = Modifier.padding(top = 24.dp)
+                        modifier = Modifier.padding(top = 24.dp),
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
 
@@ -236,7 +236,8 @@ fun ReportCard(userState: User) {
                     Text(
                         text = "운동 중 목표 기간이 있습니까? ${userState.targetPeriod}",
                         fontWeight = FontWeight.Bold,
-                        fontSize = 16.sp
+                        fontSize = 16.sp,
+                        color = MaterialTheme.colorScheme.onSurface
                     )
                 }
             }

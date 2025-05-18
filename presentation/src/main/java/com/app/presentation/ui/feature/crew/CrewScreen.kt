@@ -19,6 +19,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -27,6 +28,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -91,10 +93,7 @@ fun CrewScreen(
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(460.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                ),
-                border = BorderStroke(1.dp, Color.Gray)
+                border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface)
             ) {
                 crewMaster.value?.forEach {
                     val imageName = it.assets.replace("R.drawable.", "")
@@ -129,13 +128,14 @@ fun CrewScreen(
                                     Text(
                                         text = it.name,
                                         fontWeight = FontWeight.Bold,
-                                        fontSize = 16.sp
+                                        fontSize = 16.sp,
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
 
                                     Text(
                                         text = it.description,
                                         fontSize = 14.sp,
-                                        color = Color.Gray
+                                        color = MaterialTheme.colorScheme.onSurface
                                     )
 
                                     Row(
@@ -150,11 +150,15 @@ fun CrewScreen(
                                             ) {
                                                 Image(
                                                     imageVector = Icons.Default.AccountCircle,
-                                                    contentDescription = "구성원 수"
+                                                    contentDescription = "구성원 수",
+                                                    colorFilter = ColorFilter.tint(
+                                                        color = MaterialTheme.colorScheme.onSurface
+                                                    )
                                                 )
 
                                                 Text(
-                                                    text = "크루원: ${it.member}명"
+                                                    text = "크루원: ${it.member}명",
+                                                    color = MaterialTheme.colorScheme.onSurface
                                                 )
                                             }
                                         }
@@ -163,7 +167,7 @@ fun CrewScreen(
                                             modifier = Modifier
                                                 .padding(top = 4.dp, end = 6.dp),
                                             text = "피드: ???",
-                                            color = Color.Gray
+                                            color = MaterialTheme.colorScheme.onSurface
                                         )
                                     }
                                 }
@@ -178,7 +182,10 @@ fun CrewScreen(
                                 } ?: false
 
                                 if (isUserInCrew) {
-                                    Text(text = "이미 존재하는 크루입니다!")
+                                    Text(
+                                        text = "이미 존재하는 크루입니다!",
+                                        color = MaterialTheme.colorScheme.onSurface
+                                    )
                                 } else {
                                     CustomButton(
                                         type = ButtonType.CrewStatus.INSERT,

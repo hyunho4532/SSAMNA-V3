@@ -82,7 +82,7 @@ fun TopBox(
     Box(
         modifier = Modifier
             .height(50.dp)
-            .background(background)
+            .background(MaterialTheme.colorScheme.surface)
     ) {
         Row(
             modifier = Modifier

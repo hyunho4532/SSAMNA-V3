@@ -17,6 +17,7 @@ import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
@@ -253,7 +254,7 @@ fun ActivateDetailBottomSheet(
                 .fillMaxSize(),
             sheetState = sheetState,
             onDismissRequest = { showBottomSheet.value = false },
-            containerColor = Color.White
+            containerColor = MaterialTheme.colorScheme.surface
         ) {
             Column (
                 modifier = Modifier.fillMaxWidth(),
@@ -276,24 +277,23 @@ fun ActivateDetailBottomSheet(
                             ) {
                                 navController.navigate("activateDetail/${it.id}")
                             },
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        ),
-                        border = BorderStroke(1.dp, Color.Gray)
+                        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onSurface)
                     ) {
                         Box(
-                            modifier = Modifier.padding(top = 6.dp, start = 6.dp)
+                            modifier = Modifier.padding(top = 2.dp, start = 6.dp)
                         ) {
                             Column {
                                 Text(
                                     text = it.title,
                                     fontSize = 16.sp,
-                                    fontWeight = FontWeight.Bold
+                                    fontWeight = FontWeight.Bold,
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
 
                                 Text(
                                     text = it.todayFormat,
-                                    fontSize = 14.sp
+                                    fontSize = 14.sp,
+                                    color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
                         }

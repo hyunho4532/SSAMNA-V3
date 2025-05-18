@@ -1,5 +1,6 @@
 package com.app.presentation.ui.feature.auth
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -11,6 +12,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import com.app.domain.model.enum.ButtonType
 import com.app.domain.model.user.User
 import com.app.presentation.component.tool.CustomButton
@@ -23,7 +26,8 @@ import com.app.presentation.viewmodel.StateViewModel
 @Composable
 fun SettingScreen(
     user: User,
-    stateViewModel: StateViewModel
+    stateViewModel: StateViewModel,
+    navController: NavController = rememberNavController()
 ) {
     Column(
         modifier = Modifier
@@ -45,6 +49,18 @@ fun SettingScreen(
             showIcon = true,
             shape = "Rectangle",
             stateViewModel = stateViewModel
+        )
+
+        Text(
+            modifier = Modifier
+                .clickable {
+                    navController.navigate("report") {
+                        popUpTo(0) {
+                            inclusive = true
+                        }
+                    }
+                },
+            text = "로그아웃"
         )
     }
 }
