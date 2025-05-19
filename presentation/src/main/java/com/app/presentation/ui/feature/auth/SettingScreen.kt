@@ -148,7 +148,14 @@ fun SettingScreen(
                         )
 
                         Image(
-                            modifier = Modifier.size(120.dp),
+                            modifier = Modifier
+                                .size(120.dp)
+                                .clickable {
+                                    ttsViewModel.speak(
+                                        "안녕하세요! 저와 함께해요!",
+                                        VoiceType.FEMALE
+                                    )
+                                },
                             painter = painterResource(R.drawable.tts_human),
                             contentDescription = "여자 TTS 캐릭터"
                         )

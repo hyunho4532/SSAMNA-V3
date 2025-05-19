@@ -10,7 +10,6 @@ class TTSRepositoryImpl @Inject constructor(
     private val ttsManager: TTSManager
 ) : TTSRepository {
     override fun speak(text: String, type: VoiceType) {
-        Log.d("TTSRepositoryImpl", type.toString())
         ttsManager.speak(text, type)
     }
 }

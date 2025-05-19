@@ -33,7 +33,8 @@ browser = "1.5.0"
 googleIdLib = "1.1.1"
 lottie = "6.6.2"
 jitpack = "1.1.2"
-composeBeta = "1.0.0-beta01"
+retrofit = "2.9.0"
+retrofit-converter = "2.9.0"
 
 [libraries]
 
@@ -62,6 +63,8 @@ play-services-auth = { group = "com.google.android.gms", name = "play-services-a
 play-services-ads = { group = "com.google.android.gms", name = "play-services-ads", version.ref = "playServiceAds" }
 google-accompanist-pager = { group = "com.google.accompanist", name = "accompanist-pager", version.ref = "pager" }
 google-accompanist-pager-indicator = { group = "com.google.accompanist", name = "accompanist-pager-indicators", version.ref = "pager" }
+retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-converter-gson = { group = "com.squareup.retrofit2", name = "converter-gson", version.ref = "retrofit-converter" }
 
 androidx-browser = { group = "androidx.browser", name = "browser", version.ref = "browser" }
 androidx-credentials = { group = "androidx.credentials", name = "credentials", version.ref = "credentials" }
