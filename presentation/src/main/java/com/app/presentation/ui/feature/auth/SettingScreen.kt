@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -26,15 +27,18 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.app.domain.model.enum.ButtonType
+import com.app.domain.model.enum.VoiceType
 import com.app.domain.model.user.User
 import com.app.presentation.R
 import com.app.presentation.component.tool.CustomButton
 import com.app.presentation.component.tool.Spacer
 import com.app.presentation.component.util.responsive.setUpWidth
 import com.app.presentation.viewmodel.StateViewModel
+import com.app.presentation.viewmodel.TTSViewModel
 
 /**
  * 사용자 설정 화면
@@ -43,7 +47,7 @@ import com.app.presentation.viewmodel.StateViewModel
 fun SettingScreen(
     user: User,
     stateViewModel: StateViewModel,
-    navController: NavController = rememberNavController()
+    ttsViewModel: TTSViewModel = hiltViewModel()
 ) {
     Column(
         modifier = Modifier
@@ -95,31 +99,61 @@ fun SettingScreen(
         Card(
             modifier = Modifier
                 .width(setUpWidth())
-                .height(48.dp),
+                .height(200.dp),
             elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         ) {
-            Row(
-                modifier = Modifier.fillMaxSize(),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
+            Column(
+                modifier = Modifier
+                    .padding(top = 6.dp, start = 6.dp)
             ) {
                 Text(
-                    modifier = Modifier
-                        .padding(start = 6.dp),
-                    text = "TTS 목소리",
+                    text = "TTS 목소리를 선택해주세요!",
                     fontWeight = FontWeight.Bold
                 )
 
-                Image(
+                Row(
                     modifier = Modifier
-                        .size(28.dp)
-                        .clickable {
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    horizontalArrangement = Arrangement.SpaceAround
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "남자",
+                            fontWeight = FontWeight.Bold
+                        )
 
-                        },
-                    painter = painterResource(id = R.drawable.baseline_keyboard_arrow_right_24),
-                    contentDescription = "활동 아이콘",
-                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.onSurface)
-                )
+                        Image(
+                            modifier = Modifier
+                                .size(120.dp)
+                                .clickable {
+                                    ttsViewModel.speak(
+                                        "안녕하세요! 저와 함께해요!",
+                                        VoiceType.MALE
+                                    )
+                                },
+                            painter = painterResource(R.drawable.tts_man),
+                            contentDescription = "남자 TTS 캐릭터"
+                        )
+                    }
+
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = "여자",
+                            fontWeight = FontWeight.Bold
+                        )
+
+                        Image(
+                            modifier = Modifier.size(120.dp),
+                            painter = painterResource(R.drawable.tts_human),
+                            contentDescription = "여자 TTS 캐릭터"
+                        )
+                    }
+                }
             }
         }
 

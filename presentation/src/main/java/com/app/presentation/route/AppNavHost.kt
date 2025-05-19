@@ -205,7 +205,6 @@ fun ScreenNavigationConfiguration(
 
             SettingScreen(
                 user = user,
-                navController = navController,
                 stateViewModel = stateViewModel
             )
         }
