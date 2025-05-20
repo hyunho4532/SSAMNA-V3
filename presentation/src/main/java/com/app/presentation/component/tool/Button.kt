@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
@@ -34,6 +35,7 @@ import com.app.domain.model.state.ChallengeSub
 import com.app.presentation.R
 import com.app.presentation.component.util.responsive.setUpButtonWidth
 import com.app.domain.model.enum.ButtonType
+import com.app.domain.model.enum.VoiceType
 import com.app.domain.model.state.ChallengeMaster
 import com.app.domain.model.state.CrewMaster
 import com.app.presentation.ui.main.home.HomeActivity
@@ -43,6 +45,7 @@ import com.app.presentation.viewmodel.CrewViewModel
 import com.app.presentation.viewmodel.LocationManagerViewModel
 import com.app.presentation.viewmodel.SensorManagerViewModel
 import com.app.presentation.viewmodel.StateViewModel
+import com.app.presentation.viewmodel.TTSViewModel
 import com.app.presentation.viewmodel.UserViewModel
 import com.google.maps.android.compose.CameraPositionState
 import com.google.maps.android.compose.rememberCameraPositionState
@@ -71,10 +74,14 @@ fun CustomButton(
     challengeViewModel: ChallengeViewModel = hiltViewModel(),
     userViewModel: UserViewModel = hiltViewModel(),
     crewViewModel: CrewViewModel = hiltViewModel(),
-    stateViewModel: StateViewModel = StateViewModel()
+    stateViewModel: StateViewModel = StateViewModel(),
+    ttsViewModel: TTSViewModel = hiltViewModel()
 ) {
     val activates = activityLocationViewModel.activates.collectAsState()
+    val activatesForm = activityLocationViewModel.activatesForm.collectAsState()
+
     val crew = crewViewModel.crew.collectAsState()
+
 
     val googleId = userViewModel.getSavedLoginState()
     val username = userViewModel.getSavedLoginName()
@@ -217,6 +224,7 @@ fun CustomButton(
                             locationManagerViewModel.startService()
                             sensorManagerViewModel.startService(true)
                             sensorManagerViewModel.startWatch()
+                            ttsViewModel.speak("운동을 시작합니다! 활동 종류는 ${activates.value.activateName}, 활동 형태는 ${activatesForm.value.name}입니다!", VoiceType.FEMALE)
                         }
                     }
                 }
